@@ -256,13 +256,18 @@ class AIASIST{
 					$task = json_decode( $this->wpCurl($this->api, $args ) );
 					
 					if( $task->task_id ){
-						$data['counter'][ $key ]++;
-						$data['articles'][ $k ]['task_id'] = $task->task_id;
+						
+						if( $revision_id = wp_insert_post( [ 'post_type' => 'wpai', 'post_title' => $article['keywords'] ] ) ){
+							$data['counter'][ $key ]++;
+							$data['articles'][ $k ]['task_id'] = $task->task_id;
+							$data['articles'][ $k ]['revision_id'] = $revision_id;							
+						}
+					
 					}
 				
 				}
 				
-				if( isset( $article['task_id'] ) && ! isset( $article['post_id'] ) ){
+				if( isset( $article['task_id'] ) && isset( $article['revision_id'] ) && ! isset( $article['post_id'] ) ){
 					$task = json_decode( $this->wpCurl( $this->api, [ 'action' => 'getTask', 'id' => $article['task_id'], 'host' => $this->getHost(), 'token' => $this->options->token ] ) );
 					
 					if( ! @$data['articles'][ $k ]['check'] )
@@ -282,13 +287,15 @@ class AIASIST{
 					if( isset( $task->content ) ){
 						
 						$args = [
+							'ID'			=> $article['revision_id'], 
+							'post_type'		=> 'post', 
 							'post_status'	=> $data['draft'] ? 'draft' : 'publish', 
 							'post_title'	=> sanitize_text_field( wp_unslash( $task->header ) ), 
 							'post_content'	=> wp_kses_post( wp_unslash( $task->content ) ),
 							'post_category'	=> [ (int) $article['cat_id'] ],
 						];
 					
-						if( $post_id = wp_insert_post( $args ) ){
+						if( $post_id = wp_update_post( $args ) ){
 							$data['publish']++;
 							$data['articles'][ $k ]['post_id'] = $post_id;
 							
@@ -561,6 +568,19 @@ class AIASIST{
 								
 								wp_update_post( [ 'ID' => $post_id, 'post_title' => $task->post_title, 'post_content' => $task->content ] );
 								
+							} elseif( (int) $item['revision_id'] ){
+								
+								$args = [
+									'ID'			=> (int) $item['revision_id'],
+									'post_type'		=> 'post', 
+									'post_status'	=> (bool) $data['draft'] ? 'draft' : 'publish', 
+									'post_title'	=> sanitize_text_field( wp_unslash( $task->post_title ) ), 
+									'post_content'	=> wp_kses_post( wp_unslash( $task->content ) ),
+									'post_category'	=> [ (int) $item['cat_id'] ],
+								];
+								
+								$post_id = wp_update_post( $args );
+								
 							} else {
 							
 								$args = [
@@ -653,8 +673,11 @@ class AIASIST{
 					if( stripos( $link, $_SERVER['HTTP_HOST'] ) !== false ){
 						if( $id = url_to_postid( $link ) )
 							$posts_ids[] = $id;
-					} else
-						$args['posts'][] = [ 'url' => $link, 'cat_id' => $cat_id ];
+					} else {
+						
+						$args['posts'][] = [ 'url' => $link, 'cat_id' => $cat_id, 'revision_id' => wp_insert_post( [ 'post_type' => 'wpai', 'post_title' => $link ] ) ];
+						
+					}
 				}
 			}
 			

@@ -1208,7 +1208,7 @@ button[name="save"]{
 
 	#aiassist-generate-image{
 		width: 660px;
-		top: 50%;
+		top: 55%;
 		left: 50%;
 		display: none;
 		z-index: 9999;
@@ -1256,7 +1256,7 @@ button[name="save"]{
 	}
 
 	.aiassist-image-tiny-save-button-wrap{
-		height: 60px;
+		height: 10px;
 		position: relative;
 		text-align: center;
 	}
@@ -1276,15 +1276,15 @@ button[name="save"]{
 	}
 
 	.aiassist-image-tiny-item {
-		width: 100%;
+		width: 70%;
 		height: auto;
-		margin-top: 30px;
+		margin-top: 10px;
 		background: none;
 		max-height: 350px;
 	}
 	
 	.aiassist-image-tiny-item .aiassist-progressImageUrl{
-		width: 100%;
+		width: 90%;
 		max-width: none;
 	}
 	
