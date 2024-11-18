@@ -1,8 +1,8 @@
 <?php
 /*
-	Version: 3.8.4
+	Version: 3.8.4.4
 	Plugin Name: AI WP Writer
-	Description: Плагин для генерации статей с картинками в wordpress через модели GPT-4 и сгенерированными изображениями лучших нейросетей.
+	Description: Fast generation of articles with images in Wordpress editor, automatic content writer on schedule, mass rewriting of articles. Powered by ChatGPT, GPT-4, Dalle 3, FLUX.
 	Author: AIpost
 	Author URI: https://t.me/wpwriter
 */

@@ -50,7 +50,8 @@
 			
 			if( e ){
 				$('#aiasist').addClass('disabled');
-				$('#aiasist').after('<div id="aiassist-loader-wrap"><div id="aiassist-loader-info">'+ info +'</div><div id="aiassist-loader"></div><div id="aiassist-step-stop">Отмена</div></div>');
+				// $('#aiasist').after('<div id="aiassist-loader-wrap"><div id="aiassist-loader-info">'+ info +'</div><div id="aiassist-loader"></div><div id="aiassist-step-stop">Отмена</div></div>');
+				$('#aiasist').after('<div id="aiassist-loader-wrap"><div id="aiassist-loader-info">'+ info +'</div><div id="aiassist-loader"></div><div id="aiassist-step-stop">'+ aiassist.locale['Cancel'] +'</div></div>');
 			}
 		},
 		
@@ -70,7 +71,8 @@
 				// return;
 		
 			ed.addButton('AIASSIST', {
-				title : 'Перегенерация выделенного фрагмента текста',
+				// title : 'To regenerate a piece of text, highlight it and click "Generate".\nTo generate a new piece of text, place the cursor where you want to add text, enter a prompt and click "Generate".',
+				title : aiassist.locale['To regenerate a piece of text'],
 				text: 'AI assist',
 				icon: false,
 				onclick: () => {

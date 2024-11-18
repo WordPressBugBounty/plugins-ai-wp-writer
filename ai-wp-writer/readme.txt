@@ -1,32 +1,41 @@
-=== AI WP Writer - автонаполнение сайта ChatGPT, GPT-4 и сгенерированными изображениями лучших нейросетей ===
+=== AI WP Writer - automatic content creator, ChatGPT, GPT-4, Dalle 3, FLUX ===
 Contributors: aipost
 Tags: AI, chatGPT, GPT-4, writer, articles, posts
 Requires at least: 5.0.0
-Tested up to: 6.6.2
+Tested up to: 6.7
 Requires PHP: 5.6.0
-Stable tag: 3.8.4
+Stable tag: 3.8.4.4
 License: GPLv3
 License URI: https://www.gnu.org/licenses/gpl-3.0.html
 
-Плагин для быстрой генерации статей с картинками в редакторе Wordpress и массовой генерации по списку ключевых фраз. Работает на основе ChatGPT, GPT-4 и передовых нейросетей для генерации изображений.
+Fast generation of articles with images in Wordpress editor, automatic content writer on schedule, mass rewriting of articles. Powered by ChatGPT, GPT-4, Dalle 3, FLUX.
 
 == Description ==
-WordPress-плагин для генерации статей, работает на основе ChatGPT, GPT-4 и передовых нейросетей для генерации изображений. Создан для упрощения наполнения сайтов качественным уникальным контентом. 
+WordPress article generation plugin is powered by ChatGPT, GPT-4 and the best neural networks for image generation. Created for fast and easy filling of websites with high-quality and unique content.
 
-С плагином AI WP Writer вы сможете создавать уникальные, качественные и SEO-оптимизированные тексты в несколько кликов. После написания увлекательной статьи можно создать с помощью нейросети картинки, максимально подходящие под контекст сгенерированного текста!
+With AI WP Writer plugin you will be able to create unique, high-quality and SEO-optimized texts in a few clicks. After writing an article, you can create images with the help of neural network, maximally suitable for the context of the generated text as well as generate meta title and meta description!
 
-В плагине есть возможность создавать, как короткие (3000-9000 символов) статьи по одному запросу, так и генерировать полноценные гигантские лонгриды по тщательно проработанному плану, которые ответят на все интенты пользователя. 
+The plugin has the ability to generate both short (5000-9000 characters) articles on a single request and full-fledged giant long-form articles on a carefully worked out plan, which will answer all the intents of the user.
 
-Добавляй новые уникальные статьи на сайт за несколько кликов с Вордпресс-плагином AI WP Writer на основе GPT-4!
+Fill the site on a schedule indicating a list of key phrases. Articles will be generated in the background and published automatically.
 
-Плагин работает через API, отправляя запросы и получая ответ с сгенерированым текстом и изображениями. Обмен запросами осуществляется через наш домен https://aipost.ru.
-Официальный сайт плагина https://aiwpwriter.com
-Инструкция по работе с плагином https://aiwpwriter.com/rukovodstvo
-Политика конфиденциальности https://aiwpwriter.com/privacy-policy
+Generate images anywhere in the article and for any articles with AI image creator tool. In the Gutenberg editor add a new block and enter AI image creator widget in the search box. In the classic editor, use the AI image creator button. Images can be generated for any articles, both new and already published on the site.
+
+Rerate texts using neural networks. You can rewrite articles both on your own site and on third-party sites by specifying their URLs.
+
+Generate text fragments in a classic editor with AI assist tool. The same tool can also re-generate text parts. To do it just select the desired text and press Ai assist.
+
+Add new unique articles to your site in a few clicks with the GPT-4-based Wordpress plugin AI WP Writer! Autofilling of your site with high-quality unique articles is now a reality. 
+
+The plugin works through an API, sending requests and receiving a response with generated text and images.
+Queries are exchanged through our domain https://aipost.ru.
+Official site of the plugin https://aiwpwriter.com
+Instructions for working with the plugin https://aiwpwriter.com/rukovodstvo
+Privacy Policy https://aiwpwriter.com/privacy-policy
 
 == Installation ==
-Для работы плагина необходим API ключ, получить его вы можете пройдя простую регистрацию.
+The plugin requires an API key, you can get it by simple registration.
 
 == Screenshots ==
-1. Форма для регистрации
-2. Статистика и пополнение баланса
+1. Registration form
+2. Statistics
