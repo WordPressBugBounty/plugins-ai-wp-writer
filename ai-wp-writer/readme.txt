@@ -1,6 +1,6 @@
 === AI WP Writer - automatic content creator, ChatGPT, GPT-4, Dalle 3, FLUX ===
 Contributors: aipost
-Tags: AI, chatGPT, GPT-4, writer, articles, posts
+Tags: AI, chatGPT, GPT-4, writer, articles
 Requires at least: 5.0.0
 Tested up to: 6.7
 Requires PHP: 5.6.0
@@ -21,7 +21,7 @@ Fill the site on a schedule indicating a list of key phrases. Articles will be g
 
 Generate images anywhere in the article and for any articles with AI image creator tool. In the Gutenberg editor add a new block and enter AI image creator widget in the search box. In the classic editor, use the AI image creator button. Images can be generated for any articles, both new and already published on the site.
 
-Rerate texts using neural networks. You can rewrite articles both on your own site and on third-party sites by specifying their URLs.
+Rewrite texts using neural networks. You can rewrite articles both on your own site and on third-party sites by specifying their URLs.
 
 Generate text fragments in a classic editor with AI assist tool. The same tool can also re-generate text parts. To do it just select the desired text and press Ai assist.
 
@@ -38,4 +38,8 @@ The plugin requires an API key, you can get it by simple registration.
 
 == Screenshots ==
 1. Registration form
-2. Statistics
+2. Generation in the text editor
+3. Payment and pricing
+4. Bulk generation
+5. Rewrite
+6. Affiliate Program
