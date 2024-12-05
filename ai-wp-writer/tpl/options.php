@@ -327,6 +327,7 @@
 					<button name="save"><?php _e('Save', 'wp-ai-assistant') ?></button>
 				</div>
 			</div>
+			<input type="hidden" name="nonce" value="<?php echo wp_create_nonce('aiassist'); ?>" />
 		</form>
 
 		<?php if( @$this->options->token ){ ?>
@@ -424,8 +425,8 @@
 					</div>
 				<?php } ?>
 				
-			</label>			
-		
+			</label>
+			
 		</form>
 		
 		<div class="rates-block-robokassa">

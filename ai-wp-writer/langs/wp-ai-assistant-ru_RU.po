@@ -105,8 +105,7 @@ msgid "Generate page"
 msgstr "Сгенерировать страницу"
 
 #: tpl/options.php:120
-msgid ""
-"You can rewrite your entire site, individual pages, categories.  Also there is an opportunity to rewrite pages of third-party sites by url. We tried to maintain the highest quality of rewritten third-party sites. It is important to take into account that third-party sites have different markup, layout and structure, that’s why in the rewritten article can occur unwanted elements. For testing we recommend you to do a few pages. If you find a lot of unwanted elements in your articles, feel free to contact our support team. We are ready to customize the plugin for specific third-party sites for active users of the plugin."
+msgid "You can rewrite your entire site, individual pages, categories.  Also there is an opportunity to rewrite pages of third-party sites by url. We tried to maintain the highest quality of rewritten third-party sites. It is important to take into account that third-party sites have different markup, layout and structure, that’s why in the rewritten article can occur unwanted elements. For testing we recommend you to do a few pages. If you find a lot of unwanted elements in your articles, feel free to contact our support team. We are ready to customize the plugin for specific third-party sites for active users of the plugin."
 msgstr "Вы можете сделать рерайт всего своего сайта, отдельных страниц, категорий, а так же рерайтить страницы сторонних сайтов по url. Мы постарались сделать так чтобы сторонние сайты рерайтились максимально качественно. При этом важно учитывать, что сторонние сайты имеют различную разметку, верстку и структуру, из-за этого иногда в статью после рерайта могут попадать нежелательные элементы. Рекомендуем для теста делать рерайт нескольких страниц. Если в статьи попадает мусор, напишите нам в поддержку, мы готовы выполнить для активных пользователей плагина персональную адаптацию под рерайт определенных сторонних сайтов."
 
 #: tpl/options.php:122
@@ -155,7 +154,7 @@ msgstr "Добавить еще один список URL для еще одно
 
 #: tpl/options.php:180
 msgid "Promt for article rewriting. This promt will be used to rewrite titles, paragraphs, meta title and description."
-msgstr "Промт для рерайта статей. По этому промту будет сделан рерайт заголовокв, абзацев, meta title и description."
+msgstr "Промт для рерайта статей. По этому промту будет сделан рерайт заголовков, абзацев, meta title и description."
 
 #: tpl/options.php:184
 msgid "Restore the default prompt."
@@ -297,7 +296,8 @@ msgstr "Введите любую сумму для оплаты. Лимиты �
 msgid "Buy limits"
 msgstr "Купить лимиты"
 
-#: tpl/options.php:430 tpl/options.php:443 tpl/options.php:455 tpl/options.php:471
+#: tpl/options.php:430 tpl/options.php:443 tpl/options.php:455
+#: tpl/options.php:471
 msgid "Buy"
 msgstr "Купить"
 

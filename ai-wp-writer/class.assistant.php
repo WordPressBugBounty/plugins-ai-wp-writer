@@ -115,7 +115,7 @@ class AIASIST{
 	}
 	
 	public function options(){
-		if( isset( $_POST['save'] ) ){
+		if( isset( $_POST['save'] ) && $this->checkNonce() && current_user_can('manage_options') ){
 			if( isset( $_POST['token'] ) )
 				$this->activation( sanitize_text_field( $_POST['token'] ) );
 		
