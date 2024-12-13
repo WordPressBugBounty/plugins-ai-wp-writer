@@ -116,6 +116,7 @@ class AIASIST{
 	
 	public function options(){
 		if( isset( $_POST['save'] ) && $this->checkNonce() && current_user_can('manage_options') ){
+			
 			if( isset( $_POST['token'] ) )
 				$this->activation( sanitize_text_field( $_POST['token'] ) );
 		
@@ -225,6 +226,20 @@ class AIASIST{
 			
 			$key = date('Ymd');
 			
+			if( (int) $data['publishEveryDay'] ){
+			
+				if( ! isset( $data['everyDayCounter'] ) )
+					$data['everyDayCounter'] = [ $key => 0 ];
+				
+				$data['everyDayCounter'][ $key ]++;
+				
+				if( count( $data['everyDayCounter'] ) < $data['publishEveryDay'] ){
+					update_option('aiArticlesAutoGenData', $data);
+					return $data;
+				}
+				
+			}
+			
 			if( ! isset( $data['counter'][ $key ] ) )
 				$data['counter'] = [ $key => 0 ];
 				
@@ -258,6 +273,8 @@ class AIASIST{
 								'images'		=> (bool) $data['images'], 
 								'textModel'		=> $data['textModel'], 
 								'imageModel'	=> $data['imageModel'], 
+								'pictures'		=> $data['pictures'], 
+								'max_pictures'	=> (int) $data['max_pictures'], 
 								'lang_id'		=> $lang_id, 
 								'promt'			=> isset( $this->steps['promts']['multi'][ $lang_id ] ) ? $this->steps['promts']['multi'][ $lang_id ] : $this->info->promts->multi[ $lang_id ],
 								'title'			=> isset( $this->steps['promts']['multi_title'][ $lang_id ] ) ? $this->steps['promts']['multi_title'][ $lang_id ] : $this->info->promts->multi_title[ $lang_id ],
@@ -274,6 +291,7 @@ class AIASIST{
 						
 						if( $revision_id = wp_insert_post( [ 'post_type' => 'wpai', 'post_title' => $article['keywords'] ] ) ){
 							$data['counter'][ $key ]++;
+							$data['everyDayCounter'] = [ $key => 0 ];
 							$data['articles'][ $k ]['task_id'] = $task->task_id;
 							$data['articles'][ $k ]['revision_id'] = $revision_id;							
 						}
@@ -364,6 +382,9 @@ class AIASIST{
 		$data['thumb'] = (bool) $_POST['thumb'];
 		$data['images'] = (bool) $_POST['images'];
 		$data['publishInDay'] = (int) $_POST['publishInDay'];
+		$data['publishEveryDay'] = (int) $_POST['publishEveryDay'];
+		$data['pictures'] = sanitize_text_field( $_POST['pictures'] );
+		$data['max_pictures'] = (int) $_POST['max_pictures'];
 		$data['imageModel'] = sanitize_text_field( $_POST['imageModel'] );
 		$data['textModel'] = sanitize_text_field( $_POST['textModel'] );
 		update_option('aiArticlesAutoGenData', $data);
@@ -397,6 +418,9 @@ class AIASIST{
 		if( isset( $args['publishInDay'] ) )
 			$data['publishInDay'] = (int) $args['publishInDay'];
 			
+		if( isset( $args['publishEveryDay'] ) )
+			$data['publishEveryDay'] = (int) $args['publishEveryDay'];
+			
 		if( isset( $args['draft'] ) )
 			$data['draft'] = (bool) $args['draft'];
 			
@@ -405,6 +429,12 @@ class AIASIST{
 			
 		if( isset( $args['images'] ) )
 			$data['images'] = (bool) $args['images'];
+			
+		if( isset( $args['pictures'] ) )
+			$data['pictures'] = $args['pictures'];
+			
+		if( isset( $args['max_pictures'] ) )
+			$data['max_pictures'] = (int) $args['max_pictures'];
 			
 		if( isset( $args['imageModel'] ) )
 			$data['imageModel'] = sanitize_text_field( $args['imageModel'] );
@@ -434,6 +464,12 @@ class AIASIST{
 				
 			if( isset( $args['images'] ) )
 				$data['images'] = (int) $args['images'];
+			
+			if( isset( $args['pictures'] ) )
+				$data['pictures'] = $args['pictures'];
+			
+			if( isset( $args['max_pictures'] ) )
+				$data['max_pictures'] = (int) $args['max_pictures'];
 			
 			if( ! empty( $args['articles'] ) )
 				$data['articles'] = $args['articles'];
@@ -467,6 +503,8 @@ class AIASIST{
 		$data['images']		= (bool) $_POST['images'];
 		$data['split']		= (int) $_POST['split'];
 		$data['draft'] 		= (bool) $_POST['draft'];
+		$data['pictures'] 	= sanitize_text_field( $_POST['pictures'] );
+		$data['max_pictures'] = (int) $_POST['max_pictures'];
 		$data['imageModel']	= sanitize_text_field( $_POST['imageModel'] );
 		$data['textModel']	= sanitize_text_field( $_POST['textModel'] );
 		update_option('aiRewritesData', $data);
@@ -506,6 +544,8 @@ class AIASIST{
 									'images'			=> (bool) $data['images'], 
 									'textModel'			=> $data['textModel'], 
 									'imageModel'		=> $data['imageModel'], 
+									'pictures'			=> $data['pictures'], 
+									'max_pictures'		=> (int) $data['max_pictures'], 
 									'lang_id'			=> $lang_id,
 									'promt'				=> isset( $this->steps['promts']['rewrite'][ $lang_id ] ) ? $this->steps['promts']['rewrite'][ $lang_id ] : $this->info->promts->rewrite[ $lang_id ],
 									'action'			=> 'addRewrite', 
@@ -767,6 +807,12 @@ class AIASIST{
 		if( isset( $args['thumb'] ) )
 			$data['thumb'] = (bool) $args['thumb'];
 			
+		if( isset( $args['pictures'] ) )
+			$data['pictures'] = sanitize_text_field( $args['pictures'] );
+		
+		if( isset( $args['max_pictures'] ) )
+			$data['max_pictures'] = (int) $args['max_pictures'];
+			
 		if( isset( $args['images'] ) )
 			$data['images'] = (bool) $args['images'];
 			
@@ -981,7 +1027,7 @@ class AIASIST{
 				'5000 rub'	=> __('5000 rub', 'wp-ai-assistant'),
 				'Registration was successful, you have been sent an email with a key.'	=> __('Registration was successful, you have been sent an email with a key.', 'wp-ai-assistant'),
 				'Saving content'	=> __('Saving content', 'wp-ai-assistant'),
-				'Loading image'	=> __('Loading image', 'wp-ai-assistant'),
+				'Loading image'	=> __('Loading image: ', 'wp-ai-assistant'),
 				'Header generation'	=> __('Header generation', 'wp-ai-assistant'),
 				'Completion...'	=> __('Completion...', 'wp-ai-assistant'),
 				'Generating structure'	=> __('Generating structure', 'wp-ai-assistant'),
@@ -999,7 +1045,8 @@ class AIASIST{
 				'AI image creator'	=> __('AI image creator', 'wp-ai-assistant'),
 				'To regenerate a piece of text'	=> __('To regenerate a piece of text, highlight it and click Generate.To generate a new piece of text, place the cursor where you want to add text, enter a prompt and click Generate.', 'wp-ai-assistant'),
 				'To get started'	=> __('To get started, register and save the api key that will come in the mail.', 'wp-ai-assistant'),
-				'Cancel'	=> __('Cancel', 'wp-ai-assistant'),
+				'There is no variable'	=> __('There is no variable {key} (or%header%) in your prompt. Add it in the place where the key word should be. If you generate an article without the variable, the text won’t be relevant to your topic.', 'wp-ai-assistant'),
+				'The article generation process is complete.'	=> __('The article generation process is complete.', 'wp-ai-assistant'),
 			],
 		] );
 	}

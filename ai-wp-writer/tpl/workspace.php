@@ -46,7 +46,11 @@
 				</div>
 			<?php } ?>
 			
-			<textarea id="aiassist-article-prom" class="aiassist-prom"><?php echo esc_textarea( @$this->steps['promts']['short'][ $lang_id ] ? trim( $this->steps['promts']['short'][ $lang_id ] ) : @$this->info->promts->short[ $lang_id ] )?></textarea>
+			<?php $promt = esc_textarea( @$this->steps['promts']['short'][ $lang_id ] ? trim( $this->steps['promts']['short'][ $lang_id ] ) : @$this->info->promts->short[ $lang_id ] ); ?>
+			<textarea id="aiassist-article-prom" class="aiassist-prom" data-check="{key}"><?php echo $promt ?></textarea>
+			<?php if( strpos( $promt, '{key}') === false ){ ?>
+				<div class="aiassist-check-key"><?php _e('There is no variable {key} (or%header%) in your prompt. Add it in the place where the key word should be. If you generate an article without the variable, the text won’t be relevant to your topic.', 'wp-ai-assistant') ?></div>
+			<?php } ?>
 		</div>
 		
 		<div class="next-step">
@@ -97,7 +101,14 @@
 		<div class="aiassist-item center step <?php echo esc_attr( isset( $this->steps['header'] ) ? 'active' : '' )?>" id="step1">
 			<input name="aiassist_header" id="aiassist-header" value="<?php echo esc_attr( isset( $this->steps['header'] ) ? $this->steps['header'] : '' )?>" />
 			<div class="next-step">
-				<?php _e('Prompt for an article outline. Instead of the {key} variable, the key phrase will be substituted. ', 'wp-ai-assistant') ?><textarea id="aiassist-structure-prom" class="aiassist-prom"><?php echo esc_attr( @$this->steps['promts']['long_structure'][ $lang_id ] ? $this->steps['promts']['long_structure'][ $lang_id ] : @$this->info->promts->long_structure[ $lang_id ] )?></textarea>
+				<?php _e('Prompt for an article outline. Instead of the {key} variable, the key phrase will be substituted. ', 'wp-ai-assistant') ?>
+				
+				<?php $promt = esc_attr( @$this->steps['promts']['long_structure'][ $lang_id ] ? $this->steps['promts']['long_structure'][ $lang_id ] : @$this->info->promts->long_structure[ $lang_id ] ) ?>
+				<textarea id="aiassist-structure-prom" class="aiassist-prom" data-check="{key}"><?php echo $promt ?></textarea>
+				<?php if( strpos( $promt, '{key}') === false ){ ?>
+					<div class="aiassist-check-key"><?php _e('There is no variable {key} (or%header%) in your prompt. Add it in the place where the key word should be. If you generate an article without the variable, the text won’t be relevant to your topic.', 'wp-ai-assistant') ?></div>
+				<?php } ?>
+				
 				<button type="button" id="aiassist-structure-generate"><?php _e('Create article structure', 'wp-ai-assistant') ?></button>
 			</div>
 		</div>
@@ -105,7 +116,14 @@
 		<div class="aiassist-item center step <?php echo esc_attr( isset( $this->steps['structure'] ) ? 'active' : '' )?>" id="step2">
 			<textarea id="aiassist-structure"><?php echo esc_textarea( isset( $this->steps['structure'] ) ? $this->steps['structure'] : '' )?></textarea>
 			<div class="next-step">
-				<?php _e('Prompt:', 'wp-ai-assistant') ?> <textarea id="aiassist-content-prom" class="aiassist-prom"><?php echo esc_attr( @$this->steps['promts']['long'][ $lang_id ] ? $this->steps['promts']['long'][ $lang_id ] : @$this->info->promts->long[ $lang_id ] )?></textarea>
+				
+				<?php $promt = esc_attr( @$this->steps['promts']['long'][ $lang_id ] ? $this->steps['promts']['long'][ $lang_id ] : @$this->info->promts->long[ $lang_id ] ); ?>
+				<?php _e('Prompt:', 'wp-ai-assistant') ?> <textarea id="aiassist-content-prom" class="aiassist-prom" data-check="%header%"><?php echo $promt ?></textarea>
+				
+				<?php if( strpos( $promt, '%header%') === false ){ ?>
+					<div class="aiassist-check-key"><?php _e('There is no variable {key} (or%header%) in your prompt. Add it in the place where the key word should be. If you generate an article without the variable, the text won’t be relevant to your topic.', 'wp-ai-assistant') ?></div>
+				<?php } ?>
+				
 				<button type="button" id="aiassist-content-generate"><?php _e('Generate article text', 'wp-ai-assistant') ?></button>
 			</div>
 		</div>
@@ -113,10 +131,25 @@
 	</div>
 	
 	<div class="aiassist-item center step <?php echo esc_attr( isset( $this->steps['content'] ) ? 'active' : '' )?>" id="step3">
-		<?php wp_editor( ( isset( $this->steps['content'] ) ? $this->steps['content'] : '' ), 'AIASSIST', [ 'textarea_name' => 'aiassist_content', 'media_buttons' => false, 'quicktags' => true ] ); ?>
+		<?php wp_editor( ( isset( $this->steps['content'] ) ? $this->steps['content'] : '' ), 'AIASSIST', [ 'textarea_name' => 'aiassist_content', 'media_buttons' => false, 'quicktags' => true, 'default_editor' => 'tinymce' ] ); ?>
 		<div class="next-step">
-			<div><?php _e('Promt:', 'wp-ai-assistant') ?> <input id="aiassist-title-prom" class="aiassist-prom" value="<?php echo esc_attr( @$this->steps['promts']['long_title'][ $lang_id ] ? $this->steps['promts']['long_title'][ $lang_id ] : @$this->info->promts->long_title[ $lang_id ] )?>" /></div>
-			<div><?php _e('Promt:', 'wp-ai-assistant') ?> <input id="aiassist-desc-prom" class="aiassist-prom" value="<?php echo esc_attr( @$this->steps['promts']['long_desc'][ $lang_id ] ? $this->steps['promts']['long_desc'][ $lang_id ] : @$this->info->promts->long_desc[ $lang_id ] )?>" /></div>
+			
+			<div>
+				<?php $promt = esc_attr( @$this->steps['promts']['long_title'][ $lang_id ] ? $this->steps['promts']['long_title'][ $lang_id ] : @$this->info->promts->long_title[ $lang_id ] ) ?>
+				<?php _e('Promt:', 'wp-ai-assistant') ?> <input id="aiassist-title-prom" class="aiassist-prom" data-check="{key}" value="<?php echo $promt ?>" />
+				<?php if( strpos( $promt, '{key}') === false ){ ?>
+					<div class="aiassist-check-key"><?php _e('There is no variable {key} (or%header%) in your prompt. Add it in the place where the key word should be. If you generate an article without the variable, the text won’t be relevant to your topic.', 'wp-ai-assistant') ?></div>
+				<?php } ?>
+			</div>
+			
+			<div>
+				<?php $promt = esc_attr( @$this->steps['promts']['long_desc'][ $lang_id ] ? $this->steps['promts']['long_desc'][ $lang_id ] : @$this->info->promts->long_desc[ $lang_id ] ); ?>
+				<?php _e('Promt:', 'wp-ai-assistant') ?> <input id="aiassist-desc-prom" class="aiassist-prom" data-check="{key}" value="<?php echo $promt ?>" />
+				<?php if( strpos( $promt, '{key}') === false ){ ?>
+					<div class="aiassist-check-key"><?php _e('There is no variable {key} (or%header%) in your prompt. Add it in the place where the key word should be. If you generate an article without the variable, the text won’t be relevant to your topic.', 'wp-ai-assistant') ?></div>
+				<?php } ?>
+			</div>
+			
 			<button type="button" id="aiassist-meta-generate"><?php _e('Generate meta tags', 'wp-ai-assistant') ?></button>
 		</div>
 	</div>

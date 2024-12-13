@@ -48,7 +48,6 @@ jQuery( document ).ready(function($){
 			$(document).on('click', '#clear-rewrite-generations', app.clearRewritesGeneration);
 			$(document).on('click', '#stop-rewrite-generations', app.stopRewriteGeneration);
 			
-			setTimeout( () => $('#AIASSIST-tmce').click(), 1000);
 			$(document).on('tinymce-editor-setup', function(event, editor){
 				if( editor.id != 'AIASSIST' )
 					return;
@@ -122,28 +121,17 @@ jQuery( document ).ready(function($){
 			
 			$(document).on('click', '.pay-method', app.setPayMethod);
 			$(document).on('click', '.aiassist-copy', app.copy);
-			$(document).on('submit', '#aiassist-get-bonus', app.getBonus);
-			
-			$(document).on('change', '#aiassist-auto-images, #aiassist-auto-thumb, #aiassist-rewrite-images, #aiassist-rewrite-thumb', app.disabledMoreOption);
+			$(document).on('submit', '#aiassist-get-bonus', app.getBonus);	
 			
 			if( window.location.hash == '#ai_assistant' && $('#ai_assistant').length )
 				$('html, body').animate( { scrollTop: $('#ai_assistant').offset().top }, 1000);
 			
 		},
 		
-		disabledMoreOption: () => {
-			$('#aiassist-auto-images').prop('disabled', $('#aiassist-auto-thumb').is(':checked') );
-			$('#aiassist-auto-thumb').prop('disabled', $('#aiassist-auto-images').is(':checked') );
-			$('#aiassist-rewrite-images').prop('disabled', $('#aiassist-rewrite-thumb').is(':checked') );
-			$('#aiassist-rewrite-thumb').prop('disabled', $('#aiassist-rewrite-images').is(':checked') );
-		},
-		
 		getBonus: async function(event){
 			event.preventDefault();
 
 			let e = $(this);
-			
-			// e.find('button').before('<div>Запрос на выплату отправлен</div>').addClass('disabled');
 			e.find('button').before('<div>'+ aiassist.locale['Payment request sent'] +'</div>').addClass('disabled');
 			
 			let args = app.getFormData( e );
@@ -175,6 +163,18 @@ jQuery( document ).ready(function($){
 			
 			let e = $(this);
 			let promt = e.val();
+			
+			/* check vars to promt start */
+				if( check = e.attr('data-check') ){
+					check = e.val().match( new RegExp( check.replace(/[.*+?^${}()|[\]\\]/g, '\\$&') ) );
+					
+					if( ! check && ! e.closest('div').find('.aiassist-check-key').length )
+						e.after('<div class="aiassist-check-key">'+ aiassist.locale['There is no variable'] +'</div>');
+					
+					if( check )
+						e.closest('div').find('.aiassist-check-key').remove();
+				}
+			/* check vars to promt end */
 			
 			let lang_id = parseInt( $('.aiassist-lang-promts:visible:first').val() );
 			
@@ -268,13 +268,15 @@ jQuery( document ).ready(function($){
 			if( isNaN( lang ) )
 				lang = 0;
 			
-			if( typeof aiassist.promts.multi[ lang ] !== 'undefined' && $('#aiassist-generation-prom').is(':visible') ){	
+			$('.aiassist-check-key:visible').remove();
+			
+			if( typeof aiassist.promts.multi[ lang ] !== 'undefined' && $('#aiassist-generation-prom').is(':visible') ){
 				aiassist.promts['multi_lang'] = lang;
 				
 				if( def ){
-					aiassist.promts.multi		= aiassist.info.promts.multi;
-					aiassist.promts.multi_title	= aiassist.info.promts.multi_title;
-					aiassist.promts.multi_desc	= aiassist.info.promts.multi_desc;
+					aiassist.promts.multi[ lang ]		= aiassist.info.promts.multi[ lang ];
+					aiassist.promts.multi_title[ lang ]	= aiassist.info.promts.multi_title[ lang ];
+					aiassist.promts.multi_desc[ lang ]	= aiassist.info.promts.multi_desc[ lang ];
 				}
 			
 				// if( $('#aiassist-generation-prom').is(':visible') )
@@ -292,7 +294,7 @@ jQuery( document ).ready(function($){
 				aiassist.promts['rewrite_lang'] = lang;
 				
 				if( def )
-					aiassist.promts.rewrite = aiassist.info.promts.rewrite;
+					aiassist.promts.rewrite[ lang ] = aiassist.info.promts.rewrite[ lang ];
 				
 				$('#aiassist-rewrite-prom').val( aiassist.promts.rewrite[ lang ] )
 			}
@@ -301,7 +303,7 @@ jQuery( document ).ready(function($){
 				aiassist.promts['short_lang'] = lang;
 				
 				if( def )
-					aiassist.promts.short = aiassist.info.promts.short;
+					aiassist.promts.short[ lang ] = aiassist.info.promts.short[ lang ];
 				
 				$('#aiassist-article-prom').val( aiassist.promts.short[ lang ] )
 				
@@ -316,11 +318,11 @@ jQuery( document ).ready(function($){
 				aiassist.promts['long_lang'] = lang;
 				
 				if( def ){
-					aiassist.promts.long_header		= aiassist.info.promts.long_header;
-					aiassist.promts.long_structure	= aiassist.info.promts.long_structure;
-					aiassist.promts.long			= aiassist.info.promts.long;
-					aiassist.promts.long_title		= aiassist.info.promts.long_title;
-					aiassist.promts.long_desc		= aiassist.info.promts.long_desc;
+					aiassist.promts.long_header[ lang ]		= aiassist.info.promts.long_header[ lang ];
+					aiassist.promts.long_structure[ lang ]	= aiassist.info.promts.long_structure[ lang ];
+					aiassist.promts.long[ lang ]			= aiassist.info.promts.long[ lang ];
+					aiassist.promts.long_title[ lang ]		= aiassist.info.promts.long_title[ lang ];
+					aiassist.promts.long_desc[ lang ]		= aiassist.info.promts.long_desc[ lang ];
 				}
 				
 				// if( $('#aiassist-theme-prom').is(':visible') )
@@ -355,19 +357,16 @@ jQuery( document ).ready(function($){
 		postRestore: async function(){
 			let e = $(this);
 			
-			// if( ! confirm('Are you sure?') )
-			if( ! aiassist.locale['Are you sure?'] )
+			if( ! confirm( aiassist.locale['Are you sure?'] ) )
 				return false;
 			
 			let status = e.closest('.aiassist-rewrite-queue').find('.aiassist-queue-status');
 			e.remove();
 			
-			// status.text('Восстановление...');
 			status.text( aiassist.locale['Recovery...'] );
 			
 			await app.request( { action: 'postRestore', post_id: e.attr('post_id'), revision_id: e.attr('revision_id'), nonce: aiassist.nonce } );
 			
-			// status.text('Восстановлено');
 			status.text( aiassist.locale['Restored'] );
 		},
 		
@@ -386,8 +385,7 @@ jQuery( document ).ready(function($){
 		},
 		
 		clearContent: async () => {
-			// if( ! confirm('Вы уверены что хотите очистить все поля от сгенерированного текста?') )
-				if( ! confirm( aiassist.locale['Are you sure you want to clear all fields from generated text?'] ) )
+			if( ! confirm( aiassist.locale['Are you sure you want to clear all fields from generated text?'] ) )
 				return false;
 		
 			app.editor.setContent('');
@@ -422,8 +420,7 @@ jQuery( document ).ready(function($){
 				
 				if( parseInt( task.limit ) < 1 )
 					block.find('.aiassist-image-tiny-item').removeClass('aiassist-proces disabled').html('<span class="wpai-warning-limits">'+ aiassist.locale['Limits are over'] +'</span></span>');
-					// block.find('.aiassist-image-tiny-item').removeClass('aiassist-proces disabled').html('<span class="wpai-warning-limits">Закончились лимиты! Не закрывайте страницу, пополните баланс и нажмите снова "Сгенерировать". <a href="/wp-admin/admin.php?page=wpai-assistant" target="_blank">Пополнить баланс</a></span></span>');
-				
+					
 				if( task.task_id ){
 					let translate = await app.request( { action: 'getTask', token: aiassist.token, id: task.task_id }, aiassist.apiurl );
 					
@@ -439,8 +436,7 @@ jQuery( document ).ready(function($){
 			
 			if( parseInt( task.limit ) < 1 )
 				block.find('.aiassist-images').removeClass('aiassist-proces disabled').html('<span class="wpai-warning-limits">'+ aiassist.locale['Limits are over'] +'</span></span>');
-				// block.find('.aiassist-images').removeClass('aiassist-proces disabled').html('<span class="wpai-warning-limits">Закончились лимиты! Не закрывайте страницу, пополните баланс и нажмите снова "Сгенерировать". <a href="/wp-admin/admin.php?page=wpai-assistant" target="_blank">Пополнить баланс</a></span></span>');
-			
+				
 			if( task.task_id ){
 				while( true ){
 					let data = await app.request( { action: 'getTask', id: task.task_id, token: aiassist.token }, aiassist.apiurl );
@@ -457,7 +453,6 @@ jQuery( document ).ready(function($){
 					}
 					
 					if( data.nsfw )
-						// return block.find('.aiassist-images').removeClass('aiassist-proces disabled').html('<span class="wpai-warning-limits">Промт попал под цензуру, одно или несколько слов не дают сгенерировать изображение. Попробуйте изменить промт!</span>');
 						return block.find('.aiassist-images').removeClass('aiassist-proces disabled').html('<span class="wpai-warning-limits">'+ aiassist.locale['Prompt was censored'] +'</span>');
 					
 					if( data.images ){
@@ -482,7 +477,6 @@ jQuery( document ).ready(function($){
 			let task = await app.request( { action: 'translate', token: aiassist.token, content: title }, aiassist.apiurl );
 			
 			if( parseInt( task.limit ) < 1 )
-				// block.find('.aiassist-image-tiny-item').removeClass('aiassist-proces disabled').html('<span class="wpai-warning-limits">Закончились лимиты! Не закрывайте страницу, пополните баланс и нажмите снова "Сгенерировать". <a href="/wp-admin/admin.php?page=wpai-assistant" target="_blank">Пополнить баланс</a></span></span>');		
 				block.find('.aiassist-image-tiny-item').removeClass('aiassist-proces disabled').html('<span class="wpai-warning-limits">'+ aiassist.locale['Limits are over'] +'</span></span>');		
 			
 			if( task.task_id ){
@@ -525,7 +519,6 @@ jQuery( document ).ready(function($){
 				
 				for( let k in images ){
 					let load = await app.request( { action: 'loadImage', post_id: post_id, 'image[src]': images[ k ], 'image[title]': title, nonce: aiassist.nonce } );
-					// str += '<img class="alignnone size-full wp-image-'+ load.id +'" src="'+ load.url +'" title="'+ title +'" alt="'+( title +' фото' )+'" />';
 					str += '<img class="alignnone size-full wp-image-'+ load.id +'" src="'+ load.url +'" title="'+ title +'" alt="'+( title + aiassist.locale['photo'] )+'" />';
 				}
 
@@ -559,7 +552,6 @@ jQuery( document ).ready(function($){
 				
 				if( limit.limit < 1 )
 					$('#aiassist-generation-status, #aiassist-rewrite-status').html('<span class="wpai-warning-limits">'+ aiassist.locale['The limits have been reached'] +'</span>');
-					// $('#aiassist-generation-status, #aiassist-rewrite-status').html('<span class="wpai-warning-limits">Лимиты заканчились, для продолжения генерации пополните баланс!</span>');
 			}
 			
 			if( $('#aiassist-settings').length && ! isNaN( parseInt( args.articles.publish ) ) ){
@@ -569,7 +561,7 @@ jQuery( document ).ready(function($){
 				
 				if( args.articles.publish >= args.articles.count ){
 					$('#stop-articles-generations').click();
-					$('#aiassist-generation-status').text('Процесс генерации статей завершен.');
+					$('#aiassist-generation-status').text( aiassist.locale['The article generation process is complete.']);
 				}
 				
 				if( ! isNaN( parseInt( args.articles.limit ) ) ){
@@ -577,7 +569,6 @@ jQuery( document ).ready(function($){
 					
 					if( args.articles.limit < 1 )
 						$('#aiassist-generation-status').html('<span class="wpai-warning-limits">'+ aiassist.locale['The limits have been reached'] +'</span>');
-						// $('#aiassist-generation-status').html('<span class="wpai-warning-limits">Лимиты заканчились, для продолжения генерации пополните баланс!</span>');
 				}
 					
 				if( args.articles.articles ){
@@ -591,14 +582,12 @@ jQuery( document ).ready(function($){
 							
 							if( e.find('.aiassist-queue-keyword').text().trim() == args.articles.articles[ k ].keywords.trim() && e.find('.aiassist-queue-keyword').length ){
 								
-								// e.find('.aiassist-queue-status').text('Сгенерирована');
 								e.find('.aiassist-queue-status').text( aiassist.locale['Generated'] );
 								
 								e.find('.aiassist-queue-keyword').wrap('<a href="/wp-admin/post.php?post='+ args.articles.articles[ k ].post_id +'&action=edit" target="_blank" ></a>');
 								e.find('.aiassist-queue-keyword').removeClass('aiassist-queue-keyword');
 								e.removeClass('aiassist-queue').find('.aiassist-article-item-close').remove();
 								
-								// e.next().find('.aiassist-queue-status').text('Идет генерация');
 								e.next().find('.aiassist-queue-status').text( aiassist.locale['Generation in progress'] );
 							}
 						})
@@ -614,7 +603,6 @@ jQuery( document ).ready(function($){
 					
 					if( args.rewrites.limit < 1 )
 						$('#aiassist-generation-status').html('<span class="wpai-warning-limits">'+ aiassist.locale['The limits have been reached, to continue generation (rewriting) please top up your balance!'] +'</span>');
-						// $('#aiassist-generation-status').html('<span class="wpai-warning-limits">Лимиты заканчились, для продолжения генерации (рерайта) пополните баланс!</span>');
 				}
 
 				if( args.rewrites.posts.length ){
@@ -624,7 +612,6 @@ jQuery( document ).ready(function($){
 					
 					if( args.rewrites.counter >= args.rewrites.posts.length ){
 						$('#stop-rewrite-generations').click();
-						// $('#aiassist-rewrite-status').text('Процесс рерайта статей завершен.');
 						$('#aiassist-rewrite-status').text( aiassist.locale['The process of rewriting articles is complete.'] );
 					}
 				
@@ -644,12 +631,10 @@ jQuery( document ).ready(function($){
 								check = e.find('.aiassist-queue-rewrite').text().trim() == args.rewrites.posts[ k ].title.trim();
 							
 							if( check && e.find('.aiassist-queue-rewrite').length ){
-								// e.find('.aiassist-queue-status').text('Сгенерирована');
 								e.find('.aiassist-queue-status').text( aiassist.locale['Generated'] );
 								
 								e.find('.aiassist-queue-rewrite').wrap('<a href="/wp-admin/post.php?post='+ args.rewrites.posts[ k ].post_id +'&action=edit" target="_blank" ></a>');
 								e.find('.aiassist-queue-rewrite').removeClass('aiassist-queue-rewrite');
-								// e.next().find('.aiassist-queue-status').text('Идет генерация');
 								e.next().find('.aiassist-queue-status').text( aiassist.locale['Generation in progress'] );
 							}
 						})
@@ -688,12 +673,15 @@ jQuery( document ).ready(function($){
 			let args = {
 				nonce: aiassist.nonce,
 				action: 'autoGenOptions',
+				pictures: $('#aiassist-auto-multi-images').val(),
+				max_pictures: $('#aiassist-max-pictures').val(),
 				draft: $('#aiassist-auto-draft').prop('checked') ? 1 : 0,
 				thumb: $('#aiassist-auto-thumb').prop('checked') ? 1 : 0,
 				images: $('#aiassist-auto-images').prop('checked') ? 1 : 0,
 				textModel: $('#aiassist-change-text-model').val(),
 				imageModel: $('#aiassist-image-model').val(),
 				publishInDay: $('#publish-article-in-day').val(),
+				publishEveryDay: $('#publish-article-every-day').val(),
 			};	
 			
 			app.t = setTimeout( async () => {
@@ -702,7 +690,6 @@ jQuery( document ).ready(function($){
 		},
 		
 		clearArticlesGeneration: async () => {
-			// if( ! confirm('Вы уверены?') )
 			if( ! confirm( aiassist.locale['Are you sure?'] ) )
 				return false;
 			
@@ -718,7 +705,6 @@ jQuery( document ).ready(function($){
 			$('#start-articles-generations').attr('disabled', false);
 			$('#stop-articles-generations').attr('disabled', true);
 			
-			// $('#aiassist-generation-status').text('Процесс генерации статей приостановлен.');
 			$('#aiassist-generation-status').text( aiassist.locale['The article generation process has been suspended.'] );
 			
 			await app.request( { action: 'stopArticlesGen', nonce: aiassist.nonce } ); 
@@ -728,7 +714,6 @@ jQuery( document ).ready(function($){
 			$('#start-articles-generations').attr('disabled', true);
 			$('#stop-articles-generations').attr('disabled', false);
 			
-			// $('#aiassist-generation-status').text('Идет процесс генерации статей, информация обновляется автоматически. Если этого не происходит, обновите страницу браузера, чтобы увидеть актуальный список сгенерированных статей.');
 			$('#aiassist-generation-status').text( aiassist.locale['The process of generating'] );
 			
 			let items = $('.aiassist-article-item');
@@ -761,7 +746,6 @@ jQuery( document ).ready(function($){
 					
 					if( keywords.length ){
 						for( let i in keywords ){ c++;
-							// $('.aiassist-articles-queue').append('<div class="aiassist-article-queue"><span class="aiassist-queue-keyword">'+ keywords[ i ] +'</span> <span class="aiassist-queue-status">'+( c==1 ? 'Идет генерация' : 'В очереди' )+'</span></div>');
 							$('.aiassist-articles-queue').append('<div class="aiassist-article-queue"><span class="aiassist-queue-keyword">'+ keywords[ i ] +'</span> <span class="aiassist-queue-status">'+( c==1 ? aiassist.locale['Generation in progress'] : aiassist.locale['In line'] )+'</span></div>');
 						}
 					}
@@ -779,7 +763,6 @@ jQuery( document ).ready(function($){
 				app.addItemArticle();
 				$('.aiassist-article-item:first, .aiassist-article-item-close').remove();
 				
-				// $('#aiassist-generation-progress').html('Сгенерировано <span id="aiassist-count-publish">0</span> статей из '+ c );
 				$('#aiassist-generation-progress').html( aiassist.locale['Generated by'] +' <span id="aiassist-count-publish">0</span> '+ aiassist.locale['articles from'] +' '+ c );
 			}
 		},
@@ -812,6 +795,8 @@ jQuery( document ).ready(function($){
 			let args = {
 				nonce: aiassist.nonce,
 				action: 'rewriteOptions',
+				pictures: $('#aiassist-rewrite-multi-images').val(),
+				max_pictures: $('#aiassist-rewrite-max-pictures').val(),
 				split: $('#aiassist-rewrite-split').val(),
 				thumb: $('#aiassist-rewrite-thumb').prop('checked') ? 1 : 0,
 				draft: $('#aiassist-rewrite-draft').prop('checked') ? 1 : 0,
@@ -828,7 +813,6 @@ jQuery( document ).ready(function($){
 		startRewriteGenerations: async () => {
 			$('#start-rewrite-generations').attr('disabled', true);
 			$('#stop-rewrite-generations').attr('disabled', false);
-			// $('#aiassist-rewrite-status').text('Идет процесс рерайта статей, информация обновляется автоматически. Если этого не происходит, обновите страницу браузера, чтобы увидеть актуальный список статей по которым выполнен рерайт.');
 			$('#aiassist-rewrite-status').text( aiassist.locale['The article rewriting process is in progress'] );
 			
 			let items = $('.aiassist-rewrite-item-block');
@@ -886,7 +870,6 @@ jQuery( document ).ready(function($){
 					$('.aiassist-rewrites-queue').html('');
 					
 					for( let i in data.posts ){ c++;
-						// let status = 'В очереди';
 						let status = aiassist.locale['In line'];
 						let title = data.posts[ i ].title;
 						
@@ -897,11 +880,9 @@ jQuery( document ).ready(function($){
 							p++;
 					
 						if( data.posts[ i ].post_id )
-							// status = 'Сгенерирована';
 							status = aiassist.locale['Generated'];
 							
 						if( data.posts[ i ].task_id && ! data.posts[ i ].post_id )
-							// status = 'Идет генерация';
 							status = aiassist.locale['Generation in progress'];
 					
 						$('.aiassist-rewrites-queue').append('<div class="aiassist-rewrite-queue"><span class="aiassist-queue-rewrite">'+ title +'</span> <span class="aiassist-queue-status">'+ status +'</span></div>');
@@ -911,7 +892,6 @@ jQuery( document ).ready(function($){
 				$('.aiassist-rewrite-item-block:not(:first)').remove();
 				app.addItemRewrite();
 				$('.aiassist-rewrite-item-block:first, .aiassist-rewrite-item-close').remove();
-				// $('#aiassist-rewrite-progress').html('Сгенерировано <span id="aiassist-rewrite-count-publish">'+ p +'</span> статей из '+ c );
 				$('#aiassist-rewrite-progress').html( aiassist.locale['Generated by'] +' <span id="aiassist-rewrite-count-publish">'+ p +'</span> '+ aiassist.locale['articles from'] +' '+ c );
 			}
 		},
@@ -919,15 +899,12 @@ jQuery( document ).ready(function($){
 		stopRewriteGeneration: async () => {
 			$('#start-rewrite-generations').attr('disabled', false);
 			$('#stop-rewrite-generations').attr('disabled', true);
-			
-			// $('#aiassist-rewrite-status').text('Процесс генерации статей приостановлен.');
 			$('#aiassist-rewrite-status').text( aiassist.locale['The article generation process has been suspended.'] );
 			
 			await app.request( { action: 'stopRewrite', nonce: aiassist.nonce } ); 
 		},
 		
 		clearRewritesGeneration: async () => {
-			// if( ! confirm('Вы уверены?') )
 			if( ! confirm( aiassist.locale['Are you sure?'] ) )
 				return false;
 			
@@ -1019,7 +996,6 @@ jQuery( document ).ready(function($){
 				}
 				
 				if( $('.aiassist-lang-promts:visible:first option:selected').val() != 1 )
-					// app.loader( true, 'Перевод промтов для изображений' );
 					app.loader( true, aiassist.locale['Translation of prompts for images'] );
 				
 				const items = $('.aiassist-headers .aiassist-header-item');
@@ -1082,7 +1058,6 @@ jQuery( document ).ready(function($){
 			let task = await app.request( { token: aiassist.token, gptkey: aiassist.gptkey, model: model, action: 'image_generator', header: promt, format: 'jpg' }, aiassist.apiurl );
 			
 			if( task.limit < 1 )
-				// block.find('.aiassist-proces').removeClass('aiassist-proces').html('<span class="wpai-warning-limits">Закончились лимиты! Не закрывайте страницу, пополните баланс и нажмите снова "Сгенерировать". <a href="/wp-admin/admin.php?page=wpai-assistant" target="_blank">Пополнить баланс</a></span></span>');
 				block.find('.aiassist-proces').removeClass('aiassist-proces').html('<span class="wpai-warning-limits">'+ aiassist.locale['Limits are over'] +'</span></span>');
 
 			
@@ -1096,7 +1071,6 @@ jQuery( document ).ready(function($){
 						$('#tokens-left').text( app.number_format( data.limit ) );
 					
 					if( data.limit < 1 ){
-						// block.find('.aiassist-proces').removeClass('aiassist-proces').html('<span class="wpai-warning-limits">Закончились лимиты! Не закрывайте страницу, пополните баланс и нажмите снова "Сгенерировать". <a href="/wp-admin/admin.php?page=wpai-assistant" target="_blank">Пополнить баланс</a></span></span>');
 						block.find('.aiassist-proces').removeClass('aiassist-proces').html('<span class="wpai-warning-limits">'+ aiassist.locale['Limits are over'] +'</span></span>');
 						break;
 					}
@@ -1124,7 +1098,6 @@ jQuery( document ).ready(function($){
 					}
 					
 					if( data.nsfw )
-						// return block.find('.aiassist-images').removeClass('aiassist-proces disabled').html('<span class="wpai-warning-limits">Промт попал под цензуру, одно или несколько слов не дают сгенерировать изображение. Попробуйте изменить промт!</span>');
 						return block.find('.aiassist-images').removeClass('aiassist-proces disabled').html('<span class="wpai-warning-limits">'+ aiassist.locale['Prompt was censored'] +'</span>');
 					
 					if( data.images ){
@@ -1171,7 +1144,6 @@ jQuery( document ).ready(function($){
 		},
 		
 		outSummFocusOut: async function( e ){
-			// $(this).attr('placeholder', '5000 руб');
 			$(this).attr('placeholder', aiassist.locale['5000 rub'] );
 		},
 		
@@ -1216,7 +1188,6 @@ jQuery( document ).ready(function($){
 				$('#tokens-stats').remove();
 			
 			if( ! Object.keys( stats ).length ){
-				// e.after('<div id="tokens-stats"><h3>Данных не найдено!</h3></div>');
 				e.after('<div id="tokens-stats"><h3>'+ aiassist.locale['No data found!'] +'</h3></div>');
 				return;
 			}
@@ -1277,7 +1248,6 @@ jQuery( document ).ready(function($){
 				$('#wpai-errors-messages').html( auth.message );
 			
 			if( auth.auth ){
-				// $('#wpai-errors-messages').addClass('success').text('Регистрация прошла успешно, вам отправлено письмо с ключом.');
 				$('#wpai-errors-messages').addClass('success').text( aiassist.locale['Registration was successful, you have been sent an email with a key.'] );
 				document.cookie = 'auth=true';
 				
@@ -1326,7 +1296,6 @@ jQuery( document ).ready(function($){
 		},
 		
 		saveContent: async () => {
-			// app.loader( true, 'Сохранение контента' );
 			app.loader( true, aiassist.locale['Saving content'] );
 			
 			let post_id = null;
@@ -1362,8 +1331,7 @@ jQuery( document ).ready(function($){
 				})
 				
 				for( let k in imgs ){
-					// app.loader( true, 'Загрузка изображения - '+ imgs[ k ].title );
-					app.loader( true, aiassist.locale['Loading image'] + imgs[ k ].title );
+					app.loader( true, aiassist.locale['Loading image'] +' '+ imgs[ k ].title );
 					
 					let load = await app.request( { post_id: post_id, image: imgs[ k ], action: 'loadImage', nonce: aiassist.nonce } );
 					
@@ -1372,7 +1340,6 @@ jQuery( document ).ready(function($){
 				}
 			}
 			
-			// app.loader( true, 'Завершение...');
 			app.loader( true, aiassist.locale['Completion...']);
 			
 			let data = await app.request( { post_id: post_id, header: header, content: content, title: title, desc: desc, thumbnail: thumbnail, action: 'saveContent', nonce: aiassist.nonce } );
@@ -1387,7 +1354,6 @@ jQuery( document ).ready(function($){
 		},
 		
 		generateHeader: async () => {
-			// app.loader( true, 'Генерация заголовка' );
 			app.loader( true, aiassist.locale['Header generation'] );
 			
 			let theme = $('#aiassist-theme').val();
@@ -1407,7 +1373,6 @@ jQuery( document ).ready(function($){
 		},
 		
 		generateStructure: async () => {
-			// app.loader( true, 'Генерация структуры' );
 			app.loader( true, aiassist.locale['Generating structure'] );
 			
 			let header = $('#aiassist-header').val();
@@ -1435,7 +1400,6 @@ jQuery( document ).ready(function($){
 			}
 			$('#aiassist-theme-standart').removeClass('aiassist-error');
 		
-			// app.loader( true, 'Генерация текста' );
 			app.loader( true, aiassist.locale['Text generation'] );
 			
 			let promt = $('#aiassist-article-prom').val().replace('{key}', h1);
@@ -1445,13 +1409,11 @@ jQuery( document ).ready(function($){
 				$('#step3').show();
 				$('.aiassist-headers .aiassist-header-item').remove();
 				
-				// $('.aiassist-headers').append('<div class="aiassist-header-item aiassist-main-header"><div class="left">Изображение записи</div><label><input type="checkbox" id="aiassist-main" value="'+( h1 )+'" /><span>'+( h1 )+'</span></label><div class="aiassist-translate-promt-image">Promt: <input /> <div class="image-generate-item">Сгенерировать</div></div></div>');	
 				$('.aiassist-headers').append('<div class="aiassist-header-item aiassist-main-header"><div class="left">'+ aiassist.locale['Featured image'] +'</div><label><input type="checkbox" id="aiassist-main" value="'+( h1 )+'" /><span>'+( h1 )+'</span></label><div class="aiassist-translate-promt-image">'+ aiassist.locale['Promt:'] +' <input /> <div class="image-generate-item">'+ aiassist.locale['Generate'] +'</div></div></div>');	
 				
 				if( headers = data.content.match(/<h[2-6][^>]*>([^<]+)<\/h[2-6]>/gi) ){
 					for(let i in headers ){
 						headers[ i ] = headers[ i ].replace(/<\/?h[2-6][^>]*>/gi, '');
-						// $('.aiassist-headers').append('<div class="aiassist-header-item"><label><input type="checkbox" value="'+( headers[ i ] )+'" /><span>'+( headers[ i ] )+'</span></label><div class="aiassist-translate-promt-image">Promt: <input /> <div class="image-generate-item">Сгенерировать</div></div></div>');
 						$('.aiassist-headers').append('<div class="aiassist-header-item"><label><input type="checkbox" value="'+( headers[ i ] )+'" /><span>'+( headers[ i ] )+'</span></label><div class="aiassist-translate-promt-image">'+ aiassist.locale['Promt:'] +' <input /> <div class="image-generate-item">'+ aiassist.locale['Generate'] +'</div></div></div>');
 					}
 				}
@@ -1470,7 +1432,6 @@ jQuery( document ).ready(function($){
 		},
 		
 		generateContent: async () => {
-			// app.loader( true, 'Генерация вступления' );
 			app.loader( true, aiassist.locale['Generating an introduction'] );
 			
 			let header = $('#aiassist-header').val();
@@ -1489,7 +1450,6 @@ jQuery( document ).ready(function($){
 				
 				let content = '';
 				let prom = $('#aiassist-content-prom').val();
-				// $('.aiassist-headers').append('<div class="aiassist-header-item aiassist-main-header"><div class="left">Изображение записи</div><label><input type="checkbox" id="aiassist-main" value="'+( header )+'" /><span>'+( header )+'</span></label><div class="aiassist-translate-promt-image">Promt: <input value="" /> <div class="image-generate-item">Сгенерировать</div></div></div>');
 				$('.aiassist-headers').append('<div class="aiassist-header-item aiassist-main-header"><div class="left">'+ aiassist.locale['Featured image'] +'</div><label><input type="checkbox" id="aiassist-main" value="'+( header )+'" /><span>'+( header )+'</span></label><div class="aiassist-translate-promt-image">'+ aiassist.locale['Promt:'] +' <input value="" /> <div class="image-generate-item">'+ aiassist.locale['Generate'] +'</div></div></div>');
 				
 				let data = await app.addTask( { action: 'generatePreContent', header: header, lang_id: parseInt( $('.aiassist-lang-promts:visible:first').val() ) } );
@@ -1501,11 +1461,9 @@ jQuery( document ).ready(function($){
 					subHeader = structure[ k ].replace(/<[\/]?[^>]*>/g, '');
 					
 					if( $('.aiassist-headers').length )
-						// $('.aiassist-headers').append('<div class="aiassist-header-item"><label><input type="checkbox" value="'+( subHeader )+'" /><span>'+( subHeader )+'</span></label><div class="aiassist-translate-promt-image">Promt: <input /> <div class="image-generate-item">Сгенерировать</div></div></div>');
 						$('.aiassist-headers').append('<div class="aiassist-header-item"><label><input type="checkbox" value="'+( subHeader )+'" /><span>'+( subHeader )+'</span></label><div class="aiassist-translate-promt-image">'+ aiassist.locale['Promt:'] +' <input /> <div class="image-generate-item">'+ aiassist.locale['Generate'] +'</div></div></div>');
 					
 					$('#step6').show();
-					// $('#aiassist-loader-info').text('Генерация пункта: '+ subHeader);
 					$('#aiassist-loader-info').text( aiassist.locale['Item generation:'] +' '+ subHeader);
 					
 					if( ! $('#aiassist-progress-generator').length )
@@ -1532,7 +1490,6 @@ jQuery( document ).ready(function($){
 		},
 		
 		generateMeta: async () => {
-			// app.loader( true, 'Генерация meta title' );
 			app.loader( true, aiassist.locale['Generate meta title'] );
 			
 			$('#step4').show();
@@ -1552,7 +1509,6 @@ jQuery( document ).ready(function($){
 				await app.request( { val: data.content, act: 'title', action: 'saveStep', nonce: aiassist.nonce } );
 			}
 			
-			// $('#aiassist-loader-info').text('Генерация meta description');
 			$('#aiassist-loader-info').text( aiassist.locale['Generating meta description'] );
 			
 			data = await app.addTask( { action: 'generateDesc', prom: $('#aiassist-desc-prom').val(), header: header, lang_id: lang_id } );
@@ -1583,7 +1539,6 @@ jQuery( document ).ready(function($){
 			
 			if( e ){
 				$('#aiasist').addClass('disabled');
-				// $('#aiasist').after('<div id="aiassist-loader-wrap"><div id="aiassist-loader-info">'+ info +'</div><div id="aiassist-loader"></div><div id="aiassist-step-stop">Отмена</div></div>');
 				$('#aiasist').after('<div id="aiassist-loader-wrap"><div id="aiassist-loader-info">'+ info +'</div><div id="aiassist-loader"></div><div id="aiassist-step-stop">'+ aiassist.locale['Cancel'] +'</div></div>');
 			}
 		},
@@ -1593,7 +1548,6 @@ jQuery( document ).ready(function($){
 			
 			if( ! aiassist.token ){
 				app.loader();
-				// $('#aiasist').after('<div id="aiassist-loader-wrap"><div id="aiassist-loader-info"><span class="wpai-warning-limits">Вы не добавили API-ключ! Ключ после регистрации в плагине отправляется на почту. Зарегистрируйтесь и добавьте ключ из письма в специальное поле в настройках плагина и генерация станет доступна.</span></div><div id="aiassist-step-stop">Закрыть</div></div>');
 				$('#aiasist').after('<div id="aiassist-loader-wrap"><div id="aiassist-loader-info"><span class="wpai-warning-limits">'+ aiassist.locale['You have not added the API key'] +'</span></div><div id="aiassist-step-stop">'+ aiassist.locale['Cancel'] +'</div></div>');
 				return;
 			}
@@ -1608,7 +1562,6 @@ jQuery( document ).ready(function($){
 							
 							if( task.limit < 1 && ! app.limitMsg ){
 								app.limitMsg = true;
-								// app.loader( true, '<span class="wpai-warning-limits">Закончились лимиты! Не закрывайте страницу, пополните баланс и генерация автоматически продолжится. <a href="/wp-admin/admin.php?page=wpai-assistant" target="_blank">Пополнить баланс</a></span>' );
 								app.loader( true, '<span class="wpai-warning-limits">'+ aiassist.locale['Limits are over'] +'</span>' );
 							}
 							
@@ -1638,7 +1591,6 @@ jQuery( document ).ready(function($){
 							
 							if( data.limit < 1 && ! app.limitMsg ){
 								app.limitMsg = true;
-								// app.loader( true, '<span class="wpai-warning-limits">Закончились лимиты! Не закрывайте страницу, пополните баланс и генерация автоматически продолжится. <a href="/wp-admin/admin.php?page=wpai-assistant" target="_blank">Пополнить баланс</a></span></span>' );
 								app.loader( true, '<span class="wpai-warning-limits">'+ aiassist.locale['Limits are over'] +'</span></span>' );
 							}
 						}

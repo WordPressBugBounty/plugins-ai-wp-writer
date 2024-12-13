@@ -202,11 +202,22 @@
 			<?php _e('Images generation for rewrited article based on headlines. If you leave the checkboxes empty, the rewrited version will be done without images.', 'wp-ai-assistant') ?>
 			
 			<label class="aiassist-option-item">
-				<input type="checkbox" class="aiassist-rewrite-options" id="aiassist-rewrite-images" <?php echo esc_attr( @$rewrites['images'] ? 'checked' : '' ) ?> <?php echo esc_attr( @$rewrites['thumb'] && ! @$rewrites['images'] ? 'disabled' : '' ) ?> /> <?php _e('Generate all possible images for the post', 'wp-ai-assistant') ?>
+				<select class="aiassist-rewrite-options" id="aiassist-rewrite-multi-images">
+					<option value="without" <?php echo esc_attr( @$rewrites['pictures'] == 'without' ? 'selected' : '' ) ?>><?php echo _e('Generate an article without pictures', 'wp-ai-assistant') ?></option>
+					<option value="all" <?php echo esc_attr( @$rewrites['pictures'] == 'all' ? 'selected' : '' ) ?>><?php echo _e('Generate pictures for all headlines', 'wp-ai-assistant') ?></option>
+					<option value="h2" <?php echo esc_attr( @$rewrites['pictures'] == 'h2' ? 'selected' : '' ) ?>><?php echo _e('Generate pictures for h2 headlines only', 'wp-ai-assistant') ?></option>
+				</select>
 			</label>
 			
 			<label class="aiassist-option-item">
-				<input type="checkbox" class="aiassist-rewrite-options" id="aiassist-rewrite-thumb" <?php echo esc_attr( @$rewrites['thumb'] ? 'checked' : '' ) ?> <?php echo esc_attr( @$rewrites['images'] && ! @$rewrites['thumb'] ? 'disabled' : '' ) ?> /> <?php _e('Generate only the thumbnail (record image)', 'wp-ai-assistant') ?>
+				<div><?php echo _e('Maximum number of pictures to generate', 'wp-ai-assistant') ?></div>
+				<input type="number" class="aiassist-rewrite-options" id="aiassist-rewrite-max-pictures" value="<?php echo (int) @$rewrites['max_pictures'] ?>" min="0" />
+			</label>
+			
+			
+			
+			<label class="aiassist-option-item">
+				<input type="checkbox" class="aiassist-rewrite-options" id="aiassist-rewrite-thumb" <?php echo esc_attr( @$rewrites['thumb'] ? 'checked' : '' ) ?> <?php echo esc_attr( @$rewrites['images'] && ! @$rewrites['thumb'] ? 'disabled' : '' ) ?> /> <?php _e('Generate the thumbnail (record image)', 'wp-ai-assistant') ?>
 			</label>
 			
 			<label class="aiassist-option-item">
@@ -347,10 +358,9 @@
 		
 		<?php if( ! @$this->options->token ){ ?>
 			<div class="wpai-tabs">
-				<div class="wpai-tab active" data-action="signIn" ><?php _e('Sign in', 'wp-ai-assistant') ?></div>
-				<div class="wpai-tab" data-action="signUp"><?php _e('Sign up', 'wp-ai-assistant') ?></div>
+				<div class="wpai-tab active" data-action="signUp"><?php _e('Sign up', 'wp-ai-assistant') ?></div>
 			</div>
-			<form method="POST" class="wpai-form" id="aiassist-sign" data-action="signIn">
+			<form method="POST" class="wpai-form" id="aiassist-sign" data-action="signUp">
 				<div id="wpai-errors-messages"></div>
 				<div class="row">
 					<div><?php _e('Mail', 'wp-ai-assistant') ?></div>
@@ -367,12 +377,12 @@
 					<input type="password" name="password2" />
 					
 					<label> 
-						<input type="checkbox" name="license" /> <?php _e('By registering, you agree to', 'wp-ai-assistant') ?> <a href="https://aiwpwriter.com/privacy-policy/" target="_blank"><?php _e('privacy policy', 'wp-ai-assistant') ?></a>, <a href="https://aiwpwriter.com/publichnaja-oferta-o-zakljuchenii-dogovora-ob-okazanii-uslug/" target="_blank"><?php _e('offer', 'wp-ai-assistant') ?></a> <?php _e('and', 'wp-ai-assistant') ?> <a href="https://aiwpwriter.com/user-agreement/" target="_blank"><?php _e('user agreement', 'wp-ai-assistant') ?></a>.
+						<input type="checkbox" name="license" required /> <?php _e('By registering, you agree to', 'wp-ai-assistant') ?> <a href="https://aiwpwriter.com/privacy-policy/" target="_blank"><?php _e('privacy policy', 'wp-ai-assistant') ?></a>, <a href="https://aiwpwriter.com/publichnaja-oferta-o-zakljuchenii-dogovora-ob-okazanii-uslug/" target="_blank"><?php _e('offer', 'wp-ai-assistant') ?></a> <?php _e('and', 'wp-ai-assistant') ?> <a href="https://aiwpwriter.com/user-agreement/" target="_blank"><?php _e('user agreement', 'wp-ai-assistant') ?></a>.
 					</label>
 				</div>
 				
 				<div class="row">
-					<button></button>
+					<button><?php _e('Registration', 'wp-ai-assistant') ?></button>
 				</div>
 				
 			</form>
@@ -570,27 +580,62 @@
 			</div>
 		<?php } ?>
 
-		<textarea class="aiassist-prom" id="aiassist-generation-prom"><?php echo esc_textarea( @$this->steps['promts']['multi'][ $lang_id ] ? trim( $this->steps['promts']['multi'][ $lang_id ] ) : @$this->info->promts->multi[ $lang_id ] )?></textarea>
-		
-		<div class="aiassist-option-item">
-			<div><?php _e('Promt:', 'wp-ai-assistant') ?> <input id="aiassist-title-prom-multi" class="aiassist-prom" value="<?php echo esc_attr( @$this->steps['promts']['multi_title'][ $lang_id ] ? $this->steps['promts']['multi_title'][ $lang_id ] : @$this->info->promts->multi_title[ $lang_id ] )?>" /></div>
-			<div><?php _e('Promt:', 'wp-ai-assistant') ?> <input id="aiassist-desc-prom-multi" class="aiassist-prom" value="<?php echo esc_attr( @$this->steps['promts']['multi_desc'][ $lang_id ] ? $this->steps['promts']['multi_desc'][ $lang_id ] : @$this->info->promts->multi_desc[ $lang_id ] )?>" /></div>
+		<div>
+			<?php $promt = esc_textarea( @$this->steps['promts']['multi'][ $lang_id ] ? trim( $this->steps['promts']['multi'][ $lang_id ] ) : @$this->info->promts->multi[ $lang_id ] ); ?>
+			<textarea class="aiassist-prom" id="aiassist-generation-prom" data-check="{key}"><?php echo $promt ?></textarea>
+			<?php if( strpos( $promt, '{key}') === false ){ ?>
+				<div class="aiassist-check-key"><?php _e('There is no variable {key} (or%header%) in your prompt. Add it in the place where the key word should be. If you generate an article without the variable, the text won’t be relevant to your topic.', 'wp-ai-assistant') ?></div>
+			<?php } ?>
 		</div>
 		
 		<div class="aiassist-option-item">
-			<?php _e('The number of articles to generate and publish per day. If you leave the input form blank, the articles will be generated and published for all specified keys as soon as possible.', 'wp-ai-assistant') ?>
-			<input type="number" class="aiassist-auto-options" id="publish-article-in-day" value="<?php echo (int) @$autoGen['publishInDay'] ?>" placeholder="0" />
+			<div>
+				<?php $promt = esc_attr( @$this->steps['promts']['multi_title'][ $lang_id ] ? $this->steps['promts']['multi_title'][ $lang_id ] : @$this->info->promts->multi_title[ $lang_id ] )?>
+				<?php _e('Promt:', 'wp-ai-assistant') ?> <input id="aiassist-title-prom-multi" class="aiassist-prom" data-check="{key}" value="<?php echo $promt ?>" />
+				<?php if( strpos( $promt, '{key}') === false ){ ?>
+					<div class="aiassist-check-key"><?php _e('There is no variable {key} (or%header%) in your prompt. Add it in the place where the key word should be. If you generate an article without the variable, the text won’t be relevant to your topic.', 'wp-ai-assistant') ?></div>
+				<?php } ?>
+			</div>
+			
+			<div>
+				<?php $promt = esc_attr( @$this->steps['promts']['multi_desc'][ $lang_id ] ? $this->steps['promts']['multi_desc'][ $lang_id ] : @$this->info->promts->multi_desc[ $lang_id ] ); ?>
+				<?php _e('Promt:', 'wp-ai-assistant') ?> <input id="aiassist-desc-prom-multi" class="aiassist-prom" data-check="{key}" value="<?php echo $promt ?>" />
+				<?php if( strpos( $promt, '{key}') === false ){ ?>
+					<div class="aiassist-check-key"><?php _e('There is no variable {key} (or%header%) in your prompt. Add it in the place where the key word should be. If you generate an article without the variable, the text won’t be relevant to your topic.', 'wp-ai-assistant') ?></div>
+				<?php } ?>
+			</div>
+		</div>
+		
+		<div class="aiassist-option-item">
+			<?php _e('The number of articles to generate and publish in a specified period of time. If you leave the input form blank, the articles will be generated and published for all specified keys as soon as possible.', 'wp-ai-assistant') ?>
+			<div>
+				<input type="number" class="aiassist-auto-options" id="publish-article-in-day" value="<?php echo isset( $autoGen['publishInDay'] ) ? (int) $autoGen['publishInDay'] : '' ?>" placeholder="0" min=0 />
+			</div>
+			
+			<?php _e('Specify in days how often articles should be published:', 'wp-ai-assistant') ?>
+			<div>
+				<input type="number" class="aiassist-auto-options" id="publish-article-every-day" value="<?php echo isset( $autoGen['publishEveryDay'] ) ? (int) $autoGen['publishEveryDay'] : 1 ?>" placeholder="0" min=0 />
+			</div>
 		</div>
 		
 		<div class="aiassist-option-item">
 			<?php _e('The images to generate for the article. If you leave the input form blank, the articles will be generated without images.', 'wp-ai-assistant') ?>
 			
 			<label class="aiassist-option-item">
-				<input type="checkbox" class="aiassist-auto-options" id="aiassist-auto-images" <?php echo esc_attr( @$autoGen['images'] ? 'checked' : '' ) ?> <?php echo esc_attr( @$autoGen['thumb'] && ! @$autoGen['images'] ? 'disabled' : '' ) ?> /> <?php _e('Generate images for all headers', 'wp-ai-assistant') ?>
+				<select class="aiassist-auto-options" id="aiassist-auto-multi-images">
+					<option value="without" <?php echo esc_attr( @$autoGen['pictures'] == 'without' ? 'selected' : '' ) ?>><?php echo _e('Generate an article without pictures', 'wp-ai-assistant') ?></option>
+					<option value="all" <?php echo esc_attr( @$autoGen['pictures'] == 'all' ? 'selected' : '' ) ?>><?php echo _e('Generate pictures for all headlines', 'wp-ai-assistant') ?></option>
+					<option value="h2" <?php echo esc_attr( @$autoGen['pictures'] == 'h2' ? 'selected' : '' ) ?>><?php echo _e('Generate pictures for h2 headlines only', 'wp-ai-assistant') ?></option>
+				</select>
 			</label>
 			
 			<label class="aiassist-option-item">
-				<input type="checkbox" class="aiassist-auto-options" id="aiassist-auto-thumb" <?php echo esc_attr( @$autoGen['thumb'] ? 'checked' : '' ) ?> <?php echo esc_attr( @$autoGen['images'] && ! @$autoGen['thumb'] ? 'disabled' : '' ) ?> /> <?php _e('Generate only the thumbnail (record image)', 'wp-ai-assistant') ?>
+				<div><?php echo _e('Maximum number of pictures to generate', 'wp-ai-assistant') ?></div>
+				<input type="number" class="aiassist-auto-options" id="aiassist-max-pictures" value="<?php echo (int) @$autoGen['max_pictures'] ?>" min="0" />
+			</label>
+			
+			<label class="aiassist-option-item">
+				<input type="checkbox" class="aiassist-auto-options" id="aiassist-auto-thumb" <?php echo esc_attr( @$autoGen['thumb'] ? 'checked' : '' ) ?> <?php echo esc_attr( @$autoGen['images'] && ! @$autoGen['thumb'] ? 'disabled' : '' ) ?> /> <?php _e('Generate the thumbnail (record image)', 'wp-ai-assistant') ?>
 			</label>
 			
 			<label class="aiassist-option-item">
@@ -649,7 +694,7 @@
 			</div>
 		<?php } ?>
 		
-		<div class="aiassist-option-item <?php echo ! isset( $autoGen['start'] ) ? 'hidden' : ''?>" id="aiassist-generation-progress"><?php _e('Generated by', 'wp-ai-assistant') ?>  <span id="aiassist-count-publish"><?php echo (int) @$autoGen['publish'] ?></span>  <?php _e('articles from', 'wp-ai-assistant') ?><?php echo (int) @$autoGen['count'] ?></div>
+		<div class="aiassist-option-item <?php echo ! isset( $autoGen['start'] ) ? 'hidden' : ''?>" id="aiassist-generation-progress"><?php _e('Generated by', 'wp-ai-assistant') ?>  <span id="aiassist-count-publish"><?php echo (int) @$autoGen['publish'] ?></span>  <?php _e('articles from', 'wp-ai-assistant') ?> <?php echo (int) @$autoGen['count'] ?></div>
 		
 		<div class="aiassist-articles-queue">
 			<?php if( ! empty( $autoGen['articles'] ) ){ $queue = false; ?>

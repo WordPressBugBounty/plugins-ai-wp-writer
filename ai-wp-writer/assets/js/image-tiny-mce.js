@@ -4,10 +4,8 @@
 		init: ( ed, url ) => {
 			
 			ed.addButton('ai_image', {
-				// title : 'Картинка сгенерируется в то место где стоит курсор',
 				title : aiassist.locale['The image is generated at the location of the cursor.'],
 				text: 'AI image creator',
-				// text: aiassist.locale['AI image creator'],
 				icon: false,
 				onclick: () => {
 					

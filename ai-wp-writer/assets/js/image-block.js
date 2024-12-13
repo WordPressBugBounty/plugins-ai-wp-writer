@@ -71,7 +71,6 @@ wp.blocks.registerBlockType('ai-image-creator/ai-image-creator', {
 			let task = await request( { action: 'image_generator', token: aiassist.token, model: props.attributes.model, header: props.attributes.promt, format: 'jpg' }, aiassist.apiurl );
 			
 			if( parseInt( task.limit ) < 1 )
-				// block.find('.aiassist-images').removeClass('aiassist-proces disabled').html('<span class="wpai-warning-limits">Закончились лимиты! Не закрывайте страницу, пополните баланс и генерация автоматически продолжится. <a href="/wp-admin/admin.php?page=wpai-assistant" target="_blank">Пополнить баланс</a></span></span>');
 				block.find('.aiassist-images').removeClass('aiassist-proces disabled').html('<span class="wpai-warning-limits">'+ aiassist.locale[''+ aiassist.locale['Limits are over'] +''] +'</span></span>');
 				
 			if( task.task_id ){
@@ -90,7 +89,6 @@ wp.blocks.registerBlockType('ai-image-creator/ai-image-creator', {
 					}
 					
 					if( data.nsfw )
-						// return block.find('.aiassist-images').removeClass('aiassist-proces disabled').html('<span class="wpai-warning-limits">Промт попал под цензуру, одно или несколько слов не дают сгенерировать изображение. Попробуйте изменить промт!</span>');
 						return block.find('.aiassist-images').removeClass('aiassist-proces disabled').html('<span class="wpai-warning-limits">'+ aiassist.locale['Prompt was censored'] +'</span>');
 					
 					if( data.images ){
@@ -178,7 +176,6 @@ wp.blocks.registerBlockType('ai-image-creator/ai-image-creator', {
 						let task = await request( { action: 'translate', token: aiassist.token, content: title }, aiassist.apiurl );
 						
 						if( parseInt( task.limit ) < 1 )
-							// block.find('.aiassist-image-item').removeClass('aiassist-proces disabled').html('<span class="wpai-warning-limits">Закончились лимиты! Не закрывайте страницу, пополните баланс и генерация автоматически продолжится. <a href="/wp-admin/admin.php?page=wpai-assistant" target="_blank">Пополнить баланс</a></span></span>');
 							block.find('.aiassist-image-item').removeClass('aiassist-proces disabled').html('<span class="wpai-warning-limits">'+ aiassist.locale['Limits are over'] +'</span></span>');
 						
 						if( task.task_id ){
@@ -200,7 +197,6 @@ wp.blocks.registerBlockType('ai-image-creator/ai-image-creator', {
 			aiImageBlcokEl(
 				'a',
 				{ href: 'https://aiwpwriter.com/prices/', target: '_blank', class: 'aiassist-small' },
-				// 'Посмотреть тарифы',
 				aiassist.locale['View rates'],
 			),
 			
@@ -263,7 +259,6 @@ wp.blocks.registerBlockType('ai-image-creator/ai-image-creator', {
 											id: load.id,
 											url: load.url,
 											title: title,
-											// alt: title +' фото',
 											alt: title + aiassist.locale['photo'],
 										}
 									];

@@ -614,14 +614,6 @@ button[name="save"]{
 	display: none;
 }
 
-#aiassist-sign[data-action="signIn"] button:before{
-	content: "Вход";
-}
-
-#aiassist-sign[data-action="signUp"] button:before{
-	content: "Регистрация";
-}
-
 #wpai-errors-messages{
 	color: #f00;
 	height: 35px;
@@ -724,6 +716,7 @@ button[name="save"]{
 	}
 	
 	.aiassist-step-title{
+		width: 70%;
 		font-size: 18pt;
 	}
 
@@ -1652,4 +1645,14 @@ button[name="save"]{
 	padding: 10px;
 	margin-top: 15px;
 	border: 2px solid #42b3d5;
+}
+
+.aiassist-check-key{
+	color: #f00;
+	text-align: center;
+}
+
+.aiassist-option-item .aiassist-check-key{
+	top: -20px;
+	position: relative;
 }
