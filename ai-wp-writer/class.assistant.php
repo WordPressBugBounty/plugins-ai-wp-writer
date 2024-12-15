@@ -270,7 +270,6 @@ class AIASIST{
 					$args = [
 								'imageFormat'	=> 'jpg', 
 								'thumb'			=> (bool) $data['thumb'], 
-								'images'		=> (bool) $data['images'], 
 								'textModel'		=> $data['textModel'], 
 								'imageModel'	=> $data['imageModel'], 
 								'pictures'		=> $data['pictures'], 
@@ -380,7 +379,6 @@ class AIASIST{
 		$data = get_option('aiArticlesAutoGenData');
 		$data['draft'] = (bool) $_POST['draft'];
 		$data['thumb'] = (bool) $_POST['thumb'];
-		$data['images'] = (bool) $_POST['images'];
 		$data['publishInDay'] = (int) $_POST['publishInDay'];
 		$data['publishEveryDay'] = (int) $_POST['publishEveryDay'];
 		$data['pictures'] = sanitize_text_field( $_POST['pictures'] );
@@ -427,9 +425,6 @@ class AIASIST{
 		if( isset( $args['thumb'] ) )
 			$data['thumb'] = (bool) $args['thumb'];
 			
-		if( isset( $args['images'] ) )
-			$data['images'] = (bool) $args['images'];
-			
 		if( isset( $args['pictures'] ) )
 			$data['pictures'] = $args['pictures'];
 			
@@ -461,9 +456,6 @@ class AIASIST{
 				
 			if( isset( $args['thumb'] ) )
 				$data['thumb'] = (int) $args['thumb'];
-				
-			if( isset( $args['images'] ) )
-				$data['images'] = (int) $args['images'];
 			
 			if( isset( $args['pictures'] ) )
 				$data['pictures'] = $args['pictures'];
@@ -500,7 +492,6 @@ class AIASIST{
 			
 		$data = get_option('aiRewritesData');
 		$data['thumb']		= (bool) $_POST['thumb'];
-		$data['images']		= (bool) $_POST['images'];
 		$data['split']		= (int) $_POST['split'];
 		$data['draft'] 		= (bool) $_POST['draft'];
 		$data['pictures'] 	= sanitize_text_field( $_POST['pictures'] );
@@ -541,7 +532,6 @@ class AIASIST{
 									'imageFormat'		=> 'jpg', 
 									'split'				=> $data['split'], 
 									'thumb'				=> (bool) $data['thumb'], 
-									'images'			=> (bool) $data['images'], 
 									'textModel'			=> $data['textModel'], 
 									'imageModel'		=> $data['imageModel'], 
 									'pictures'			=> $data['pictures'], 
@@ -812,9 +802,6 @@ class AIASIST{
 		
 		if( isset( $args['max_pictures'] ) )
 			$data['max_pictures'] = (int) $args['max_pictures'];
-			
-		if( isset( $args['images'] ) )
-			$data['images'] = (bool) $args['images'];
 			
 		if( isset( $args['imageModel'] ) )
 			$data['imageModel'] = sanitize_text_field( $args['imageModel'] );

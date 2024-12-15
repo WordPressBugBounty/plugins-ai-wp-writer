@@ -677,7 +677,6 @@ jQuery( document ).ready(function($){
 				max_pictures: $('#aiassist-max-pictures').val(),
 				draft: $('#aiassist-auto-draft').prop('checked') ? 1 : 0,
 				thumb: $('#aiassist-auto-thumb').prop('checked') ? 1 : 0,
-				images: $('#aiassist-auto-images').prop('checked') ? 1 : 0,
 				textModel: $('#aiassist-change-text-model').val(),
 				imageModel: $('#aiassist-image-model').val(),
 				publishInDay: $('#publish-article-in-day').val(),
@@ -800,7 +799,6 @@ jQuery( document ).ready(function($){
 				split: $('#aiassist-rewrite-split').val(),
 				thumb: $('#aiassist-rewrite-thumb').prop('checked') ? 1 : 0,
 				draft: $('#aiassist-rewrite-draft').prop('checked') ? 1 : 0,
-				images: $('#aiassist-rewrite-images').prop('checked') ? 1 : 0,
 				textModel: $('#aiassist-rewrite-text-model').val(),
 				imageModel: $('#aiassist-rewrite-image-model').val(),
 			};	
