@@ -196,7 +196,7 @@
 			</div>
 		<?php } ?>
 		
-		<textarea class="aiassist-prom" id="aiassist-rewrite-prom"><?php echo esc_textarea( @$this->steps['promts']['rewrite'][ $lang_id ] ? trim( $this->steps['promts']['rewrite'][ $lang_id ] ) : @$this->info->promts->rewrite[ $lang_id ] )?></textarea>
+		<textarea class="aiassist-prom" id="aiassist-rewrite-prom"><?php echo esc_textarea( isset( $this->steps['promts']['rewrite'][ $lang_id ] ) ? trim( $this->steps['promts']['rewrite'][ $lang_id ] ) : @$this->info->promts->rewrite[ $lang_id ] )?></textarea>
 		
 		<div class="aiassist-option-item">
 			<?php _e('Images generation for rewrited article based on headlines. If you leave the checkboxes empty, the rewrited version will be done without images.', 'wp-ai-assistant') ?>
@@ -443,13 +443,13 @@
 		
 			<div class="rates-item">
 				<div class="title"><?php _e('Payment for any amount', 'wp-ai-assistant') ?></div>
-				<div class="title-label"><?php _e('Enter any amount for payment. Limits will not disappear, you can generate text and images at any time.', 'wp-ai-assistant') ?></div>
+				<div class="title-label"><?php _e('Enter the amount to pay from 500 rubles. Limits do not burn, you can generate text and images at any time.', 'wp-ai-assistant') ?></div>
 				
 				<form id="aiassist-custom-buy" class="aiassist-buy-form">
 					<div class="header"><?php _e('Buy limits', 'wp-ai-assistant') ?></div>
-					<div><?php _e('Price', 'wp-ai-assistant') ?> <b><?php echo (float) @$this->info->price ?> <?php _e('rubles for 1,000 limits.</b> Enter <b>any</b> amount to top up your balance:', 'wp-ai-assistant') ?></div>
-					<input type="number" step="1" min="0" id="out_summ" placeholder="5000 руб" required />
-					<button class="aiassist-buy" data-type="custom"><?php _e('Buy', 'wp-ai-assistant') ?></button>
+					<div><?php _e('Price', 'wp-ai-assistant') ?> <b><?php echo (float) @$this->info->price ?> <?php _e('rubles for 1,000 limits.</b> Enter the amount to top up the balance (minimum 500 rubles):', 'wp-ai-assistant') ?></div>
+					<input type="number" step="1" min="500" id="out_summ" placeholder="5000 руб" required />
+					<button type="submit" class="aiassist-buy" data-type="custom"><?php _e('Buy', 'wp-ai-assistant') ?></button>
 				</form>
 			</div>
 			
@@ -489,7 +489,7 @@
 				<form id="aiassist-custom-buy" class="aiassist-buy-form">
 					<div class="header"><?php _e('Buy limits', 'wp-ai-assistant') ?></div>
 					<div><?php _e('Price', 'wp-ai-assistant') ?> <b><?php echo (float) @$this->info->price_usdt ?> <?php _e('USDT for 1,000 limits.</b> Enter <b>any</b> amount to top up your balance:', 'wp-ai-assistant') ?></div>
-					<input type="number" step="1" min="0" id="out_summ_usdt" placeholder="50 USDT" required />
+					<input type="number" step="1" min="5" id="out_summ_usdt" placeholder="50 USDT" required />
 					<button class="aiassist-buy" data-type="custom"><?php _e('Buy', 'wp-ai-assistant') ?></button>
 				</form>
 			</div>
@@ -530,8 +530,35 @@
 		<div class="aiassist-article-items">
 		
 			<div class="aiassist-article-item">
-				<div><?php _e('Add keywords in a list, each row is a new article. You can specify one or more key phrases in a row, separated by commas', 'wp-ai-assistant') ?></div>
-				<textarea class="aiassist-keywords-item"></textarea>
+				<div><?php _e('Add article topics in a list in the left column, each row being a new article. If desired, add one or more keywords, separated by commas, in the right column.', 'wp-ai-assistant') ?></div>
+				
+				
+				<div class="aiassist-multi-items">
+					
+					<div class="aiassist-multi-themes">
+						<label class="aiassist-multi-item-label"><?php _e('Main topic of the article', 'wp-ai-assistant') ?></label>
+						<input class="aiassist-multi-item" />
+						<input class="aiassist-multi-item" />
+						<input class="aiassist-multi-item" />
+						<input class="aiassist-multi-item" />
+						<input class="aiassist-multi-item" />
+						<input class="aiassist-multi-item" />
+						<input class="aiassist-multi-item" />
+					</div>
+					
+					<div class="aiassist-multi-keywords">
+						<label class="aiassist-multi-item-label"><?php _e('Key phrases', 'wp-ai-assistant') ?></label>
+						<input class="aiassist-multi-item" />
+						<input class="aiassist-multi-item" />
+						<input class="aiassist-multi-item" />
+						<input class="aiassist-multi-item" />
+						<input class="aiassist-multi-item" />
+						<input class="aiassist-multi-item" />
+						<input class="aiassist-multi-item" />
+					</div>
+					
+				</div>
+				
 				
 				<div class="aiassist-cats-item">
 					<?php _e('Select a category to publish articles to', 'wp-ai-assistant') ?>
@@ -586,6 +613,9 @@
 			<?php if( strpos( $promt, '{key}') === false ){ ?>
 				<div class="aiassist-check-key"><?php _e('There is no variable {key} (or%header%) in your prompt. Add it in the place where the key word should be. If you generate an article without the variable, the text won’t be relevant to your topic.', 'wp-ai-assistant') ?></div>
 			<?php } ?>
+			
+			<?php $promt = esc_textarea( @$this->steps['promts']['multi_keywords'][ $lang_id ] ? trim( $this->steps['promts']['multi_keywords'][ $lang_id ] ) : @$this->info->promts->multi_keywords[ $lang_id ] ); ?>
+			<textarea class="aiassist-prom aiassist-keywords-area" id="aiassist-generation-prom-keywords"><?php echo $promt ?></textarea>
 		</div>
 		
 		<div class="aiassist-option-item">
@@ -607,12 +637,12 @@
 		</div>
 		
 		<div class="aiassist-option-item">
-			<?php _e('The number of articles to generate and publish in a specified period of time. If you leave the input form blank, the articles will be generated and published for all specified keys as soon as possible.', 'wp-ai-assistant') ?>
+			<?php _e('How many articles should be generated in the specified time period. If the field is left blank, articles for all specified keys will be generated as soon as possible.<br /> Specify the number of articles:', 'wp-ai-assistant') ?>
 			<div>
 				<input type="number" class="aiassist-auto-options" id="publish-article-in-day" value="<?php echo isset( $autoGen['publishInDay'] ) ? (int) $autoGen['publishInDay'] : '' ?>" placeholder="0" min=0 />
 			</div>
 			
-			<?php _e('Specify in days how often articles should be published:', 'wp-ai-assistant') ?>
+			<?php _e('How often articles should be generated.<br /> Specify the number of days:', 'wp-ai-assistant') ?>
 			<div>
 				<input type="number" class="aiassist-auto-options" id="publish-article-every-day" value="<?php echo isset( $autoGen['publishEveryDay'] ) ? (int) $autoGen['publishEveryDay'] : 1 ?>" placeholder="0" min=0 />
 			</div>
@@ -701,13 +731,11 @@
 				<?php foreach( $autoGen['articles'] as $id => $article ){ ?>
 					<?php if( isset( $article['post_id'] ) ){ ?>
 						<?php $queue = false; ?>
-						<div class="aiassist-article-queue"><a href="<?php echo get_edit_post_link( $article['post_id'] ) ?>" target="_blank"><?php echo esc_attr( $article['keywords'] ) ?></a> <span class="aiassist-queue-status"><?php _e('Generated by', 'wp-ai-assistant') ?></span></div>
+						<div class="aiassist-article-queue"><a href="<?php echo get_edit_post_link( $article['post_id'] ) ?>" target="_blank"><?php echo esc_attr( $article['theme'] ) ?></a> <span class="aiassist-queue-status"><?php _e('Generated by', 'wp-ai-assistant') ?></span></div>
 					<?php } else { ?>
 					
 						<div class="aiassist-article-queue aiassist-queue"><div class="aiassist-article-item-close" data-key="<?php echo (int) $id ?>"></div> 
-						<span class="aiassist-queue-keyword">
-							<?php echo esc_attr( $article['keywords'] ) ?></span> 
-							
+							<span class="aiassist-queue-keyword"><?php echo esc_attr( $article['theme'] ) ?></span> 
 							<span class="aiassist-queue-status">
 								<?php if( ! $queue ){ ?>
 									

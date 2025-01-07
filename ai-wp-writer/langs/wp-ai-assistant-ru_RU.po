@@ -289,8 +289,8 @@ msgid "Payment for any amount"
 msgstr "Оплата на произвольную сумму"
 
 #: tpl/options.php:424 tpl/options.php:465
-msgid "Enter any amount for payment. Limits will not disappear, you can generate text and images at any time."
-msgstr "Введите любую сумму для оплаты. Лимиты не сгорают, генерировать текст и изображения можете в любое время."
+msgid "Enter the amount to pay from 500 rubles. Limits do not burn, you can generate text and images at any time."
+msgstr "Введите сумму для оплаты от 500 рублей. Лимиты не сгорают, генерировать текст и изображения можете в любое время."
 
 #: tpl/options.php:427
 msgid "Buy limits"
@@ -318,8 +318,8 @@ msgid "For those who generate in large volumes"
 msgstr "Для тех кто генерирует в больших объемах"
 
 #: tpl/options.php:506
-msgid "Add keywords in a list, each row is a new article. You can specify one or more key phrases in a row, separated by commas"
-msgstr "Добавьте ключевые слова списком, каждая строка это новая статья. В строке можно указать одну или несколько ключевых фраз через запятую"
+msgid "Add article topics in a list in the left column, each row being a new article. If desired, add one or more keywords, separated by commas, in the right column."
+msgstr "Добавьте темы статьи списком в левый столбец, каждая строка - это новая статья. Если требуется добавьте одну или несколько ключевых фраз через запятую в правый столбец."
 
 #: tpl/options.php:515
 msgid "Select a category to publish articles to"
@@ -342,8 +342,8 @@ msgid "Prompts language: "
 msgstr "Язык промптов: "
 
 #: tpl/options.php:569
-msgid "The number of articles to generate and publish in a specified period of time. If you leave the input form blank, the articles will be generated and published for all specified keys as soon as possible."
-msgstr "Сколько статей генерировать и публиковать в указанный период времени. Если оставить поле пустым, то будут сгенерированы и опубликованы статьи по всем заданным ключам в кратчайшие сроки."
+msgid "How many articles should be generated in the specified time period. If the field is left blank, articles for all specified keys will be generated as soon as possible.<br /> Specify the number of articles:"
+msgstr "Сколько сколько статей нужно генерировать в указанный период времени. Если оставить поле пустым, то будут сгенерированы статьи по всем заданным ключам в кратчайшие сроки.<br /> Укажите количество статей:"
 
 #: tpl/options.php:574
 msgid "The images to generate for the article. If you leave the input form blank, the articles will be generated without images."
@@ -394,8 +394,8 @@ msgid "Generating an article according to a plan (large article)"
 msgstr "Генерация статьи по плану (большая статья)"
 
 #: tpl/workspace.php:25
-msgid "Enter the key phrase for which you want to write an article, it will be automatically substituted in the prompt. For meta tags and images to be generated, this field must be filled in."
-msgstr "Введите ключевую фразу по которой хотите написать статью, она автоматически подставится в промпт. Для того чтобы сгенерировались метатеги и картинки, это поле должно быть обязательно заполнено."
+msgid "Enter the subject of the article, it will be automatically substituted in the prompt. This field must be filled in for meta tags and images to be generated."
+msgstr "Введите тему статьи, она автоматически подставится в промпт. Для того чтобы сгенерировались метатеги и картинки, это поле должно быть обязательно заполнено."
 
 #: tpl/workspace.php:29
 msgid "You can change the prompt as you wish, it determines how the article will turn out. Instead of the {key} variable, the key phrase will be substituted."
@@ -539,8 +539,8 @@ msgid "Price"
 msgstr "Цена"
 
 #: tpl/options.php
-msgid "rubles for 1,000 limits.</b> Enter <b>any</b> amount to top up your balance:"
-msgstr "рублей за 1 000 лимитов.</b> Введите <b>любую</b> сумму для пополения баланса:"
+msgid "rubles for 1,000 limits.</b> Enter the amount to top up the balance (minimum 500 rubles):"
+msgstr "рубля за 1 000 лимитов.</b> Введите произвольную сумму для пополнения баланса (минимум 500 рублей):"
 
 #: tpl/options.php
 msgid "rub"
@@ -615,12 +615,20 @@ msgid "Maximum number of pictures to generate"
 msgstr "Максимальное количество изображений для генерации"
 
 #: tpl/options.php
-msgid "Specify in days how often articles should be published:"
-msgstr "Укажите в днях, как часто нужно публиковать статьи:"
+msgid "How often articles should be generated.<br /> Specify the number of days:"
+msgstr "Как часто нужно генерировать статьи.<br /> Укажите количество дней:"
 
 #: tpl/options.php
 msgid "Registration"
 msgstr "Регистрация"
+
+#: tpl/options.php
+msgid "Main topic of the article"
+msgstr "Главная тема статьи"
+
+#: tpl/options.php
+msgid "Key phrases"
+msgstr "Ключевые фразы"
 
 #: tpl/worckspace.php
 msgid "Enter a subject..."
@@ -633,6 +641,14 @@ msgstr "На статью потрачено:"
 #: tpl/worckspace.php
 msgid "The time spent on generating images was:"
 msgstr "На генерацию изображений потрачено:"
+
+#: tpl/worckspace.php
+msgid "Enter keywords..."
+msgstr "Введите ключевые фразы..."
+
+#: tpl/worckspace.php
+msgid "Enter key phrases for the article, separated by commas. Key phrases are automatically substituted in place of the variable {keywords}."
+msgstr "Введите ключевые фразы для статьи через запятую. Ключевые фразы самостоятельно подставляются на место переменной {keywords}."
 
 #: in js
 msgid ""
@@ -763,5 +779,5 @@ msgid "To get started, register and save the api key that will come in the mail.
 msgstr "Для начала зарегистрируйтесь и сохраните api ключ, который придет на почту."
 
 #: in js
-msgid "There is no variable {key} (or%header%) in your prompt. Add it in the place where the key word should be. If you generate an article without the variable, the text won’t be relevant to your topic."
-msgstr "У вас не хватает в промпте переменной {key} (или %header% - только в генерации большой статьи по плану), добавьте ее в то место куда должна подставляться ключевая фраза. Если генерировать без переменной, то текст получится нерелевантным вашей теме."
+msgid "There is no variable {key} (or {header}) in your prompt. Add it in the place where the key word should be. If you generate an article without the variable, the text won’t be relevant to your topic."
+msgstr "У вас не хватает в промпте переменной {key} (или {header} - только в генерации большой статьи по плану), добавьте ее в то место куда должна подставляться ключевая фраза. Если генерировать без переменной, то текст получится нерелевантным вашей теме."

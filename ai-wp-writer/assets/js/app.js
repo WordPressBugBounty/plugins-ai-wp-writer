@@ -8,7 +8,7 @@ jQuery( document ).ready(function($){
 			
 			app.cron();
 			app.events();
-		
+			
 		},
 		
 		events: () => {
@@ -116,18 +116,75 @@ jQuery( document ).ready(function($){
 			$(document).on('change', 'select.cat-rewrite', app.disabledRewriteUrlArea);
 			
 			$(document).on('input', '.aiassist-prom', app.savePromt);
+			$(document).on('input', '.aiassist-keywords-input input, .aiassist-multi-keywords .aiassist-multi-item', app.showKeywordsArea);
 			$(document).on('change', 'select.aiassist-lang-promts', app.changeLangPromts);
 			$(document).on('change', 'select.aiassist-lang-promts-regenerate', app.changeLangPromtsToRegenerate);
 			
 			$(document).on('click', '.pay-method', app.setPayMethod);
 			$(document).on('click', '.aiassist-copy', app.copy);
-			$(document).on('submit', '#aiassist-get-bonus', app.getBonus);	
+			$(document).on('submit', '#aiassist-get-bonus', app.getBonus);
+			$(document).on('keydown', '.aiassist-multi-item', app.multiKeydownItems);
+			$(document).on('paste', '.aiassist-multi-item', app.pastateBuffer);
+			
 			
 			if( window.location.hash == '#ai_assistant' && $('#ai_assistant').length )
 				$('html, body').animate( { scrollTop: $('#ai_assistant').offset().top }, 1000);
 			
 		},
 		
+		pastateBuffer: function( e ){
+			e.preventDefault();
+			
+			let clipboardData = ( e.originalEvent || e ).clipboardData || window.clipboardData;
+			let pasteData = clipboardData.getData('Text');
+			
+			let lines = pasteData.split(/\r?\n/);
+			
+			let block = $(this).closest('div');
+			let inputs = block.find('.aiassist-multi-item');
+			
+			let index = inputs.index(this);
+
+			for( let i=0; i<lines.length; i++ ){
+				let input = inputs.eq( index + i );
+				
+				if( ! input.length ){
+					$('.aiassist-multi-themes, .aiassist-multi-keywords').append('<input class="aiassist-multi-item" />');
+					input = block.find('.aiassist-multi-item').last(); 
+				}
+				
+				if( ! input.val().length )
+					input.val( lines[i] );
+				
+			}
+		},
+		
+		multiKeydownItems: function( event ){
+			let e = $(this).closest('div');
+
+			switch( event.key ){
+				case 'Enter':
+				case 'ArrowDown':
+					event.preventDefault();
+					block = e.find('.aiassist-multi-item');
+					
+					if( ! block.eq( $(this).index() ).length ){
+						$('.aiassist-multi-themes, .aiassist-multi-keywords').append('<input class="aiassist-multi-item" />');
+						block = e.find('.aiassist-multi-item');
+					}
+					
+					block.eq( $(this).index() ).focus();
+					// block.eq( block.index( this ) + 1 ).focus();
+				break;
+				case 'ArrowUp':
+					event.preventDefault();
+					
+					block = e.find('.aiassist-multi-item');
+					block.eq( block.index( this ) - 1 ).focus();
+				break;
+			}
+		},
+				
 		getBonus: async function(event){
 			event.preventDefault();
 
@@ -156,6 +213,19 @@ jQuery( document ).ready(function($){
 						
 			$('.rates-block-robokassa, .rates-block-cryptocloud').addClass('hide');
 			$('.rates-block-'+ $(this).find('.robokassa, .cryptocloud').attr('class') ).removeClass('hide');
+		},
+		
+		showKeywordsArea: function(){
+			let e = $(this);
+			let show = null;
+			
+			if( e.hasClass('aiassist-multi-item') ){
+				$('.aiassist-multi-keywords .aiassist-multi-item').each(function(){
+					if( $(this).val() )
+						show = true;
+				})
+			}
+			e.closest('[data-tab]').find('.aiassist-keywords-area')[ ( e.val().length || show ? 'show' : 'hide' ) ]();
 		},
 		
 		savePromt: async function( event ){
@@ -188,6 +258,19 @@ jQuery( document ).ready(function($){
 				case 'aiassist-generation-prom':
 					aiassist.promts['multi'][ lang_id ] = promt;
 				break;
+				
+				case 'aiassist-generation-prom-keywords':
+					aiassist.promts['multi_keywords'][ lang_id ] = promt;
+				break;
+				
+				case 'aiassist-article-prom-keywords':
+					aiassist.promts['keywords'][ lang_id ] = promt;
+				break;
+				
+				case 'aiassist-article-prom-long-keywords':
+					aiassist.promts['long_keywords'][ lang_id ] = promt;
+				break;
+				
 				case 'aiassist-title-prom-multi':
 					aiassist.promts['multi_title'][ lang_id ] = promt;
 				break;
@@ -580,7 +663,7 @@ jQuery( document ).ready(function($){
 						$('.aiassist-article-queue').filter(function(){
 							let e = $(this);
 							
-							if( e.find('.aiassist-queue-keyword').text().trim() == args.articles.articles[ k ].keywords.trim() && e.find('.aiassist-queue-keyword').length ){
+							if( e.find('.aiassist-queue-keyword').text().trim() == args.articles.articles[ k ].theme.trim() && e.find('.aiassist-queue-keyword').length ){
 								
 								e.find('.aiassist-queue-status').text( aiassist.locale['Generated'] );
 								
@@ -717,7 +800,11 @@ jQuery( document ).ready(function($){
 			
 			let items = $('.aiassist-article-item');
 			
-			if( ! items.find('.aiassist-keywords-item').val().trim().length ){
+			let check = $('.aiassist-multi-themes .aiassist-multi-item').filter(function() {
+				return $(this).val().trim() !== '';
+			}).first();
+			
+			if( ! check ){
 				await app.request( { action: 'startArticlesGen', nonce: aiassist.nonce } ); 
 				return;
 			}
@@ -731,26 +818,23 @@ jQuery( document ).ready(function($){
 					let e = $(this);
 					let id = e.find('.cats-item').val();
 					
-					let item = e.find('.aiassist-keywords-item').val().trim();
-					
-					if( item == '' )	
-						return;
-					
 					if( articles[ id ] == undefined )
-						articles[ id ] = '';
+						articles[ id ] = [];
 					
-					articles[ id ] += item +"\n";
-					
-					let keywords = item.split("\n");
-					
-					if( keywords.length ){
-						for( let i in keywords ){ c++;
-							$('.aiassist-articles-queue').append('<div class="aiassist-article-queue"><span class="aiassist-queue-keyword">'+ keywords[ i ] +'</span> <span class="aiassist-queue-status">'+( c==1 ? aiassist.locale['Generation in progress'] : aiassist.locale['In line'] )+'</span></div>');
+					e.find('.aiassist-multi-themes .aiassist-multi-item').each(function(){
+						let item = $(this);
+						let theme = item.val();
+						
+						if( theme !== '' ){
+							articles[ id ].push( { theme: theme, keywords: e.find('.aiassist-multi-keywords .aiassist-multi-item:eq('+( item.index() - 1 )+')').val() } );
+							$('.aiassist-articles-queue').append('<div class="aiassist-article-queue"><span class="aiassist-queue-keyword">'+ theme +'</span> <span class="aiassist-queue-status">'+( c==1 ? aiassist.locale['Generation in progress'] : aiassist.locale['In line'] )+'</span></div>');
 						}
-					}
+					})
+					
 				})
 				
 				let artPromt = $('#aiassist-generation-prom').val(),
+					kwdPromt = $('#aiassist-generation-prom-keywords').val(),
 					titlePromt = $('#aiassist-title-prom').val(),
 					descPromt = $('#aiassist-desc-prom').val();
 					imageModel = $('#aiassist-image-model').val();
@@ -768,7 +852,7 @@ jQuery( document ).ready(function($){
 		
 		addItemArticle: () => {	
 			let item = $('.aiassist-article-item:first').clone();
-			$( item ).find('.aiassist-keywords-item').val('');
+			$( item ).find('.aiassist-multi-item').val('');
 			$( item ).prepend('<div class="aiassist-article-item-close" />');
 			$('.aiassist-article-items').append( item );
 		},
@@ -1150,7 +1234,7 @@ jQuery( document ).ready(function($){
 		},
 		
 		buy: async function (){
-			$(this).attr('disabled', true);
+			// $(this).attr('disabled', true);
 			
 			let summ = $('#out_summ').val();
 			let crypto = $('.pay-method.active .cryptocloud').length;
@@ -1375,6 +1459,10 @@ jQuery( document ).ready(function($){
 			
 			let header = $('#aiassist-header').val();
 			let prom = $('#aiassist-structure-prom').val();
+			let keywords = $('#aiassist-long-keywords').val();
+			
+			if( keywords.length )
+				prom += "\n"+ $('#aiassist-article-prom-long-keywords').val().replace('{keywords}', keywords);
 			
 			let data = await app.addTask( { action: 'generateStructure', header: header, prom: prom, lang_id: parseInt( $('.aiassist-lang-promts:visible:first').val() ) } );
 		
@@ -1401,6 +1489,11 @@ jQuery( document ).ready(function($){
 			app.loader( true, aiassist.locale['Text generation'] );
 			
 			let promt = $('#aiassist-article-prom').val().replace('{key}', h1);
+			let keywords = $('#aiassist-standart-keywords').val();
+			
+			if( keywords.length )
+				promt += "\n"+ $('#aiassist-article-prom-keywords').val().replace('{keywords}', keywords);
+			
 			let data = await app.addTask( { action: 'generateStandartContent', prom: promt } );
 			
 			if( data.content ){

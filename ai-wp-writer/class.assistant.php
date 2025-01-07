@@ -276,8 +276,10 @@ class AIASIST{
 								'max_pictures'	=> (int) $data['max_pictures'], 
 								'lang_id'		=> $lang_id, 
 								'promt'			=> isset( $this->steps['promts']['multi'][ $lang_id ] ) ? $this->steps['promts']['multi'][ $lang_id ] : $this->info->promts->multi[ $lang_id ],
+								'kwd_promt'		=> isset( $this->steps['promts']['multi_keywords'][ $lang_id ] ) ? $this->steps['promts']['multi_keywords'][ $lang_id ] : $this->info->promts->multi_keywords[ $lang_id ],
 								'title'			=> isset( $this->steps['promts']['multi_title'][ $lang_id ] ) ? $this->steps['promts']['multi_title'][ $lang_id ] : $this->info->promts->multi_title[ $lang_id ],
 								'description'	=> isset( $this->steps['promts']['multi_desc'][ $lang_id ] ) ? $this->steps['promts']['multi_desc'][ $lang_id ] : $this->info->promts->multi_desc[ $lang_id ],
+								'theme'			=> $article['theme'], 
 								'keywords'		=> $article['keywords'], 
 								'action'		=> 'addAutoTask', 
 								'token'			=> $this->options->token, 
@@ -472,12 +474,13 @@ class AIASIST{
 			if( ! empty( $args['textModel'] ) )
 				$data['textModel'] = $args['textModel'];
 			
-			foreach( $articles as $cat_id => $article ){
-				if( $items = explode("\n", sanitize_textarea_field( $article ) ) ){
-					foreach( $items as $item )
-						$data['articles'][] = [ 'keywords' => $item, 'cat_id' => $cat_id ];
+			foreach( $articles as $cat_id => $items ){
+				foreach( $items as $item ){
+					if( $item['theme'] )
+						$data['articles'][] = [ 'theme' => $item['theme'], 'keywords' => $item['keywords'], 'cat_id' => $cat_id ];
 				}
 			}
+			
 			$data['count'] = count( $data['articles'] );
 			update_option('aiArticlesAutoGenData', $data);
 			
@@ -1032,7 +1035,7 @@ class AIASIST{
 				'AI image creator'	=> __('AI image creator', 'wp-ai-assistant'),
 				'To regenerate a piece of text'	=> __('To regenerate a piece of text, highlight it and click Generate.To generate a new piece of text, place the cursor where you want to add text, enter a prompt and click Generate.', 'wp-ai-assistant'),
 				'To get started'	=> __('To get started, register and save the api key that will come in the mail.', 'wp-ai-assistant'),
-				'There is no variable'	=> __('There is no variable {key} (or%header%) in your prompt. Add it in the place where the key word should be. If you generate an article without the variable, the text won’t be relevant to your topic.', 'wp-ai-assistant'),
+				'There is no variable'	=> __('There is no variable {key} (or {header}) in your prompt. Add it in the place where the key word should be. If you generate an article without the variable, the text won’t be relevant to your topic.', 'wp-ai-assistant'),
 				'The article generation process is complete.'	=> __('The article generation process is complete.', 'wp-ai-assistant'),
 			],
 		] );

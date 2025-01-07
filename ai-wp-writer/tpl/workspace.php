@@ -22,10 +22,18 @@
 	<div class="aiassist-tab-data active" data-tab="standart">
 		
 		<div class="aiassist-item center">
-			<p><?php _e('Enter the key phrase for which you want to write an article, it will be automatically substituted in the prompt. For meta tags and images to be generated, this field must be filled in.', 'wp-ai-assistant') ?></p>
-			<div>
+			<p><?php _e('Enter the subject of the article, it will be automatically substituted in the prompt. This field must be filled in for meta tags and images to be generated.', 'wp-ai-assistant') ?></p>
+			
+			<div class="aiassist-theme-standart">
 				<input id="aiassist-theme-standart" class="aiassist-prom" placeholder="<?php _e('Enter a subject...', 'wp-ai-assistant') ?>" value="<?php echo esc_attr( isset( $this->steps['aiassist-theme-standart'] ) ? $this->steps['aiassist-theme-standart'] : '' )?>" />
 			</div>
+			
+			<p><?php _e('Enter key phrases for the article, separated by commas. Key phrases are automatically substituted in place of the variable {keywords}.', 'wp-ai-assistant') ?></p>
+			<div class="aiassist-keywords-input">
+				<input id="aiassist-standart-keywords" class="aiassist-prom" placeholder="<?php _e('Enter keywords...', 'wp-ai-assistant') ?>" value="<?php echo esc_attr( isset( $this->steps['aiassist-standart-keywords'] ) ? $this->steps['aiassist-standart-keywords'] : '' )?>" />
+			</div>
+			
+			
 			<p><?php _e('You can change the prompt as you wish, it determines how the article will turn out. Instead of the {key} variable, the key phrase will be substituted.', 'wp-ai-assistant') ?></p>
 			
 			<?php if( @$this->info->promts->lang ){ $lang_id = $this->getDefaultLangId(); ?>
@@ -51,6 +59,10 @@
 			<?php if( strpos( $promt, '{key}') === false ){ ?>
 				<div class="aiassist-check-key"><?php _e('There is no variable {key} (or%header%) in your prompt. Add it in the place where the key word should be. If you generate an article without the variable, the text won’t be relevant to your topic.', 'wp-ai-assistant') ?></div>
 			<?php } ?>
+			
+			<?php $promt = esc_textarea( @$this->steps['promts']['keywords'][ $lang_id ] ? trim( $this->steps['promts']['keywords'][ $lang_id ] ) : @$this->info->promts->keywords[ $lang_id ] ); ?>
+			<textarea id="aiassist-article-prom-keywords" class="aiassist-prom aiassist-keywords-area"><?php echo $promt ?></textarea>
+			
 		</div>
 		
 		<div class="next-step">
@@ -93,6 +105,11 @@
 				<input id="aiassist-theme" class="aiassist-prom" placeholder="<?php _e('Enter a subject...', 'wp-ai-assistant') ?>" value="<?php echo esc_attr( isset( $this->steps['aiassist-theme'] ) ? $this->steps['aiassist-theme'] : '' )?>" />
 			</div>
 			
+			<p><?php _e('Enter key phrases for the article, separated by commas. Key phrases are automatically substituted in place of the variable {keywords}.', 'wp-ai-assistant') ?></p>
+			<div class="aiassist-keywords-input">
+				<input id="aiassist-long-keywords" class="aiassist-prom" placeholder="<?php _e('Enter keywords...', 'wp-ai-assistant') ?>" value="<?php echo esc_attr( isset( $this->steps['aiassist-long-keywords'] ) ? $this->steps['aiassist-long-keywords'] : '' )?>" />
+			</div>
+			
 			<div class="next-step">
 				<button type="button" id="aiassist-theme-generate"><?php _e('Generate article header', 'wp-ai-assistant') ?></button>
 			</div>
@@ -108,6 +125,11 @@
 				<?php if( strpos( $promt, '{key}') === false ){ ?>
 					<div class="aiassist-check-key"><?php _e('There is no variable {key} (or%header%) in your prompt. Add it in the place where the key word should be. If you generate an article without the variable, the text won’t be relevant to your topic.', 'wp-ai-assistant') ?></div>
 				<?php } ?>
+				
+				<div>
+					<?php $promt = esc_textarea( @$this->steps['promts']['long_keywords'][ $lang_id ] ? trim( $this->steps['promts']['long_keywords'][ $lang_id ] ) : @$this->info->promts->long_keywords[ $lang_id ] ); ?>
+					<textarea id="aiassist-article-prom-long-keywords" class="aiassist-prom aiassist-keywords-area"><?php echo $promt ?></textarea>
+				</div>
 				
 				<button type="button" id="aiassist-structure-generate"><?php _e('Create article structure', 'wp-ai-assistant') ?></button>
 			</div>
