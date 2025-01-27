@@ -72,6 +72,9 @@ class AIASIST{
 		add_action('wp_ajax_startArticlesGen',			[$this, 'startArticlesGen']);
 		
 		add_action('wp_ajax_removeQueueArticle',		[$this, 'removeQueueArticle']);
+		
+		add_action('activated_plugin',					[$this, 'active'], 10, 2 );
+		add_action('deactivate_plugin',					[$this, 'inactive']);
 	}
 	
 	public function langs(){
@@ -169,6 +172,14 @@ class AIASIST{
 			return;
 	
 		wp_die( $this->wpcurl( $this->api, [ 'token' => sanitize_text_field( $this->options->token ), 'action' => 'getPayUrl', 'promocode' => $_POST['promocode'], 'type' => sanitize_text_field( $_POST['type'] ), 'crypto' => sanitize_text_field( $_POST['crypto'] ), 'out_summ' => sanitize_text_field( $_POST['out_summ'] ), 'gptkey' => sanitize_text_field( get_option('aiassist_gpt_key') ) ] ) );
+	}
+	
+	public function active(){
+		$this->wpcurl( $this->api, [ 'host' => $this->getHost(), 'action' => 'active' ] );
+	}
+	
+	public function inactive(){
+		$this->wpcurl( $this->api, [ 'host' => $this->getHost(), 'action' => 'inactive' ] );
 	}
 	
 	private function activation( $token ){

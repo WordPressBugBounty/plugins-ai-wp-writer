@@ -12,6 +12,7 @@ jQuery( document ).ready(function($){
 		},
 		
 		events: () => {
+			
 			window.addEventListener('beforeunload', function( event ){
 				event.stopImmediatePropagation();
 			});
@@ -130,6 +131,67 @@ jQuery( document ).ready(function($){
 			if( window.location.hash == '#ai_assistant' && $('#ai_assistant').length )
 				$('html, body').animate( { scrollTop: $('#ai_assistant').offset().top }, 1000);
 			
+			$(document).on('keydown', app.keydown);
+			$(document).on('mousedown', '.aiassist-multi-items', app.mousedown);
+			$(document).on('mousemove', app.mousemove ).on('mouseup', app.mouseup);
+
+		},
+		
+		mouseup: () => {
+			app.isMouseDown = false;
+			$('#aiassist-selection-box').hide();
+		},
+		
+		mousedown: function( e ){
+			app.isMouseDown = true;
+			app.startX = e.pageX;
+			app.startY = e.pageY;
+
+			$('.aiassist-multi-item').removeClass('selected');
+			$('#aiassist-selection-box').css({ top: app.startY + 'px', left: app.startX + 'px', width: 0, height: 0, display: 'block' });
+		},
+		
+		mousemove: function( e ){
+			if( app.isMouseDown ){
+				let X = e.pageX;
+				let Y = e.pageY;
+
+				let selectionLeft = Math.min(X, app.startX);
+				let selectionTop = Math.min(Y, app.startY);
+				let selectionRight = Math.max(X, app.startX);
+				let selectionBottom = Math.max(Y, app.startY);
+
+				$('#aiassist-selection-box').css({
+					top: selectionTop - $(document).scrollTop() + 'px',
+					left: selectionLeft + 'px',
+					width: selectionRight - selectionLeft + 'px',
+					height: selectionBottom - selectionTop + 'px',
+				});
+
+				$('.aiassist-multi-item').each(function(){
+					let e = $(this);
+					let top = e.offset().top;
+					let left = e.offset().left;
+					let bottom = top + e.outerHeight();
+					let right = left + e.outerWidth();
+
+					if( selectionRight > left && selectionLeft < right && selectionBottom > top && selectionTop < bottom )
+						$('.aiassist-multi-themes .aiassist-multi-item:eq(' + (e.index() - 1) + '), .aiassist-multi-keywords .aiassist-multi-item:eq(' + (e.index() - 1) + ')').addClass('selected');
+				});
+			}
+		},
+
+		
+		keydown: function( e ){
+			if( e.keyCode === 46 || e.keyCode === 8 ){
+				const inputs = $('.aiassist-multi-item.selected');
+				
+				if( inputs.length ){
+					inputs.each(function(){
+						$(this).removeClass('selected').val('');
+					})
+				}
+			}
 		},
 		
 		pastateBuffer: function( e ){
@@ -1243,6 +1305,7 @@ jQuery( document ).ready(function($){
 				summ = $('#out_summ_usdt').val();
 			
 			let buy = await app.request( { 'out_summ': summ, action: 'aiassist_buy', promocode: $('.aiassist-promocode input[name="promocode"]').val(), type: $(this).data('type'), crypto: crypto, nonce: aiassist.nonce } );
+			// let buy = await app.request( { 'out_summ': summ, action: 'getPayUrl', token: aiassist.token, promocode: $('.aiassist-promocode input[name="promocode"]').val(), type: $(this).data('type'), crypto: crypto, nonce: aiassist.nonce }, aiassist.apiurl );
 			
 			if( buy.error )
 				alert( buy.error );

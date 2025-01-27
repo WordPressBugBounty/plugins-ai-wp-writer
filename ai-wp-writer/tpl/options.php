@@ -37,7 +37,7 @@
 	<form id="aiassist-get-bonus" class="aiassist-tab-data" data-tab="referrals">
 		
 		<div class="aiassist-white-bg">
-			<?php _e('Attract new users to the plugin and earn from it!<br />New users who enter the referral code will receive a 15% discount on their first deposit, <br />and you will receive a 10% payout on your first and subsequent webmaster deposits. <br />The more you attract active users, the more your earnings will be. <br />Payment is made on request, within a day, to the USDT trc20 wallet. <br />A network commission of 1.4 USDT is charged on the payout. <br />By participating in the referral program you agree with <a href="https://aiwpwriter.com/user-agreement/">rules</a>.', 'wp-ai-assistant') ?>
+			<?php _e('Attract new users to the plugin and earn money!<br />New users who enter the referral code will receive a 15% discount on their first deposit, <br />and you will receive 10% on your balance from all webmaster payments. <br />The more active users you can attract, the more money you will make. <br />Payment is made on request, within a day, to the USDT trc20 wallet. <br />A network commission of 1.4 USDT is charged on the payout. <br />By participating in the referral program you agree with <a href="https://aiwpwriter.com/user-agreement">rules</a>.', 'wp-ai-assistant') ?>
 		</div>
 		<br /><br />
 		
@@ -443,11 +443,11 @@
 		
 			<div class="rates-item">
 				<div class="title"><?php _e('Payment for any amount', 'wp-ai-assistant') ?></div>
-				<div class="title-label"><?php _e('Enter the amount to pay from 500 rubles. Limits do not burn, you can generate text and images at any time.', 'wp-ai-assistant') ?></div>
+				<div class="title-label"><?php _e('Enter the amount to pay from 500 rubles. Limits do not disappear, you can generate text and images at any time.', 'wp-ai-assistant') ?></div>
 				
 				<form id="aiassist-custom-buy" class="aiassist-buy-form">
 					<div class="header"><?php _e('Buy limits', 'wp-ai-assistant') ?></div>
-					<div><?php _e('Price', 'wp-ai-assistant') ?> <b><?php echo (float) @$this->info->price ?> <?php _e('rubles for 1,000 limits.</b> Enter the amount to top up the balance (minimum 500 rubles):', 'wp-ai-assistant') ?></div>
+					<div><?php _e('Price', 'wp-ai-assistant') ?> <b><?php echo (float) @$this->info->price ?> <?php _e('rubles for 1,000 limits.</b> Enter amount to top up your balance (minimum 500 rubles):', 'wp-ai-assistant') ?></div>
 					<input type="number" step="1" min="500" id="out_summ" placeholder="5000 руб" required />
 					<button type="submit" class="aiassist-buy" data-type="custom"><?php _e('Buy', 'wp-ai-assistant') ?></button>
 				</form>
@@ -484,11 +484,11 @@
 		
 			<div class="rates-item">
 				<div class="title"><?php _e('Payment for any amount', 'wp-ai-assistant') ?></div>
-				<div class="title-label"><?php _e('Enter any amount for payment. Limits will not disappear, you can generate text and images at any time.', 'wp-ai-assistant') ?></div>
+				<div class="title-label"><?php _e('Enter the amount to pay from 5 USDT. Limits do not disappear, you can generate text and images at any time.', 'wp-ai-assistant') ?></div>
 				
 				<form id="aiassist-custom-buy" class="aiassist-buy-form">
 					<div class="header"><?php _e('Buy limits', 'wp-ai-assistant') ?></div>
-					<div><?php _e('Price', 'wp-ai-assistant') ?> <b><?php echo (float) @$this->info->price_usdt ?> <?php _e('USDT for 1,000 limits.</b> Enter <b>any</b> amount to top up your balance:', 'wp-ai-assistant') ?></div>
+					<div><?php _e('Price', 'wp-ai-assistant') ?> <b><?php echo (float) @$this->info->price_usdt ?> <?php _e('USDT for 1,000 limits.</b> Enter amount to top up your balance (minimum 5 USDT):', 'wp-ai-assistant') ?></div>
 					<input type="number" step="1" min="5" id="out_summ_usdt" placeholder="50 USDT" required />
 					<button class="aiassist-buy" data-type="custom"><?php _e('Buy', 'wp-ai-assistant') ?></button>
 				</form>
@@ -529,8 +529,10 @@
 		
 		<div class="aiassist-article-items">
 		
+			<div id="aiassist-selection-box"></div>
 			<div class="aiassist-article-item">
 				<div><?php _e('Add article topics in a list in the left column, each row being a new article. If desired, add one or more keywords, separated by commas, in the right column.', 'wp-ai-assistant') ?></div>
+				
 				
 				
 				<div class="aiassist-multi-items">

@@ -53,8 +53,8 @@ msgid "Affiliate Program"
 msgstr "Партнерская программа"
 
 #: tpl/options.php:40
-msgid "Attract new users to the plugin and earn from it!<br />New users who enter the referral code will receive a 15% discount on their first deposit, <br />and you will receive a 10% payout on your first and subsequent webmaster deposits. <br />The more you attract active users, the more your earnings will be. <br />Payment is made on request, within a day, to the USDT trc20 wallet. <br />A network commission of 1.4 USDT is charged on the payout. <br />By participating in the referral program you agree with <a href=\"https://aiwpwriter.com/user-agreement/\">rules</a>."
-msgstr "Привлекайте новых пользователей в плагин и зарабатывайте на этом!<br />Новые пользователи, которые введут реферальный код, получат скидку 15% на свой первый депозит,<br />а вы получите выплату 10% на свой первый и последующие депозиты вебмастера.<br />Чем больше вы привлечете активных пользователей, тем больше будет ваш заработок.<br />Выплата производится по запросу, в течение суток, на кошелек USDT trc20.<br />С выплаты удерживается комиссия сети в размере 1,4 usdt.<br />Участвуя в реферальной программе, вы соглашаетесь с <a href=\"https://aiwpwriter.com/user-agreement/\">правилами</a>."
+msgid "Attract new users to the plugin and earn money!<br />New users who enter the referral code will receive a 15% discount on their first deposit, <br />and you will receive 10% on your balance from all webmaster payments. <br />The more active users you can attract, the more money you will make. <br />Payment is made on request, within a day, to the USDT trc20 wallet. <br />A network commission of 1.4 USDT is charged on the payout. <br />By participating in the referral program you agree with <a href=\"https://aiwpwriter.com/user-agreement\">rules</a>."
+msgstr "Привлекайте новых пользователей в плагин и зарабатывайте на этом!<br />Новые пользователи, которые введут реферальный код, получат скидку 15% на свой первый депозит,<br />а вы будете получать 10% на свой баланс от всех платежей вебмастера.<br />Чем больше вы привлечете активных пользователей, тем больше будет ваш заработок.<br />Выплата производится по запросу, в течение суток, на кошелек USDT trc20.<br />С выплаты удерживается комиссия сети в размере 1,4 usdt.<br />Участвуя в реферальной программе, вы соглашаетесь с <a href=\"https://aiwpwriter.com/user-agreement/\">правилами</a>."
 
 #: tpl/options.php:51
 msgid "Referral Code:"
@@ -289,8 +289,12 @@ msgid "Payment for any amount"
 msgstr "Оплата на произвольную сумму"
 
 #: tpl/options.php:424 tpl/options.php:465
-msgid "Enter the amount to pay from 500 rubles. Limits do not burn, you can generate text and images at any time."
+msgid "Enter the amount to pay from 500 rubles. Limits do not disappear, you can generate text and images at any time."
 msgstr "Введите сумму для оплаты от 500 рублей. Лимиты не сгорают, генерировать текст и изображения можете в любое время."
+
+#: tpl/options.php:487
+msgid "Enter the amount to pay from 5 USDT. Limits do not disappear, you can generate text and images at any time."
+msgstr "Введите сумму для оплаты от 5 USDT. Лимиты не сгорают, генерировать текст и изображения можете в любое время."
 
 #: tpl/options.php:427
 msgid "Buy limits"
@@ -539,8 +543,8 @@ msgid "Price"
 msgstr "Цена"
 
 #: tpl/options.php
-msgid "rubles for 1,000 limits.</b> Enter the amount to top up the balance (minimum 500 rubles):"
-msgstr "рубля за 1 000 лимитов.</b> Введите произвольную сумму для пополнения баланса (минимум 500 рублей):"
+msgid "rubles for 1,000 limits.</b> Enter amount to top up your balance (minimum 500 rubles):"
+msgstr "рубля за 1 000 лимитов.</b> Введите сумму для пополнения баланса (минимум 500 рублей):"
 
 #: tpl/options.php
 msgid "rub"
@@ -571,8 +575,8 @@ msgid "rubles per 1000 limits"
 msgstr "рубля за 1000 лимитов"
 
 #: tpl/options.php
-msgid "USDT for 1,000 limits.</b> Enter <b>any</b> amount to top up your balance:"
-msgstr "USDT за 1 000 лимитов.</b> Введите <b>любую</b> сумму для пополения баланса:"
+msgid "USDT for 1,000 limits.</b> Enter amount to top up your balance (minimum 5 USDT):"
+msgstr "USDT за 1 000 лимитов.</b> Введите сумму для пополения баланса (минимум 5 USDT):"
 
 #: tpl/options.php
 msgid "USDT for 1000 limits"
