@@ -866,7 +866,7 @@ jQuery( document ).ready(function($){
 				return $(this).val().trim() !== '';
 			}).first();
 			
-			if( ! check ){
+			if( ! check.length ){
 				await app.request( { action: 'startArticlesGen', nonce: aiassist.nonce } ); 
 				return;
 			}
