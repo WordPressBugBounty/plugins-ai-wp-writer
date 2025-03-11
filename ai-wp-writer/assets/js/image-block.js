@@ -12,7 +12,7 @@ wp.blocks.registerBlockType('ai-image-creator/ai-image-creator', {
 	
 	attributes: {
 		promt: { type: 'string', default: '' },
-		model: { type: 'string', default: 'midjourney' },
+		model: { type: 'string', default: 'flux' },
 		
 		images: {
 			type: 'array',
@@ -71,7 +71,7 @@ wp.blocks.registerBlockType('ai-image-creator/ai-image-creator', {
 			let task = await request( { action: 'image_generator', token: aiassist.token, model: props.attributes.model, header: props.attributes.promt, format: 'jpg' }, aiassist.apiurl );
 			
 			if( parseInt( task.limit ) < 1 )
-				block.find('.aiassist-images').removeClass('aiassist-proces disabled').html('<span class="wpai-warning-limits">'+ aiassist.locale[''+ aiassist.locale['Limits are over'] +''] +'</span></span>');
+				block.find('.aiassist-images').removeClass('aiassist-proces disabled').html('<span class="aiassist-warning-limits">'+ aiassist.locale['Limits are over'] +'</span></span>');
 				
 			if( task.task_id ){
 				while( true ){
@@ -89,7 +89,7 @@ wp.blocks.registerBlockType('ai-image-creator/ai-image-creator', {
 					}
 					
 					if( data.nsfw )
-						return block.find('.aiassist-images').removeClass('aiassist-proces disabled').html('<span class="wpai-warning-limits">'+ aiassist.locale['Prompt was censored'] +'</span>');
+						return block.find('.aiassist-images').removeClass('aiassist-proces disabled').html('<span class="aiassist-warning-limits">'+ aiassist.locale['Prompt was censored'] +'</span>');
 					
 					if( data.images ){
 						block.find('.aiassist-images').html('');
@@ -105,37 +105,22 @@ wp.blocks.registerBlockType('ai-image-creator/ai-image-creator', {
 			}
 		}
 		
+		function setModel( event ){
+			props.setAttributes({ model: event.target.dataset.value });
+			$( event.currentTarget ).closest('.aiassist-image-block').find('.aiassist-image-item').removeClass('dalle midjourney flux').addClass( event.target.dataset.value );
+		}
+		
 		return aiImageBlcokEl(
-			'div',
-			{
-				class: 'aiassist-image-block',
-			},
+			'div', { class: 'aiassist-image-block' },
 			
 			aiImageBlcokEl(
-				'select',
-				{
-					class: 'aiassist-image-model',
-					name: 'aiassist-image-model',
-					value: props.attributes.model,
-					onChange: ( event ) => {
-						props.setAttributes({ model: event.target.value });
-						$( event.currentTarget ).closest('.aiassist-image-block').find('.aiassist-image-item').removeClass('dalle midjourney flux').addClass( event.target.value );
-					},
-				},
-				aiImageBlcokEl(
-					'option',
-					{ value: 'midjourney' },
-					'Midjourney'
-				),
-				aiImageBlcokEl(
-					'option',
-					{ value: 'dalle' },
-					'Dalle'
-				),
-				aiImageBlcokEl(
-					'option',
-					{ value: 'flux' },
-					'FLUX schnell'
+				'div', { class: 'aiassist-select-wrap' },
+				aiImageBlcokEl( 'div', { class: 'aiassist-select-lable' }, 'FLUX schnell' ),
+				aiImageBlcokEl( 'div',  { class: 'aiassist-select aiassist-image-model' },
+					aiImageBlcokEl( 'div', { class: 'aiassist-option', 'data-value': 'flux', onClick: setModel }, 'FLUX schnell' ),
+					aiImageBlcokEl( 'div', { class: 'aiassist-option '+( ! aiassist.info.subscribe.expire ? 'aiassist-lock' : '' ), 'data-value': 'midjourney', onClick: setModel }, 'Midjourney' ),
+					aiImageBlcokEl( 'div', { class: 'aiassist-option '+( ! aiassist.info.subscribe.expire ? 'aiassist-lock' : '' ), 'data-value': 'dalle', onClick: setModel }, 'Dalle 3' ),
+					aiImageBlcokEl( 'input', { type: 'hidden',  name: 'aiassist-image-model', value: props.attributes.model } ),
 				),
 			),
 			
@@ -176,7 +161,7 @@ wp.blocks.registerBlockType('ai-image-creator/ai-image-creator', {
 						let task = await request( { action: 'translate', token: aiassist.token, content: title }, aiassist.apiurl );
 						
 						if( parseInt( task.limit ) < 1 )
-							block.find('.aiassist-image-item').removeClass('aiassist-proces disabled').html('<span class="wpai-warning-limits">'+ aiassist.locale['Limits are over'] +'</span></span>');
+							block.find('.aiassist-image-item').removeClass('aiassist-proces disabled').html('<span class="aiassist-warning-limits">'+ aiassist.locale['Limits are over'] +'</span></span>');
 						
 						if( task.task_id ){
 							let translate = await request( { action: 'getTask', token: aiassist.token, id: task.task_id }, aiassist.apiurl );

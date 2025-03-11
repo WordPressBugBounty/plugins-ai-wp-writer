@@ -102,6 +102,10 @@ input.aiassist-error{
 	border-bottom: solid 1px #ccc;
 }
 
+#aiassist-article-prom-long-keywords{
+	display: none;
+}
+
 #aiassist-title,
 #aiassist-header{
 	width: 100%;
@@ -333,6 +337,7 @@ input.aiassist-error{
 .wpai-info{
 	top: 38px;
 	right: 81px;
+	display: flex;
 	position: absolute;
 }
 
@@ -355,7 +360,6 @@ input.aiassist-error{
 .wpai-telegram{
 	width: 355px;
 	height: 120px;
-	float: right;
 	border-radius: 3px;
 	position: relative;
 	border: solid 1px rgb( 66, 179, 213 );
@@ -364,23 +368,29 @@ input.aiassist-error{
 
 .wpai-symbols{
 	top: 30px;
-	float: left;
 	right: 25px;
 	position: relative;
 }
 
-#wpai-symbols-text{
+.wpai-symbols-item{
+	display: flex;
+	padding: 10px 0;
+}
+
+#wpai-symbols-text,
+#wpai-symbols-text-subscribe{
 	font-size: 24px;
 	font-family: "Roboto";
 	color: rgb( 255, 255, 255 );
 }
 
-#wpai-symbols{
-	top: 15px;
+#wpai-symbols,
+#wpai-symbols-subscribe{
 	font-size: 24px;
 	text-align: right;
 	position: relative;
 	font-family: "Roboto";
+	margin: 2px 0px 0px 10px;
 	color: rgb( 66, 179, 213 );
 }
 
@@ -458,7 +468,7 @@ button[name="save"]{
 		background-size: 50%;
 	}
 	
-	.wpai-symbols {
+	.wpai-symbols{
 		top: -30px;
 		float: none;
 		right: 0px;
@@ -683,9 +693,13 @@ button[name="save"]{
 	border-radius: 5px 0px 0px 0px;
 }
 
+.aiassist-tab:last-child{
+	border-radius: 0px 5px 0px 0px !important;
+}
+
 .aiassist-tab:not(:first-child){
 	margin-left: -5px;
-	border-radius: 0px 5px 0px 0px;
+	border-radius: 0px 0px 0px 0px;
 }
 
 .aiassist-tab-data{
@@ -848,81 +862,206 @@ button[name="save"]{
 
 /* options */
 
-	/* tab rates */
-		.rates-header,
-		.generations-header{
+	/* tab rates start */
+	
+		.aiassist-tab-data[data-tab="rates"]{
+			width: 980px;
+		}
+	
+		.rates-header{
 			font-size: 18pt;
+		}
+		
+		.aiassist-rates-items{
+			width: 980px;
+			margin: auto;
+			display: flex;
+			margin-top: 20px;
+		}
+		
+		.aiassist-rates-item{
+			width: 235px;
+			height: 545px;
+			padding: 25px;
+			margin: 20px auto;
+			border: solid 1px #ccc;
+			border-radius: 16px;
+			position: relative;
+			transition: .2s;
+		}
+		
+		.aiassist-rates-item:hover{
+			box-shadow: 0px 1px 2px 8px #eee;
+		}
+		
+		.aiassist-rate-title{
+			font-size: 16pt;
+			text-align: center;
+			line-height: 1.2em;
+			margin: 15px 0px 5px 0px;
+		}
+		
+		.aiassist-rate-info{
 			text-align: center;
 		}
 		
-		.rates-item{
-			padding: 20px;
-			min-height: 200px;
-			margin: 20px 0px;
-			border-radius: 3px;
-			border: solid 1px #ccc;
-		}
-		
-		.rates-item b{
-			font-weight: bold;
-		}
-		
-		.rates-item i{
+		.aiassist-rate-info i{
+			font-style: normal;
 			text-decoration: line-through;
 		}
 		
-		.rates-item button{
+		.aiassist-rates-item .aiassist-buy,
+		.aiassist-rates-package .aiassist-buy,
+		.aiassist-rates-item .aiassist-subscribe-type{
+			left: 0;
+			right: 0;
+			bottom: 20px;
+			margin: auto;
+			position: absolute;
+		}
+		
+		
+		.aiassist-buy,
+		.aiassist-subscribe-type{
 			height: 30px;
+			border-radius: 5px;
+			width: max-content;
 			cursor: pointer;
 			padding: 0px 15px;
 			background: #d5e8d4;
-			border: solid 1px #5c775a;
+			border: solid 1px #ccc;
 		}
 		
-		.rates-item .title{
-			color: #4ea6ff;
-			font-size: 16pt;
+		.aiassist-subscribe-type{
+			border: none;
+			background: rgb( 66, 179, 213 );
+			pointer-events: none;
+			color: rgb( 255, 255, 255 );
 		}
 		
-		.rates-item .title,
-		.rates-item .title-label{
+		.aiassist-rate-note-title{
+			width: 905px;
+			font-size: 13pt;
+			font-weight: 600;
+			margin: 0px auto 10px auto;
+		}
+		
+		.aiassist-rates-note-block{
+			width: 905px;
+			margin: 10px auto 35px auto;
+		}
+		
+		.aiassist-rates-free{
+			width: 905px;
+			margin: 10px auto 35px auto;
+			border: solid 1px #ccc;
+			border-radius: 16px;
+			padding: 0px 15px 10px 15px;
+		}
+		
+		.aiassist-rates-free .aiassist-rate-title{
+			margin-left: 50px;
+		}
+		
+		.aiassist-rates-free .aiassist-rate-title{
+			text-align: left;
+		}
+		
+		.aiassist-rates-free-item:first-child{
+			width: 38%;
+			margin: 0px 30px 0px 0px;
+		}
+		
+		.aiassist-rates-free-item{
+			width: 28%;
+			top: -10px;
+			position: relative;
+		}
+	
+		.aiassist-rates-package{
+			width: 200px;
+			margin: auto;
+			position: relative;
+			height: 180px;
+			border: solid 1px #ccc;
+			border-radius: 16px;
+			padding-top: 10px;
+		}
+		
+		.aiassist-rates-custom{
+			width: 905px;
+			  margin: 35px auto;
+			  border: solid 1px #ccc;
+			  padding: 13px;
+			  border-radius: 16px;
+		}
+		
+		.aiassist-rate-check{
+			padding: 0 10px;
+			position: relative;
+		}
+		
+		.aiassist-rate-check:before{
+			content: "";
+			width: 20px;
+			height: 15px;
+			background: url(../images/check.png) no-repeat;
+			background-size: 20px;
+			position: absolute;
+			left: -16px;
+			top: 4px;
+		}
+		
+		.aiassist-popular{
+			position: absolute;
+			top: -20px;
+			margin: auto;
+			left: 0;
+			right: 0;
+			width: 100px;
 			text-align: center;
+			padding: 9px;
+			border-radius: 20px;
+			background: rgb( 66, 179, 213 );
+			z-index: 9;
+			color: #fff;
 		}
 		
-		.rates-item .title-label{
-			width: 68%;
-			margin: 15px auto;
-			font-size: 12pt;
+		.aiassist-subscribe-block b{
+			font-weight: 600;
+			text-transform: capitalize;
 		}
 		
-		.rates-item .header{
-			font-size: 18pt;
-			margin: 0px 0px 20px 0px;
+		.aiassist-rate-desc{
+			height: 20px;
+			cursor: pointer;
+			overflow: hidden;
+			margin: 20px 0;
+			position: relative;
 		}
 		
-		#subscribe-down{
-			background: #dae8fc;
-			display: inline-block;
-			height: 30px;
-			width: 400px;
-			margin: 0px 0px 0px 10px;
-			padding: 0px 20px;
-			text-align: center;
+		.aiassist-rate-desc:after{
+			content: '';
+			width: 15px;
+			height: 15px;
+			background: url(../images/arrow-mod.png) no-repeat;
+			position: absolute;
+			background-size: 60%;
+			right: 0px;
+			top: 9px;
+			transform-origin: 30% 22%;
+			transition: transform 0.2s ease-in-out;
 		}
 		
-		#subscribe-down.hide{
-			display: none;
+		.aiassist-rate-desc.open{
+			height: auto;
 		}
 		
-		.key-info{
-			margin: 20px 0px 0px 0px;
+		.aiassist-rate-desc.open:after{
+			transform: rotate(180deg);
+			transform-origin: 30% 22%;
+			transition: transform 0.2s ease-in-out;
 		}
-		
-		.rates-block-robokassa.hide,
-		.rates-block-cryptocloud.hide{
-			display: none;
-		}
-		
 	/* tab rates end */
 	
 		.aiassist-rewrite-item,
@@ -1106,7 +1245,7 @@ button[name="save"]{
 	
 /* options end */
 
-#aiassist-change-image-model{
+.aiassist-images-generator .aiassist-select-wrap{
 	top: 20px;
 	right: 20px;
 	position: absolute;
@@ -1153,17 +1292,17 @@ button[name="save"]{
 
 	.aiassist-image-block{
 		text-align: center;
-		/* min-height: 570px; */
+	}
+	
+	.aiassist-image-block .aiassist-select-wrap{
+		font-size: 15px;
+		display: inline-block;
 	}
 
-	.aiassist-image-block .aiassist-image-model{
+	.aiassist-image-block .aiassist-select-lable{
 		top: -2px;
-		width: 15%;
-		height: 39px;
-		outline: none;
-		font-size: 15px;
-		position: relative; 
-		background: none;
+		height: 32px;
+		position: relative;
 		border: solid 1px #ccc;
 	}
 
@@ -1248,7 +1387,7 @@ button[name="save"]{
 		left: 50%;
 		display: none;
 		z-index: 9999;
-		padding: 20px 10px 20px 10px;
+		padding: 20px 10px 50px 10px;
 		position: fixed;
 		background: #fff;
 		border-radius: 3px;
@@ -1256,9 +1395,9 @@ button[name="save"]{
 		box-shadow: 0px 0px 3px 2px #ccc;
 	}
 
-	#aiassist-tiny-image-model,
 	#aiassist-tiny-image-generate,
-	#aiassist-tiny-image-translate{
+	#aiassist-tiny-image-translate,
+	#aiassist-generate-image .aiassist-select-lable{
 		width: 115px;
 		height: 33px;
 		border-radius: 0;
@@ -1266,6 +1405,17 @@ button[name="save"]{
 		font-size: 15px;
 		text-align: center;
 		border: solid 1px #ccc;
+	}
+
+	#aiassist-generate-image .aiassist-select-wrap{
+		display: inline-block;
+	}
+	
+	#aiassist-generate-image .aiassist-select-lable{
+		padding: 0px;
+		position: relative;
+		top: -2px;
+		height: 30px;
 	}
 
 	#aiassist-tiny-image-translate{
@@ -1444,23 +1594,24 @@ button[name="save"]{
 		margin: 25px 0px 10px 0px;
 	}
 	
-	.wpai-warning-limits a{
+	.aiassist-warning-limits a{
 		display: block;
 		margin-top: 10px;
 	}
 	
-	.wpai-warning-limits,
-	.wpai-warning-limits #wpai-symbols{
+	.aiassist-warning-limits,
+	.aiassist-warning-limits #wpai-symbols,
+	.aiassist-warning-limits #wpai-symbols-subscribe{
 		color: #f00 !important;
 	}
 	
-	.aiassist-images .wpai-warning-limits,
-	.aiassist-image-tiny-item .wpai-warning-limits{
+	.aiassist-images .aiassist-warning-limits,
+	.aiassist-image-tiny-item .aiassist-warning-limits{
 		display: block;
 		text-align: center;
 	}
 	
-	.aiassist-images .wpai-warning-limits{
+	.aiassist-images .aiassist-warning-limits{
 		margin: auto;
 		position: absolute;
 		left: 0;
@@ -1563,7 +1714,12 @@ button[name="save"]{
 
 /* promocode start */
 
+.aiassist-promocode{
+	margin-top: 35px;
+}
+
 #aiassist-promocode{
+	margin-top: 35px;
 	font-size: 14pt;
 	background: #fff;
 	padding: 3px 10px;
@@ -1739,3 +1895,87 @@ button[name="save"]{
 }
 
 /* selection box end */
+
+/* fixed info block s */
+
+#aiassist-info{
+	position: absolute;
+	background: #fff;
+	padding: 5px 10px;
+	border-radius: 5px;
+	font-weight: 600;
+	box-shadow: 0px 0px 2px 1px #ccc;
+	z-index: 99999999999999999;
+}
+
+.aiassist-lock{
+	opacity: 0.5;
+	position: relative;
+	/* pointer-events: none; */
+}
+
+.aiassist-lock:after{
+	content: "";
+	width: 8px;
+	height: 11px;
+	background: url(../images/lock.png) no-repeat;
+	display: inline-block;
+	background-size: 8px;
+	margin: 0px 0px 0px 8px;
+}
+
+/* fixed info block e */
+
+/* aiassist selecttions start */
+
+.aiassist-select-wrap{
+	position: relative
+}
+
+.aiassist-select-lable{
+	width: 100px;
+	height: 23px;
+	cursor: pointer;
+	background: #fff;
+	border-radius: 3px;
+	padding: 5px 0px 0px 10px;
+	border: solid 1px #979797;
+}
+
+.aiassist-select-lable:after{
+	content: "⮟";
+	color: #868686;
+	padding: 1px;
+}
+
+.aiassist-select{
+	width: 100%;
+	cursor: pointer;
+	border: solid 1px #979797;
+	padding: 10px 5px 10px 5px;
+	border-radius: 3px;
+	background: #fff;
+	position: absolute;
+	display: none;
+}
+
+.aiassist-select.open{
+	width: auto;
+	height: auto;
+	min-width: 105px;
+	position: absolute;
+	z-index: 9999;
+	display: block;
+}
+
+.aiassist-option{
+	padding: 5px;
+}
+
+.aiassist-option:not(.aiassist-lock):hover,
+.aiassist-option.selected:not(.aiassist-lock){
+	background: #ccc;
+	border-radius: 3px;
+}
+
+/* aiassist selecttions end */

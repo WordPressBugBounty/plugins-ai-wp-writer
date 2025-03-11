@@ -18,33 +18,26 @@ jQuery( document ).ready(function($){
 			});
 			
 			$(document).on('click', '.wpai-tab', app.tabs);
-			$(document).on('click', '.aiassist-tab:not(.aiassist-tab-inactive)', app.wsTabs);
+			$(document).on('click', '.aiassist-tab:not(.aiassist-tab-inactive, .aiassist-lock)', app.wsTabs);
 			$(document).on('click', '.aiassist-tab-inactive', app.wsTabsInactive);
 			$(document).on('submit', '#aiassist-sign', app.sign);
 			$(document).on('submit', '#aiassist-stat', app.getStat);
 			$(document).on('click', 'button[name="step"]', app.statStep);
 			$(document).on('click', '#exclude_context', app.excludeContext);
-			
 			$(document).on('click', '.aiassist-buy', app.buy);
 			$(document).on('submit', '#aiassist-custom-buy', app.buyForm);
 			$(document).on('focus', '#out_summ', app.outSummFocus);
 			$(document).on('blur', '#out_summ', app.outSummFocusOut);
-			
 			$(document).on('click', '#aiassist-addItemRewrite', app.addItemRewrite);
 			$(document).on('click', '.aiassist-rewrite-item-close', app.rewriteItemClose);
-			
 			$(document).on('click', '#aiassist-addItemArticle', app.addItemArticle);
-			
 			$(document).on('click', '.aiassist-article-queue .aiassist-article-item-close', app.queueArticleClose);
 			$(document).on('click', '.aiassist-article-item .aiassist-article-item-close', app.articleItemClose);
-			
 			$(document).on('click', '#start-articles-generations', app.startArticlesGeneration);
 			$(document).on('click', '#stop-articles-generations', app.stopArticlesGeneration);
 			$(document).on('click', '#clear-articles-generations', app.clearArticlesGeneration);
-			
 			$(document).on('change', '.aiassist-auto-options', app.autoGenOptions);
 			$(document).on('change', '.aiassist-rewrite-options', app.rewriteOptions);
-			
 			$(document).on('click', '#start-rewrite-generations', app.startRewriteGenerations);
 			$(document).on('click', '#clear-rewrite-generations', app.clearRewritesGeneration);
 			$(document).on('click', '#stop-rewrite-generations', app.stopRewriteGeneration);
@@ -66,75 +59,123 @@ jQuery( document ).ready(function($){
 				$(document).on('click', '#aiassist-images-generator-start', app.imagesGenerator);
 				$(document).on('click', '.aiassist-images .aiassist-image', app.selectImage);
 				$(document).on('change', '#aiassist-change-image-model', app.translatePromtsToImages);
-				
+			
 			});
 			
 			$(document).on('input', '#aiassist-gpt-key', app.saveKey);
 			$(document).on('change', '#aiassist-change-text-model', app.setTextModel);
 			$(document).on('change', '#aiassist-change-image-model', app.setImageModel);
 			$(document).on('change', '#aiassist-image-model', app.setAutoImageModel);
-
-			
 			$(document).on('click', '#aiassist-tiny-image-save', app.tinyMceImageSave);
 			$(document).on('click', '#aiassist-generate-image-close', app.tonyMcePopUpHide );
 			$(document).on('click', '#aiassist-tiny-image-translate', app.tinyMceTranslate );
 			$(document).on('click', '#aiassist-tiny-image-generate', app.tinyMceImageGenerate );
-			
 			$(document).on('click', '#aiassist-clear-content', app.clearContent );
 			$(document).on('click', '.aiassist-set-default-promts', app.setDefaultPromts );
 			$(document).on('click', '.aiassist-set-default-promts-regenerate', app.setDefaultPromtsRegenerate );
-
-			
-			if( aiassist.token ){					
-				if( ( tab = app.getCookie('activeTab') ) && ! $('.wpai-warning-limits').length )
-					$('.aiassist-tab[data-tab="'+ tab +'"]').click();
-					
-				if( $('.wpai-warning-limits').length && $('.aiassist-tab[data-tab="rates"]').length )
-					$('.aiassist-tab[data-tab="rates"]').click();
-				
-				if( ! aiassist.token )
-					$('.aiassist-tab[data-tab="settings"]').click();
-			}
-				
-			if( imgModel = app.getCookie('image-model') ){
-				$('#aiassist-change-image-model').val( imgModel );
-				app.translatePromtsToImages();
-			}
-				
-			if( imgModelAuto = app.getCookie('image-model-auto') )
-				$('#aiassist-image-model').val( imgModelAuto );
-				
-			if( textModel = app.getCookie('text-model') ){
-				app.model = textModel;
-				$('#aiassist-change-text-model').val( textModel );
-			}
-			
 			$(document).on('click', '.ai-image', app.selectImageInBlock);
-			
 			$(document).on('click', '.aiassist-post-restore', app.postRestore);
 			$(document).on('change', '#rewrite_all', app.rewriteAllSiteChecked);
 			$(document).on('change', 'input[name*="rewrite_type"]', app.rewriteInputsChecked);
 			$(document).on('change', 'select.cat-rewrite', app.disabledRewriteUrlArea);
-			
 			$(document).on('input', '.aiassist-prom', app.savePromt);
 			$(document).on('input', '.aiassist-keywords-input input, .aiassist-multi-keywords .aiassist-multi-item', app.showKeywordsArea);
 			$(document).on('change', 'select.aiassist-lang-promts', app.changeLangPromts);
 			$(document).on('change', 'select.aiassist-lang-promts-regenerate', app.changeLangPromtsToRegenerate);
-			
 			$(document).on('click', '.pay-method', app.setPayMethod);
 			$(document).on('click', '.aiassist-copy', app.copy);
 			$(document).on('submit', '#aiassist-get-bonus', app.getBonus);
 			$(document).on('keydown', '.aiassist-multi-item', app.multiKeydownItems);
 			$(document).on('paste', '.aiassist-multi-item', app.pastateBuffer);
 			
-			
-			if( window.location.hash == '#ai_assistant' && $('#ai_assistant').length )
-				$('html, body').animate( { scrollTop: $('#ai_assistant').offset().top }, 1000);
-			
 			$(document).on('keydown', app.keydown);
 			$(document).on('mousedown', '.aiassist-multi-items', app.mousedown);
 			$(document).on('mousemove', app.mousemove ).on('mouseup', app.mouseup);
-
+			$(document).on('click', '.aiassist-lock', app.lockEvent);
+			$(document).on('mouseenter', '.aiassist-lock', app.showInfo);
+			$(document).on('mouseleave', '.aiassist-lock', app.hideInfo);
+			$(document).on('click', '.aiassist-rate-desc', app.openRateInfo);
+			$(document).on('click', app.hideSelect);
+			$(document).on('click', '.aiassist-select-lable', app.openSelect);
+			$(document).on('click', '.aiassist-option:not(.aiassist-lock)', app.changeSelect);
+			
+			if( textModel = app.getCookie('text-model') ){
+				app.model = textModel;
+				$('.aiassist-option[data-value="'+ textModel +'"]').click();
+			}
+			
+			if( imgModel = app.getCookie('image-model') ){
+				$('.aiassist-image-model .aiassist-option[data-value="'+ imgModel +'"]').click();
+				app.translatePromtsToImages();
+			}
+			
+			if( imgModelAuto = app.getCookie('image-model-auto') )
+				$('.aiassist-image-model-auto .aiassist-option[data-value="'+ imgModelAuto +'"]').click();
+			
+			if( aiassist.token ){
+				if( ( tab = app.getCookie('activeTab') ) || $('.aiassist-empty-limit').length < 2 )
+					$('.aiassist-tab[data-tab="'+ tab +'"]').click();
+					
+				if( $('.aiassist-empty-limit').length > 1 && $('.aiassist-tab[data-tab="rates"]').length )
+					$('.aiassist-tab[data-tab="rates"]').click();
+				
+				if( ! aiassist.token )
+					$('.aiassist-tab[data-tab="settings"]').click();
+			}
+			
+			if( window.location.hash == '#ai_assistant' && $('#ai_assistant').length )
+				$('html, body').animate( { scrollTop: $('#ai_assistant').offset().top }, 1000);
+		},
+		
+		hideSelect: function( event ){
+			if( ! $( event.target ).closest('.aiassist-select-wrap').length )
+				$('.aiassist-select').removeClass('open');
+		},
+		
+		openSelect: function(){
+			let e = $(this);
+			let block = e.closest('.aiassist-select-wrap');
+			let select = block.find('.aiassist-select');
+			
+			select.toggleClass('open');
+			select.find('.aiassist-option').removeClass('selected');
+			select.find('.aiassist-option[data-value="'+ e.attr('value') +'"]').addClass('selected');
+		},
+		
+		changeSelect: function(){
+			let e = $(this);
+			let block = e.closest('.aiassist-select-wrap');
+			let select = block.find('.aiassist-select');
+			let value = e.data('value');
+			
+			block.find('.aiassist-select-lable').text( e.text() ).attr('value', value );
+			select.find('input').val( value ).change();
+			select.removeClass('open');
+		},
+		
+		openRateInfo: function(){
+			$(this).toggleClass('open');
+		},
+		
+		hideInfo: () => {
+			$('#aiassist-info').hide();
+		},
+		
+		lockEvent: function( event ){
+			event.preventDefault();
+			return false;
+		},
+		
+		showInfo: function( event ){
+			const e = $(this);
+			
+			if( ! $('#aiassist-info').length )
+				$('body').append('<div id="aiassist-info" />');
+			
+			$('#aiassist-info').html( aiassist.locale['These neural networks are only available by subscription only'] ).css({
+				top: ( event.pageY ) +'px',
+				left: ( event.pageX )+'px',
+			}).show();
 		},
 		
 		mouseup: () => {
@@ -236,7 +277,6 @@ jQuery( document ).ready(function($){
 					}
 					
 					block.eq( $(this).index() ).focus();
-					// block.eq( block.index( this ) + 1 ).focus();
 				break;
 				case 'ArrowUp':
 					event.preventDefault();
@@ -270,11 +310,32 @@ jQuery( document ).ready(function($){
 		},
 		
 		setPayMethod: function(){
+			const e = $(this);
+			
 			$('.pay-method').removeClass('active');
-			$(this).addClass('active');
-						
-			$('.rates-block-robokassa, .rates-block-cryptocloud').addClass('hide');
-			$('.rates-block-'+ $(this).find('.robokassa, .cryptocloud').attr('class') ).removeClass('hide');
+			e.addClass('active');
+			
+			if( $('[data-usdt]').length ){
+				$('[data-usdt]').each(function(){
+					const e = $(this);
+					
+					let rub = e.text();
+					let usdt = e.attr('data-usdt');
+					
+					switch( $(this).prop('tagName') ){
+						case 'INPUT':
+							rub = e.attr('placeholder');
+							e.attr('min', parseInt( usdt ) );
+							e.attr('placeholder', usdt);
+						break;
+						default:
+							e.text( usdt );
+					}
+					
+					e.attr('data-usdt', rub );
+					
+				})
+			}
 		},
 		
 		showKeywordsArea: function(){
@@ -419,9 +480,10 @@ jQuery( document ).ready(function($){
 				aiassist.promts['multi_lang'] = lang;
 				
 				if( def ){
-					aiassist.promts.multi[ lang ]		= aiassist.info.promts.multi[ lang ];
-					aiassist.promts.multi_title[ lang ]	= aiassist.info.promts.multi_title[ lang ];
-					aiassist.promts.multi_desc[ lang ]	= aiassist.info.promts.multi_desc[ lang ];
+					aiassist.promts.multi[ lang ]			= aiassist.info.promts.multi[ lang ];
+					aiassist.promts.multi_title[ lang ]		= aiassist.info.promts.multi_title[ lang ];
+					aiassist.promts.multi_desc[ lang ]		= aiassist.info.promts.multi_desc[ lang ];
+					aiassist.promts.long_keywords[ lang ]	= aiassist.info.promts.long_keywords[ lang ];
 				}
 			
 				// if( $('#aiassist-generation-prom').is(':visible') )
@@ -432,6 +494,9 @@ jQuery( document ).ready(function($){
 				
 				// if( $('#aiassist-desc-prom-multi').is(':visible') )
 					$('#aiassist-desc-prom-multi').val( aiassist.promts.multi_desc[ lang ] )
+				
+				// if( $('#aiassist-generation-prom-keywords').is(':visible') )
+					$('#aiassist-generation-prom-keywords').val( aiassist.promts.long_keywords[ lang ] )
 			}
 			
 			
@@ -447,8 +512,12 @@ jQuery( document ).ready(function($){
 			if( typeof aiassist.promts.short[ lang ] !== 'undefined' && $('#aiassist-article-prom').is(':visible') ){
 				aiassist.promts['short_lang'] = lang;
 				
-				if( def )
-					aiassist.promts.short[ lang ] = aiassist.info.promts.short[ lang ];
+				if( def ){
+					aiassist.promts.short[ lang ]			= aiassist.info.promts.short[ lang ];
+					aiassist.promts.long_title[ lang ]		= aiassist.info.promts.long_title[ lang ];
+					aiassist.promts.long_desc[ lang ]		= aiassist.info.promts.long_desc[ lang ];
+					aiassist.promts.long_keywords[ lang ]	= aiassist.info.promts.long_keywords[ lang ];
+				}
 				
 				$('#aiassist-article-prom').val( aiassist.promts.short[ lang ] )
 				
@@ -457,6 +526,9 @@ jQuery( document ).ready(function($){
 				
 				// if( $('#aiassist-desc-prom').is(':visible') )
 					$('#aiassist-desc-prom').val( aiassist.promts.long_desc[ lang ] )
+				
+				// if( $('#aiassist-article-prom-keywords').is(':visible') )
+					$('#aiassist-article-prom-keywords').val( aiassist.promts.long_keywords[ lang ] )
 			}
 			
 			if( typeof aiassist.promts.long_header[ lang ] !== 'undefined' && $('#aiassist-theme-prom').is(':visible') ){
@@ -468,6 +540,7 @@ jQuery( document ).ready(function($){
 					aiassist.promts.long[ lang ]			= aiassist.info.promts.long[ lang ];
 					aiassist.promts.long_title[ lang ]		= aiassist.info.promts.long_title[ lang ];
 					aiassist.promts.long_desc[ lang ]		= aiassist.info.promts.long_desc[ lang ];
+					aiassist.promts.long_keywords[ lang ]	= aiassist.info.promts.long_keywords[ lang ];
 				}
 				
 				// if( $('#aiassist-theme-prom').is(':visible') )
@@ -484,6 +557,9 @@ jQuery( document ).ready(function($){
 				
 				// if( $('#aiassist-desc-prom').is(':visible') )
 					$('#aiassist-desc-prom').val( aiassist.promts.long_desc[ lang ] )
+				
+				// if( $('#aiassist-article-prom-long-keywords').is(':visible') )
+					$('#aiassist-article-prom-long-keywords').val( aiassist.promts.long_keywords[ lang ] )
 			}
 			
 			await app.request( { val: aiassist.promts, act: 'promts', action: 'saveStep', nonce: aiassist.nonce } );
@@ -564,7 +640,7 @@ jQuery( document ).ready(function($){
 				let task = await app.request( { action: 'translate', token: aiassist.token, content: promt }, aiassist.apiurl );
 				
 				if( parseInt( task.limit ) < 1 )
-					block.find('.aiassist-image-tiny-item').removeClass('aiassist-proces disabled').html('<span class="wpai-warning-limits">'+ aiassist.locale['Limits are over'] +'</span></span>');
+					block.find('.aiassist-image-tiny-item').removeClass('aiassist-proces disabled').html('<span class="aiassist-warning-limits">'+ aiassist.locale['Limits are over'] +'</span></span>');
 					
 				if( task.task_id ){
 					let translate = await app.request( { action: 'getTask', token: aiassist.token, id: task.task_id }, aiassist.apiurl );
@@ -580,7 +656,7 @@ jQuery( document ).ready(function($){
 			let task = await app.request( { action: 'image_generator', token: aiassist.token, model: model, header: promt, format: 'jpg' }, aiassist.apiurl );
 			
 			if( parseInt( task.limit ) < 1 )
-				block.find('.aiassist-images').removeClass('aiassist-proces disabled').html('<span class="wpai-warning-limits">'+ aiassist.locale['Limits are over'] +'</span></span>');
+				block.find('.aiassist-images').removeClass('aiassist-proces disabled').html('<span class="aiassist-warning-limits">'+ aiassist.locale['Limits are over'] +'</span></span>');
 				
 			if( task.task_id ){
 				while( true ){
@@ -598,7 +674,7 @@ jQuery( document ).ready(function($){
 					}
 					
 					if( data.nsfw )
-						return block.find('.aiassist-images').removeClass('aiassist-proces disabled').html('<span class="wpai-warning-limits">'+ aiassist.locale['Prompt was censored'] +'</span>');
+						return block.find('.aiassist-images').removeClass('aiassist-proces disabled').html('<span class="aiassist-warning-limits">'+ aiassist.locale['Prompt was censored'] +'</span>');
 					
 					if( data.images ){
 						block.find('.aiassist-images').html('');
@@ -622,7 +698,7 @@ jQuery( document ).ready(function($){
 			let task = await app.request( { action: 'translate', token: aiassist.token, content: title }, aiassist.apiurl );
 			
 			if( parseInt( task.limit ) < 1 )
-				block.find('.aiassist-image-tiny-item').removeClass('aiassist-proces disabled').html('<span class="wpai-warning-limits">'+ aiassist.locale['Limits are over'] +'</span></span>');		
+				block.find('.aiassist-image-tiny-item').removeClass('aiassist-proces disabled').html('<span class="aiassist-warning-limits">'+ aiassist.locale['Limits are over'] +'</span></span>');		
 			
 			if( task.task_id ){
 				let translate = await app.request( { action: 'getTask', token: aiassist.token, id: task.task_id }, aiassist.apiurl );
@@ -692,14 +768,18 @@ jQuery( document ).ready(function($){
 			let args = await app.request( { action: 'aiassist_cron', nonce: aiassist.nonce } );
 			let limit = await app.request( { action: 'getLimit', token: aiassist.token }, aiassist.apiurl );
 			
+			if( ! isNaN( parseInt( limit.sLimit ) ) && $('#wpai-symbols-subscribe').length )
+				$('#wpai-symbols-subscribe').text( app.number_format( limit.sLimit ) );
+			
 			if( ! isNaN( parseInt( limit.limit ) ) && $('#wpai-symbols').length ){
 				$('#wpai-symbols').text( app.number_format( limit.limit ) );
 				
-				if( limit.limit < 1 )
-					$('#aiassist-generation-status, #aiassist-rewrite-status').html('<span class="wpai-warning-limits">'+ aiassist.locale['The limits have been reached'] +'</span>');
+				if( limit.limit < 1 && limit.sLimit < 1 )
+					$('#aiassist-generation-status, #aiassist-rewrite-status').html('<span class="aiassist-warning-limits">'+ aiassist.locale['The limits have been reached'] +'</span>');
 			}
 			
-			if( $('#aiassist-settings').length && ! isNaN( parseInt( args.articles.publish ) ) ){
+			
+			if( $('#aiassist-settings').length && args.articles && ! isNaN( parseInt( args.articles.publish ) ) ){
 				
 				if( $('#aiassist-count-publish').length )
 					$('#aiassist-count-publish').text( args.articles.publish );
@@ -713,7 +793,7 @@ jQuery( document ).ready(function($){
 					$('#wpai-symbols').text( app.number_format( args.articles.limit ) );
 					
 					if( args.articles.limit < 1 )
-						$('#aiassist-generation-status').html('<span class="wpai-warning-limits">'+ aiassist.locale['The limits have been reached'] +'</span>');
+						$('#aiassist-generation-status').html('<span class="aiassist-warning-limits">'+ aiassist.locale['The limits have been reached'] +'</span>');
 				}
 					
 				if( args.articles.articles ){
@@ -741,13 +821,13 @@ jQuery( document ).ready(function($){
 				}
 			}
 			
-			if( $('#aiassist-settings').length && args.rewrites.posts ){
+			if( $('#aiassist-settings').length && args.rewrites && args.rewrites.posts ){
 
 				if( ! isNaN( parseInt( args.rewrites.limit ) ) ){
 					$('#wpai-symbols').text( app.number_format( args.rewrites.limit ) );
 					
 					if( args.rewrites.limit < 1 )
-						$('#aiassist-generation-status').html('<span class="wpai-warning-limits">'+ aiassist.locale['The limits have been reached, to continue generation (rewriting) please top up your balance!'] +'</span>');
+						$('#aiassist-generation-status').html('<span class="aiassist-warning-limits">'+ aiassist.locale['The limits have been reached, to continue generation (rewriting) please top up your balance!'] +'</span>');
 				}
 
 				if( args.rewrites.posts.length ){
@@ -796,7 +876,7 @@ jQuery( document ).ready(function($){
 			if( isNaN( parseInt( number ) ) )
 				return '';
 			
-			return number.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ' ');
+			return parseInt( number ).toString().replace(/\B(?=(\d{3})+(?!\d))/g, ' ');
 		},
 		
 		setTextModel: () => {
@@ -1199,23 +1279,23 @@ jQuery( document ).ready(function($){
 				await app.request( { val: promt, act: header, action: 'saveStep', nonce: aiassist.nonce } );
 			}
 			
-			let task = await app.request( { token: aiassist.token, gptkey: aiassist.gptkey, model: model, action: 'image_generator', header: promt, format: 'jpg' }, aiassist.apiurl );
+			let task = await app.request( { token: aiassist.token, model: model, action: 'image_generator', header: promt, format: 'jpg' }, aiassist.apiurl );
 			
 			if( task.limit < 1 )
-				block.find('.aiassist-proces').removeClass('aiassist-proces').html('<span class="wpai-warning-limits">'+ aiassist.locale['Limits are over'] +'</span></span>');
+				block.find('.aiassist-proces').removeClass('aiassist-proces').html('<span class="aiassist-warning-limits">'+ aiassist.locale['Limits are over'] +'</span></span>');
 
 			
 			if( task.task_id ){
 				let proccess = 0;
 				
 				while( true ){
-					let data = await app.request( { token: aiassist.token, gptkey: aiassist.gptkey, action: 'getTask', id: task.task_id }, aiassist.apiurl );
+					let data = await app.request( { token: aiassist.token, action: 'getTask', id: task.task_id }, aiassist.apiurl );
 					
 					if( data.limit && $('#tokens-left').length )
 						$('#tokens-left').text( app.number_format( data.limit ) );
 					
 					if( data.limit < 1 ){
-						block.find('.aiassist-proces').removeClass('aiassist-proces').html('<span class="wpai-warning-limits">'+ aiassist.locale['Limits are over'] +'</span></span>');
+						block.find('.aiassist-proces').removeClass('aiassist-proces').html('<span class="aiassist-warning-limits">'+ aiassist.locale['Limits are over'] +'</span></span>');
 						break;
 					}
 					
@@ -1242,7 +1322,7 @@ jQuery( document ).ready(function($){
 					}
 					
 					if( data.nsfw )
-						return block.find('.aiassist-images').removeClass('aiassist-proces disabled').html('<span class="wpai-warning-limits">'+ aiassist.locale['Prompt was censored'] +'</span>');
+						return block.find('.aiassist-images').removeClass('aiassist-proces disabled').html('<span class="aiassist-warning-limits">'+ aiassist.locale['Prompt was censored'] +'</span>');
 					
 					if( data.images ){
 						imgBlock.find('.aiassist-progressImageUrl').remove();
@@ -1288,7 +1368,7 @@ jQuery( document ).ready(function($){
 		},
 		
 		outSummFocusOut: async function( e ){
-			$(this).attr('placeholder', aiassist.locale['5000 rub'] );
+			$(this).attr('placeholder', aiassist.locale['5 $'] );
 		},
 		
 		buyForm: async function( e ){
@@ -1296,16 +1376,10 @@ jQuery( document ).ready(function($){
 		},
 		
 		buy: async function (){
-			// $(this).attr('disabled', true);
+			$(this).closest('div, form').addClass('disabled');
 			
-			let summ = $('#out_summ').val();
-			let crypto = $('.pay-method.active .cryptocloud').length;
-			
-			if( crypto )
-				summ = $('#out_summ_usdt').val();
-			
-			let buy = await app.request( { 'out_summ': summ, action: 'aiassist_buy', promocode: $('.aiassist-promocode input[name="promocode"]').val(), type: $(this).data('type'), crypto: crypto, nonce: aiassist.nonce } );
-			// let buy = await app.request( { 'out_summ': summ, action: 'getPayUrl', token: aiassist.token, promocode: $('.aiassist-promocode input[name="promocode"]').val(), type: $(this).data('type'), crypto: crypto, nonce: aiassist.nonce }, aiassist.apiurl );
+			let summ = $('#out_summ').val().trim();
+			let buy = await app.request( { 'out_summ': summ, action: 'aiassist_buy', promocode: $('.aiassist-promocode input[name="promocode"]').val(), type: $(this).data('type'), crypto: $('.pay-method.active .cryptocloud').length, nonce: aiassist.nonce } );
 			
 			if( buy.error )
 				alert( buy.error );
@@ -1318,7 +1392,7 @@ jQuery( document ).ready(function($){
 					aiassistbuy.remove();
 				}, 1)
 			}
-			$(this).attr('disabled', false);
+			$(this).closest('div, form').removeClass('disabled');
 		},
 		
 		getStat: async function( event ){
@@ -1702,21 +1776,21 @@ jQuery( document ).ready(function($){
 			
 			if( ! aiassist.token ){
 				app.loader();
-				$('#aiasist').after('<div id="aiassist-loader-wrap"><div id="aiassist-loader-info"><span class="wpai-warning-limits">'+ aiassist.locale['You have not added the API key'] +'</span></div><div id="aiassist-step-stop">'+ aiassist.locale['Cancel'] +'</div></div>');
+				$('#aiasist').after('<div id="aiassist-loader-wrap"><div id="aiassist-loader-info"><span class="aiassist-warning-limits">'+ aiassist.locale['You have not added the API key'] +'</span></div><div id="aiassist-step-stop">'+ aiassist.locale['Cancel'] +'</div></div>');
 				return;
 			}
 			
 			return new Promise( async resolve => {
 				try{
 					while( true ){
-						let task = await app.request( Object.assign( { token: aiassist.token, gptkey: aiassist.gptkey, model: app.model }, args ), aiassist.apiurl );
+						let task = await app.request( Object.assign( { token: aiassist.token, model: app.model }, args ), aiassist.apiurl );
 						
 						if( task.limit && $('#tokens-left').length ){
 							$('#tokens-left').text( app.number_format( task.limit ) );
 							
 							if( task.limit < 1 && ! app.limitMsg ){
 								app.limitMsg = true;
-								app.loader( true, '<span class="wpai-warning-limits">'+ aiassist.locale['Limits are over'] +'</span>' );
+								app.loader( true, '<span class="aiassist-warning-limits">'+ aiassist.locale['Limits are over'] +'</span>' );
 							}
 							
 						}
@@ -1738,14 +1812,14 @@ jQuery( document ).ready(function($){
 			return new Promise( async resolve => {
 				while( true ){
 					try{
-						data = await app.request( { token: aiassist.token, gptkey: aiassist.gptkey, action: 'getTask', id: task_id }, aiassist.apiurl );
+						data = await app.request( { token: aiassist.token, action: 'getTask', id: task_id }, aiassist.apiurl );
 						
 						if( data.limit && $('#tokens-left').length ){
 							$('#tokens-left').text( app.number_format( data.limit ) );
 							
 							if( data.limit < 1 && ! app.limitMsg ){
 								app.limitMsg = true;
-								app.loader( true, '<span class="wpai-warning-limits">'+ aiassist.locale['Limits are over'] +'</span></span>' );
+								app.loader( true, '<span class="aiassist-warning-limits">'+ aiassist.locale['Limits are over'] +'</span></span>' );
 							}
 						}
 						

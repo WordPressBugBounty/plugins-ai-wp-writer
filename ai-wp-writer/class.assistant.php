@@ -171,7 +171,7 @@ class AIASIST{
 		if( ! $this->checkNonce()  || ! current_user_can('manage_options') )
 			return;
 	
-		wp_die( $this->wpcurl( $this->api, [ 'token' => sanitize_text_field( $this->options->token ), 'action' => 'getPayUrl', 'promocode' => $_POST['promocode'], 'type' => sanitize_text_field( $_POST['type'] ), 'crypto' => sanitize_text_field( $_POST['crypto'] ), 'out_summ' => sanitize_text_field( $_POST['out_summ'] ), 'gptkey' => sanitize_text_field( get_option('aiassist_gpt_key') ) ] ) );
+		wp_die( $this->wpcurl( $this->api, [ 'token' => sanitize_text_field( $this->options->token ), 'action' => 'getPayUrl', 'promocode' => $_POST['promocode'], 'type' => sanitize_text_field( $_POST['type'] ), 'crypto' => sanitize_text_field( $_POST['crypto'] ), 'out_summ' => sanitize_text_field( $_POST['out_summ'] ), 'locale' => get_locale() ] ) );
 	}
 	
 	public function active(){
@@ -194,7 +194,7 @@ class AIASIST{
 	}
 	
 	private function getInfo(){
-		$args = [ 'action' => 'getInfo', 'token' => sanitize_text_field( @$this->options->token ) ];
+		$args = [ 'action' => 'getInfo', 'locale' => get_locale(), 'token' => sanitize_text_field( @$this->options->token ) ];
 		
 		if( isset( $_POST['promocode'] ) )
 			$args['promocode'] = sanitize_text_field( $_POST['promocode'] );
@@ -294,7 +294,6 @@ class AIASIST{
 								'keywords'		=> $article['keywords'], 
 								'action'		=> 'addAutoTask', 
 								'token'			=> $this->options->token, 
-								'gptkey'		=> get_option('aiassist_gpt_key'),
 							];
 							
 					$task = json_decode( $this->wpCurl($this->api, $args ) );
@@ -554,7 +553,6 @@ class AIASIST{
 									'promt'				=> isset( $this->steps['promts']['rewrite'][ $lang_id ] ) ? $this->steps['promts']['rewrite'][ $lang_id ] : $this->info->promts->rewrite[ $lang_id ],
 									'action'			=> 'addRewrite', 
 									'token'				=> $this->options->token, 
-									// 'gptkey'			=> get_option('aiassist_gpt_key'),
 								]; 
 						
 						if( (int) $item['id'] ){
@@ -1000,7 +998,6 @@ class AIASIST{
 			'ajaxurl'	=> admin_url('admin-ajax.php'), 
 			'apiurl'	=> $this->api,
 			'token'		=> $this->options->token,
-			'gptkey'	=> get_option('aiassist_gpt_key'),
 			'info'		=> $this->info,
 			'promts'	=> @$this->steps['promts'],
 			'locale'	=> [
@@ -1017,6 +1014,7 @@ class AIASIST{
 				'Are you sure?'	=> __('Are you sure?', 'wp-ai-assistant'),
 				'Payment request sent'	=> __('Payment request sent', 'wp-ai-assistant'),
 				'Recovery...'	=> __('Recovery...', 'wp-ai-assistant'),
+				'These neural networks are only available by subscription only'	=> __('This option is only available with a subscription, check the "Payment & Pricing" section', 'wp-ai-assistant'),
 				'Restored'	=> __('Restored', 'wp-ai-assistant'),
 				'The article generation process has been suspended.'	=> __('The article generation process has been suspended.', 'wp-ai-assistant'),
 				'The process of generating'	=> __('The process of generating articles is in progress, the information is updated automatically. If this does not happen, refresh the browser page to see the current list of generated articles.', 'wp-ai-assistant'),
@@ -1025,7 +1023,7 @@ class AIASIST{
 				'In line'	=> __('In line', 'wp-ai-assistant'),
 				'The article rewriting process is in progress'	=> __('The article rewriting process is in progress, the information is updated automatically. If this does not happen, refresh the browser page to see the current list of articles that have been rewritten.', 'wp-ai-assistant'),
 				'Translation of prompts for images'	=> __('Translation of prompts for images', 'wp-ai-assistant'),
-				'5000 rub'	=> __('5000 rub', 'wp-ai-assistant'),
+				'5 $'	=> __('5 $', 'wp-ai-assistant'),
 				'Registration was successful, you have been sent an email with a key.'	=> __('Registration was successful, you have been sent an email with a key.', 'wp-ai-assistant'),
 				'Saving content'	=> __('Saving content', 'wp-ai-assistant'),
 				'Loading image'	=> __('Loading image: ', 'wp-ai-assistant'),

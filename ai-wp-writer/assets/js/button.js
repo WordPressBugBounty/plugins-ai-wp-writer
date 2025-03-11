@@ -6,7 +6,7 @@
 			return new Promise( async resolve => {
 				while( true ){
 					try{
-						data = await button.request( { token: aiassist.token, gptkey: aiassist.gptkey, action: 'getTask', id: task_id }, aiassist.apiurl );
+						data = await button.request( { token: aiassist.token, action: 'getTask', id: task_id }, aiassist.apiurl );
 						
 						if( data.content ){
 							if( data.limit && $('#tokens-left').length )
@@ -84,7 +84,7 @@
 				
 				$('#aiassist-regenerate-close').click();
 				$('#aiassist-prom-regenerate').val();
-				let task = await button.request( { content: ed.selection.getContent(), prom: $('#aiassist-prom-regenerate').val(), lang_id: parseInt( $('.aiassist-lang-promts-regenerate:first').val() ), token: aiassist.token, gptkey: aiassist.gptkey, action: 'reGenerateContent' }, aiassist.apiurl );
+				let task = await button.request( { content: ed.selection.getContent(), prom: $('#aiassist-prom-regenerate').val(), lang_id: parseInt( $('.aiassist-lang-promts-regenerate:first').val() ), token: aiassist.token, action: 'reGenerateContent' }, aiassist.apiurl );
 				
 				data = await button.getTask( task.task_id );
 				

@@ -1,24 +1,24 @@
 msgid ""
 msgstr ""
-"Project-Id-Version: ai-writer\n"
-"POT-Creation-Date: \n"
-"PO-Revision-Date: \n"
-"Last-Translator: \n"
-"Language-Team: \n"
-"Language: ru\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"X-Generator: Poedit 3.5\n"
+"X-Generator: POEditor.com\n"
 "X-Poedit-SourceCharset: UTF-8\n"
 "X-Poedit-KeywordsList: __;_e;_x:1,2c;_ex:1,2c;_n:1,2;_nx:1,2,4c;_n_noop:1,2;_nx_noop:1,2,3c;esc_attr__;esc_attr_e;esc_html__;esc_html_e\n"
 "X-Poedit-Basepath: ..\n"
 "X-Poedit-SearchPath-0: .\n"
 "X-Poedit-SearchPathExcluded-0: tmp\n"
+"Project-Id-Version: AI WP Writer\n"
+"Language: ru\n"
 
 #: tpl/options.php:12 tpl/workspace.php:3
-msgid "Limits left:"
-msgstr "Осталось лимитов:"
+msgid "Extra credits:"
+msgstr "Несгораемых лимитов:"
+
+#: tpl/options.php:12 tpl/workspace.php:3
+msgid "Subscription credits:"
+msgstr "Лимитов по подписке:"
 
 #: tpl/options.php:21
 msgid "Need help?"
@@ -36,7 +36,7 @@ msgstr "Настройки"
 msgid "Payment & Pricing"
 msgstr "Тарифы и оплата"
 
-#: tpl/options.php:31 tpl/options.php:506
+#: tpl/options.php
 msgid "Bulk generation"
 msgstr "Массовая генерация"
 
@@ -289,8 +289,8 @@ msgid "Payment for any amount"
 msgstr "Оплата на произвольную сумму"
 
 #: tpl/options.php:424 tpl/options.php:465
-msgid "Enter the amount to pay from 500 rubles. Limits do not disappear, you can generate text and images at any time."
-msgstr "Введите сумму для оплаты от 500 рублей. Лимиты не сгорают, генерировать текст и изображения можете в любое время."
+msgid "Enter amount to top up your balance (minimum 5$). Credits do not disappear, you can generate text and images at any time."
+msgstr "Введите сумму для оплаты от <span data-usdt=\"5 $\">500 рублей</span>. Лимиты не сгорают, генерировать текст и изображения можете в любое время."
 
 #: tpl/options.php:487
 msgid "Enter the amount to pay from 5 USDT. Limits do not disappear, you can generate text and images at any time."
@@ -457,9 +457,17 @@ msgstr "Сгенерировать"
 msgid "Clear"
 msgstr "Очистить"
 
+#: tpl/workspace.php:6
+msgid "Credits left:"
+msgstr "Лимитов осталось:"
+
 #: tpl/options.php:266 in js
 msgid "The process of rewriting articles is complete."
 msgstr "Процесс рерайта статей завершен."
+
+#: tpl/options.php
+msgid "The process of rewriting articles is in progress, the information is updated automatically. If this does not happen, refresh the browser page to see the current list of articles that have been rewritten."
+msgstr "Идет процесс рерайта статей, информация обновляется автоматически. Если этого не происходит, обновите страницу браузера, чтобы увидеть актуальный список статей, которые были переписаны."
 
 #: tpl/options.php:266
 msgid "Rewriting completed"
@@ -472,11 +480,7 @@ msgstr "статей из"
 #: tpl/options.php in js
 #, fuzzy
 msgid "Restored"
-msgstr ""
-"#-#-#-#-#  catalog.po (ai-writer)  #-#-#-#-#\n"
-"Восстановлена\n"
-"#-#-#-#-#  catalog.po (ai-writer)  #-#-#-#-#\n"
-"Восстановлено"
+msgstr "Восстановлено"
 
 #: tpl/options.php in js
 msgid "Generated"
@@ -543,8 +547,8 @@ msgid "Price"
 msgstr "Цена"
 
 #: tpl/options.php
-msgid "rubles for 1,000 limits.</b> Enter amount to top up your balance (minimum 500 rubles):"
-msgstr "рубля за 1 000 лимитов.</b> Введите сумму для пополнения баланса (минимум 500 рублей):"
+msgid "for 1000 credits."
+msgstr "за 1000 лимитов."
 
 #: tpl/options.php
 msgid "rub"
@@ -567,7 +571,7 @@ msgid "Within the tariff the price will be"
 msgstr "В рамках тарифа цена составит"
 
 #: tpl/options.php
-msgid "limits"
+msgid "credits"
 msgstr "лимитов"
 
 #: tpl/options.php
@@ -584,7 +588,7 @@ msgstr "USDT за 1000 лимитов"
 
 #: tpl/options.php
 msgid "Promt:"
-msgstr "Промт:"
+msgstr "Промпт:"
 
 #: tpl/options.php
 msgid "The process of generating articles is in progress, the information is updated automatically. If this does not happen, refresh the browser page to see the current list of generated articles."
@@ -634,6 +638,158 @@ msgstr "Главная тема статьи"
 msgid "Key phrases"
 msgstr "Ключевые фразы"
 
+#: tpl/options.php
+msgid "Visa, Mastercard, Мир, ЮMoney"
+msgstr "Visa, Mastercard, Мир, ЮMoney"
+
+#: tpl/options.php
+msgid "USDT, Bitcoin, Ethereum"
+msgstr "USDT, Bitcoin, Ethereum"
+
+#: tpl/options.php
+msgid "Popular"
+msgstr "Популярный"
+
+#: tpl/options.php
+msgid "Basic"
+msgstr "Basic"
+
+#: tpl/options.php
+msgid "month"
+msgstr "мес"
+
+#: tpl/options.php
+msgid "$"
+msgstr " р."
+
+#: tpl/options.php
+msgid "Instead of"
+msgstr "Вместо"
+
+#: tpl/options.php
+msgid "Savings of"
+msgstr "Экономия"
+
+#: tpl/options.php
+msgid "1 million credits"
+msgstr "1 млн лимитов"
+
+#: tpl/options.php
+msgid "How much content can be generated<br />~ 660 000 characters GPT-4o**<br />(330 000 characters when generating context sensitive)<br />~ 4 400 000 characters GPT-4o mini**<br />~ 942 images FLUX Schnell<br />~ 347 generations Midjourney<br />~ 188 images Dalle 3"
+msgstr "Сколько можно сгенерировать<br />~ 660 000 символов GPT-4o** (330 000 символов при генерации по плану с учетом контекста)<br />~ 4 400 000 символов GPT-4o mini**<br />~ 942 изображения FLUX Schnell<br />~ 347 изображений Midjourney<br />~ 188 изображений Dalle 3"
+
+#: tpl/options.php
+msgid "How much content can be generated<br />~ 2 050 000 characters GPT-4o**<br />(1 125 000 characters when generating context sensitive)<br />~ 13 666 000 characters GPT-4o mini**<br />~ 2 928 images FLUX Schnell<br />~ 1 078 generations Midjourney<br />~ 585 images Dalle 3"
+msgstr "Сколько можно сгенерировать<br />~ 2 050 000 символов GPT-4o** (1 125 000 символов при генерации по плану с учетом контекста)<br />~ 13 666 000 символов GPT-4o mini**<br />~ 2 928 изображений FLUX Schnell<br />~ 1 078 изображений Midjourney<br />~ 585 изображения Dalle 3"
+
+#: tpl/options.php
+msgid "How much content can be generated<br />~ 5 000 000 characters GPT-4o**<br />(2 500 000 characters when generating context sensitive)<br />~ 33 333 000 characters GPT-4o mini**<br />~ 7 142 images FLUX Schnell<br />~ 2 631 generations Midjourney<br />~ 1 428 images Dalle 3"
+msgstr "Сколько можно сгенерировать<br />~ 5 000 000 символов GPT-4o** (2 500 000 символов при генерации по плану с учетом контекста)<br />~ 33 333 000 символов GPT-4o mini**<br />~ 7 142 изображения FLUX Schnell<br />~ 2 631 изображений Midjourney<br />~ 1 428 изображений Dalle 3"
+
+#: tpl/options.php
+msgid "Neural Networks: GPT-4o, Dalle 3, GPT-4o-mini, Midjourney, FLUX."
+msgstr "Нейросети: GPT-4o, GPT-4o-mini, Midjourney, Dalle 3, FLUX"
+
+#: tpl/options.php
+msgid "Bulk generation and generation articles in the editor"
+msgstr "Массовая генерация и генерация статей в редакторе"
+
+#: tpl/options.php
+msgid "AI Assist, AI image creator"
+msgstr "AI Assist, AI image creator"
+
+#: tpl/options.php
+msgid "Rewrite articles on your site and pages from other sites"
+msgstr "Рерайт статей своего сайта и страниц сторонних сайтов"
+
+#: tpl/options.php
+msgid "Free plan"
+msgstr "Free plan"
+
+#: tpl/options.php
+msgid "Once you sign up, you will receive 10,000 free credits. You can also buy credits in packages or for any amount. These credits do not expire and remain on your balance until you use them."
+msgstr "После регистрации вам начисляется 10000 бесплатных лимитов. Дополнительно можете докупить лимиты пакетами или на произвольную сумму. Эти лимиты не сгорают и будут на балансе пока их не используете."
+
+#: tpl/options.php
+msgid "Generation in the editor"
+msgstr "Генерация в редакторе"
+
+#: tpl/options.php
+msgid "AI Assist"
+msgstr "AI Assist"
+
+#: tpl/options.php
+msgid "Neural networks: GPT-4o-mini, FLUX"
+msgstr "Нейросети: GPT-4o-mini, FLUX"
+
+#: in js
+msgid "AI image creator"
+msgstr "ИИ генератор картинок"
+
+#: tpl/options.php
+msgid "* If you buy the same number of credits that you get by subscribing to the program. <br />** Payment is spent only for generating characters or images. No hidden fees! You don't pay for tokens used to send context. You do not pay for sending context, you do not pay for sending requests for generation, you do not pay for tokens used to markup articles, you do not pay for spaces. articles, payment for whitespace is not deducted."
+msgstr "* Если покупать на произвольную сумму такое же количество лимитов которое вы получите оформив подписку. <br />** Оплата расходуется только за генерацию символов или изображений. Никаких скрытых списаний! Вы не оплачиваете расход токенов на отправку контекста, не оплачиваете отправку запросов на генерацию, оплата не списывается за токены которые используются для разметки статьи, оплата за пробелы не снимается."
+
+#: tpl/options.php
+msgid "Add extra credits by packages or any amount."
+msgstr "Покупка лимитов пакетами или на произвольную сумму."
+
+#: tpl/options.php
+msgid "Limits purchased by packages or any amount will <b>not disappear.</b>"
+msgstr "Купленные лимиты пакетами или на произвольную сумму <b>не сгорают.</b>"
+
+#: tpl/options.php
+msgid "Subscribe"
+msgstr "Оформить подписку"
+
+#: tpl/options.php
+msgid "You have an active subscription "
+msgstr "У вас активная подписка"
+
+#: tpl/options.php
+msgid "until"
+msgstr "до"
+
+#: tpl/options.php
+msgid "Renew subscription"
+msgstr "Продлить подписку"
+
+#: tpl/options.php
+msgid "Rates Questions and Answers"
+msgstr "Вопросы и ответы по тарифам"
+
+#: tpl/options.php
+msgid "I already have a subscription. Can I purchase additional credits?"
+msgstr "Могу ли приобрести дополнительные лимиты, если уже оформлена подписка?"
+
+#: tpl/options.php
+msgid "Yes, you can. Subscription credits and purchased credits in packages are counted separately. First of all, the subscription credits are deducted from the balance, if they have run out, the credits purchased in packages will be deducted."
+msgstr "Да, можете. Лимиты подписки и приобретенные лимиты пакетами считаются отдельно. В первую очередь с баланса списываются лимиты которые входят в подписку, если они закончились, то будут списываться лимиты купленные пакетами."
+
+#: tpl/options.php
+msgid "Do purchased credits disappear?"
+msgstr "Сгорают ли приобретенные лимиты?"
+
+#: tpl/options.php
+msgid "Can I upgrade or downgrade my subscription?"
+msgstr "Могу ли я повысить или понизить свой тарифный план?"
+
+#: tpl/options.php
+msgid "You may upgrade your subscription at any time. However, we do not currently support direct downgrades. You can wait until your current subscription expires and then upgrade to a more affordable plan."
+msgstr "Вы можете повысить свой тарифный план в любое время. При этом в настоящее время мы не поддерживаем прямую понижение тарифного плана. Вы можете дождаться завершения срока действия текущей подписки и после этого оформить более дешевую."
+
+#: tpl/options.php
+msgid "Buy a package"
+msgstr "Купить пакет"
+
+#: tpl/options.php
+msgid "'These neural networks are only available by subscription only, check out the \"Payment & Pricing\" section'"
+msgstr "'Эти нейросети доступны только по подписке, оформите ее в разделе \"Тарифы и оплата\"!'"
+
+#: tpl/options.php
+msgid "Subscription active"
+msgstr "Подписка активна"
+
 #: tpl/worckspace.php
 msgid "Enter a subject..."
 msgstr "Введите тему..."
@@ -643,7 +799,7 @@ msgid "The article cost:"
 msgstr "На статью потрачено:"
 
 #: tpl/worckspace.php
-msgid "The time spent on generating images was:"
+msgid "Spent on image generation:"
 msgstr "На генерацию изображений потрачено:"
 
 #: tpl/worckspace.php
@@ -655,11 +811,9 @@ msgid "Enter key phrases for the article, separated by commas. Key phrases are a
 msgstr "Введите ключевые фразы для статьи через запятую. Ключевые фразы самостоятельно подставляются на место переменной {keywords}."
 
 #: in js
-msgid ""
-"To regenerate a piece of text, highlight it and click 'Generate'.\n"
+msgid "To regenerate a piece of text, highlight it and click 'Generate'.\n"
 "To generate a new piece of text, place the cursor where you want to add text, enter a prompt and click “Generate”."
-msgstr ""
-"Для перегенерации части текста, выделите его и нажмите 'Сгенерировать'.\n"
+msgstr "Для перегенерации части текста, выделите его и нажмите 'Сгенерировать'.\n"
 "Для генерация нового фрагмента текста, установите курсор, где нужно добавить текст, введите промпт и нажмите 'Сгенерировать'."
 
 #: in js
@@ -667,8 +821,8 @@ msgid "Are you sure you want to clear all fields from generated text?"
 msgstr "Вы уверены что хотите очистить все поля от сгенерированного текста?"
 
 #: in js
-msgid "Limits are over! Do not close the page, top up your balance and click \"Generate\" again. <a href=\"/wp-admin/admin.php?page=wpai-assistant\" target=\"_blank\">Top up your balance</a>"
-msgstr "Закончились лимиты! Не закрывайте страницу, пополните баланс и нажмите снова \"Сгенерировать\". <a href=\"/wp-admin/admin.php?page=wpai-assistant\" target=\"_blank\">Пополнить баланс</a>"
+msgid "'Limits are over! Do not close the page, top up your balance and click \"Generate\" again. <a href=\"/wp-admin/admin.php?page=wpai-assistant\" target=\"_blank\">Top up your balance</a>"
+msgstr "'Закончились лимиты! Не закрывайте страницу, пополните баланс и нажмите снова \"Сгенерировать\". <a href=\"/wp-admin/admin.php?page=wpai-assistant\" target=\"_blank\">Пополнить баланс</a>"
 
 #: in js
 msgid "Prompt was censored, one or more words prevent image generation. Try changing the prompt!"
@@ -707,8 +861,8 @@ msgid "Translation of prompts for images"
 msgstr "Перевод промтов для изображений"
 
 #: in js
-msgid "5000 rub"
-msgstr "5000 руб"
+msgid "5 $"
+msgstr "500 р."
 
 #: in js
 msgid "No data found!"
@@ -771,10 +925,6 @@ msgid "The image is generated at the location of the cursor."
 msgstr "Картинка генерируется в то место где стоит курсор."
 
 #: in js
-msgid "AI image creator"
-msgstr "ИИ генератор картинок"
-
-#: in js
 msgid "To regenerate a piece of text, highlight it and click Generate.To generate a new piece of text, place the cursor where you want to add text, enter a prompt and click Generate."
 msgstr "Чтобы повторно сгенерировать фрагмент текста, выделите его и нажмите Сгенерировать. Чтобы сгенерировать новый фрагмент текста, поместите курсор в то место, куда вы хотите добавить текст, введите промпт и нажмите Сгенерировать."
 
@@ -785,3 +935,12 @@ msgstr "Для начала зарегистрируйтесь и сохрани
 #: in js
 msgid "There is no variable {key} (or {header}) in your prompt. Add it in the place where the key word should be. If you generate an article without the variable, the text won’t be relevant to your topic."
 msgstr "У вас не хватает в промпте переменной {key} (или {header} - только в генерации большой статьи по плану), добавьте ее в то место куда должна подставляться ключевая фраза. Если генерировать без переменной, то текст получится нерелевантным вашей теме."
+
+#: in js
+msgid "This option is only available with a subscription, check the \"Payment & Pricing\" section"
+msgstr "Эта опция доступна только по подписке, перейдите в \"Тарифы и оплата\"."
+
+#: tpl/options.php
+msgid "The credits included in the subscription are renewed every 30 days. Credits purchased in packages or for any amount will not disappear and will remain on your balance until you use them."
+msgstr "Лимиты которые входят в подписку обновляются каждые 30 дней. Лимиты купленные пакетами или на произвольную сумму не сгорают и будут на баланса до тех пор, пока их не используете."
+

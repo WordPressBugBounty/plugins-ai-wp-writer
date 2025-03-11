@@ -1,15 +1,24 @@
+<?php
+	$limit = (int) @$this->info->limit + (int) @$this->info->sLimit;
+?>
 <div id="aiasist">
-	<div class="tokens-left <?php echo (int) @$this->info->limit < 1000 ? 'wpai-warning-limits' : '' ?>">
-		<?php _e('Limits left:', 'wp-ai-assistant') ?> <span id="tokens-left"><?php echo number_format( (int) @$this->info->limit, 0, ' ', ' ' ) ?></span>
+	<div class="tokens-left <?php echo (int) @$limit < 1000 ? 'aiassist-warning-limits' : '' ?>">
+		<?php _e('Credits left:', 'wp-ai-assistant') ?> <span id="tokens-left"><?php echo number_format( (int) @$limit, 0, ' ', ' ' ) ?></span>
 	</div>
 	
 	<label id="aiassist-text-gen-model">
 		<div><?php _e('Generation model', 'wp-ai-assistant') ?></div>
-		<select name="aiassist-text-model" id="aiassist-change-text-model">
-			<option value="gpt3">GPT-4o mini</option>
-			<option value="gpt4">GPT-4o</option>
-		</select>
-		<a href="https://aiwpwriter.com/prices/" target="_blank" class="aiassist-small"><?php _e('Prices', 'wp-ai-assistant') ?></a>
+		
+		<div class="aiassist-select-wrap">
+			<div class="aiassist-select-lable">GPT-4o mini</div>
+			<div class="aiassist-select">	
+				<div class="aiassist-option" data-value="gpt3">GPT-4o mini</div>
+				<div class="aiassist-option <?php echo ! @$this->info->subscribe->expire ? 'aiassist-lock' : ''?>" data-value="gpt4">GPT-4o</div>
+				<input type="hidden" name="aiassist-text-model" id="aiassist-change-text-model" value="gpt3" />
+			</div>
+		</div>
+		
+		<a href="<?php echo get_locale() == 'ru_RU' ? 'https://aiwpwriter.com/prices/' : 'https://aiwpw.com/prices/ ' ?>" target="_blank" class="aiassist-small"><?php _e('Prices', 'wp-ai-assistant') ?></a>
 	</label>
 	
 	<div class="aiassist-tabs">
@@ -57,7 +66,7 @@
 			<?php $promt = esc_textarea( @$this->steps['promts']['short'][ $lang_id ] ? trim( $this->steps['promts']['short'][ $lang_id ] ) : @$this->info->promts->short[ $lang_id ] ); ?>
 			<textarea id="aiassist-article-prom" class="aiassist-prom" data-check="{key}"><?php echo $promt ?></textarea>
 			<?php if( strpos( $promt, '{key}') === false ){ ?>
-				<div class="aiassist-check-key"><?php _e('There is no variable {key} (or%header%) in your prompt. Add it in the place where the key word should be. If you generate an article without the variable, the text won’t be relevant to your topic.', 'wp-ai-assistant') ?></div>
+				<div class="aiassist-check-key"><?php _e('There is no variable {key} (or {header}) in your prompt. Add it in the place where the key word should be. If you generate an article without the variable, the text won’t be relevant to your topic.', 'wp-ai-assistant') ?></div>
 			<?php } ?>
 			
 			<?php $promt = esc_textarea( @$this->steps['promts']['keywords'][ $lang_id ] ? trim( $this->steps['promts']['keywords'][ $lang_id ] ) : @$this->info->promts->keywords[ $lang_id ] ); ?>
@@ -123,7 +132,7 @@
 				<?php $promt = esc_attr( @$this->steps['promts']['long_structure'][ $lang_id ] ? $this->steps['promts']['long_structure'][ $lang_id ] : @$this->info->promts->long_structure[ $lang_id ] ) ?>
 				<textarea id="aiassist-structure-prom" class="aiassist-prom" data-check="{key}"><?php echo $promt ?></textarea>
 				<?php if( strpos( $promt, '{key}') === false ){ ?>
-					<div class="aiassist-check-key"><?php _e('There is no variable {key} (or%header%) in your prompt. Add it in the place where the key word should be. If you generate an article without the variable, the text won’t be relevant to your topic.', 'wp-ai-assistant') ?></div>
+					<div class="aiassist-check-key"><?php _e('There is no variable {key} (or {header}) in your prompt. Add it in the place where the key word should be. If you generate an article without the variable, the text won’t be relevant to your topic.', 'wp-ai-assistant') ?></div>
 				<?php } ?>
 				
 				<div>
@@ -140,10 +149,10 @@
 			<div class="next-step">
 				
 				<?php $promt = esc_attr( @$this->steps['promts']['long'][ $lang_id ] ? $this->steps['promts']['long'][ $lang_id ] : @$this->info->promts->long[ $lang_id ] ); ?>
-				<?php _e('Prompt:', 'wp-ai-assistant') ?> <textarea id="aiassist-content-prom" class="aiassist-prom" data-check="%header%"><?php echo $promt ?></textarea>
+				<?php _e('Prompt:', 'wp-ai-assistant') ?> <textarea id="aiassist-content-prom" class="aiassist-prom" data-check="{header}"><?php echo $promt ?></textarea>
 				
-				<?php if( strpos( $promt, '%header%') === false ){ ?>
-					<div class="aiassist-check-key"><?php _e('There is no variable {key} (or%header%) in your prompt. Add it in the place where the key word should be. If you generate an article without the variable, the text won’t be relevant to your topic.', 'wp-ai-assistant') ?></div>
+				<?php if( strpos( $promt, '{header}') === false ){ ?>
+					<div class="aiassist-check-key"><?php _e('There is no variable {key} (or {header}) in your prompt. Add it in the place where the key word should be. If you generate an article without the variable, the text won’t be relevant to your topic.', 'wp-ai-assistant') ?></div>
 				<?php } ?>
 				
 				<button type="button" id="aiassist-content-generate"><?php _e('Generate article text', 'wp-ai-assistant') ?></button>
@@ -160,7 +169,7 @@
 				<?php $promt = esc_attr( @$this->steps['promts']['long_title'][ $lang_id ] ? $this->steps['promts']['long_title'][ $lang_id ] : @$this->info->promts->long_title[ $lang_id ] ) ?>
 				<?php _e('Promt:', 'wp-ai-assistant') ?> <input id="aiassist-title-prom" class="aiassist-prom" data-check="{key}" value="<?php echo $promt ?>" />
 				<?php if( strpos( $promt, '{key}') === false ){ ?>
-					<div class="aiassist-check-key"><?php _e('There is no variable {key} (or%header%) in your prompt. Add it in the place where the key word should be. If you generate an article without the variable, the text won’t be relevant to your topic.', 'wp-ai-assistant') ?></div>
+					<div class="aiassist-check-key"><?php _e('There is no variable {key} (or {header}) in your prompt. Add it in the place where the key word should be. If you generate an article without the variable, the text won’t be relevant to your topic.', 'wp-ai-assistant') ?></div>
 				<?php } ?>
 			</div>
 			
@@ -168,7 +177,7 @@
 				<?php $promt = esc_attr( @$this->steps['promts']['long_desc'][ $lang_id ] ? $this->steps['promts']['long_desc'][ $lang_id ] : @$this->info->promts->long_desc[ $lang_id ] ); ?>
 				<?php _e('Promt:', 'wp-ai-assistant') ?> <input id="aiassist-desc-prom" class="aiassist-prom" data-check="{key}" value="<?php echo $promt ?>" />
 				<?php if( strpos( $promt, '{key}') === false ){ ?>
-					<div class="aiassist-check-key"><?php _e('There is no variable {key} (or%header%) in your prompt. Add it in the place where the key word should be. If you generate an article without the variable, the text won’t be relevant to your topic.', 'wp-ai-assistant') ?></div>
+					<div class="aiassist-check-key"><?php _e('There is no variable {key} (or {header}) in your prompt. Add it in the place where the key word should be. If you generate an article without the variable, the text won’t be relevant to your topic.', 'wp-ai-assistant') ?></div>
 				<?php } ?>
 			</div>
 			
@@ -187,12 +196,16 @@
 	
 		<div class="aiassist-step-title center"><?php _e('Generating images for an article. Select a model:', 'wp-ai-assistant') ?></div>
 		
-		<select name="aiassist-image-model" id="aiassist-change-image-model">
-			<option value="flux">FLUX schnell</option>
-			<option value="midjourney">Midjourney</option>
-			<option value="dalle">Dalle 3</option>
-		</select>
-		<a href="https://aiwpwriter.com/prices/" target="_blank" class="aiassist-small aiassist-after-change-image-model"><?php _e('Prices', 'wp-ai-assistant') ?></a>
+		<div class="aiassist-select-wrap">
+			<div class="aiassist-select-lable">FLUX schnell</div>
+			<div class="aiassist-select aiassist-image-model">	
+				<div class="aiassist-option" data-value="flux">FLUX schnell</div>
+				<div class="aiassist-option <?php echo ! @$this->info->subscribe->expire ? 'aiassist-lock' : ''?>" data-value="midjourney">Midjourney</div>
+				<div class="aiassist-option <?php echo ! @$this->info->subscribe->expire ? 'aiassist-lock' : ''?>" data-value="dalle">Dalle 3</div>
+				<input type="hidden" name="aiassist-image-model" id="aiassist-change-image-model" value="flux" />
+			</div>
+		</div>
+		<a href="<?php echo get_locale() == 'ru_RU' ? 'https://aiwpwriter.com/prices/' : 'https://aiwpw.com/prices/ ' ?>" target="_blank" class="aiassist-small aiassist-after-change-image-model"><?php _e('Prices', 'wp-ai-assistant') ?></a>
 		
 		<div class="aiassist-step-desc"><?php _e('For which headers to generate images:', 'wp-ai-assistant') ?></div>
 	
@@ -233,8 +246,8 @@
 	
 	
 	<div class="next-step" id="step5">
-		<div><?php _e('The article cost:', 'wp-ai-assistant') ?> <span id="aiassist-article-symbols"><?php echo esc_html( isset( $_COOKIE['spent'] ) ? (int) $_COOKIE['spent'] : 0 )?></span> <?php _e('limits', 'wp-ai-assistant') ?></div>
-		<div><?php _e('The time spent on generating images was:', 'wp-ai-assistant') ?> <span id="images-article-symbols"><?php echo esc_html( isset( $_COOKIE['imgSpent'] ) ? (int) $_COOKIE['imgSpent'] : 0 )?></span> <?php _e('limits', 'wp-ai-assistant') ?></div>
+		<div><?php _e('The article cost:', 'wp-ai-assistant') ?> <span id="aiassist-article-symbols"><?php echo esc_html( isset( $_COOKIE['spent'] ) ? (int) $_COOKIE['spent'] : 0 )?></span> <?php _e('credits', 'wp-ai-assistant') ?></div>
+		<div><?php _e('Spent on image generation:', 'wp-ai-assistant') ?> <span id="images-article-symbols"><?php echo esc_html( isset( $_COOKIE['imgSpent'] ) ? (int) $_COOKIE['imgSpent'] : 0 )?></span> <?php _e('credits', 'wp-ai-assistant') ?></div>
 		
 		<button type="button" id="aiassist-clear-content"><?php _e('Clear', 'wp-ai-assistant') ?></button>
 		<button name="aiassist_save" type="button" id="aiassist-save-content"><?php _e('Save', 'wp-ai-assistant') ?></button>
@@ -270,16 +283,22 @@
 	<div id="aiassist-generate-image">
 		<div id="aiassist-generate-image-close">&#10006;</div>
 		<div class="aiassist-image-tiny">
-			<select id="aiassist-tiny-image-model" name="aiassist-image-model">
-				<option value="flux">FLUX schnell</option>
-				<option value="midjourney">Midjourney</option>
-				<option value="dalle">Dalle</option>
-			</select>
+		
+			<div class="aiassist-select-wrap">
+				<div class="aiassist-select-lable">FLUX schnell</div>
+				<div class="aiassist-select aiassist-image-model">	
+					<div class="aiassist-option" data-value="flux">FLUX schnell</div>
+					<div class="aiassist-option <?php echo ! @$this->info->subscribe->expire ? 'aiassist-lock' : ''?>" data-value="midjourney">Midjourney</div>
+					<div class="aiassist-option <?php echo ! @$this->info->subscribe->expire ? 'aiassist-lock' : ''?>" data-value="dalle">Dalle</div>
+					<input type="hidden" name="aiassist-image-model" id="aiassist-tiny-image-model" value="flux" />
+				</div>
+			</div>
+			
 			<input type="text" name="aiassist-image-promt" id="aiassist-tiny-image-promt" placeholder="Input promt" />
 			<button type="button" name="aiassist-generate" id="aiassist-tiny-image-generate">Generate</button>
 			<button type="button" name="aiassist-translate" id="aiassist-tiny-image-translate">Translate</button>
 			
-			<a href="https://aiwpwriter.com/prices/" target="_blank" class="aiassist-small"><?php _e('Prices', 'wp-ai-assistant') ?></a>
+			<a href="<?php echo get_locale() == 'ru_RU' ? 'https://aiwpwriter.com/prices/' : 'https://aiwpw.com/prices/ ' ?>" target="_blank" class="aiassist-small"><?php _e('Prices', 'wp-ai-assistant') ?></a>
 			
 			<div class="aiassist-image-tiny-item"></div>
 			<div class="aiassist-image-tiny-save-button-wrap">
