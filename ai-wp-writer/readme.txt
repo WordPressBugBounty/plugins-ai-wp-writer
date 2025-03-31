@@ -4,7 +4,7 @@ Tags: AI, generator, articles, content, image
 Requires at least: 5.0.0
 Tested up to: 6.7.2
 Requires PHP: 5.6.0
-Stable tag: 3.8.8
+Stable tag: 3.8.8.4
 License: GPLv3
 License URI: https://www.gnu.org/licenses/gpl-3.0.html
 

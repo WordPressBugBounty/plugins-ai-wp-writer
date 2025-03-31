@@ -75,11 +75,13 @@ jQuery( document ).ready(function($){
 			$(document).on('click', '.aiassist-set-default-promts-regenerate', app.setDefaultPromtsRegenerate );
 			$(document).on('click', '.ai-image', app.selectImageInBlock);
 			$(document).on('click', '.aiassist-post-restore', app.postRestore);
+			$(document).on('click', '#restore-rewrite-generations', app.postsRestores);
 			$(document).on('change', '#rewrite_all', app.rewriteAllSiteChecked);
 			$(document).on('change', 'input[name*="rewrite_type"]', app.rewriteInputsChecked);
 			$(document).on('change', 'select.cat-rewrite', app.disabledRewriteUrlArea);
 			$(document).on('input', '.aiassist-prom', app.savePromt);
 			$(document).on('input', '.aiassist-keywords-input input, .aiassist-multi-keywords .aiassist-multi-item', app.showKeywordsArea);
+			$(document).on('paste', '.aiassist-keywords-input input, .aiassist-multi-keywords .aiassist-multi-item', app.showKeywordsArea);
 			$(document).on('change', 'select.aiassist-lang-promts', app.changeLangPromts);
 			$(document).on('change', 'select.aiassist-lang-promts-regenerate', app.changeLangPromtsToRegenerate);
 			$(document).on('click', '.pay-method', app.setPayMethod);
@@ -91,6 +93,8 @@ jQuery( document ).ready(function($){
 			$(document).on('keydown', app.keydown);
 			$(document).on('mousedown', '.aiassist-multi-items', app.mousedown);
 			$(document).on('mousemove', app.mousemove ).on('mouseup', app.mouseup);
+			$(document).on('mouseenter', '.aiassist-article-item', app.activateBlock);
+			
 			$(document).on('click', '.aiassist-lock', app.lockEvent);
 			$(document).on('mouseenter', '.aiassist-lock', app.showInfo);
 			$(document).on('mouseleave', '.aiassist-lock', app.hideInfo);
@@ -209,7 +213,7 @@ jQuery( document ).ready(function($){
 					height: selectionBottom - selectionTop + 'px',
 				});
 
-				$('.aiassist-multi-item').each(function(){
+				app.activeBlock.find('.aiassist-multi-item').each(function(){
 					let e = $(this);
 					let top = e.offset().top;
 					let left = e.offset().left;
@@ -217,11 +221,14 @@ jQuery( document ).ready(function($){
 					let right = left + e.outerWidth();
 
 					if( selectionRight > left && selectionLeft < right && selectionBottom > top && selectionTop < bottom )
-						$('.aiassist-multi-themes .aiassist-multi-item:eq(' + (e.index() - 1) + '), .aiassist-multi-keywords .aiassist-multi-item:eq(' + (e.index() - 1) + ')').addClass('selected');
+						app.activeBlock.find('.aiassist-multi-themes .aiassist-multi-item:eq(' + (e.index() - 1) + '), .aiassist-multi-keywords .aiassist-multi-item:eq(' + (e.index() - 1) + ')').addClass('selected');
 				});
 			}
 		},
 
+		activateBlock: function(){
+			app.activeBlock = $(this);
+		},
 		
 		keydown: function( e ){
 			if( e.keyCode === 46 || e.keyCode === 8 ){
@@ -258,7 +265,8 @@ jQuery( document ).ready(function($){
 				
 				if( ! input.val().length )
 					input.val( lines[i] );
-				
+				else
+					input.val( input.val().slice(0, input[0].selectionStart) + lines[i] + input.val().slice( input[0].selectionEnd ) );
 			}
 		},
 		
@@ -342,13 +350,15 @@ jQuery( document ).ready(function($){
 			let e = $(this);
 			let show = null;
 			
-			if( e.hasClass('aiassist-multi-item') ){
-				$('.aiassist-multi-keywords .aiassist-multi-item').each(function(){
-					if( $(this).val() )
-						show = true;
-				})
-			}
-			e.closest('[data-tab]').find('.aiassist-keywords-area')[ ( e.val().length || show ? 'show' : 'hide' ) ]();
+			setTimeout( () => {	
+				if( e.hasClass('aiassist-multi-item') ){
+					$('.aiassist-multi-keywords .aiassist-multi-item').each(function(){
+						if( $(this).val() )
+							show = true;
+					})
+				}
+				e.closest('[data-tab]').find('.aiassist-keywords-area')[ ( e.val().length || show ? 'show' : 'hide' ) ]();
+			}, 0)
 		},
 		
 		savePromt: async function( event ){
@@ -575,20 +585,37 @@ jQuery( document ).ready(function($){
 				area.removeClass('disabled');
 		},
 		
-		postRestore: async function(){
+		postsRestores: async () => {
+			if( ! confirm( aiassist.locale['Are you sure?'] ) )
+				return false;
+			
+			let posts = $('.aiassist-post-restore');
+			
+			if( posts.length ){
+				for( let i = 0; i < posts.length; i++ )
+					await app.restore( $( posts[ i ] ) );
+			}
+		},
+		
+		postRestore: function(){
 			let e = $(this);
 			
 			if( ! confirm( aiassist.locale['Are you sure?'] ) )
 				return false;
 			
-			let status = e.closest('.aiassist-rewrite-queue').find('.aiassist-queue-status');
-			e.remove();
-			
-			status.text( aiassist.locale['Recovery...'] );
-			
-			await app.request( { action: 'postRestore', post_id: e.attr('post_id'), revision_id: e.attr('revision_id'), nonce: aiassist.nonce } );
-			
-			status.text( aiassist.locale['Restored'] );
+			app.restore( $(this) );
+		},
+		
+		restore: ( e ) => {
+			return new Promise( async resolve => {
+				let status = e.closest('.aiassist-rewrite-queue').find('.aiassist-queue-status');
+				e.remove();
+				
+				status.text( aiassist.locale['Recovery...'] );
+				await app.request( { action: 'postRestore', post_id: e.attr('post_id'), revision_id: e.attr('revision_id'), nonce: aiassist.nonce } );
+				status.text( aiassist.locale['Restored'] );
+				resolve( true );
+			})
 		},
 		
 		rewriteInputsChecked: function(){
@@ -858,6 +885,9 @@ jQuery( document ).ready(function($){
 							if( check && e.find('.aiassist-queue-rewrite').length ){
 								e.find('.aiassist-queue-status').text( aiassist.locale['Generated'] );
 								
+								if( args.rewrites.posts[ k ].revision_id && ! args.rewrites.posts[ k ].restore )
+									e.find('.aiassist-queue-status').after('<span class="aiassist-post-restore aiassist-orange" post_id="'+ args.rewrites.posts[ k ].post_id +'" revision_id="'+ args.rewrites.posts[ k ].revision_id +'">'+ aiassist.locale['Restore original text'] +'</span>');
+								
 								e.find('.aiassist-queue-rewrite').wrap('<a href="/wp-admin/post.php?post='+ args.rewrites.posts[ k ].post_id +'&action=edit" target="_blank" ></a>');
 								e.find('.aiassist-queue-rewrite').removeClass('aiassist-queue-rewrite');
 								e.next().find('.aiassist-queue-status').text( aiassist.locale['Generation in progress'] );
@@ -995,6 +1025,7 @@ jQuery( document ).ready(function($){
 		addItemArticle: () => {	
 			let item = $('.aiassist-article-item:first').clone();
 			$( item ).find('.aiassist-multi-item').val('');
+			$( item ).find('.aiassist-multi-item').removeClass('selected');
 			$( item ).prepend('<div class="aiassist-article-item-close" />');
 			$('.aiassist-article-items').append( item );
 		},
@@ -1400,7 +1431,7 @@ jQuery( document ).ready(function($){
 		
 			let e = $(this);
 			let args = app.getFormData( e );
-			let stats = await app.request( Object.assign( args, { action: 'getStat', nonce: aiassist.nonce } ) );
+			let stats = await app.request( Object.assign( args, { action: 'aiassist_getStat', nonce: aiassist.nonce } ) );
 			
 			if( $('#tokens-stats').length )
 				$('#area-chat').html('');
@@ -1411,7 +1442,7 @@ jQuery( document ).ready(function($){
 				return;
 			}
 			
-			e.after('<div id="tokens-stats"><h3>Tokens: '+ stats.total +'</h3></div>');
+			e.after('<div id="tokens-stats"><h3>'+ aiassist.locale['Credits'] +': '+ stats.total +'</h3></div>');
 			
 			google.charts.load('current', {'packages':['corechart']});			
 			google.charts.setOnLoadCallback( () => {

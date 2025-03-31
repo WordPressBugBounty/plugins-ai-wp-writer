@@ -654,6 +654,20 @@ button[name="save"]{
 	width: 100px;
 }
 
+#aiassist-show-report{
+	border: none;
+	background: #42b3d5;
+	color: #fff;
+	height: 30px;
+	border-radius: 3px;
+	width: 105px;
+	margin: 0px 0px 0px 10px;
+}
+
+.aiassist-stat-item{
+	display: flex;
+}
+
 /* stats end */
 
 #aiassist-settings .title{	
@@ -1102,6 +1116,7 @@ button[name="save"]{
 		
 		.aiassist-cats-item{
 			text-align: right;
+			position: relative;
 		}
 		
 		.aiassist-item-repeater{

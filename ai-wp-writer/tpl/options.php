@@ -334,9 +334,9 @@
 		<form method="POST" class="wpai-form">
 			<div class="license">
 				<div class="input-block">
-					<div class="title"><?php _e('Enter API key', 'wp-ai-assistant') ?></div>
+					<div class="title"><?php _e('Thank you for choosing AI WP Writer. API key settings:', 'wp-ai-assistant') ?></div>
 					<?php if( ! isset( $this->options->token ) ){ ?>
-						<label class="title"><p style="font-size: 16px; line-height:1.5;"><?php _e('The key will be sent to your email after registration, if the email has not arrived, check your spam folder. One key can be used on multiple sites. If you have any questions, write to <a href="https://t.me/wpwriter" target="_blank">Telegram</a>.', 'wp-ai-assistant') ?></p></label>
+						<label class="title"><p style="font-size: 16px; line-height:1.5;"><?php _e('<b>Getting started with the plugin is easy and free!</b> </br> 1. Fill out the registration form below. </br> 2. The API key will be sent to your email address. If you do not receive the email please check your spam folder. </br> 3. Save the API key in the appropriate field. After registration you will receive 10000 free credits. One key can be used on multiple sites, all sites will have a common balance and one common subscription. </br></br> Notice! If the site is hosted on localhost, the plugin may not work correctly, and free credits will not be accrued. Use the plugin for sites hosted on a server or web hosting. </br> For a quicker understanding of the plugin functionality, check out the documentation on our <a href="https://aiwpw.com/docs/" target="_blank">official website</a>. </br> If you still have any questions, write to us via <a href="https://t.me/wpwriter" target="_blank">Telegram</a>. <br /><br /> <b>Enter the API key:', 'wp-ai-assistant') ?></p></label>
 					<?php } ?>
 					
 					<input name="token" value="<?php echo esc_attr( @$this->options->token ) ?>" /><br /><br /><br />
@@ -351,13 +351,28 @@
 		<?php if( @$this->options->token ){ ?>
 			<div class="title"><?php _e('Statistics', 'wp-ai-assistant') ?></div>
 			<form id="aiassist-stat">
-				<button name="step" value="<?php echo esc_attr( date('Y-m-d') )?>|<?php echo esc_html( date('Y-m-d') )?>"><?php _e('Day', 'wp-ai-assistant') ?></button>
-				<button name="step" value="<?php echo esc_attr( date('Y-m-d', time() - 60*60*24*7) )?>|<?php echo esc_html( date('Y-m-d') )?>"><?php _e('Week', 'wp-ai-assistant') ?></button>
-				<button name="step" value="<?php echo esc_attr( date('Y-m-d', time() - 60*60*24*30) )?>|<?php echo esc_html( date('Y-m-d') )?>"><?php _e('Month', 'wp-ai-assistant') ?></button>
-				<br />
-				<input type="date" name="dateStart" />
-				<input type="date" name="dateEnd" />
-				<button><?php _e('Show report', 'wp-ai-assistant') ?></button>
+				
+				<div class="aiassist-stat-item">
+					<button name="step" value="<?php echo esc_attr( date('Y-m-d') )?>|<?php echo esc_html( date('Y-m-d') )?>"><?php _e('Day', 'wp-ai-assistant') ?></button>
+					<button name="step" value="<?php echo esc_attr( date('Y-m-d', time() - 60*60*24*7) )?>|<?php echo esc_html( date('Y-m-d') )?>"><?php _e('Week', 'wp-ai-assistant') ?></button>
+					<button name="step" value="<?php echo esc_attr( date('Y-m-d', time() - 60*60*24*30) )?>|<?php echo esc_html( date('Y-m-d') )?>"><?php _e('Month', 'wp-ai-assistant') ?></button>
+				</div>
+				
+				<div class="aiassist-stat-item">
+					<?php if( @$this->info->hosts ){ ?>
+						<select name="host">
+							<option value="all"><?php _e('All domains', 'wp-ai-assistant') ?></option>
+							<?php foreach( $this->info->hosts as $host ){ ?>
+								<option value="<?php echo esc_attr( $host ) ?>"><?php echo esc_html( $host ) ?></option>
+							<?php } ?>
+						</select>
+					<?php } ?>
+					
+					<input type="date" name="dateStart" required />
+					<input type="date" name="dateEnd" required />	
+					<button id="aiassist-show-report"><?php _e('Show report', 'wp-ai-assistant') ?></button>
+				</div>
+				
 			</form>
 
 			<div id="area-chat"></div>
@@ -712,12 +727,11 @@
 			<div class="aiassist-article-item">
 				<div><?php _e('Add article topics in a list in the left column, each row being a new article. If desired, add one or more keywords, separated by commas, in the right column.', 'wp-ai-assistant') ?></div>
 				
-				
-				
 				<div class="aiassist-multi-items">
-					
 					<div class="aiassist-multi-themes">
 						<label class="aiassist-multi-item-label"><?php _e('Main topic of the article', 'wp-ai-assistant') ?></label>
+						<input class="aiassist-multi-item" />
+						<input class="aiassist-multi-item" />
 						<input class="aiassist-multi-item" />
 						<input class="aiassist-multi-item" />
 						<input class="aiassist-multi-item" />
@@ -736,8 +750,9 @@
 						<input class="aiassist-multi-item" />
 						<input class="aiassist-multi-item" />
 						<input class="aiassist-multi-item" />
+						<input class="aiassist-multi-item" />
+						<input class="aiassist-multi-item" />
 					</div>
-					
 				</div>
 				
 				
@@ -818,12 +833,12 @@
 		</div>
 		
 		<div class="aiassist-option-item">
-			<?php _e('How many articles should be generated in the specified time period. If the field is left blank, articles for all specified keys will be generated as soon as possible.<br /> Specify the number of articles:', 'wp-ai-assistant') ?>
+			<?php _e('How many articles should be generated in the specified time period. If the field is left blank, articles for all specified keywords will be generated as soon as possible.<br /> Specify the number of articles:', 'wp-ai-assistant') ?>
 			<div>
 				<input type="number" class="aiassist-auto-options" id="publish-article-in-day" value="<?php echo @$autoGen['publishInDay'] ? (int) $autoGen['publishInDay'] : '' ?>" min=0 />
 			</div>
 			
-			<?php _e('How often articles should be generated.<br /> Specify the number of days:', 'wp-ai-assistant') ?>
+			<?php _e('How often articles should be generated. (For example, if you specify 2, then the number of articles you specified earlier will be generated every 2 days).<br /> Specify the number of days:', 'wp-ai-assistant') ?>
 			<div>
 				<input type="number" class="aiassist-auto-options" id="publish-article-every-day" value="<?php echo @$autoGen['publishEveryDay'] ? (int) $autoGen['publishEveryDay'] : 1 ?>" min=0 />
 			</div>

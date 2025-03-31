@@ -46,7 +46,7 @@ class AIASIST{
 		add_action('wp_ajax_saveContent',				[$this, 'saveContent']);
 		add_action('wp_ajax_clearContent',				[$this, 'clearContent']);
 		add_action('wp_ajax_aiassist_sign',				[$this, 'sign']);
-		add_action('wp_ajax_getStat',					[$this, 'getStat']);
+		add_action('wp_ajax_aiassist_getStat',			[$this, 'getStat']);
 		add_action('wp_ajax_aiassist_buy',				[$this, 'buy']);
 		add_action('wp_ajax_saveStep',					[$this, 'saveStep']);
 		add_action('wp_ajax_saveTranslateImagesPromts',	[$this, 'saveTranslateImagesPromts']);
@@ -111,6 +111,9 @@ class AIASIST{
 			$data['rewrites'] = $this->aiRewrite();
 			$data['articles'] = $this->aiArticlesAutoGen();
 			update_option('aiWriterCronCheck', time() );
+		} else {
+			$data['rewrites'] = get_option('aiRewritesData');
+			$data['articles'] = get_option('aiArticlesAutoGenData');
 		}
 		
 		$wpdb->query('COMMIT');
@@ -217,7 +220,7 @@ class AIASIST{
 		if( ! $this->checkNonce() || ! current_user_can('manage_options') )
 			return;
 	
-		wp_die( $this->wpcurl( $this->api, [ 'token' => sanitize_text_field( $this->options->token ), 'action' => 'getStat', 'host' => sanitize_text_field( $this->getHost() ), 'dateStart' => sanitize_text_field( $_REQUEST['dateStart'] ), 'dateEnd' => sanitize_text_field( $_REQUEST['dateEnd'] ) ] ) );
+		wp_die( $this->wpcurl( $this->api, [ 'token' => sanitize_text_field( $this->options->token ), 'action' => 'getStat', 'host' => sanitize_text_field( $_REQUEST['host'] ), 'dateStart' => sanitize_text_field( $_REQUEST['dateStart'] ), 'dateEnd' => sanitize_text_field( $_REQUEST['dateEnd'] ) ] ) );
 	}
 	
 	private function getHost(){
@@ -1046,6 +1049,9 @@ class AIASIST{
 				'To get started'	=> __('To get started, register and save the api key that will come in the mail.', 'wp-ai-assistant'),
 				'There is no variable'	=> __('There is no variable {key} (or {header}) in your prompt. Add it in the place where the key word should be. If you generate an article without the variable, the text won’t be relevant to your topic.', 'wp-ai-assistant'),
 				'The article generation process is complete.'	=> __('The article generation process is complete.', 'wp-ai-assistant'),
+				'Restore original text'	=> __('Restore original text', 'wp-ai-assistant'),
+				'No data found!'	=> __('No data found!', 'wp-ai-assistant'),
+				'Credits'	=> __('Credits', 'wp-ai-assistant'),
 			],
 		] );
 	}
