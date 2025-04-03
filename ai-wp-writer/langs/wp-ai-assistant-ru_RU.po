@@ -350,8 +350,8 @@ msgid "Prompts language: "
 msgstr "Язык промптов: "
 
 #: tpl/options.php:569
-msgid "How many articles should be generated in the specified time period. If the field is left blank, articles for all specified keywords will be generated as soon as possible.<br /> Specify the number of articles:"
-msgstr "Сколько статей нужно генерировать в указанный период времени. Если оставить поле пустым, то будут сгенерированы статьи по всем заданным ключам в кратчайшие сроки.<br /> Укажите количество статей:"
+msgid "How many articles should be generated in the specified time period. If the field is left blank, articles for all specified keys will be generated as soon as possible.<br /> Specify the number of articles:"
+msgstr "Сколько сколько статей нужно генерировать в указанный период времени. Если оставить поле пустым, то будут сгенерированы статьи по всем заданным ключам в кратчайшие сроки.<br /> Укажите количество статей:"
 
 #: tpl/options.php:574
 msgid "The images to generate for the article. If you leave the input form blank, the articles will be generated without images."

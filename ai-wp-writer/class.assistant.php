@@ -9,6 +9,8 @@ class AIASIST{
 	private $options;
 
 	private $api = 'https://aipost.ru';
+	
+	private $api2 = 'https://api.aipost.ru';
 		
 	function __construct(){
 		$this->options = get_option('_ai_assistant');
@@ -70,7 +72,6 @@ class AIASIST{
 		add_action('wp_ajax_clearArticlesGen',			[$this, 'clearArticlesGen']);
 		add_action('wp_ajax_initArticlesGen',			[$this, 'initArticlesGen']);
 		add_action('wp_ajax_startArticlesGen',			[$this, 'startArticlesGen']);
-		
 		add_action('wp_ajax_removeQueueArticle',		[$this, 'removeQueueArticle']);
 		
 		add_action('activated_plugin',					[$this, 'active'], 10, 2 );
@@ -135,6 +136,7 @@ class AIASIST{
 			
 			update_option('_ai_assistant', $this->options );
 		}
+		$images		= get_option('aiImagesData');
 		$rewrites	= get_option('aiRewritesData');
 		$autoGen	= get_option('aiArticlesAutoGenData');
 		$cats		= get_categories( [ 'hide_empty' => 0 ] );
@@ -999,7 +1001,9 @@ class AIASIST{
 		wp_localize_script('aiassist', 'aiassist', [ 
 			'nonce'		=> wp_create_nonce('aiassist'), 
 			'ajaxurl'	=> admin_url('admin-ajax.php'), 
+			'api'		=> $this->api,
 			'apiurl'	=> $this->api,
+			'apiurl2'	=> $this->api2,
 			'token'		=> $this->options->token,
 			'info'		=> $this->info,
 			'promts'	=> @$this->steps['promts'],

@@ -833,7 +833,7 @@
 		</div>
 		
 		<div class="aiassist-option-item">
-			<?php _e('How many articles should be generated in the specified time period. If the field is left blank, articles for all specified keywords will be generated as soon as possible.<br /> Specify the number of articles:', 'wp-ai-assistant') ?>
+			<?php _e('How many articles should be generated in the specified time period. If the field is left blank, articles for all specified keys will be generated as soon as possible.<br /> Specify the number of articles:', 'wp-ai-assistant') ?>
 			<div>
 				<input type="number" class="aiassist-auto-options" id="publish-article-in-day" value="<?php echo @$autoGen['publishInDay'] ? (int) $autoGen['publishInDay'] : '' ?>" min=0 />
 			</div>

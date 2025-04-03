@@ -6,7 +6,7 @@
 			return new Promise( async resolve => {
 				while( true ){
 					try{
-						data = await button.request( { token: aiassist.token, action: 'getTask', id: task_id }, aiassist.apiurl );
+						data = await button.request( { token: aiassist.token, action: 'getTask', id: task_id }, aiassist.api );
 						
 						if( data.content ){
 							if( data.limit && $('#tokens-left').length )
@@ -80,17 +80,21 @@
 			});
 			
 			$(document).on('click', '#aiassist-regenerate', async () => {
-				button.loader( true );
+				let content = ed.selection.getContent();
 				
-				$('#aiassist-regenerate-close').click();
-				$('#aiassist-prom-regenerate').val();
-				let task = await button.request( { content: ed.selection.getContent(), prom: $('#aiassist-prom-regenerate').val(), lang_id: parseInt( $('.aiassist-lang-promts-regenerate:first').val() ), token: aiassist.token, action: 'reGenerateContent' }, aiassist.apiurl );
+				if( content ){
+					button.loader( true );
+					
+					$('#aiassist-regenerate-close').click();
+					$('#aiassist-prom-regenerate').val();
 				
-				data = await button.getTask( task.task_id );
-				
-				if( data.content )
-					ed.selection.setContent( data.content );						
-				
+					let task = await button.request( { content: content, prom: $('#aiassist-prom-regenerate').val(), lang_id: parseInt( $('.aiassist-lang-promts-regenerate:first').val() ), token: aiassist.token, action: 'reGenerateContent' }, aiassist.api );
+					
+					data = await button.getTask( task.task_id );
+					
+					if( data.content )
+						ed.selection.setContent( data.content );						
+				}
 				button.loader();
 			})
 			

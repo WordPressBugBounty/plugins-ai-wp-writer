@@ -54,10 +54,10 @@ wp.blocks.registerBlockType('ai-image-creator/ai-image-creator', {
 			block.find('.aiassist-image-item').addClass('aiassist-images aiassist-proces disabled');
 			
 			if( props.attributes.promt.match(/[А-Яа-я]/g) && ( props.attributes.model == 'midjourney' || props.attributes.model == 'flux' ) ){
-				let task = await request( { action: 'translate', token: aiassist.token, content: props.attributes.promt }, aiassist.apiurl );
+				let task = await request( { action: 'translate', token: aiassist.token, content: props.attributes.promt }, aiassist.api );
 				
 				if( task.task_id ){
-					let translate = await request( { action: 'getTask', token: aiassist.token, id: task.task_id }, aiassist.apiurl );
+					let translate = await request( { action: 'getTask', token: aiassist.token, id: task.task_id }, aiassist.api );
 					
 					if( translate.content ){
 						props.attributes.promt = translate.content;
@@ -68,14 +68,14 @@ wp.blocks.registerBlockType('ai-image-creator/ai-image-creator', {
 					block.find('.aiassist-image-promt').val('Error translate promt');
 			}
 			
-			let task = await request( { action: 'image_generator', token: aiassist.token, model: props.attributes.model, header: props.attributes.promt, format: 'jpg' }, aiassist.apiurl );
+			let task = await request( { action: 'image_generator', token: aiassist.token, model: props.attributes.model, header: props.attributes.promt, format: 'jpg' }, aiassist.api );
 			
 			if( parseInt( task.limit ) < 1 )
 				block.find('.aiassist-images').removeClass('aiassist-proces disabled').html('<span class="aiassist-warning-limits">'+ aiassist.locale['Limits are over'] +'</span></span>');
 				
 			if( task.task_id ){
 				while( true ){
-					let data = await request( { action: 'getTask', id: task.task_id, token: aiassist.token }, aiassist.apiurl );
+					let data = await request( { action: 'getTask', id: task.task_id, token: aiassist.token }, aiassist.api );
 					
 					if( data.process ){
 						if( data.process.progress > proccess ){
@@ -95,7 +95,7 @@ wp.blocks.registerBlockType('ai-image-creator/ai-image-creator', {
 						block.find('.aiassist-images').html('');
 					
 						for( let k in data.images )
-							block.find('.aiassist-images').removeClass('aiassist-proces disabled').append('<img src="'+ aiassist.apiurl +'?action=getImage&image='+ data.images[ k ] +'" class="ai-image">');
+							block.find('.aiassist-images').removeClass('aiassist-proces disabled').append('<img src="'+ aiassist.api +'?action=getImage&image='+ data.images[ k ] +'" class="ai-image">');
 						
 						block.find('.ai-image:first').click();
 						break;
@@ -158,13 +158,13 @@ wp.blocks.registerBlockType('ai-image-creator/ai-image-creator', {
 						let block = e.closest('.aiassist-image-block');
 						let title = block.find('.aiassist-image-promt').val();
 						
-						let task = await request( { action: 'translate', token: aiassist.token, content: title }, aiassist.apiurl );
+						let task = await request( { action: 'translate', token: aiassist.token, content: title }, aiassist.api );
 						
 						if( parseInt( task.limit ) < 1 )
 							block.find('.aiassist-image-item').removeClass('aiassist-proces disabled').html('<span class="aiassist-warning-limits">'+ aiassist.locale['Limits are over'] +'</span></span>');
 						
 						if( task.task_id ){
-							let translate = await request( { action: 'getTask', token: aiassist.token, id: task.task_id }, aiassist.apiurl );
+							let translate = await request( { action: 'getTask', token: aiassist.token, id: task.task_id }, aiassist.api );
 							
 							if( translate.content ){
 								block.find('.aiassist-image-promt').val( translate.content );

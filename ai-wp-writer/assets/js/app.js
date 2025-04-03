@@ -110,7 +110,7 @@ jQuery( document ).ready(function($){
 			
 			if( imgModel = app.getCookie('image-model') ){
 				$('.aiassist-image-model .aiassist-option[data-value="'+ imgModel +'"]').click();
-				app.translatePromtsToImages();
+				setTimeout( app.translatePromtsToImages, 1500);
 			}
 			
 			if( imgModelAuto = app.getCookie('image-model-auto') )
@@ -664,13 +664,13 @@ jQuery( document ).ready(function($){
 			$('.aiassist-image-tiny-item').addClass('aiassist-images aiassist-proces disabled');
 			
 			if( promt.match(/[А-Яа-я]/g) && ( model == 'midjourney' || model == 'flux' ) ){
-				let task = await app.request( { action: 'translate', token: aiassist.token, content: promt }, aiassist.apiurl );
+				let task = await app.request( { action: 'translate', token: aiassist.token, content: promt }, aiassist.api );
 				
 				if( parseInt( task.limit ) < 1 )
 					block.find('.aiassist-image-tiny-item').removeClass('aiassist-proces disabled').html('<span class="aiassist-warning-limits">'+ aiassist.locale['Limits are over'] +'</span></span>');
 					
 				if( task.task_id ){
-					let translate = await app.request( { action: 'getTask', token: aiassist.token, id: task.task_id }, aiassist.apiurl );
+					let translate = await app.request( { action: 'getTask', token: aiassist.token, id: task.task_id }, aiassist.api );
 					
 					if( translate.content ){
 						promt = translate.content;
@@ -680,14 +680,14 @@ jQuery( document ).ready(function($){
 					$('#aiassist-tiny-image-promt').val('Error translate promt');
 			}
 			
-			let task = await app.request( { action: 'image_generator', token: aiassist.token, model: model, header: promt, format: 'jpg' }, aiassist.apiurl );
+			let task = await app.request( { action: 'image_generator', token: aiassist.token, model: model, header: promt, format: 'jpg' }, aiassist.api );
 			
 			if( parseInt( task.limit ) < 1 )
 				block.find('.aiassist-images').removeClass('aiassist-proces disabled').html('<span class="aiassist-warning-limits">'+ aiassist.locale['Limits are over'] +'</span></span>');
 				
 			if( task.task_id ){
 				while( true ){
-					let data = await app.request( { action: 'getTask', id: task.task_id, token: aiassist.token }, aiassist.apiurl );
+					let data = await app.request( { action: 'getTask', id: task.task_id, token: aiassist.token }, aiassist.api );
 					
 					if( data.process ){
 						if( data.process.progress > proccess ){
@@ -707,7 +707,7 @@ jQuery( document ).ready(function($){
 						block.find('.aiassist-images').html('');
 					
 						for( let k in data.images )
-							block.find('.aiassist-images').removeClass('aiassist-proces disabled').append('<img src="'+ aiassist.apiurl +'?action=getImage&image='+ data.images[ k ] +'" class="ai-image">');
+							block.find('.aiassist-images').removeClass('aiassist-proces disabled').append('<img src="'+ aiassist.api +'?action=getImage&image='+ data.images[ k ] +'" class="ai-image">');
 						
 						block.find('.ai-image:first').click();
 						break;
@@ -722,13 +722,13 @@ jQuery( document ).ready(function($){
 			let block = e.closest('#aiassist-generate-image');
 			let title = block.find('#aiassist-tiny-image-promt').val();
 			
-			let task = await app.request( { action: 'translate', token: aiassist.token, content: title }, aiassist.apiurl );
+			let task = await app.request( { action: 'translate', token: aiassist.token, content: title }, aiassist.api );
 			
 			if( parseInt( task.limit ) < 1 )
 				block.find('.aiassist-image-tiny-item').removeClass('aiassist-proces disabled').html('<span class="aiassist-warning-limits">'+ aiassist.locale['Limits are over'] +'</span></span>');		
 			
 			if( task.task_id ){
-				let translate = await app.request( { action: 'getTask', token: aiassist.token, id: task.task_id }, aiassist.apiurl );
+				let translate = await app.request( { action: 'getTask', token: aiassist.token, id: task.task_id }, aiassist.api );
 				
 				if( translate.content ){
 					block.find('#aiassist-tiny-image-promt').val( translate.content );
@@ -792,8 +792,10 @@ jQuery( document ).ready(function($){
 		},
 		
 		cron: async () => {
+			await app.ping();
+			
 			let args = await app.request( { action: 'aiassist_cron', nonce: aiassist.nonce } );
-			let limit = await app.request( { action: 'getLimit', token: aiassist.token }, aiassist.apiurl );
+			let limit = await app.request( { action: 'getLimit', token: aiassist.token }, aiassist.api );
 			
 			if( ! isNaN( parseInt( limit.sLimit ) ) && $('#wpai-symbols-subscribe').length )
 				$('#wpai-symbols-subscribe').text( app.number_format( limit.sLimit ) );
@@ -1310,7 +1312,7 @@ jQuery( document ).ready(function($){
 				await app.request( { val: promt, act: header, action: 'saveStep', nonce: aiassist.nonce } );
 			}
 			
-			let task = await app.request( { token: aiassist.token, model: model, action: 'image_generator', header: promt, format: 'jpg' }, aiassist.apiurl );
+			let task = await app.request( { token: aiassist.token, model: model, action: 'image_generator', header: promt, format: 'jpg' }, aiassist.api );
 			
 			if( task.limit < 1 )
 				block.find('.aiassist-proces').removeClass('aiassist-proces').html('<span class="aiassist-warning-limits">'+ aiassist.locale['Limits are over'] +'</span></span>');
@@ -1320,7 +1322,7 @@ jQuery( document ).ready(function($){
 				let proccess = 0;
 				
 				while( true ){
-					let data = await app.request( { token: aiassist.token, action: 'getTask', id: task.task_id }, aiassist.apiurl );
+					let data = await app.request( { token: aiassist.token, action: 'getTask', id: task.task_id }, aiassist.api );
 					
 					if( data.limit && $('#tokens-left').length )
 						$('#tokens-left').text( app.number_format( data.limit ) );
@@ -1362,9 +1364,9 @@ jQuery( document ).ready(function($){
 						let active = true;
 						for( let k in data.images ){
 							if( active )		
-								block.find('input[type="checkbox"]').attr('data-src', aiassist.apiurl +'?action=getImage&image='+ data.images[ k ]);
+								block.find('input[type="checkbox"]').attr('data-src', aiassist.api +'?action=getImage&image='+ data.images[ k ]);
 						
-							imgBlock.append('<img src="'+ aiassist.apiurl +'?action=getImage&image='+ data.images[ k ] +'" class="aiassist-image '+( active ? 'active' : '' )+'" />');
+							imgBlock.append('<img src="'+ aiassist.api +'?action=getImage&image='+ data.images[ k ] +'" class="aiassist-image '+( active ? 'active' : '' )+'" />');
 							active = false;
 						}
 							
@@ -1814,7 +1816,7 @@ jQuery( document ).ready(function($){
 			return new Promise( async resolve => {
 				try{
 					while( true ){
-						let task = await app.request( Object.assign( { token: aiassist.token, model: app.model }, args ), aiassist.apiurl );
+						let task = await app.request( Object.assign( { token: aiassist.token, model: app.model }, args ), aiassist.api );
 						
 						if( task.limit && $('#tokens-left').length ){
 							$('#tokens-left').text( app.number_format( task.limit ) );
@@ -1843,7 +1845,7 @@ jQuery( document ).ready(function($){
 			return new Promise( async resolve => {
 				while( true ){
 					try{
-						data = await app.request( { token: aiassist.token, action: 'getTask', id: task_id }, aiassist.apiurl );
+						data = await app.request( { token: aiassist.token, action: 'getTask', id: task_id }, aiassist.api );
 						
 						if( data.limit && $('#tokens-left').length ){
 							$('#tokens-left').text( app.number_format( data.limit ) );
@@ -1919,8 +1921,19 @@ jQuery( document ).ready(function($){
 			return new Promise( resolve => setTimeout( () => resolve(true), s * 1000) );
 		},
 		
-		request: ( args = {}, url = false ) => {
-			return new Promise( resolve => $.ajax({ url: url || aiassist.ajaxurl, type: 'POST', data: args, timeout: 120000, dataType: 'json', success: data => resolve( data ), error: error => resolve( true ) }) )
+		ping: () => {
+			return new Promise( async resolve => {
+				let ping = await app.request( { action: 'ping' }, aiassist.api, 1000 );
+				
+				if( ping === true )
+					aiassist.api = ( aiassist.api == aiassist.apiurl ) ? aiassist.apiurl2 : aiassist.apiurl;
+				
+				resolve( true );
+			})
+		},
+		
+		request: ( args = {}, url = false, timeout = 120000 ) => {
+			return new Promise( resolve =>  $.ajax({ url: url || aiassist.ajaxurl, type: 'POST', data: args, timeout: timeout, dataType: 'json', success: data => resolve( data ), error: error => resolve( true ) }) )
 		}
 
 	}
