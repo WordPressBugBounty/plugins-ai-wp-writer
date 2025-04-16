@@ -10,10 +10,11 @@
 		<div><?php _e('Generation model', 'wp-ai-assistant') ?></div>
 		
 		<div class="aiassist-select-wrap">
-			<div class="aiassist-select-lable">GPT-4o mini</div>
+			<div class="aiassist-select-lable">GPT-4.1 mini</div>
 			<div class="aiassist-select">	
-				<div class="aiassist-option" data-value="gpt3">GPT-4o mini</div>
-				<div class="aiassist-option <?php echo ! @$this->info->subscribe->expire ? 'aiassist-lock' : ''?>" data-value="gpt4">GPT-4o</div>
+				<div class="aiassist-option" data-value="gpt3">GPT-4.1 mini</div>
+				<div class="aiassist-option" data-value="gpt4_nano">GPT-4.1 nano</div>
+				<div class="aiassist-option <?php echo ! @$this->info->subscribe->expire ? 'aiassist-lock' : ''?>" data-value="gpt4">GPT-4.1</div>
 				<input type="hidden" name="aiassist-text-model" id="aiassist-change-text-model" value="gpt3" />
 			</div>
 		</div>

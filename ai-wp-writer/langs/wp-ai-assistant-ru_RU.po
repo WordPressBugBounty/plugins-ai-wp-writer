@@ -679,20 +679,20 @@ msgid "1 million credits"
 msgstr "1 млн лимитов"
 
 #: tpl/options.php
-msgid "How much content can be generated<br />~ 660 000 characters GPT-4o**<br />(330 000 characters when generating context sensitive)<br />~ 4 400 000 characters GPT-4o mini**<br />~ 942 images FLUX Schnell<br />~ 347 generations Midjourney<br />~ 188 images Dalle 3"
-msgstr "Сколько можно сгенерировать<br />~ 660 000 символов GPT-4o** (330 000 символов при генерации по плану с учетом контекста)<br />~ 4 400 000 символов GPT-4o mini**<br />~ 942 изображения FLUX Schnell<br />~ 347 изображений Midjourney<br />~ 188 изображений Dalle 3"
+msgid "How much content can be generated<br />~ 4 400 000 characters GPT-4.1 nano**<br />~ 2 640 000 characters GPT-4.1 mini**<br />~ 660 000 characters GPT-4.1**<br />(330 000 characters for article generation from a plan with context)<br />~ 942 images FLUX Schnell<br />~ 165 generations Midjourney v7<br />~ 188 images Dalle 3"
+msgstr "Сколько можно сгенерировать<br />~ 4 400 000 символов GPT-4.1 nano**<br />~ 2 640 000 символов GPT-4.1 mini**<br />~ 660 000 символов GPT-4.1** (330 000 символов при генерации по плану с учетом контекста)<br />~ 942 изображения FLUX Schnell<br />~ 165 изображений Midjourney v7<br />~ 188 изображений Dalle 3"
 
 #: tpl/options.php
-msgid "How much content can be generated<br />~ 2 050 000 characters GPT-4o**<br />(1 125 000 characters when generating context sensitive)<br />~ 13 666 000 characters GPT-4o mini**<br />~ 2 928 images FLUX Schnell<br />~ 1 078 generations Midjourney<br />~ 585 images Dalle 3"
-msgstr "Сколько можно сгенерировать<br />~ 2 050 000 символов GPT-4o** (1 125 000 символов при генерации по плану с учетом контекста)<br />~ 13 666 000 символов GPT-4o mini**<br />~ 2 928 изображений FLUX Schnell<br />~ 1 078 изображений Midjourney<br />~ 585 изображения Dalle 3"
+msgid "How much content can be generated<br />~ 13 666 000 characters GPT-4.1 nano**<br />~ 8 200 000 characters GPT-4.1 mini**<br />~ 2 050 000 characters GPT-4.1**<br />(1 025 000 characters for article generation from a plan with context)<br />~ 2 928 images FLUX Schnell<br />~ 512 generations Midjourney v7<br />~ 585 images Dalle 3"
+msgstr "Сколько можно сгенерировать<br />~ 13 666 000 символов GPT-4.1 nano**<br />~ 8 200 000 символов GPT-4.1 mini**<br />~ 2 050 000 символов GPT-4.1** (1 025 000 символов при генерации по плану с учетом контекста)<br />~ 2 928 изображений FLUX Schnell<br />~ 512 изображений Midjourney v7<br />~ 585 изображения Dalle 3"
 
 #: tpl/options.php
-msgid "How much content can be generated<br />~ 5 000 000 characters GPT-4o**<br />(2 500 000 characters when generating context sensitive)<br />~ 33 333 000 characters GPT-4o mini**<br />~ 7 142 images FLUX Schnell<br />~ 2 631 generations Midjourney<br />~ 1 428 images Dalle 3"
-msgstr "Сколько можно сгенерировать<br />~ 5 000 000 символов GPT-4o** (2 500 000 символов при генерации по плану с учетом контекста)<br />~ 33 333 000 символов GPT-4o mini**<br />~ 7 142 изображения FLUX Schnell<br />~ 2 631 изображений Midjourney<br />~ 1 428 изображений Dalle 3"
+msgid "How much content can be generated<br />~ 33 333 000 characters GPT-4.1 nano**<br />~ 20 000 000 characters GPT-4.1 mini**<br />~ 5 000 000 characters GPT-4.1**<br />(2 500 000 characters for article generation from a plan with context)<br />~ 7 142 images FLUX Schnell<br />~ 1 250 generations Midjourney v7<br />~ 1 428 images Dalle 3"
+msgstr "Сколько можно сгенерировать<br />~ 33 333 000 символов GPT-4.1 nano**<br />~ 20 000 000 символов GPT-4o mini**<br />~ 5 000 000 символов GPT-4.1** (2 500 000 символов при генерации по плану с учетом контекста)<br />~ 7 142 изображения FLUX Schnell<br />~ 1 250 изображений Midjourney v7<br />~ 1 428 изображений Dalle 3"
 
 #: tpl/options.php
-msgid "Neural Networks: GPT-4o, Dalle 3, GPT-4o-mini, Midjourney, FLUX."
-msgstr "Нейросети: GPT-4o, GPT-4o-mini, Midjourney, Dalle 3, FLUX"
+msgid "Neural Networks: GPT-4.1, GPT-4.1-mini, GPT-4.1-nano, Dalle 3, Midjourney v7, FLUX"
+msgstr "Нейросети: GPT-4.1, GPT-4.1-mini, GPT-4.1-nano, Midjourney v7, Dalle 3, FLUX"
 
 #: tpl/options.php
 msgid "Bulk generation and generation articles in the editor"
