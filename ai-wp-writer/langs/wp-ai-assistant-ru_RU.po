@@ -221,7 +221,7 @@ msgid "Thank you for choosing AI WP Writer. API key settings:"
 msgstr "Спасибо что выбрали плагин AI WP Writer. Настройки API ключа:"
 
 #: tpl/options.php:318
-msgid "<b>Getting started with the plugin is easy and free!</b> </br> 1. Fill out the registration form below. </br> 2. The API key will be sent to your email address. If you do not receive the email please check your spam folder. </br> 3. Save the API key in the appropriate field. After registration you will receive 10000 free credits. One key can be used on multiple sites, all sites will have a common balance and one common subscription. </br></br> Notice! If the site is hosted on localhost, the plugin may not work correctly, and free credits will not be accrued. Use the plugin for sites hosted on a server or web hosting. </br> For a quicker understanding of the plugin functionality, check out the documentation on our <a href="https://aiwpw.com/docs/" target="_blank">official website</a>. </br> If you still have any questions, write to us via <a href="https://t.me/wpwriter" target="_blank">Telegram</a>. <br /><br /> <b>Enter the API key:"
+msgid "<b>Getting started with the plugin is easy and free!</b> </br> 1. Fill out the registration form below. </br> 2. The API key will be sent to your email address. If you do not receive the email please check your spam folder. </br> 3. Save the API key in the appropriate field. After registration you will receive 10000 free credits. One key can be used on multiple sites, all sites will have a common balance and one common subscription. </br></br> Notice! If the site is hosted on localhost, the plugin may not work correctly, and free credits will not be accrued. Use the plugin for sites hosted on a server or web hosting. </br> For a quicker understanding of the plugin functionality, check out the documentation on our <a href="https://aiwpw.com/docs/" target="_blank">official website</a>. </br> If you still have any questions, write to us via <a href="https://t.me/wpwriter" target="_blank">Telegram</a>. <br /><br /> <b>Enter the API key:</b>"
 msgstr "<b>Начать пользоваться плагином очень просто и бесплатно!</b> </br> 1. Заполните форму для регистрации, которая находится ниже на этой странице. </br> 2. API ключ придет на указанный вами email, если письмо не пришло, проверьте папку спам. </br> 3. Сохраните API ключ в соответствующем поле. После регистрации вы получите 10000 бесплатных лимитов. Один ключ можно использовать на множестве сайтов, у всех сайтов будет общий баланс и действовать одна общая подписка. </br></br> Важно! Если сайт размещен на localhost, плагин может не корректно работать, а так же не будут начислены бесплатные лимиты. Используйте плагин для сайтов размещенных на сервере или вебхостинге. </br> Чтобы быстрее освоиться и разобраться со всем функционалом плагина, посмотрите обучающие видео на нашем <a href="https://aiwpwriter.com/" target="_blank">официальном сайте</a>. </br> Если все еще остались вопросы, напишите нам в <a href="https://t.me/wpwriter" target="_blank">Telegram</a>. <br /><br /> <b>Введите API ключ:</b>"
 
 #: tpl/options.php:324 tpl/workspace.php:185 tpl/workspace.php:191
@@ -679,20 +679,20 @@ msgid "1 million credits"
 msgstr "1 млн лимитов"
 
 #: tpl/options.php
-msgid "How much content can be generated<br />~ 4 400 000 characters GPT-4.1 nano**<br />~ 2 640 000 characters GPT-4.1 mini**<br />~ 660 000 characters GPT-4.1**<br />(330 000 characters for article generation from a plan with context)<br />~ 942 images FLUX Schnell<br />~ 165 generations Midjourney v7<br />~ 188 images Dalle 3"
-msgstr "Сколько можно сгенерировать<br />~ 4 400 000 символов GPT-4.1 nano**<br />~ 2 640 000 символов GPT-4.1 mini**<br />~ 660 000 символов GPT-4.1** (330 000 символов при генерации по плану с учетом контекста)<br />~ 942 изображения FLUX Schnell<br />~ 165 изображений Midjourney v7<br />~ 188 изображений Dalle 3"
+msgid "How much content can be generated<br />~ 660 000 characters GPT-4o**<br />(330 000 characters when generating context sensitive)<br />~ 4 400 000 characters GPT-4o mini**<br />~ 942 images FLUX Schnell<br />~ 347 generations Midjourney<br />~ 188 images Dalle 3"
+msgstr "Сколько можно сгенерировать<br />~ 660 000 символов GPT-4o** (330 000 символов при генерации по плану с учетом контекста)<br />~ 4 400 000 символов GPT-4o mini**<br />~ 942 изображения FLUX Schnell<br />~ 347 изображений Midjourney<br />~ 188 изображений Dalle 3"
 
 #: tpl/options.php
-msgid "How much content can be generated<br />~ 13 666 000 characters GPT-4.1 nano**<br />~ 8 200 000 characters GPT-4.1 mini**<br />~ 2 050 000 characters GPT-4.1**<br />(1 025 000 characters for article generation from a plan with context)<br />~ 2 928 images FLUX Schnell<br />~ 512 generations Midjourney v7<br />~ 585 images Dalle 3"
-msgstr "Сколько можно сгенерировать<br />~ 13 666 000 символов GPT-4.1 nano**<br />~ 8 200 000 символов GPT-4.1 mini**<br />~ 2 050 000 символов GPT-4.1** (1 025 000 символов при генерации по плану с учетом контекста)<br />~ 2 928 изображений FLUX Schnell<br />~ 512 изображений Midjourney v7<br />~ 585 изображения Dalle 3"
+msgid "How much content can be generated<br />~ 2 050 000 characters GPT-4o**<br />(1 125 000 characters when generating context sensitive)<br />~ 13 666 000 characters GPT-4o mini**<br />~ 2 928 images FLUX Schnell<br />~ 1 078 generations Midjourney<br />~ 585 images Dalle 3"
+msgstr "Сколько можно сгенерировать<br />~ 2 050 000 символов GPT-4o** (1 125 000 символов при генерации по плану с учетом контекста)<br />~ 13 666 000 символов GPT-4o mini**<br />~ 2 928 изображений FLUX Schnell<br />~ 1 078 изображений Midjourney<br />~ 585 изображения Dalle 3"
 
 #: tpl/options.php
-msgid "How much content can be generated<br />~ 33 333 000 characters GPT-4.1 nano**<br />~ 20 000 000 characters GPT-4.1 mini**<br />~ 5 000 000 characters GPT-4.1**<br />(2 500 000 characters for article generation from a plan with context)<br />~ 7 142 images FLUX Schnell<br />~ 1 250 generations Midjourney v7<br />~ 1 428 images Dalle 3"
-msgstr "Сколько можно сгенерировать<br />~ 33 333 000 символов GPT-4.1 nano**<br />~ 20 000 000 символов GPT-4o mini**<br />~ 5 000 000 символов GPT-4.1** (2 500 000 символов при генерации по плану с учетом контекста)<br />~ 7 142 изображения FLUX Schnell<br />~ 1 250 изображений Midjourney v7<br />~ 1 428 изображений Dalle 3"
+msgid "How much content can be generated<br />~ 5 000 000 characters GPT-4o**<br />(2 500 000 characters when generating context sensitive)<br />~ 33 333 000 characters GPT-4o mini**<br />~ 7 142 images FLUX Schnell<br />~ 2 631 generations Midjourney<br />~ 1 428 images Dalle 3"
+msgstr "Сколько можно сгенерировать<br />~ 5 000 000 символов GPT-4o** (2 500 000 символов при генерации по плану с учетом контекста)<br />~ 33 333 000 символов GPT-4o mini**<br />~ 7 142 изображения FLUX Schnell<br />~ 2 631 изображений Midjourney<br />~ 1 428 изображений Dalle 3"
 
 #: tpl/options.php
-msgid "Neural Networks: GPT-4.1, GPT-4.1-mini, GPT-4.1-nano, Dalle 3, Midjourney v7, FLUX"
-msgstr "Нейросети: GPT-4.1, GPT-4.1-mini, GPT-4.1-nano, Midjourney v7, Dalle 3, FLUX"
+msgid "Neural Networks: GPT-4o, Dalle 3, GPT-4o-mini, Midjourney, FLUX."
+msgstr "Нейросети: GPT-4o, GPT-4o-mini, Midjourney, Dalle 3, FLUX"
 
 #: tpl/options.php
 msgid "Bulk generation and generation articles in the editor"
@@ -793,6 +793,106 @@ msgstr "'Эти нейросети доступны только по подпи
 #: tpl/options.php
 msgid "Subscription active"
 msgstr "Подписка активна"
+
+#: tpl/options.php
+msgid "Image regeneration and uniqueization"
+msgstr "Перегенерация и уникализация изображений"
+
+#: tpl/options.php
+msgid "You can make images on your website unique by using neural networks. How it works: we take the original image, generate a similar image and automatically replace it on the site pages. Supported extensions: PNG (.png), JPEG (.jpeg and .jpg), WEBP (.webp), non-animated GIF (.gif). Images must not be subject to censorship or other restrictions imposed by neural networks. If the image cannot be regenerated, we skip it and move on to the next one."
+msgstr "Вы можете сделать изображения на сайте уникальными через нейросети. Как это работает: мы берем исходное изображение, генерируем похожую картинку и автоматически заменяем на страницах сайта. Поддерживаемые расширения: PNG (.png), JPEG (.jpeg and .jpg), WEBP (.webp), не анимированный GIF (.gif). Изображения не должны попадать под цензуру и другие ограничения накладываемые нейросетями. В случае если не удается перегенерировать картинку, мы ее пропускаем и переходим к следующей."
+
+#: tpl/options.php
+msgid "Regenerate all images of posts in the category:"
+msgstr "Перегенерировать все изображения записей находящихся в категории:"
+
+#: tpl/options.php
+msgid "Regenerate images for the following post types:"
+msgstr "Перегенерировать изображения для следующих типов записей:"
+
+#: tpl/options.php
+msgid "Regenerate all images on this site"
+msgstr "Перегенерировать все изображения на этом сайте"
+
+#: tpl/options.php
+msgid "Or specify a list of URLs where you would like to regenerate images:"
+msgstr "Или укажите список URL на которых хотели бы перегенерировать изображения:"
+
+#: tpl/options.php
+msgid "The balance has reached its limits, after replenishing the balance, the process will automatically continue"
+msgstr "На балансе закончились лимиты, после того как пополнить баланс, процесс автоматически продолжится"
+
+#: tpl/options.php
+msgid "The process of regeneration is underway..."
+msgstr "Идет процесс перегенерации..."
+
+#: tpl/options.php
+msgid "The regeneration process has been stopped."
+msgstr "Процесс перегенерации остановлен."
+
+#: tpl/options.php
+msgid "The regeneration process is complete."
+msgstr "Процесс перегенерации завершен"
+
+#: tpl/options.php
+msgid "Regenerated"
+msgstr "Перегенерированно"
+
+#: tpl/options.php
+msgid "images of"
+msgstr "изображений из"
+
+#: tpl/options.php
+msgid "Start"
+msgstr "Старт"
+
+#: tpl/options.php
+msgid "Stop"
+msgstr "Стоп"
+
+#: tpl/options.php
+msgid "Restore original / removing generated images"
+msgstr "Восстановить оригинальные / удалить сгенерированные картинки"
+
+#: tpl/options.php
+msgid "Remove original images"
+msgstr "Удалить исходные изображения"
+
+#: tpl/options.php
+msgid "Reset"
+msgstr "Очистить"
+
+#: tpl/options.php
+msgid "Image uniqueization"
+msgstr "Уникализация изображений"
+
+#: tpl/options.php
+msgid "Original images installed and generated ones removed"
+msgstr "Оригинальные изображения восстановлены и удалены сгенерированные"
+
+#: tpl/options.php
+msgid "Removing..."
+msgstr "Удаление..."
+
+#: tpl/options.php
+msgid "Removeds"
+msgstr "Удалены"
+
+#: tpl/options.php
+msgid "Original images removed"
+msgstr "Оригинальные изображения удалены"
+
+#: tpl/options.php
+msgid "Date"
+msgstr "Дата"
+
+#: tpl/options.php
+msgid "Generations"
+msgstr "Генерация"
+
+#: tpl/options.php
+msgid "Regenerate images"
+msgstr "Перегенерация картинок"
 
 #: tpl/worckspace.php
 msgid "Enter a subject..."

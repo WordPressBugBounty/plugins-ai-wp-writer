@@ -129,6 +129,121 @@ jQuery( document ).ready(function($){
 			
 			if( window.location.hash == '#ai_assistant' && $('#ai_assistant').length )
 				$('html, body').animate( { scrollTop: $('#ai_assistant').offset().top }, 1000);
+			
+			
+			$(document).on('click', '#stop-images', app.replaceImagesStop);
+			$(document).on('click', '#start-images', app.replaceImagesStart);
+			$(document).on('click', '#reset-images', app.replaceImagesReset);
+			$(document).on('click', '#restore-images', app.replaceImagesRestore);
+			$(document).on('click', '#remove-images', app.replaceImagesRemove);
+			
+			$(document).on('change', '#cat-images', app.disabledImagesUrlArea);
+			$(document).on('change', '#replace-images-all', app.replaceAllImagesChecked);
+			$(document).on('change', 'input[name*="images_type"]', app.imagesTypeChecked);
+		},
+		
+		replaceImagesRemove: async () => {
+			if( ! confirm( aiassist.locale['Are you sure?'] ) )
+				return false;
+			
+			$('#remove-images').addClass('disabled').text( aiassist.locale['Removing...'] );
+			
+			await app.request( { action: 'replaceImagesRemove', nonce: aiassist.nonce } );
+			
+			$('#aiassist-images-compleat-count, #aiassist-images-all-count').text(0);
+			$('#remove-images').removeClass('disabled').text( aiassist.locale['Removeds'] ).delay(3000).queue( next => {
+				$('#remove-images').text( aiassist.locale['Remove original images'] ).
+				next();
+			});
+			$('#aiassist-images-status').text( aiassist.locale['Original images removed'] );
+		},
+		
+		replaceImagesRestore: async () => {
+			if( ! confirm( aiassist.locale['Are you sure?'] ) )
+				return false;
+			
+			$('#restore-images').addClass('disabled').text( aiassist.locale['Recovery...'] );
+			
+			await app.request( { action: 'replaceImagesRestore', nonce: aiassist.nonce } );
+			
+			$('#aiassist-images-compleat-count, #aiassist-images-all-count').text(0);
+			$('#restore-images').removeClass('disabled').text( aiassist.locale['Restored'] ).delay(3000).queue( next => {
+				$('#restore-images').text( aiassist.locale['Restore original / removing generated images'] ).
+				next();
+			});
+			$('#aiassist-images-status').text( aiassist.locale['Original images installed and generated ones removed'] );
+		},
+		
+		replaceImagesReset: async () => {
+			if( ! confirm( aiassist.locale['Are you sure?'] ) )
+				return false;
+			
+			$('#stop-images').attr('disabled', true);
+			$('#start-images').attr('disabled', false);
+			$('#aiassist-images-compleat-count, #aiassist-images-all-count').text(0);
+			$('#aiassist-images-status').text( aiassist.locale['The regeneration process has been stopped.'] );
+			
+			await app.request( { action: 'replaceImagesReset', nonce: aiassist.nonce } );
+		},
+		
+		replaceImagesStart: async () => {
+			$('#start-images').attr('disabled', true);
+			$('#stop-images').attr('disabled', false);
+			$('#aiassist-images-status').text( aiassist.locale['The process of regeneration is underway...'] );
+			
+			let args = {
+				types: [],
+				cat: $('#cat-images').val(),
+				all: $('#replace-images-all').prop('checked'),
+				links: $('#aiassist-images-item').val().split("\n"),
+				no_attach: $('#no-attach').prop('checked'),
+				imageModel: $('#aiassist-images-model').val(),
+			};
+			
+			if( $('input[name*="images_type"]:checked').length ){
+				$('input[name*="images_type"]:checked').each(function(){
+					args.types.push( $(this).val() )
+				})
+			}
+			
+			$('#aiassist-images-item').val('');
+			$('#cat-images option:first').prop('selected', true);
+			$('#replace-images-all, input[name*="images_type"]').prop( { checked: false, disabled: false } );
+			$('#cat-images, .aiassist-images-item-block, .aiassist-images-options-items').removeClass('disabled');
+			
+			let data = await app.request( Object.assign( args, { action: 'replaceImagesStart', nonce: aiassist.nonce } ) );
+			
+			if( data.attachments && data.attachments.length ){
+				$('#aiassist-images-progress').show();
+				$('#aiassist-images-compleat-count').text(0);
+				$('#aiassist-images-all-count').text( data.attachments.length );
+			} else {
+				$('#stop-images').attr('disabled', true);
+				$('#start-images').attr('disabled', false);
+			}
+			
+		},
+		
+		replaceImagesStop: async () => {
+			$('#start-images').attr('disabled', false);
+			$('#stop-images').attr('disabled', true);
+			$('#aiassist-images-status').text( aiassist.locale['The regeneration process has been stopped.'] );
+			
+			await app.request( { action: 'replaceImagesStop', nonce: aiassist.nonce } ); 
+		},
+		
+		disabledImagesUrlArea: () => {
+			$('.aiassist-images-options-items')[ ( $('#cat-images').val() > 0 ? 'addClass' : 'removeClass' ) ]('disabled');
+		},
+		
+		imagesTypeChecked: function(){
+			$('.aiassist-images-item-block, #cat-images')[ ( $('input[name*="images_type"]').is(':checked') ? 'addClass' : 'removeClass' ) ]('disabled');
+		},
+		
+		replaceAllImagesChecked: () => {
+			let check = $('#replace-images-all').is(':checked');
+			$('input[name*="images_type[]"]').prop( { 'checked': check, 'disabled': check } );
+			$('.aiassist-images-item-block, #cat-images')[ ( check ? 'addClass' : 'removeClass' ) ]('disabled');
 		},
 		
 		hideSelect: function( event ){
@@ -443,14 +558,14 @@ jQuery( document ).ready(function($){
 		},
 		
 		setDefaultPromts: () => {
-			if( ! confirm('Are you sure?') )
+			if( ! confirm( aiassist.locale['Are you sure?'] ) )
 				return false;
 			
 			app.setLangPromts( $('.aiassist-lang-promts:visible:first').val(), true )
 		},
 		
 		setDefaultPromtsRegenerate: async () => {
-			if( ! confirm('Are you sure?') )
+			if( ! confirm( aiassist.locale['Are you sure?'] ) )
 				return false;
 			
 			lang = parseInt( $('.aiassist-lang-promts-regenerate').val() );
@@ -901,6 +1016,23 @@ jQuery( document ).ready(function($){
 			
 			}
 			
+			if( $('#aiassist-images-progress').length && args.images && args.images.attachments ){
+				let images_all = args.images.attachments.length;
+				let images_compleate = args.images.attachments.filter( item => 'replace_id' in item ).length;
+				
+				if( $('#aiassist-images-all-count').length )
+					$('#aiassist-images-all-count').text( images_all );
+				
+				if( $('#aiassist-images-compleat-count').length )
+					$('#aiassist-images-compleat-count').text( images_compleate );
+				
+				if( images_compleate >= images_all ){
+					$('#stop-images').attr('disabled', true);
+					$('#start-images').attr('disabled', false);
+					$('#aiassist-images-status').text( aiassist.locale['The regeneration process is complete.'] );
+				}
+			}
+			
 			setTimeout( app.cron, 60000 );
 		},
 		
@@ -1037,7 +1169,7 @@ jQuery( document ).ready(function($){
 		},
 		
 		queueArticleClose: function(){
-			if( ! confirm('Are you sure?') )
+			if( ! confirm( aiassist.locale['Are you sure?'] ) )
 				return;
 
 			let e = $(this);
@@ -1074,10 +1206,10 @@ jQuery( document ).ready(function($){
 			
 			let items = $('.aiassist-rewrite-item-block');
 						
-			// if( ! items.find('.aiassist-rewrite-item').val().trim().length ){
-				// await app.request( { action: 'startRewrite', nonce: aiassist.nonce } ); 
-				// return;
-			// }
+			if( ! items.find('.aiassist-rewrite-item').val().trim().length ){
+				await app.request( { action: 'startRewrite', nonce: aiassist.nonce } ); 
+				return;
+			}
 			
 			let args = {
 				cats: [],
@@ -1444,33 +1576,20 @@ jQuery( document ).ready(function($){
 				return;
 			}
 			
-			e.after('<div id="tokens-stats"><h3>'+ aiassist.locale['Credits'] +': '+ stats.total +'</h3></div>');
+			e.after('<div id="tokens-stats"><h3>'+ aiassist.locale['Credits'] +': '+ app.number_format( stats.total ) +'</h3></div>');
 			
 			google.charts.load('current', {'packages':['corechart']});			
 			google.charts.setOnLoadCallback( () => {
-				let day = Object.keys( stats ).length < 3;
 				args = [ [ 'Date', 'Symbols'] ];
 				
-				if( day )
-					args = [ [ 'Host', 'Symbols'] ];
+				$('#tokens-stats').append('<div class="stat-item"><div><b>'+ aiassist.locale['Date'] +'</b></div><div><b>'+ aiassist.locale['Generations'] +'</b></div><div><b>'+ aiassist.locale['Regenerate images'] +'</b></div></div>');
 				
 				for( k in stats ){
 					if( k == 'total' )
 						continue;
-				
-					if( day ){
-						for( let i in stats[ k ] ){
-							if( i == 'total' )
-								continue;
-							
-							args.push( [ i, parseInt( stats[ k ][ i ] ) ] );
-							
-							$('#tokens-stats').append('<div>'+ i +': '+ stats[ k ][ i ] +'</div>');
-						}
-					} else {
-						args.push( [ k, parseInt( stats[ k ].total ) ] );
-						$('#tokens-stats').append('<div>'+ k +': '+ stats[ k ].total +'</div>');
-					}
+					
+					args.push( [ k, parseInt( stats[ k ].total ) ] );
+					$('#tokens-stats').append('<div class="stat-item"><div>'+ k +'</div><div>'+ app.number_format( stats[ k ].generations ) +'</div><div>'+ app.number_format( stats[ k ].replace_images ) +'</div></div>');
 				}
 				
 				data = google.visualization.arrayToDataTable( args );

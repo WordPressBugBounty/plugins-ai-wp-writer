@@ -640,6 +640,30 @@ button[name="save"]{
 /* signInUp end */
 
 /* stats */
+
+#tokens-stats{
+	width: 500px;
+	margin: 20px 10px;
+}
+
+.aiassist-stat-item,
+#tokens-stats .stat-item{
+	display: flex;
+}
+
+#tokens-stats .stat-item:nth-child(2n){
+	background: #fff;
+}
+
+#tokens-stats .stat-item div{
+	width: 33.33%;
+	padding: 5px 5px;
+}
+
+#tokens-stats .stat-item div:not(:first-child){
+	text-align: center;
+}
+
 .aiassist-guide-button a,
 #aiassist-stat button[name="step"]{
 	height: 57px;
@@ -662,10 +686,6 @@ button[name="save"]{
 	border-radius: 3px;
 	width: 105px;
 	margin: 0px 0px 0px 10px;
-}
-
-.aiassist-stat-item{
-	display: flex;
 }
 
 /* stats end */
@@ -1080,6 +1100,7 @@ button[name="save"]{
 	
 		.aiassist-rewrite-item,
 		.aiassist-keywords-item,
+		#aiassist-images-item,
 		#aiassist-rewrite-prom,
 		#aiassist-generation-prom,
 		#aiassist-generation-prom-keywords{
@@ -1605,6 +1626,7 @@ button[name="save"]{
 		width: 313px;
 	}
 
+	.aiassist-images-type-label,
 	.aiassist-rewrite-type-label{
 		margin: 25px 0px 10px 0px;
 	}
@@ -1994,3 +2016,41 @@ button[name="save"]{
 }
 
 /* aiassist selecttions end */
+
+/* replace images start */
+
+#start-images{
+	background: #d5e8d4;
+}
+
+#stop-images{
+	background: #ffc0c0;
+}
+
+#reset-images{
+	background: #fff;
+}
+
+#remove-images,
+#restore-images{
+	background: #fee5cd;
+}
+
+.aiassist-options-images{
+	margin: 20px 0px;
+}
+
+.aiassist-options-images button:not([disabled]){
+	cursor: pointer;
+}
+
+.aiassist-options-images button{
+	min-width: 100px;
+	height: 40px;
+	border: none;
+	background: none;
+	padding: 0 20px;
+	border-radius: 5px;
+}
+
+/* replace images end */

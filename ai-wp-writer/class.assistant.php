@@ -11,25 +11,9 @@ class AIASIST{
 	private $api = 'https://aipost.ru';
 	
 	private $api2 = 'https://api.aipost.ru';
-		
+	
 	function __construct(){
 		$this->options = get_option('_ai_assistant');
-		$this->info = $this->getInfo();
-		$this->steps = get_option('_aiassist_generator');
-		
-		if( isset( $this->info->promts ) && ! is_array( $this->steps['promts'] ?? null ) )
-			$this->steps['promts'] = (array) $this->info->promts;
-	
-		if( @$this->info->promts ){			
-			foreach( $this->info->promts as $key => $promts ){
-				foreach( $promts as $k => $promt ){
-					if( ! isset( $this->steps['promts'][ $key ][ $k ] ) )
-						$this->steps['promts'][ $key ][ $k ] = $promt;
-					else
-						$this->steps['promts'][ $key ][ $k ] = $this->steps['promts'][ $key ][ $k ];
-				}
-			}
-		}
 	
 		if( ! isset( $this->options->token ) ){
 			$this->options = new stdClass();
@@ -74,6 +58,12 @@ class AIASIST{
 		add_action('wp_ajax_startArticlesGen',			[$this, 'startArticlesGen']);
 		add_action('wp_ajax_removeQueueArticle',		[$this, 'removeQueueArticle']);
 		
+		add_action('wp_ajax_replaceImagesStart',		[$this, 'replaceImagesStart']);
+		add_action('wp_ajax_replaceImagesStop',			[$this, 'replaceImagesStop']);
+		add_action('wp_ajax_replaceImagesReset',		[$this, 'replaceImagesReset']);
+		add_action('wp_ajax_replaceImagesRemove',		[$this, 'replaceImagesRemove']);
+		add_action('wp_ajax_replaceImagesRestore',		[$this, 'replaceImagesRestore']);
+		
 		add_action('activated_plugin',					[$this, 'active'], 10, 2 );
 		add_action('deactivate_plugin',					[$this, 'inactive']);
 	}
@@ -109,12 +99,16 @@ class AIASIST{
 		$check = (int) get_option('aiWriterCronCheck');
 		
 		if( $check < time() - 60 ){
+			$this->setInfo();
+			
 			$data['rewrites'] = $this->aiRewrite();
 			$data['articles'] = $this->aiArticlesAutoGen();
+			$data['images'] = $this->replaceImages();
 			update_option('aiWriterCronCheck', time() );
 		} else {
 			$data['rewrites'] = get_option('aiRewritesData');
 			$data['articles'] = get_option('aiArticlesAutoGenData');
+			$data['images'] = get_option('aiImagesData');
 		}
 		
 		$wpdb->query('COMMIT');
@@ -131,17 +125,237 @@ class AIASIST{
 			
 			if( isset( $_POST['token'] ) && preg_match('/^[A-Za-z0-9]{64}$/i', $_POST['token']) ){
 				$this->options->token = sanitize_text_field( $_POST['token'] );
-				$this->info = $this->getInfo();
+				$this->setInfo();
 			}
 			
 			update_option('_ai_assistant', $this->options );
 		}
-		$images		= get_option('aiImagesData');
-		$rewrites	= get_option('aiRewritesData');
-		$autoGen	= get_option('aiArticlesAutoGenData');
-		$cats		= get_categories( [ 'hide_empty' => 0 ] );
+		
+		if( ! $images = get_option('aiImagesData') )
+			$images = [ 'start' => false, 'attachments' => [] ];
+		
+		if( ! $rewrites = get_option('aiRewritesData') )
+			$rewrites = [];
+		
+		if( ! $autoGen = get_option('aiArticlesAutoGenData') )
+			$autoGen = [];
+		
+		if( ! $cats = get_categories( [ 'hide_empty' => 0 ] ) )
+			$cats = [];
 		
 		include dirname(__FILE__) . '/tpl/options.php';
+	}
+	
+	public function replaceImagesReset(){
+		if( ! $this->checkNonce() || ! current_user_can('manage_options') )
+			return;
+		
+		update_option('aiImagesData', [ 'start' => false, 'attachments' => [] ] );
+	}
+	
+	public function replaceImagesStop(){
+		if( ! $this->checkNonce() || ! current_user_can('manage_options') )
+			return;
+			
+		$data = get_option('aiImagesData');
+		$data['start'] = false;
+		update_option('aiImagesData', $data);
+	}
+	
+	public function replaceImagesRemove(){
+		if( ! $this->checkNonce() || ! current_user_can('manage_options') )
+			return;
+		
+		$data = get_option('aiImagesData');
+		
+		if( $data['attachments'] ){
+			foreach( $data['attachments'] as $attach ){
+				if( isset( $attach['attach_id'] ) && isset( $attach['replace_id'] ) )
+					wp_delete_attachment( (int) $attach['attach_id'], true );
+			}
+			update_option('aiImagesData', [ 'start' => false, 'attachments' => [] ] );
+			wp_die('{"removing":"true"}');
+		}
+		wp_die('{"removing":"false"}');
+	}
+	
+	public function replaceImagesRestore(){
+		if( ! $this->checkNonce() || ! current_user_can('manage_options') )
+			return;
+		
+		$data = get_option('aiImagesData');
+		
+		if( $data['attachments'] ){
+			$attachments = [];
+			
+			foreach( $data['attachments'] as $attach )
+				$attachments[ $attach['post_id'] ][] = $attach;
+			
+			if( $attachments ){
+				foreach( $attachments as $post_id => $attachs ){
+					if( $post = get_post( (int) $post_id ) ){
+						foreach( $attachs as $attach ){
+							if( isset( $attach['thumbnail'] ) )
+								update_post_meta( (int) $attach['post_id'], '_thumbnail_id', (int) $attach['attach_id'] );
+							
+							$post->post_content = str_replace( $attach['replace_url'], $attach['url'], $post->post_content );
+							$post->post_content = str_replace( 'wp-image-'. (int) $attach['replace_id'], 'wp-image-'. (int) $attach['attach_id'], $post->post_content );
+							
+							wp_delete_attachment( (int) $attach['replace_id'], true );
+						}
+						wp_update_post( [ 'ID' => (int) $post_id, 'post_content' => $post->post_content ] );
+					}
+				}
+				update_option('aiImagesData', [ 'start' => false, 'attachments' => [] ] );
+			}
+			
+		} 
+	}
+	
+	public function replaceImagesStart(){
+		if( ! $this->checkNonce() || ! current_user_can('manage_options') )
+			return;
+		
+		$data = get_option('aiImagesData');
+		
+		$posts_ids = [];
+		$data['start'] = true;
+		
+		if( isset( $_POST['imageModel'] ) )
+			$data['imageModel'] = sanitize_text_field( $_POST['imageModel'] );
+		
+		if( $_POST['cat'] ){
+			if( $posts = get_posts( [ 'category' => (int) $_POST['cat'], 'post_status' => 'any', 'posts_per_page' => -1 ] ) ){
+				foreach( $posts as $post )
+					$posts_ids[] = $post->ID;
+			}
+		}
+		
+		if( $_POST['types'] ){
+			if( $posts = get_posts( [ 'post_type' => $_POST['types'], 'post_status' => 'any', 'posts_per_page' => -1 ] ) ){
+				foreach( $posts as $post )
+					$posts_ids[] = $post->ID;
+			}
+		}
+		
+		if( $_POST['links'] ){
+			foreach( $_POST['links'] as $link ){
+				if( $id = url_to_postid( $link ) )
+					$posts_ids[] = $id;
+			}
+		}
+		
+		if( $posts_ids ){
+			$i = -1;
+			$data['attachments'] = [];
+			
+			if( $posts = get_posts( [ 'post__in' => $posts_ids, 'post_status' => 'any', 'posts_per_page' => -1 ] ) ){
+				foreach( $posts as $post ){
+					
+					if( $thumbnail_id = (int) get_post_meta( (int) $post->ID, '_thumbnail_id', true ) ){ $i++;
+						$thumbnail = wp_get_attachment_image_src( $thumbnail_id, 'full' );
+						$data['attachments'][ $i ] = [ 'post_id' => $post->ID, 'attach_id' => $thumbnail_id, 'url' => $thumbnail[0], 'thumbnail' => true ];			
+					}
+					
+					if( preg_match_all('/<img([^>]*)src ?= ?["\']([^\'"]*)["\']([^>]*)>/isU', $post->post_content, $attachs) ){
+						if( $attachs[2] ){
+							foreach( $attachs[2] as $k => $attach ){ $i++;
+								$data['attachments'][ $i ] = [ 'post_id' => $post->ID, 'url' => $attach ];
+								
+								if( preg_match('/wp-image-([0-9]*)/', $attachs[1][ $k ], $attach_id ) )
+									$data['attachments'][ $i ]['attach_id'] = (int) $attach_id[1];
+								elseif( preg_match('/wp-image-([0-9]*)/', $attachs[3][ $k ], $attach_id ) )
+									$data['attachments'][ $i ]['attach_id'] = (int) $attach_id[1];
+								
+								if( preg_match('/size-([a-z]*)/', $attachs[1][ $k ], $size ) )
+									$data['attachments'][ $i ]['size'] = (string) $size[1];
+								elseif( preg_match('/wp-image-([a-z]*)/', $attachs[3][ $k ], $size ) )
+									$data['attachments'][ $i ]['size'] = (string) $size[1];		
+							}
+						}
+					}
+					
+				}
+			}
+		}
+		update_option('aiImagesData', $data);
+		wp_die( json_encode( $data ) );
+	}
+	
+	private function replaceImages(){
+		$data = get_option('aiImagesData');
+		
+		if( ! @$data['start'] || ! @$data['attachments'] )
+			return $data;
+		
+		$break = false;
+		$compleat = 0;
+		foreach( $data['attachments'] as $k => $attach ){
+			
+			if( ! isset( $attach['attach_id'] ) ){
+				if( $attach_id = $this->getAttachIdByUrl( $attach['url'] ) )
+					$data['attachments'][ $k ]['attach_id'] = $attach['attach_id'] = (int) $attach_id;
+			}
+			
+			if( ! isset( $attach['task_id'] ) ){
+				$args = [
+							'url'			=> $attach['url'],  
+							'model'			=> $data['imageModel'], 
+							'action'		=> 'replaceImage', 
+							'token'			=> $this->options->token, 
+						];
+						
+				$task = json_decode( $this->wpCurl( $args ) );
+					
+				if( $task->task_id )
+					$data['attachments'][ $k ]['task_id'] = $attach['task_id'] = (int) $task->task_id;
+				
+				$break = true;
+			}
+			
+			if( isset( $attach['task_id'] ) && ! isset( $attach['replace_id'] ) && $attach['request'] < 5 ){
+				$task = json_decode( $this->wpCurl( [ 'action' => 'getTask', 'id' => (int) $attach['task_id'], 'host' => $this->getHost(), 'token' => $this->options->token ] ) );
+				
+				if( isset( $task->image ) ){
+					if( $replace_id = (int) $this->loadFile( $this->api .'/?action=getImage&image='. $task->image, (int) $attach['post_id'] ) ){
+						$data['attachments'][ $k ]['replace_id'] = (int) $replace_id;
+						
+						if( isset( $attach['thumbnail'] ) ){
+							update_post_meta( (int) $attach['post_id'], '_thumbnail_id', $replace_id );
+							continue;
+						}
+						
+						if( $src = wp_get_attachment_image_src( (int) $replace_id, ( isset( $attach['size'] ) ? $attach['size'] : 'full' ) ) ){
+							$post = get_post( (int) $attach['post_id'] );
+							
+							if( strpos( $post->post_content, $attach['url'] ) === false )
+								continue;
+							
+							$data['attachments'][ $k ]['replace_url'] = $src[0];
+							$post->post_content = str_replace( $attach['url'], $src[0], $post->post_content );
+							$post->post_content = str_replace( 'wp-image-'. (int) $attach['attach_id'], 'wp-image-'. (int) $replace_id, $post->post_content );
+							
+							wp_update_post( [ 'ID' => (int) $attach['post_id'], 'post_content' => $post->post_content ] );
+						}	
+					}
+				} else
+					$data['attachments'][ $k ]['request']++;;
+				
+				$break = true;
+			}
+			
+			if( $break )
+				break;
+			
+			if( isset( $attach['replace_id'] ) || $attach['request'] > 4 )
+				$compleat++;
+		}
+		
+		if( $compleat >= count( $data['attachments'] ) )
+			$data['start'] = false;
+		
+		update_option('aiImagesData', $data);
+		return $data;
 	}
 	
 	public function removeQueueArticle(){
@@ -159,6 +373,15 @@ class AIASIST{
 		update_option('aiArticlesAutoGenData', $autoGen);
 	}
 	
+	private function getAttachIdByUrl( $url ) {
+		global $wpdb;
+
+		$dir = wp_upload_dir();
+		$url = preg_replace('/-\d+x\d+(?=\.\w+$)/', '', str_replace( $dir['baseurl'] . '/', '', $url ) );
+
+		return $wpdb->get_var( $wpdb->prepare('SELECT `post_id` FROM '. $wpdb->postmeta .' WHERE `meta_key`="_wp_attached_file" AND `meta_value`=%s', $url ) );
+	}
+
 	public function sign(){
 		if( ! $this->checkNonce() || ! current_user_can('manage_options') )
 			return;
@@ -166,7 +389,7 @@ class AIASIST{
 		if( ! empty( $_POST ) ){
 			@$_POST['locale'] = get_locale();
 			@$_POST['action'] = sanitize_text_field( @$_POST['act'] );
-			wp_die( $this->wpCurl( $this->api, $_POST ) );
+			wp_die( $this->wpCurl( $_POST ) );
 		}
 		
 		wp_die('{"success":"false"}');
@@ -176,35 +399,35 @@ class AIASIST{
 		if( ! $this->checkNonce()  || ! current_user_can('manage_options') )
 			return;
 	
-		wp_die( $this->wpcurl( $this->api, [ 'token' => sanitize_text_field( $this->options->token ), 'action' => 'getPayUrl', 'promocode' => $_POST['promocode'], 'type' => sanitize_text_field( $_POST['type'] ), 'crypto' => sanitize_text_field( $_POST['crypto'] ), 'out_summ' => sanitize_text_field( $_POST['out_summ'] ), 'locale' => get_locale() ] ) );
+		wp_die( $this->wpcurl( [ 'token' => sanitize_text_field( $this->options->token ), 'action' => 'getPayUrl', 'promocode' => $_POST['promocode'], 'type' => sanitize_text_field( $_POST['type'] ), 'crypto' => sanitize_text_field( $_POST['crypto'] ), 'out_summ' => sanitize_text_field( $_POST['out_summ'] ), 'locale' => get_locale() ] ) );
 	}
 	
 	public function active(){
-		$this->wpcurl( $this->api, [ 'host' => $this->getHost(), 'action' => 'active' ] );
+		$this->wpcurl( [ 'host' => $this->getHost(), 'action' => 'active' ] );
 	}
 	
 	public function inactive(){
-		$this->wpcurl( $this->api, [ 'host' => $this->getHost(), 'action' => 'inactive' ] );
+		$this->wpcurl( [ 'host' => $this->getHost(), 'action' => 'inactive' ] );
 	}
 	
 	private function activation( $token ){
-		$this->wpcurl( $this->api, [ 'host' => $this->getHost(), 'action' => 'activation', 'token' => sanitize_text_field( $token ) ] );
+		$this->wpcurl( [ 'host' => $this->getHost(), 'action' => 'activation', 'token' => sanitize_text_field( $token ) ] );
 	}
 	
 	public function getBonus(){
 		if( ! $this->checkNonce()  || ! current_user_can('manage_options') )
 			return;
 	
-		wp_die( $this->wpcurl( $this->api, [ 'method' => sanitize_text_field( $_POST['method'] ), 'wallet' => sanitize_text_field( $_POST['wallet'] ), 'info' => sanitize_text_field( $_POST['info'] ), 'token' => sanitize_text_field( $this->options->token ), 'action' => 'requestBonus' ] ) );
+		wp_die( $this->wpcurl( [ 'method' => sanitize_text_field( $_POST['method'] ), 'wallet' => sanitize_text_field( $_POST['wallet'] ), 'info' => sanitize_text_field( $_POST['info'] ), 'token' => sanitize_text_field( $this->options->token ), 'action' => 'requestBonus' ] ) );
 	}
 	
 	private function getInfo(){
-		$args = [ 'action' => 'getInfo', 'locale' => get_locale(), 'token' => sanitize_text_field( @$this->options->token ) ];
+		$args = [ 'action' => 'getInfo', 'currency' => __('$', 'wp-ai-assistant'), 'token' => sanitize_text_field( @$this->options->token ) ];
 		
 		if( isset( $_POST['promocode'] ) )
 			$args['promocode'] = sanitize_text_field( $_POST['promocode'] );
 	
-		if( $info = json_decode( $this->wpcurl( $this->api, $args ) ) )
+		if( $info = json_decode( $this->wpcurl( $args ) ) )
 			return $info;
 		
 		return false;
@@ -222,7 +445,7 @@ class AIASIST{
 		if( ! $this->checkNonce() || ! current_user_can('manage_options') )
 			return;
 	
-		wp_die( $this->wpcurl( $this->api, [ 'token' => sanitize_text_field( $this->options->token ), 'action' => 'getStat', 'host' => sanitize_text_field( $_REQUEST['host'] ), 'dateStart' => sanitize_text_field( $_REQUEST['dateStart'] ), 'dateEnd' => sanitize_text_field( $_REQUEST['dateEnd'] ) ] ) );
+		wp_die( $this->wpcurl( [ 'token' => sanitize_text_field( $this->options->token ), 'action' => 'getStat', 'host' => sanitize_text_field( $_REQUEST['host'] ), 'dateStart' => sanitize_text_field( $_REQUEST['dateStart'] ), 'dateEnd' => sanitize_text_field( $_REQUEST['dateEnd'] ) ] ) );
 	}
 	
 	private function getHost(){
@@ -301,7 +524,7 @@ class AIASIST{
 								'token'			=> $this->options->token, 
 							];
 							
-					$task = json_decode( $this->wpCurl($this->api, $args ) );
+					$task = json_decode( $this->wpCurl( $args ) );
 					
 					if( $task->task_id ){
 						
@@ -317,7 +540,7 @@ class AIASIST{
 				}
 				
 				if( isset( $article['task_id'] ) && isset( $article['revision_id'] ) && ! isset( $article['post_id'] ) ){
-					$task = json_decode( $this->wpCurl( $this->api, [ 'action' => 'getTask', 'id' => $article['task_id'], 'host' => $this->getHost(), 'token' => $this->options->token ] ) );
+					$task = json_decode( $this->wpCurl( [ 'action' => 'getTask', 'id' => $article['task_id'], 'host' => $this->getHost(), 'token' => $this->options->token ] ) );
 					
 					if( ! @$data['articles'][ $k ]['check'] )
 						$data['articles'][ $k ]['check'] = 0;
@@ -519,7 +742,7 @@ class AIASIST{
 		update_option('aiRewritesData', $data);
 	}
 
-	public function aiRewrite(){
+	private function aiRewrite(){
 		if( $data = get_option('aiRewritesData') ){
 			
 			if( ! @$data['start'] || ! @$data['posts'] )
@@ -579,7 +802,7 @@ class AIASIST{
 						if( isset( $item['url'] ) )
 							$args['url'] = $item['url'];
 							
-						$task = json_decode( $this->wpCurl( $this->api, $args ) );
+						$task = json_decode( $this->wpCurl( $args ) );
 						
 						if( $task->task_id )
 							$data['posts'][ $k ]['task_id'] = $task->task_id;
@@ -587,7 +810,7 @@ class AIASIST{
 					
 					
 					if( isset( $item['task_id'] ) && ! isset( $item['post_id'] ) ){
-						$task = json_decode( $this->wpCurl( $this->api, [ 'action' => 'getTask', 'id' => $item['task_id'], 'host' => $this->getHost(), 'token' => $this->options->token ] ) );
+						$task = json_decode( $this->wpCurl( [ 'action' => 'getTask', 'id' => $item['task_id'], 'host' => $this->getHost(), 'token' => $this->options->token ] ) );
 						
 						if( ! @$data['posts'][ $k ]['check'] )
 							$data['posts'][ $k ]['check'] = 0;
@@ -991,7 +1214,28 @@ class AIASIST{
 		wp_localize_script('aiassist-cron', 'aiassist', [ 'ajaxurl' => admin_url('admin-ajax.php'), 'nonce' => wp_create_nonce('aiassist') ] );
 	}
 	
+	private function setInfo(){
+		$this->info = $this->getInfo();
+		$this->steps = get_option('_aiassist_generator');
+		
+		if( isset( $this->info->promts ) && ! is_array( $this->steps['promts'] ?? null ) )
+			$this->steps['promts'] = (array) $this->info->promts;
+	
+		if( @$this->info->promts ){
+			foreach( $this->info->promts as $key => $promts ){
+				foreach( $promts as $k => $promt ){
+					if( ! isset( $this->steps['promts'][ $key ][ $k ] ) )
+						$this->steps['promts'][ $key ][ $k ] = $promt;
+					else
+						$this->steps['promts'][ $key ][ $k ] = $this->steps['promts'][ $key ][ $k ];
+				}
+			}
+		}
+	}
+	
 	public function scripts(){
+		$this->setInfo();
+		
 		wp_enqueue_style('aiassist', plugin_dir_url( __FILE__ ) .'assets/css/style.css?t='. time(), false, '1.0', 'all');
 		
 		wp_enqueue_script('google-charts', plugin_dir_url( __FILE__ ) .'assets/libs/charts.js', [ 'jquery' ], false, false );
@@ -1056,6 +1300,18 @@ class AIASIST{
 				'Restore original text'	=> __('Restore original text', 'wp-ai-assistant'),
 				'No data found!'	=> __('No data found!', 'wp-ai-assistant'),
 				'Credits'	=> __('Credits', 'wp-ai-assistant'),
+				'The regeneration process has been stopped.'	=> __('The regeneration process has been stopped.', 'wp-ai-assistant'),
+				'The process of regeneration is underway...'	=> __('The process of regeneration is underway...', 'wp-ai-assistant'),
+				'The regeneration process is complete.'	=> __('The regeneration process is complete.', 'wp-ai-assistant'),
+				'Original images installed and generated ones removed'	=> __('Original images installed and generated ones removed', 'wp-ai-assistant'),
+				'Removing...'	=> __('Removing...', 'wp-ai-assistant'),
+				'Removeds'	=> __('Removeds', 'wp-ai-assistant'),
+				'Original images removed'	=> __('Original images removed', 'wp-ai-assistant'),
+				'Date'	=> __('Date', 'wp-ai-assistant'),
+				'Generations'	=> __('Generations', 'wp-ai-assistant'),
+				'Regenerate images'	=> __('Regenerate images', 'wp-ai-assistant'),
+				'Restore original / removing generated images'	=> __('Restore original / removing generated images', 'wp-ai-assistant'),
+				'Remove original images'	=> __('Remove original images', 'wp-ai-assistant'),
 			],
 		] );
 	}
@@ -1085,11 +1341,14 @@ class AIASIST{
 		}, array_values( get_post_types() ), 'normal', 'high' );
 	}
 	
-	private function wpCurl( $url, $args = [] ){
+	private function wpCurl( $args = [] ){
 		if( ! empty( $args ) )
 			$args = [ 'body' => $args, 'timeout' => 300, 'method' => 'POST' ];
 		
-		$data = (array) wp_remote_request( $url, $args );
+		$data = (array) wp_remote_request( $this->api, $args );
+		
+		if( ! isset( $data['body'] ) )
+			$data = (array) wp_remote_request( $this->api2, $args );
 		
 		return @$data['body'];
 	}
