@@ -571,12 +571,13 @@
 							</div>
 							
 							<div class="aiassist-rate-desc">
-								<?php _e('How much content can be generated<br />~ 660 000 characters GPT-4o**<br />(330 000 characters when generating context sensitive)<br />~ 4 400 000 characters GPT-4o mini**<br />~ 942 images FLUX Schnell<br />~ 347 generations Midjourney<br />~ 188 images Dalle 3', 'wp-ai-assistant') ?>			
+								<?php _e('How much content can be generated<br />~ 4 400 000 characters GPT-4.1 nano**<br />~ 2 640 000 characters GPT-4.1 mini**<br />~ 660 000 characters GPT-4.1**<br />(330 000 characters for article generation from a plan with context)<br />~ 942 images FLUX Schnell<br />~ 165 generations Midjourney v7<br />~ 188 images Dalle 3', 'wp-ai-assistant') ?>			
 							</div>
 							<div class="aiassist-rate-checklist">
-								<div class="aiassist-rate-check"><?php _e('Neural Networks: GPT-4o, Dalle 3, GPT-4o-mini, Midjourney, FLUX.', 'wp-ai-assistant') ?>.</div>
+								<div class="aiassist-rate-check"><?php _e('Neural Networks: GPT-4.1, GPT-4.1-mini, GPT-4.1-nano, Midjourney v7, Dalle 3, FLUX.', 'wp-ai-assistant') ?>.</div>
 								<div class="aiassist-rate-check"><?php _e('Bulk generation and generation articles in the editor', 'wp-ai-assistant') ?></div>
 								<div class="aiassist-rate-check"><?php _e('AI Assist, AI image creator', 'wp-ai-assistant') ?></div>
+								<div class="aiassist-rate-check"><?php _e('Image uniqueization', 'wp-ai-assistant') ?></div>
 							</div>
 							
 							<?php if( @$this->info->subscribe->type == 'basic' ){ ?>
@@ -609,13 +610,14 @@
 							</div>
 							
 							<div class="aiassist-rate-desc">
-								<?php _e('How much content can be generated<br />~ 2 050 000 characters GPT-4o**<br />(1 125 000 characters when generating context sensitive)<br />~ 13 666 000 characters GPT-4o mini**<br />~ 2 928 images FLUX Schnell<br />~ 1 078 generations Midjourney<br />~ 585 images Dalle 3', 'wp-ai-assistant') ?>						
+								<?php _e('How much content can be generated<br />~ 13 666 000 characters GPT-4.1 nano**<br />~ 8 200 000 characters GPT-4.1 mini**<br />~ 2 050 000 characters GPT-4.1**<br />(1 025 000 characters for article generation from a plan with context)<br />~ 2 928 images FLUX Schnell<br />~ 512 generations Midjourney v7<br />~ 585 images Dalle 3', 'wp-ai-assistant') ?>						
 							</div>
 							<div class="aiassist-rate-checklist">
-								<div class="aiassist-rate-check"><?php _e('Neural Networks: GPT-4o, Dalle 3, GPT-4o-mini, Midjourney, FLUX.', 'wp-ai-assistant') ?>.</div>
+								<div class="aiassist-rate-check"><?php _e('Neural Networks: GPT-4.1, GPT-4.1-mini, GPT-4.1-nano, Midjourney v7, Dalle 3, FLUX.', 'wp-ai-assistant') ?>.</div>
 								<div class="aiassist-rate-check"><?php _e('Bulk generation and generation articles in the editor', 'wp-ai-assistant') ?></div>
 								<div class="aiassist-rate-check"><?php _e('AI Assist, AI image creator', 'wp-ai-assistant') ?></div>
 								<div class="aiassist-rate-check"><?php _e('Rewrite articles on your site and pages from other sites', 'wp-ai-assistant') ?></div>
+								<div class="aiassist-rate-check"><?php _e('Image uniqueization', 'wp-ai-assistant') ?></div>
 							</div>
 							
 							<?php if( @$this->info->subscribe->type == 'pro' ){ ?>
@@ -646,13 +648,14 @@
 							</div>
 							
 							<div class="aiassist-rate-desc">
-								<?php _e('How much content can be generated<br />~ 5 000 000 characters GPT-4o**<br />(2 500 000 characters when generating context sensitive)<br />~ 33 333 000 characters GPT-4o mini**<br />~ 7 142 images FLUX Schnell<br />~ 2 631 generations Midjourney<br />~ 1 428 images Dalle 3', 'wp-ai-assistant') ?>
+								<?php _e('How much content can be generated<br />~ 33 333 000 characters GPT-4.1 nano**<br />~ 20 000 000 characters GPT-4.1 mini**<br />~ 5 000 000 characters GPT-4.1**<br />(2 500 000 characters for article generation from a plan with context)<br />~ 7 142 images FLUX Schnell<br />~ 1 250 generations Midjourney v7<br />~ 1 428 images Dalle 3', 'wp-ai-assistant') ?>
 							</div>
 							<div class="aiassist-rate-checklist">
-								<div class="aiassist-rate-check"><?php _e('Neural Networks: GPT-4o, Dalle 3, GPT-4o-mini, Midjourney, FLUX.', 'wp-ai-assistant') ?>.</div>
+								<div class="aiassist-rate-check"><?php _e('Neural Networks: GPT-4.1, GPT-4.1-mini, GPT-4.1-nano, Midjourney v7, Dalle 3, FLUX.', 'wp-ai-assistant') ?>.</div>
 								<div class="aiassist-rate-check"><?php _e('Bulk generation and generation articles in the editor', 'wp-ai-assistant') ?></div>
 								<div class="aiassist-rate-check"><?php _e('AI Assist, AI image creator', 'wp-ai-assistant') ?></div>
 								<div class="aiassist-rate-check"><?php _e('Rewrite articles on your site and pages from other sites', 'wp-ai-assistant') ?></div>
+								<div class="aiassist-rate-check"><?php _e('Image uniqueization', 'wp-ai-assistant') ?></div>
 							</div>
 							
 							<?php if( @$this->info->subscribe->type == 'premium' ){ ?>
@@ -678,7 +681,7 @@
 								<div class="aiassist-rate-check"><?php _e('AI Assist', 'wp-ai-assistant') ?></div>
 							</div>
 							<div class="aiassist-rate-checklist aiassist-rates-free-item">
-								<div class="aiassist-rate-check"><?php _e('Neural networks: GPT-4o-mini, FLUX', 'wp-ai-assistant') ?></div>
+								<div class="aiassist-rate-check"><?php _e('Neural networks: GPT-4.1-mini, GPT-4.1-nano, FLUX', 'wp-ai-assistant') ?></div>
 								<div class="aiassist-rate-check"><?php _e('AI image creator', 'wp-ai-assistant') ?></div>
 							</div>
 						</div>

@@ -298,14 +298,7 @@ class AIASIST{
 			}
 			
 			if( ! isset( $attach['task_id'] ) ){
-				$args = [
-							'url'			=> $attach['url'],  
-							'model'			=> $data['imageModel'], 
-							'action'		=> 'replaceImage', 
-							'token'			=> $this->options->token, 
-						];
-						
-				$task = json_decode( $this->wpCurl( $args ) );
+				$task = json_decode( $this->wpCurl( [ 'url' => $attach['url'], 'model' => $data['imageModel'], 'action' => 'replaceImage', 'token' => $this->options->token ] ) );
 					
 				if( $task->task_id )
 					$data['attachments'][ $k ]['task_id'] = $attach['task_id'] = (int) $task->task_id;
@@ -315,6 +308,30 @@ class AIASIST{
 			
 			if( isset( $attach['task_id'] ) && ! isset( $attach['replace_id'] ) && $attach['request'] < 5 ){
 				$task = json_decode( $this->wpCurl( [ 'action' => 'getTask', 'id' => (int) $attach['task_id'], 'host' => $this->getHost(), 'token' => $this->options->token ] ) );
+				
+				
+				if( isset( $task->error ) && $task->error == 'error_url' ){
+					if( $attach['attach_id'] ){
+						$path = get_attached_file( $attach['attach_id'] );
+						
+						if( file_exists( $path ) ){
+							$args = [
+								'url'		=> $attach['url'],  
+								'model'		=> $data['imageModel'], 
+								'action'	=> 'replaceImage', 
+								'token'		=> $this->options->token, 
+								'file'		=> file_get_contents( $path )
+							];
+							
+							$args = $this->convertArrayToBoundaryData( $args );
+							$task = json_decode( $this->wpCurl( $args->args, [ 'Content-Type' => 'multipart/form-data; boundary=' . $args->boundary ] ) );
+							
+							if( $task->task_id )
+								$data['attachments'][ $k ]['task_id'] = $attach['task_id'] = (int) $task->task_id;
+						}
+					}
+				}
+		
 				
 				if( isset( $task->image ) ){
 					if( $replace_id = (int) $this->loadFile( $this->api .'/?action=getImage&image='. $task->image, (int) $attach['post_id'] ) ){
@@ -344,11 +361,11 @@ class AIASIST{
 				$break = true;
 			}
 			
-			if( $break )
-				break;
-			
 			if( isset( $attach['replace_id'] ) || $attach['request'] > 4 )
 				$compleat++;
+			
+			if( $break )
+				break;
 		}
 		
 		if( $compleat >= count( $data['attachments'] ) )
@@ -1341,9 +1358,26 @@ class AIASIST{
 		}, array_values( get_post_types() ), 'normal', 'high' );
 	}
 	
-	private function wpCurl( $args = [] ){
+	private function convertArrayToBoundaryData( array $data, $args = '' ) {
+		$boundary = wp_generate_password( 24, false );
+		
+		foreach( $data as $key => $content ){
+			$args .= "--$boundary\r\nContent-Disposition: form-data; name='$key';";
+			switch( $key ){
+				case 'file':
+					$args .= " filename='image'\r\nContent-Type: application/octet-stream\r\n\r\n";
+				break;				
+				default:
+					$args .= "\r\n\r\n";
+			}
+			$args .= $content ."\r\n";
+		}
+		return (object) [ 'args' => $args .= "--$boundary--\r\n", 'boundary' => $boundary ];
+	}
+	
+	private function wpCurl( $args = [], $headers = [] ){
 		if( ! empty( $args ) )
-			$args = [ 'body' => $args, 'timeout' => 300, 'method' => 'POST' ];
+			$args = [ 'body' => $args, 'timeout' => 300, 'method' => 'POST', 'headers' => $headers ];
 		
 		$data = (array) wp_remote_request( $this->api, $args );
 		
