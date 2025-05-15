@@ -679,20 +679,20 @@ msgid "1 million credits"
 msgstr "1 млн лимитов"
 
 #: tpl/options.php
-msgid "How much content can be generated<br />~ 4 400 000 characters GPT-4.1 nano**<br />~ 2 640 000 characters GPT-4.1 mini**<br />~ 660 000 characters GPT-4.1**<br />(330 000 characters for article generation from a plan with context)<br />~ 942 images FLUX Schnell<br />~ 165 generations Midjourney v7<br />~ 188 images Dalle 3"
-msgstr "Сколько можно сгенерировать<br />~ 4 400 000 символов GPT-4.1 nano**<br />~ 2 640 000 символов GPT-4.1 mini**<br />~ 660 000 символов GPT-4.1** (330 000 символов при генерации по плану с учетом контекста)<br />~ 942 изображения FLUX Schnell<br />~ 165 изображений Midjourney v7<br />~ 188 изображений Dalle 3"
+msgid "How much content can be generated<br />~ 4 400 000 characters GPT-4.1 nano**<br />~ 2 640 000 characters GPT-4.1 mini**<br />~ 660 000 characters GPT-4.1**<br />(330 000 characters for article generation from a plan with context)<br />~ 942 images FLUX Schnell<br />~ 165 generations Midjourney v7<br />~ 188 images Dalle 3<br />~ 165 images GPT-image"
+msgstr "Сколько можно сгенерировать<br />~ 4 400 000 символов GPT-4.1 nano**<br />~ 2 640 000 символов GPT-4.1 mini**<br />~ 660 000 символов GPT-4.1** (330 000 символов при генерации по плану с учетом контекста)<br />~ 942 изображения FLUX Schnell<br />~ 165 изображений Midjourney v7<br />~ 188 изображений Dalle 3<br />~ 165 изображений GPT-image"
 
 #: tpl/options.php
-msgid "How much content can be generated<br />~ 13 666 000 characters GPT-4.1 nano**<br />~ 8 200 000 characters GPT-4.1 mini**<br />~ 2 050 000 characters GPT-4.1**<br />(1 025 000 characters for article generation from a plan with context)<br />~ 2 928 images FLUX Schnell<br />~ 512 generations Midjourney v7<br />~ 585 images Dalle 3"
-msgstr "Сколько можно сгенерировать<br />~ 13 666 000 символов GPT-4.1 nano**<br />~ 8 200 000 символов GPT-4.1 mini**<br />~ 2 050 000 символов GPT-4.1** (1 025 000 символов при генерации по плану с учетом контекста)<br />~ 2 928 изображений FLUX Schnell<br />~ 512 изображений Midjourney v7<br />~ 585 изображения Dalle 3"
+msgid "How much content can be generated<br />~ 13 666 000 characters GPT-4.1 nano**<br />~ 8 200 000 characters GPT-4.1 mini**<br />~ 2 050 000 characters GPT-4.1**<br />(1 025 000 characters for article generation from a plan with context)<br />~ 2 928 images FLUX Schnell<br />~ 512 generations Midjourney v7<br />~ 585 images Dalle 3<br />~ 512 images GPT-image"
+msgstr "Сколько можно сгенерировать<br />~ 13 666 000 символов GPT-4.1 nano**<br />~ 8 200 000 символов GPT-4.1 mini**<br />~ 2 050 000 символов GPT-4.1** (1 025 000 символов при генерации по плану с учетом контекста)<br />~ 2 928 изображений FLUX Schnell<br />~ 512 изображений Midjourney v7<br />~ 585 изображения Dalle 3<br />~ 512 изображений GPT-image"
 
 #: tpl/options.php
-msgid "How much content can be generated<br />~ 33 333 000 characters GPT-4.1 nano**<br />~ 20 000 000 characters GPT-4.1 mini**<br />~ 5 000 000 characters GPT-4.1**<br />(2 500 000 characters for article generation from a plan with context)<br />~ 7 142 images FLUX Schnell<br />~ 1 250 generations Midjourney v7<br />~ 1 428 images Dalle 3"
-msgstr "Сколько можно сгенерировать<br />~ 33 333 000 символов GPT-4.1 nano**<br />~ 20 000 000 символов GPT-4o mini**<br />~ 5 000 000 символов GPT-4.1** (2 500 000 символов при генерации по плану с учетом контекста)<br />~ 7 142 изображения FLUX Schnell<br />~ 1 250 изображений Midjourney v7<br />~ 1 428 изображений Dalle 3"
+msgid "How much content can be generated<br />~ 33 333 000 characters GPT-4.1 nano**<br />~ 20 000 000 characters GPT-4.1 mini**<br />~ 5 000 000 characters GPT-4.1**<br />(2 500 000 characters for article generation from a plan with context)<br />~ 7 142 images FLUX Schnell<br />~ 1 250 generations Midjourney v7<br />~ 1 428 images Dalle 3<br />~ 1 250 images GPT-image"
+msgstr "Сколько можно сгенерировать<br />~ 33 333 000 символов GPT-4.1 nano**<br />~ 20 000 000 символов GPT-4o mini**<br />~ 5 000 000 символов GPT-4.1** (2 500 000 символов при генерации по плану с учетом контекста)<br />~ 7 142 изображения FLUX Schnell<br />~ 1 250 изображений Midjourney v7<br />~ 1 428 изображений Dalle 3<br />~ 1 250 изображений GPT-image"
 
 #: tpl/options.php
-msgid "Neural Networks: GPT-4.1, GPT-4.1-mini, GPT-4.1-nano, Midjourney v7, Dalle 3, FLUX."
-msgstr "Нейросети: GPT-4.1, GPT-4.1-mini, GPT-4.1-nano, Midjourney v7, Dalle 3, FLUX"
+msgid "Neural Networks: GPT-4.1, GPT-4.1-mini, GPT-4.1-nano, Midjourney v7, Dalle 3, GPT-image, FLUX."
+msgstr "Нейросети: GPT-4.1, GPT-4.1-mini, GPT-4.1-nano, Midjourney v7, Dalle 3, GPT-image, FLUX."
 
 #: tpl/options.php
 msgid "Bulk generation and generation articles in the editor"
@@ -893,6 +893,18 @@ msgstr "Генерация"
 #: tpl/options.php
 msgid "Regenerate images"
 msgstr "Перегенерация картинок"
+
+#: tpl/options.php
+msgid "Don't rewrite h1 header"
+msgstr "Не рерайтить заголовок h1"
+
+#: tpl/options.php
+msgid "Don't rewrite meta title"
+msgstr "Не рерайтить meta title"
+
+#: tpl/options.php
+msgid "Don't rewrite meta description"
+msgstr "Не рерайтить meta description"
 
 #: tpl/worckspace.php
 msgid "Enter a subject..."

@@ -806,14 +806,16 @@ button[name="save"]{
 		background: none;
 	}
 	
-	.aiassist-images.dalle{
+	.aiassist-images.dalle,
+	.aiassist-images.gptImage{
 		display: flex;
 		background: none;
 	}
 
 	.aiassist-images.nsfw img,
 	.aiassist-images.flux img,
-	.aiassist-images.dalle img{
+	.aiassist-images.dalle img,
+	.aiassist-images.gptImage img{
 		margin: auto;
 	}
 	
@@ -1330,15 +1332,17 @@ button[name="save"]{
 		text-align: center;
 	}
 	
+	.aiassist-image-block-panel{
+		display: flex;
+	}
+	
 	.aiassist-image-block .aiassist-select-wrap{
-		font-size: 15px;
+		font-size: 14px;
 		display: inline-block;
 	}
 
 	.aiassist-image-block .aiassist-select-lable{
-		top: -2px;
 		height: 32px;
-		position: relative;
 		border: solid 1px #ccc;
 	}
 

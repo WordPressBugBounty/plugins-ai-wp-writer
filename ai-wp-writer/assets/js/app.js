@@ -2,10 +2,9 @@ jQuery( document ).ready(function($){
 
 	const app = {
 		
-		model: 'gpt3',
-		
 		init: () => {
 			
+			app.ping();
 			app.cron();
 			app.events();
 			
@@ -64,6 +63,7 @@ jQuery( document ).ready(function($){
 			
 			$(document).on('input', '#aiassist-gpt-key', app.saveKey);
 			$(document).on('change', '#aiassist-change-text-model', app.setTextModel);
+			$(document).on('change', '#aiassist-change-text-model-editor', app.setTextModelEditor);
 			$(document).on('change', '#aiassist-change-image-model', app.setImageModel);
 			$(document).on('change', '#aiassist-image-model', app.setAutoImageModel);
 			$(document).on('click', '#aiassist-tiny-image-save', app.tinyMceImageSave);
@@ -103,10 +103,11 @@ jQuery( document ).ready(function($){
 			$(document).on('click', '.aiassist-select-lable', app.openSelect);
 			$(document).on('click', '.aiassist-option:not(.aiassist-lock)', app.changeSelect);
 			
-			if( textModel = app.getCookie('text-model') ){
-				app.model = textModel;
-				$('.aiassist-option[data-value="'+ textModel +'"]').click();
-			}
+			if( textModel = app.getCookie('text-model') )
+				$('#aiassist-change-text-model').closest('.aiassist-select').find('.aiassist-option[data-value="'+ textModel +'"]').click();
+			
+			if( textModelEditor = app.getCookie('text-model-editor') )
+				$('#aiassist-change-text-model-editor').closest('.aiassist-select').find('.aiassist-option[data-value="'+ textModelEditor +'"]').click();
 			
 			if( imgModel = app.getCookie('image-model') ){
 				$('.aiassist-image-model .aiassist-option[data-value="'+ imgModel +'"]').click();
@@ -907,7 +908,7 @@ jQuery( document ).ready(function($){
 		},
 		
 		cron: async () => {
-			await app.ping();
+			await app.ping(3000);
 			
 			let args = await app.request( { action: 'aiassist_cron', nonce: aiassist.nonce } );
 			let limit = await app.request( { action: 'getLimit', token: aiassist.token }, aiassist.api );
@@ -1044,8 +1045,11 @@ jQuery( document ).ready(function($){
 		},
 		
 		setTextModel: () => {
-			app.model = $('#aiassist-change-text-model').val();
-			app.setCookie('text-model', app.model);
+			app.setCookie('text-model', $('#aiassist-change-text-model').val());
+		},
+		
+		setTextModelEditor: () => {
+			app.setCookie('text-model-editor', $('#aiassist-change-text-model-editor').val());
 		},
 		
 		setImageModel: function(){
@@ -1188,6 +1192,9 @@ jQuery( document ).ready(function($){
 				pictures: $('#aiassist-rewrite-multi-images').val(),
 				max_pictures: $('#aiassist-rewrite-max-pictures').val(),
 				split: $('#aiassist-rewrite-split').val(),
+				excude_h1: $('#aiassist-rewrite-excude-h1').prop('checked') ? 1 : 0,
+				excude_title: $('#aiassist-rewrite-excude-title').prop('checked') ? 1 : 0,
+				excude_desc: $('#aiassist-rewrite-excude-desc').prop('checked') ? 1 : 0,
 				thumb: $('#aiassist-rewrite-thumb').prop('checked') ? 1 : 0,
 				draft: $('#aiassist-rewrite-draft').prop('checked') ? 1 : 0,
 				textModel: $('#aiassist-rewrite-text-model').val(),
@@ -1217,7 +1224,7 @@ jQuery( document ).ready(function($){
 				links: {},
 				split: $('#aiassist-rewrite-split').val(),
 				promt: $('#aiassist-rewrite-prom').val(),
-				textModel: $('#aiassist-change-text-model').val(),
+				textModel: $('#aiassist-rewrite-text-model').val(),
 				imageModel: $('#aiassist-image-model').val(),
 				action: 'initRewrite', 
 				nonce: aiassist.nonce
@@ -1366,8 +1373,9 @@ jQuery( document ).ready(function($){
 		
 		translatePromtsToImages: async () => {
 			if( $('.aiassist-headers .aiassist-header-item').length ){
+				let model = $('#aiassist-change-image-model').val();
 				
-				if( $('#aiassist-change-image-model').val() == 'dalle' ){
+				if( [ 'dalle', 'gptImage' ].indexOf( model ) != -1 ){
 					
 					if( $('.aiassist-header-item').length ){
 						let h1 = $('.aiassist-main-header label input').val();
@@ -1375,7 +1383,7 @@ jQuery( document ).ready(function($){
 						
 						$('.aiassist-header-item:not(.aiassist-main-header)').each(function(){
 							let e = $(this);
-							let header = h1 +' '+ e.find('label input').val();
+							let header = h1 +'. '+ e.find('label input').val();
 							
 							e.find('.aiassist-translate-promt-image input').val( header );
 						})
@@ -1935,7 +1943,7 @@ jQuery( document ).ready(function($){
 			return new Promise( async resolve => {
 				try{
 					while( true ){
-						let task = await app.request( Object.assign( { token: aiassist.token, model: app.model }, args ), aiassist.api );
+						let task = await app.request( Object.assign( { token: aiassist.token, model: $('#aiassist-change-text-model-editor').val() }, args ), aiassist.api );
 						
 						if( task.limit && $('#tokens-left').length ){
 							$('#tokens-left').text( app.number_format( task.limit ) );
@@ -2040,9 +2048,9 @@ jQuery( document ).ready(function($){
 			return new Promise( resolve => setTimeout( () => resolve(true), s * 1000) );
 		},
 		
-		ping: () => {
+		ping: ( timeout = 1500 ) => {
 			return new Promise( async resolve => {
-				let ping = await app.request( { action: 'ping' }, aiassist.api, 1000 );
+				let ping = await app.request( { action: 'ping' }, aiassist.api, timeout );
 				
 				if( ping === true )
 					aiassist.api = ( aiassist.api == aiassist.apiurl ) ? aiassist.apiurl2 : aiassist.apiurl;

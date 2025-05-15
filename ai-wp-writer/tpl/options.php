@@ -178,6 +178,7 @@
 				<select name="aiassist-image-model" class="aiassist-images-options" id="aiassist-images-model">
 					<option value="flux" <?php echo @$images['imageModel'] == 'flux' ? 'selected' : '' ?>>FLUX schnell</option>
 					<option value="dalle" <?php echo @$images['imageModel'] == 'dalle' ? 'selected' : '' ?>>Dalle 3</option>
+					<option value="gptImage" <?php echo @$images['imageModel'] == 'gptImage' ? 'selected' : '' ?>>GPT-image</option>
 					<option value="midjourney" <?php echo @$images['imageModel'] == 'midjourney' ? 'selected' : '' ?>>Midjourney</option>
 				</select>
 			</div>
@@ -384,6 +385,25 @@
 			
 			<textarea class="aiassist-prom" id="aiassist-rewrite-prom"><?php echo esc_textarea( isset( $this->steps['promts']['rewrite'][ $lang_id ] ) ? trim( $this->steps['promts']['rewrite'][ $lang_id ] ) : @$this->info->promts->rewrite[ $lang_id ] )?></textarea>
 			
+			
+			<div class="aiassist-option-item">
+				<label class="aiassist-option-item">
+					<input type="checkbox" class="aiassist-rewrite-options" id="aiassist-rewrite-excude-h1" <?php echo @$rewrites['excude_h1'] ? 'checked' : '' ?> />
+					<?php echo _e('Don\'t rewrite h1 header', 'wp-ai-assistant') ?>
+				</label>
+				
+				<label class="aiassist-option-item">
+					<input type="checkbox" class="aiassist-rewrite-options" id="aiassist-rewrite-excude-title" <?php echo @$rewrites['excude_title'] ? 'checked' : '' ?> />
+					<?php echo _e('Don\'t rewrite meta title', 'wp-ai-assistant') ?>
+				</label>
+				
+				<label class="aiassist-option-item">
+					<input type="checkbox" class="aiassist-rewrite-options" id="aiassist-rewrite-excude-desc" <?php echo @$rewrites['excude_desc'] ? 'checked' : '' ?> />
+					<?php echo _e('Don\'t rewrite meta description', 'wp-ai-assistant') ?>
+				</label>
+			</div>
+			
+			
 			<div class="aiassist-option-item">
 				<?php _e('Images generation for rewrited article based on headlines. If you leave the checkboxes empty, the rewrited version will be done without images.', 'wp-ai-assistant') ?>
 				
@@ -425,6 +445,7 @@
 					<select name="aiassist-image-model" class="aiassist-rewrite-options" id="aiassist-rewrite-image-model">
 						<option value="flux" <?php echo @$rewrites['imageModel'] == 'flux' ? 'selected' : '' ?>>FLUX schnell</option>
 						<option value="dalle" <?php echo @$rewrites['imageModel'] == 'dalle' ? 'selected' : '' ?>>Dalle 3</option>
+						<option value="gptImage" <?php echo @$rewrites['imageModel'] == 'gptImage' ? 'selected' : '' ?>>GPT-image</option>
 						<option value="midjourney" <?php echo @$rewrites['imageModel'] == 'midjourney' ? 'selected' : '' ?>>Midjourney</option>
 					</select>
 				</div>
@@ -571,10 +592,10 @@
 							</div>
 							
 							<div class="aiassist-rate-desc">
-								<?php _e('How much content can be generated<br />~ 4 400 000 characters GPT-4.1 nano**<br />~ 2 640 000 characters GPT-4.1 mini**<br />~ 660 000 characters GPT-4.1**<br />(330 000 characters for article generation from a plan with context)<br />~ 942 images FLUX Schnell<br />~ 165 generations Midjourney v7<br />~ 188 images Dalle 3', 'wp-ai-assistant') ?>			
+								<?php _e('How much content can be generated<br />~ 4 400 000 characters GPT-4.1 nano**<br />~ 2 640 000 characters GPT-4.1 mini**<br />~ 660 000 characters GPT-4.1**<br />(330 000 characters for article generation from a plan with context)<br />~ 942 images FLUX Schnell<br />~ 165 generations Midjourney v7<br />~ 188 images Dalle 3<br />~ 165 images GPT-image', 'wp-ai-assistant') ?>			
 							</div>
 							<div class="aiassist-rate-checklist">
-								<div class="aiassist-rate-check"><?php _e('Neural Networks: GPT-4.1, GPT-4.1-mini, GPT-4.1-nano, Midjourney v7, Dalle 3, FLUX.', 'wp-ai-assistant') ?>.</div>
+								<div class="aiassist-rate-check"><?php _e('Neural Networks: GPT-4.1, GPT-4.1-mini, GPT-4.1-nano, Midjourney v7, Dalle 3, GPT-image, FLUX.', 'wp-ai-assistant') ?>.</div>
 								<div class="aiassist-rate-check"><?php _e('Bulk generation and generation articles in the editor', 'wp-ai-assistant') ?></div>
 								<div class="aiassist-rate-check"><?php _e('AI Assist, AI image creator', 'wp-ai-assistant') ?></div>
 								<div class="aiassist-rate-check"><?php _e('Image uniqueization', 'wp-ai-assistant') ?></div>
@@ -610,10 +631,10 @@
 							</div>
 							
 							<div class="aiassist-rate-desc">
-								<?php _e('How much content can be generated<br />~ 13 666 000 characters GPT-4.1 nano**<br />~ 8 200 000 characters GPT-4.1 mini**<br />~ 2 050 000 characters GPT-4.1**<br />(1 025 000 characters for article generation from a plan with context)<br />~ 2 928 images FLUX Schnell<br />~ 512 generations Midjourney v7<br />~ 585 images Dalle 3', 'wp-ai-assistant') ?>						
+								<?php _e('How much content can be generated<br />~ 13 666 000 characters GPT-4.1 nano**<br />~ 8 200 000 characters GPT-4.1 mini**<br />~ 2 050 000 characters GPT-4.1**<br />(1 025 000 characters for article generation from a plan with context)<br />~ 2 928 images FLUX Schnell<br />~ 512 generations Midjourney v7<br />~ 585 images Dalle 3<br />~ 512 images GPT-image', 'wp-ai-assistant') ?>						
 							</div>
 							<div class="aiassist-rate-checklist">
-								<div class="aiassist-rate-check"><?php _e('Neural Networks: GPT-4.1, GPT-4.1-mini, GPT-4.1-nano, Midjourney v7, Dalle 3, FLUX.', 'wp-ai-assistant') ?>.</div>
+								<div class="aiassist-rate-check"><?php _e('Neural Networks: GPT-4.1, GPT-4.1-mini, GPT-4.1-nano, Midjourney v7, Dalle 3, GPT-image, FLUX.', 'wp-ai-assistant') ?>.</div>
 								<div class="aiassist-rate-check"><?php _e('Bulk generation and generation articles in the editor', 'wp-ai-assistant') ?></div>
 								<div class="aiassist-rate-check"><?php _e('AI Assist, AI image creator', 'wp-ai-assistant') ?></div>
 								<div class="aiassist-rate-check"><?php _e('Rewrite articles on your site and pages from other sites', 'wp-ai-assistant') ?></div>
@@ -648,10 +669,10 @@
 							</div>
 							
 							<div class="aiassist-rate-desc">
-								<?php _e('How much content can be generated<br />~ 33 333 000 characters GPT-4.1 nano**<br />~ 20 000 000 characters GPT-4.1 mini**<br />~ 5 000 000 characters GPT-4.1**<br />(2 500 000 characters for article generation from a plan with context)<br />~ 7 142 images FLUX Schnell<br />~ 1 250 generations Midjourney v7<br />~ 1 428 images Dalle 3', 'wp-ai-assistant') ?>
+								<?php _e('How much content can be generated<br />~ 33 333 000 characters GPT-4.1 nano**<br />~ 20 000 000 characters GPT-4.1 mini**<br />~ 5 000 000 characters GPT-4.1**<br />(2 500 000 characters for article generation from a plan with context)<br />~ 7 142 images FLUX Schnell<br />~ 1 250 generations Midjourney v7<br />~ 1 428 images Dalle 3<br />~ 1 250 images GPT-image', 'wp-ai-assistant') ?>
 							</div>
 							<div class="aiassist-rate-checklist">
-								<div class="aiassist-rate-check"><?php _e('Neural Networks: GPT-4.1, GPT-4.1-mini, GPT-4.1-nano, Midjourney v7, Dalle 3, FLUX.', 'wp-ai-assistant') ?>.</div>
+								<div class="aiassist-rate-check"><?php _e('Neural Networks: GPT-4.1, GPT-4.1-mini, GPT-4.1-nano, Midjourney v7, Dalle 3, GPT-image, FLUX.', 'wp-ai-assistant') ?>.</div>
 								<div class="aiassist-rate-check"><?php _e('Bulk generation and generation articles in the editor', 'wp-ai-assistant') ?></div>
 								<div class="aiassist-rate-check"><?php _e('AI Assist, AI image creator', 'wp-ai-assistant') ?></div>
 								<div class="aiassist-rate-check"><?php _e('Rewrite articles on your site and pages from other sites', 'wp-ai-assistant') ?></div>
@@ -976,6 +997,7 @@
 							<div class="aiassist-option" data-value="flux">FLUX schnell</div>
 							<div class="aiassist-option <?php echo ! @$this->info->subscribe->expire ? 'aiassist-lock' : ''?>" data-value="midjourney">Midjourney</div>
 							<div class="aiassist-option <?php echo ! @$this->info->subscribe->expire ? 'aiassist-lock' : ''?>" data-value="dalle">Dalle 3</div>
+							<div class="aiassist-option <?php echo ! @$this->info->subscribe->expire ? 'aiassist-lock' : ''?>" data-value="gptImage">GPT-image</div>
 							<input type="hidden" name="aiassist-image-model" class="aiassist-auto-options"  id="aiassist-image-model" value="flux" />
 						</div>
 					</div>

@@ -114,69 +114,75 @@ wp.blocks.registerBlockType('ai-image-creator/ai-image-creator', {
 			'div', { class: 'aiassist-image-block' },
 			
 			aiImageBlcokEl(
-				'div', { class: 'aiassist-select-wrap' },
-				aiImageBlcokEl( 'div', { class: 'aiassist-select-lable' }, 'FLUX schnell' ),
-				aiImageBlcokEl( 'div',  { class: 'aiassist-select aiassist-image-model' },
-					aiImageBlcokEl( 'div', { class: 'aiassist-option', 'data-value': 'flux', onClick: setModel }, 'FLUX schnell' ),
-					aiImageBlcokEl( 'div', { class: 'aiassist-option '+( ! aiassist.info.subscribe.expire ? 'aiassist-lock' : '' ), 'data-value': 'midjourney', onClick: setModel }, 'Midjourney' ),
-					aiImageBlcokEl( 'div', { class: 'aiassist-option '+( ! aiassist.info.subscribe.expire ? 'aiassist-lock' : '' ), 'data-value': 'dalle', onClick: setModel }, 'Dalle 3' ),
-					aiImageBlcokEl( 'input', { type: 'hidden',  name: 'aiassist-image-model', value: props.attributes.model } ),
+				'div', { class: 'aiassist-image-block-panel' },	
+				
+				aiImageBlcokEl(
+					'div', { class: 'aiassist-select-wrap' },
+					aiImageBlcokEl( 'div', { class: 'aiassist-select-lable' }, 'FLUX schnell' ),
+					aiImageBlcokEl( 'div',  { class: 'aiassist-select aiassist-image-model' },
+						aiImageBlcokEl( 'div', { class: 'aiassist-option', 'data-value': 'flux', onClick: setModel }, 'FLUX schnell' ),
+						aiImageBlcokEl( 'div', { class: 'aiassist-option '+( ! aiassist.info.subscribe.expire ? 'aiassist-lock' : '' ), 'data-value': 'midjourney', onClick: setModel }, 'Midjourney' ),
+						aiImageBlcokEl( 'div', { class: 'aiassist-option '+( ! aiassist.info.subscribe.expire ? 'aiassist-lock' : '' ), 'data-value': 'dalle', onClick: setModel }, 'Dalle 3' ),
+						aiImageBlcokEl( 'div', { class: 'aiassist-option '+( ! aiassist.info.subscribe.expire ? 'aiassist-lock' : '' ), 'data-value': 'gptImage', onClick: setModel }, 'GPT-image' ),
+						aiImageBlcokEl( 'input', { type: 'hidden',  name: 'aiassist-image-model', value: props.attributes.model } ),
+					),
 				),
-			),
-			
-			aiImageBlcokEl(
-				'input',
-				{
-					type: 'text',
-					class: 'aiassist-image-promt',
-					name: 'aiassist-image-promt',
-					placeholder: 'Input promt',
-					onInput: ( event ) => {
-						wp.data.dispatch('core/block-editor').updateBlockAttributes( event.target.closest('.wp-block').getAttribute('data-block'), { promt: event.target.value } );
+				
+				aiImageBlcokEl(
+					'input',
+					{
+						type: 'text',
+						class: 'aiassist-image-promt',
+						name: 'aiassist-image-promt',
+						placeholder: 'Input promt',
+						onInput: ( event ) => {
+							wp.data.dispatch('core/block-editor').updateBlockAttributes( event.target.closest('.wp-block').getAttribute('data-block'), { promt: event.target.value } );
+						},
+					}
+				),
+				
+				aiImageBlcokEl(
+					'button',
+					{
+						name: 'aiassist-generate',
+						class: 'aiassist-image-generate',
+						onClick: image_generator,
+						value: props.attributes.promt,
 					},
-				}
-			),
-			
-			aiImageBlcokEl(
-				'button',
-				{
-					name: 'aiassist-generate',
-					class: 'aiassist-image-generate',
-					onClick: image_generator,
-					value: props.attributes.promt,
-				},
-				'Generate',
-			),
-			
-			aiImageBlcokEl(
-				'button',
-				{
-					name: 'aiassist-translate',
-					class: 'aiassist-image-translate',
-					onClick: async ( event ) => {
-						let e = $( event.currentTarget );
-						let block = e.closest('.aiassist-image-block');
-						let title = block.find('.aiassist-image-promt').val();
-						
-						let task = await request( { action: 'translate', token: aiassist.token, content: title }, aiassist.api );
-						
-						if( parseInt( task.limit ) < 1 )
-							block.find('.aiassist-image-item').removeClass('aiassist-proces disabled').html('<span class="aiassist-warning-limits">'+ aiassist.locale['Limits are over'] +'</span></span>');
-						
-						if( task.task_id ){
-							let translate = await request( { action: 'getTask', token: aiassist.token, id: task.task_id }, aiassist.api );
+					'Generate',
+				),
+				
+				aiImageBlcokEl(
+					'button',
+					{
+						name: 'aiassist-translate',
+						class: 'aiassist-image-translate',
+						onClick: async ( event ) => {
+							let e = $( event.currentTarget );
+							let block = e.closest('.aiassist-image-block');
+							let title = block.find('.aiassist-image-promt').val();
 							
-							if( translate.content ){
-								block.find('.aiassist-image-promt').val( translate.content );
-								wp.data.dispatch('core/block-editor').updateBlockAttributes( event.target.closest('.wp-block').getAttribute('data-block'), { promt: translate.content } );
+							let task = await request( { action: 'translate', token: aiassist.token, content: title }, aiassist.api );
+							
+							if( parseInt( task.limit ) < 1 )
+								block.find('.aiassist-image-item').removeClass('aiassist-proces disabled').html('<span class="aiassist-warning-limits">'+ aiassist.locale['Limits are over'] +'</span></span>');
+							
+							if( task.task_id ){
+								let translate = await request( { action: 'getTask', token: aiassist.token, id: task.task_id }, aiassist.api );
 								
-								return;
+								if( translate.content ){
+									block.find('.aiassist-image-promt').val( translate.content );
+									wp.data.dispatch('core/block-editor').updateBlockAttributes( event.target.closest('.wp-block').getAttribute('data-block'), { promt: translate.content } );
+									
+									return;
+								}
 							}
-						}
-						block.find('.aiassist-image-promt').val('Error translate promt');
+							block.find('.aiassist-image-promt').val('Error translate promt');
+						},
 					},
-				},
-				'Translate',
+					'Translate',
+				),
+			
 			),
 			
 			aiImageBlcokEl(

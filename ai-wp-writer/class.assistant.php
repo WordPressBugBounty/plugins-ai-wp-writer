@@ -21,6 +21,7 @@ class AIASIST{
 		}
 	
 		add_filter('https_ssl_verify',					'__return_false');
+		add_action('admin_init',						[$this, 'setInfo']);
 		add_action('plugins_loaded',					[$this, 'langs']);
 		add_action('admin_menu',						[$this, 'menu']);
 		add_action('wp_enqueue_scripts', 				[$this, 'front'] );
@@ -99,8 +100,6 @@ class AIASIST{
 		$check = (int) get_option('aiWriterCronCheck');
 		
 		if( $check < time() - 60 ){
-			$this->setInfo();
-			
 			$data['rewrites'] = $this->aiRewrite();
 			$data['articles'] = $this->aiArticlesAutoGen();
 			$data['images'] = $this->replaceImages();
@@ -609,7 +608,7 @@ class AIASIST{
 										continue;
 								
 									if( $img_id = (int) $this->loadFile( $this->api .'/?action=getImage&image='. $src, $post_id ) ){
-										$image = wp_get_attachment_image( $img_id, 'full', false, [ 'class' => 'size-full wp-image-'. $img_id .' aligncenter', 'alt' => $this->clearTitle( $task->alts[ $k ] ) .' фото', 'title' => $this->clearTitle( $task->alts[ $k ] ) ] );		
+										$image = wp_get_attachment_image( $img_id, 'full', false, [ 'class' => 'size-full wp-image-'. $img_id .' aligncenter', 'alt' => $this->clearTitle( $task->alts[ $k ] ), 'title' => $this->clearTitle( $task->alts[ $k ] ) ] );		
 										$task->content = str_replace($src, $image, $task->content);
 									}
 								}
@@ -749,13 +748,16 @@ class AIASIST{
 			return;
 			
 		$data = get_option('aiRewritesData');
-		$data['thumb']		= (bool) $_POST['thumb'];
-		$data['split']		= (int) $_POST['split'];
-		$data['draft'] 		= (bool) $_POST['draft'];
-		$data['pictures'] 	= sanitize_text_field( $_POST['pictures'] );
-		$data['max_pictures'] = (int) $_POST['max_pictures'];
-		$data['imageModel']	= sanitize_text_field( $_POST['imageModel'] );
-		$data['textModel']	= sanitize_text_field( $_POST['textModel'] );
+		$data['thumb']			= (bool) $_POST['thumb'];
+		$data['split']			= (int) $_POST['split'];
+		$data['draft'] 			= (bool) $_POST['draft'];
+		$data['pictures'] 		= sanitize_text_field( $_POST['pictures'] );
+		$data['excude_h1']		= (bool) $_POST['excude_h1'];
+		$data['excude_title']	= (bool) $_POST['excude_title'];
+		$data['excude_desc']	= (bool) $_POST['excude_desc'];
+		$data['max_pictures']	= (int) $_POST['max_pictures'];
+		$data['imageModel']		= sanitize_text_field( $_POST['imageModel'] );
+		$data['textModel']		= sanitize_text_field( $_POST['textModel'] );
 		update_option('aiRewritesData', $data);
 	}
 
@@ -790,6 +792,9 @@ class AIASIST{
 									'imageFormat'		=> 'jpg', 
 									'split'				=> $data['split'], 
 									'thumb'				=> (bool) $data['thumb'], 
+									'excude_h1'			=> (bool) $data['excude_h1'], 
+									'excude_title'		=> (bool) $data['excude_title'], 
+									'excude_desc'		=> (bool) $data['excude_desc'], 
 									'textModel'			=> $data['textModel'], 
 									'imageModel'		=> $data['imageModel'], 
 									'pictures'			=> $data['pictures'], 
@@ -1049,10 +1054,22 @@ class AIASIST{
 			return;
 			
 		$args = get_option('aiRewritesData');
-		$data = [ 'start' => true, 'posts' => [] ];
+		$data = [ 'start' => false, 'posts' => [] ];
 			
 		if( isset( $args['thumb'] ) )
 			$data['thumb'] = (bool) $args['thumb'];
+			
+		if( isset( $args['draft'] ) )
+			$data['draft'] = (bool) $args['draft'];
+			
+		if( isset( $args['excude_h1'] ) )
+			$data['excude_h1'] = (bool) $args['excude_h1'];
+		
+		if( isset( $args['excude_title'] ) )
+			$data['excude_title'] = (bool) $args['excude_title'];
+		
+		if( isset( $args['excude_desc'] ) )
+			$data['excude_desc'] = (bool) $args['excude_desc'];
 			
 		if( isset( $args['pictures'] ) )
 			$data['pictures'] = sanitize_text_field( $args['pictures'] );
@@ -1140,7 +1157,7 @@ class AIASIST{
 		
 			if( $url && $title ){
 				if( $img_id = (int) $this->loadFile( $url, $post_id ) ){
-					$image = wp_get_attachment_image( $img_id, 'full', false, [ 'class' => 'size-full wp-image-'. $img_id .' aligncenter', 'alt' => $this->clearTitle( $title ) .' фото', 'title' => $this->clearTitle( $title ) ] );		
+					$image = wp_get_attachment_image( $img_id, 'full', false, [ 'class' => 'size-full wp-image-'. $img_id .' aligncenter', 'alt' => $this->clearTitle( $title ), 'title' => $this->clearTitle( $title ) ] );		
 					wp_die( json_encode( [ 'id' => $img_id, 'url' => wp_get_attachment_url( $img_id ), 'image' => $image ] ) );
 				}
 			}
@@ -1205,7 +1222,7 @@ class AIASIST{
 	}
 
 	private function clearTitle( $title ){
-		return preg_replace('/^[0-9]*.? ?/i', '', $title);
+		return preg_replace('/^\d+[\.\-\)\s]*\s*/u', '', $title);
 	}
 	
 	private function loadFile( $url, $post_id ){
@@ -1231,7 +1248,7 @@ class AIASIST{
 		wp_localize_script('aiassist-cron', 'aiassist', [ 'ajaxurl' => admin_url('admin-ajax.php'), 'nonce' => wp_create_nonce('aiassist') ] );
 	}
 	
-	private function setInfo(){
+	public function setInfo(){
 		$this->info = $this->getInfo();
 		$this->steps = get_option('_aiassist_generator');
 		
@@ -1251,8 +1268,6 @@ class AIASIST{
 	}
 	
 	public function scripts(){
-		$this->setInfo();
-		
 		wp_enqueue_style('aiassist', plugin_dir_url( __FILE__ ) .'assets/css/style.css?t='. time(), false, '1.0', 'all');
 		
 		wp_enqueue_script('google-charts', plugin_dir_url( __FILE__ ) .'assets/libs/charts.js', [ 'jquery' ], false, false );
