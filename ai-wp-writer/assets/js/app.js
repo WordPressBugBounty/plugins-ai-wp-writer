@@ -1213,7 +1213,7 @@ jQuery( document ).ready(function($){
 			
 			let items = $('.aiassist-rewrite-item-block');
 						
-			if( ! items.find('.aiassist-rewrite-item').val().trim().length ){
+			if( ! items.find('.aiassist-rewrite-item').val().trim().length && ! $('.aiassist-rewrite-item-block.disabled, .aiassist-rewrite-item.disabled').length ){
 				await app.request( { action: 'startRewrite', nonce: aiassist.nonce } ); 
 				return;
 			}
