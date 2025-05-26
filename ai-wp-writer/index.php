@@ -1,8 +1,8 @@
 <?php
 /*
-	Version: 4.0.5.2
+	Version: 4.0.5.3
 	Plugin Name: AI WP Writer
-	Description: Fast generation of articles with images in Wordpress editor, automatic content writer on schedule, mass rewriting of articles. Powered by ChatGPT, GPT-4, Dalle 3, GPT-image, FLUX.
+	Description: Fast generation of articles with images in Wordpress editor, automatic content writer on schedule, mass rewriting of articles. Powered by ChatGPT, GPT-4.1, Dalle 3, GPT-image, FLUX.
 	Author: AIpost
 	Author URI: https://t.me/wpwriter
 */

@@ -124,6 +124,10 @@ msgstr "Рерайт по абзацам"
 msgid "Rewrite by segments between headings"
 msgstr "Рерайт по сегментам между заголовками"
 
+#: tpl/options.php:125
+msgid "Rewriting the entire text"
+msgstr "Рерайта всего текста целиком"
+
 #: tpl/options.php:131
 msgid "Category of rerighting"
 msgstr "Категория рерайта"

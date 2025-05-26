@@ -587,12 +587,7 @@ class AIASIST{
 							$data['publish']++;
 							$data['articles'][ $k ]['post_id'] = $post_id;
 							
-							update_post_meta($post_id, '_title', sanitize_text_field( wp_unslash( $task->title ) ) );
-							update_post_meta($post_id, '_description', sanitize_text_field( wp_unslash( $task->description ) ) );
-							update_post_meta($post_id, '_yoast_wpseo_title', sanitize_text_field( wp_unslash( $task->title ) ) );
-							update_post_meta($post_id, '_yoast_wpseo_metadesc', sanitize_text_field( wp_unslash( $task->description ) ) );
-							update_post_meta($post_id, 'rank_math_title', sanitize_text_field( wp_unslash( $task->title ) ) );
-							update_post_meta($post_id, 'rank_math_description', sanitize_text_field( wp_unslash( $task->description ) ) );
+							$this->updatePostMeta( $post_id, $task->title, $task->description );
 						
 							if( $task->thumb ){
 								if( $thumb_id = (int) $this->loadFile( $this->api .'/?action=getImage&image='. $task->thumb, $post_id ) )
@@ -868,10 +863,13 @@ class AIASIST{
 								$meta = $this->getPostMeta( $post_id );
 								
 								if( $meta->title )
-									update_post_meta( $revision_id, '_aiassist_meta_title', $meta->title );
+									update_post_meta( $post_id, '_aiassist_revision_meta_title', $meta->title );
 								
 								if( $meta->description )
-									update_post_meta( $revision_id, '_aiassist_meta_description', $meta->description );
+									update_post_meta( $post_id, '_aiassist_revision_meta_description', $meta->description );
+								
+								if( $thumbnail_id = get_post_thumbnail_id( $post_id ) )
+									update_post_meta( $post_id, '_aiassist_revision_thumbnail_id', $thumbnail_id );
 								
 								wp_update_post( [ 'ID' => $post_id, 'post_title' => $task->post_title, 'post_content' => $task->content ] );
 								
@@ -904,16 +902,7 @@ class AIASIST{
 								
 								$data['counter']++;
 								$data['posts'][ $k ]['post_id'] = $post_id;
-								
-								update_post_meta($post_id, '_title', sanitize_text_field( wp_unslash( $task->meta_title ) ) );
-								update_post_meta($post_id, '_description', sanitize_text_field( wp_unslash( $task->meta_description ) ) );
-								
-								update_post_meta($post_id, '_yoast_wpseo_title', sanitize_text_field( wp_unslash( $task->meta_title ) ) );
-								update_post_meta($post_id, '_yoast_wpseo_metadesc', sanitize_text_field( wp_unslash( $task->meta_description ) ) );
-								
-								update_post_meta($post_id, 'rank_math_title', sanitize_text_field( wp_unslash( $task->meta_title ) ) );
-								update_post_meta($post_id, 'rank_math_description', sanitize_text_field( wp_unslash( $task->meta_description ) ) );
-								
+								$this->updatePostMeta( $post_id, $task->meta_title, $task->meta_description );
 								
 								if( $task->thumb ){
 									if( $thumb_id = (int) $this->loadFile( $this->api .'/?action=getImage&image='. $task->thumb, $post_id ) )
@@ -1010,17 +999,13 @@ class AIASIST{
 	
 		wp_restore_post_revision( $revision_id, $post_id );
 		
-		$meta_title = get_post_meta( $revision_id, '_aiassist_meta_title', true );
-		$meta_description = get_post_meta( $revision_id, '_aiassist_meta_description', true );
+		$meta_title = get_post_meta( $post_id, '_aiassist_revision_meta_title', true );
+		$meta_description = get_post_meta( $post_id, '_aiassist_revision_meta_description', true );
 		
-		update_post_meta( $post_id, '_title', sanitize_text_field( wp_unslash( $meta_title ) ) );
-		update_post_meta( $post_id, '_description', sanitize_text_field( wp_unslash( $meta_description ) ) );
+		$this->updatePostMeta( $post_id, $meta_title, $meta_description );
 		
-		update_post_meta( $post_id, '_yoast_wpseo_title', sanitize_text_field( wp_unslash( $meta_title ) ) );
-		update_post_meta( $post_id, '_yoast_wpseo_metadesc', sanitize_text_field( wp_unslash( $meta_description ) ) );
-		
-		update_post_meta( $post_id, 'rank_math_title', sanitize_text_field( wp_unslash( $meta_title ) ) );
-		update_post_meta( $post_id, 'rank_math_description', sanitize_text_field( wp_unslash( $meta_description ) ) );
+		if( $attachment_id = get_post_meta( $post_id, '_aiassist_revision_thumbnail_id', true ) )
+			set_post_thumbnail( $post_id, $attachment_id );
 		
 		if( $args = get_option('aiRewritesData') ){
 			foreach( $args['posts'] as $k => $post ){
@@ -1056,6 +1041,9 @@ class AIASIST{
 		$args = get_option('aiRewritesData');
 		$data = [ 'start' => false, 'posts' => [] ];
 			
+		if( isset( $args['split'] ) )
+			$data['split'] = (int) $args['split'];
+			
 		if( isset( $args['thumb'] ) )
 			$data['thumb'] = (bool) $args['thumb'];
 			
@@ -1085,16 +1073,38 @@ class AIASIST{
 		
 		update_option('aiRewritesData', $data);
 	}
+	
+	private function updatePostMeta( $post_id, $title, $description ){
+		global $wpdb;
 		
+		update_post_meta( $post_id, '_yoast_wpseo_title', sanitize_text_field( wp_unslash( $title ) ) );
+		update_post_meta( $post_id, '_yoast_wpseo_metadesc', sanitize_text_field( wp_unslash( $description ) ) );
+		
+		update_post_meta( $post_id, 'rank_math_title', sanitize_text_field( wp_unslash( $title ) ) );
+		update_post_meta( $post_id, 'rank_math_description', sanitize_text_field( wp_unslash( $description ) ) );
+		
+		update_post_meta( $post_id, '_title', sanitize_text_field( wp_unslash( $title ) ) );
+		update_post_meta( $post_id, '_description', sanitize_text_field( wp_unslash( $description ) ) );
+
+		update_post_meta( $post_id, '_aioseo_title', sanitize_text_field( wp_unslash( $title ) ) );
+		update_post_meta( $post_id, '_aioseo_description', sanitize_text_field( wp_unslash( $description ) ) );
+		
+		if( defined('AIOSEO_VERSION') )
+			$wpdb->update( $wpdb->prefix . 'aioseo_posts', [ 'title' => $title, 'description' => $description ], [ 'post_id' => $post_id ], [ '%s', '%s' ], [ '%d' ] );
+	}
+	
 	private function getPostMeta( $post_id ){
 		if( defined('WPSEO_VERSION') )
 			return (object) [ 'title' => get_post_meta( $post_id, '_yoast_wpseo_title', true ), 'description' => get_post_meta( $post_id, '_yoast_wpseo_metadesc', true ) ];
 	
+		if( defined('AIOSEOP_VERSION') || defined('AIOSEO_VERSION') || class_exists( 'AIOSEO\Plugin\Common\Main\Main' ) )
+			return (object) [ 'title' => get_post_meta( $post_id, '_aioseo_title', true ), 'description' => get_post_meta( $post_id, '_aioseo_description', true ) ];
+
+		if( defined( 'RANK_MATH_VERSION' ) || function_exists('rank_math') || class_exists( 'RankMath' ) )
+			return (object) [ 'title' => get_post_meta( $post_id, 'rank_math_title', true ), 'description' => get_post_meta( $post_id, 'rank_math_description', true ) ];
+		
 		if( class_exists('All_in_One_SEO_Pack') )
 			return (object) [ 'title' => get_post_meta( $post_id, '_title', true ), 'description' => get_post_meta( $post_id, '_description', true ) ];
-
-		if( function_exists('rank_math') )
-			return (object) [ 'title' => get_post_meta( $post_id, 'rank_math_title', true ), 'description' => get_post_meta( $post_id, 'rank_math_description', true ) ];
 		
 		return (object) [ 'title' => null, 'description' => null ];
 	}
@@ -1205,15 +1215,7 @@ class AIASIST{
 					];
 		
 			if( $post_id = wp_update_post( $args ) ){
-				update_post_meta($post_id, '_title', sanitize_text_field( wp_unslash( $_POST['title'] ) ) );
-				update_post_meta($post_id, '_description', sanitize_text_field( wp_unslash( $_POST['desc'] ) ) );
-				
-				update_post_meta($post_id, '_yoast_wpseo_title', sanitize_text_field( wp_unslash( $_POST['title'] ) ) );
-				update_post_meta($post_id, '_yoast_wpseo_metadesc', sanitize_text_field( wp_unslash( $_POST['desc'] ) ) );
-				
-				update_post_meta($post_id, 'rank_math_title', sanitize_text_field( wp_unslash( $_POST['title'] ) ) );
-				update_post_meta($post_id, 'rank_math_description', sanitize_text_field( wp_unslash( $_POST['desc'] ) ) );
-				
+				$this->updatePostMeta( $post_id, $_POST['title'], $_POST['desc'] );
 				$this->resetStep();
 				wp_die('{"id":"'. $post_id .'"}');
 			}
@@ -1291,6 +1293,7 @@ class AIASIST{
 				'photo'	=> __('photo', 'wp-ai-assistant'),
 				'The limits have been reached'	=> __('The limits have been reached, please top up your balance to continue generating!', 'wp-ai-assistant'),
 				'Generated'	=> __('Generated', 'wp-ai-assistant'),
+				'Suspended'	=> __('Suspended', 'wp-ai-assistant'),
 				'Generation in progress'	=> __('Generation in progress', 'wp-ai-assistant'),
 				'The limits have been reached, to continue generation (rewriting) please top up your balance!'	=> __('The limits have been reached, to continue generation (rewriting) please top up your balance!', 'wp-ai-assistant'),
 				'The process of rewriting articles is complete.'	=> __('The process of rewriting articles is complete.', 'wp-ai-assistant'),

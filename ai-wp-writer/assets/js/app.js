@@ -958,7 +958,12 @@ jQuery( document ).ready(function($){
 								e.find('.aiassist-queue-keyword').removeClass('aiassist-queue-keyword');
 								e.removeClass('aiassist-queue').find('.aiassist-article-item-close').remove();
 								
-								e.next().find('.aiassist-queue-status').text( aiassist.locale['Generation in progress'] );
+								let status = aiassist.locale['Generation in progress'];
+								
+								if( args.articles.publishInDay && args.articles.counter && args.articles.publishInDay <= Object.values( args.articles.counter )[0] )
+									status = aiassist.locale['Suspended'];
+							
+								e.next().find('.aiassist-queue-status').text( status );
 							}
 						})
 						
@@ -1008,7 +1013,10 @@ jQuery( document ).ready(function($){
 								
 								e.find('.aiassist-queue-rewrite').wrap('<a href="/wp-admin/post.php?post='+ args.rewrites.posts[ k ].post_id +'&action=edit" target="_blank" ></a>');
 								e.find('.aiassist-queue-rewrite').removeClass('aiassist-queue-rewrite');
-								e.next().find('.aiassist-queue-status').text( aiassist.locale['Generation in progress'] );
+								
+								let next = $('.aiassist-rewrite-queue:eq('+( parseInt( e.index() ) + 1 )+') .aiassist-queue-status');
+								if( next.length )
+									next.text( aiassist.locale['Generation in progress'] );
 							}
 						})
 						
@@ -1135,7 +1143,7 @@ jQuery( document ).ready(function($){
 						let item = $(this);
 						let theme = item.val();
 						
-						if( theme !== '' ){
+						if( theme !== '' ){ c++;
 							articles[ id ].push( { theme: theme, keywords: e.find('.aiassist-multi-keywords .aiassist-multi-item:eq('+( item.index() - 1 )+')').val() } );
 							$('.aiassist-articles-queue').append('<div class="aiassist-article-queue"><span class="aiassist-queue-keyword">'+ theme +'</span> <span class="aiassist-queue-status">'+( c==1 ? aiassist.locale['Generation in progress'] : aiassist.locale['In line'] )+'</span></div>');
 						}
@@ -1261,6 +1269,7 @@ jQuery( document ).ready(function($){
 				
 				let c = 0;
 				let p = 0;
+				let inProgress = false;
 				
 				if( data.posts.length ){
 					$('.aiassist-rewrites-queue').html('');
@@ -1278,8 +1287,10 @@ jQuery( document ).ready(function($){
 						if( data.posts[ i ].post_id )
 							status = aiassist.locale['Generated'];
 							
-						if( data.posts[ i ].task_id && ! data.posts[ i ].post_id )
+						if( ! data.posts[ i ].post_id && ! inProgress ){
+							inProgress = true;
 							status = aiassist.locale['Generation in progress'];
+						}
 					
 						$('.aiassist-rewrites-queue').append('<div class="aiassist-rewrite-queue"><span class="aiassist-queue-rewrite">'+ title +'</span> <span class="aiassist-queue-status">'+ status +'</span></div>');
 					}
