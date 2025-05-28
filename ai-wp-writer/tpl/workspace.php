@@ -84,11 +84,6 @@
 	
 	<div class="aiassist-tab-data" data-tab="long">
 		
-		<label>
-			<input type="checkbox" id="exclude_context" <?php echo esc_html( @$_COOKIE['excludeContext'] ? 'checked' : '' )?> />
-			<?php _e('When generating, consider only the article outline and h1 headline in context', 'wp-ai-assistant') ?> <div class="aiassist-info" title="<?php echo esc_attr( $this->info->newGenerationInfo ) ?>">&#63;</div>
-		</label>
-	
 		<div class="aiassist-item center">
 			
 			<?php if( @$this->info->promts->lang ){ $lang_id = $this->getDefaultLangId(); ?>

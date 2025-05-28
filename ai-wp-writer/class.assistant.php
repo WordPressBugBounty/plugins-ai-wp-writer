@@ -415,7 +415,7 @@ class AIASIST{
 		if( ! $this->checkNonce()  || ! current_user_can('manage_options') )
 			return;
 	
-		wp_die( $this->wpcurl( [ 'token' => sanitize_text_field( $this->options->token ), 'action' => 'getPayUrl', 'promocode' => $_POST['promocode'], 'type' => sanitize_text_field( $_POST['type'] ), 'crypto' => sanitize_text_field( $_POST['crypto'] ), 'out_summ' => sanitize_text_field( $_POST['out_summ'] ), 'locale' => get_locale() ] ) );
+		wp_die( $this->wpcurl( [ 'token' => sanitize_text_field( $this->options->token ), 'action' => 'getPayUrl', 'promocode' => $_POST['promocode'], 'type' => sanitize_text_field( $_POST['type'] ), 'crypto' => sanitize_text_field( $_POST['crypto'] ), 'out_summ' => sanitize_text_field( $_POST['out_summ'] ), 'currency' => __('$', 'wp-ai-assistant'), 'locale' => get_locale() ] ) );
 	}
 	
 	public function active(){
@@ -544,7 +544,7 @@ class AIASIST{
 					
 					if( $task->task_id ){
 						
-						if( $revision_id = wp_insert_post( [ 'post_type' => 'wpai', 'post_title' => $article['keywords'] ] ) ){
+						if( $revision_id = wp_insert_post( [ 'post_type' => 'wpai', 'post_title' => $this->validText( $article['keywords'] ) ] ) ){
 							$data['counter'][ $key ]++;
 							$data['everyDayCounter'] = [ $key => 0 ];
 							$data['articles'][ $k ]['task_id'] = $task->task_id;
@@ -578,8 +578,8 @@ class AIASIST{
 							'ID'			=> $article['revision_id'], 
 							'post_type'		=> 'post', 
 							'post_status'	=> $data['draft'] ? 'draft' : 'publish', 
-							'post_title'	=> sanitize_text_field( wp_unslash( $task->header ) ), 
-							'post_content'	=> wp_kses_post( wp_unslash( $task->content ) ),
+							'post_title'	=> $this->validText( $task->header ), 
+							'post_content'	=> $this->validText( $task->content, 'content' ),
 							'post_category'	=> [ (int) $article['cat_id'] ],
 						];
 					
@@ -607,7 +607,7 @@ class AIASIST{
 										$task->content = str_replace($src, $image, $task->content);
 									}
 								}
-								wp_update_post( [ 'ID' => $post_id, 'post_content' => $task->content ] );
+								wp_update_post( [ 'ID' => $post_id, 'post_content' => $this->validText( $task->content, 'content' ) ] );
 							}
 						}
 						
@@ -850,8 +850,8 @@ class AIASIST{
 								$revision = get_post( $post_id );
 								
 								$args = [
-									'post_title'    => $revision->post_title,
-									'post_content'  => $revision->post_content,
+									'post_title'    => $this->validText( $revision->post_title ),
+									'post_content'  => $this->validText( $revision->post_content, 'content' ),
 									'post_status'   => 'inherit',
 									'post_type'     => 'revision',
 									'post_parent'   => $post_id,
@@ -871,7 +871,7 @@ class AIASIST{
 								if( $thumbnail_id = get_post_thumbnail_id( $post_id ) )
 									update_post_meta( $post_id, '_aiassist_revision_thumbnail_id', $thumbnail_id );
 								
-								wp_update_post( [ 'ID' => $post_id, 'post_title' => $task->post_title, 'post_content' => $task->content ] );
+								wp_update_post( [ 'ID' => $post_id, 'post_title' => $this->validText( $task->post_title ), 'post_content' => $this->validText( $task->content, 'content' ) ] );
 								
 							} elseif( (int) $item['revision_id'] ){
 								
@@ -879,8 +879,8 @@ class AIASIST{
 									'ID'			=> (int) $item['revision_id'],
 									'post_type'		=> 'post', 
 									'post_status'	=> (bool) $data['draft'] ? 'draft' : 'publish', 
-									'post_title'	=> sanitize_text_field( wp_unslash( $task->post_title ) ), 
-									'post_content'	=> wp_kses_post( wp_unslash( $task->content ) ),
+									'post_title'	=> $this->validText( $task->post_title ), 
+									'post_content'	=> $this->validText( $task->content, 'content' ),
 									'post_category'	=> [ (int) $item['cat_id'] ],
 								];
 								
@@ -890,8 +890,8 @@ class AIASIST{
 							
 								$args = [
 									'post_status'	=> (bool) $data['draft'] ? 'draft' : 'publish', 
-									'post_title'	=> sanitize_text_field( wp_unslash( $task->post_title ) ), 
-									'post_content'	=> wp_kses_post( wp_unslash( $task->content ) ),
+									'post_title'	=> $this->validText( $task->post_title ), 
+									'post_content'	=> $this->validText( $task->content, 'content'),
 									'post_category'	=> [ (int) $item['cat_id'] ],
 								];
 								
@@ -923,7 +923,7 @@ class AIASIST{
 										}
 									}
 								}
-								wp_update_post( [ 'ID' => $post_id, 'post_title' => $task->post_title, 'post_content' => $task->content ] );
+								wp_update_post( [ 'ID' => $post_id, 'post_title' => $this->validText( $task->post_title ), 'post_content' => $this->validText( $task->content, 'content' ) ] );
 							}
 							
 						}
@@ -971,7 +971,7 @@ class AIASIST{
 							$posts_ids[] = $id;
 					} else {
 						
-						$args['posts'][] = [ 'url' => $link, 'cat_id' => $cat_id, 'revision_id' => wp_insert_post( [ 'post_type' => 'wpai', 'post_title' => $link ] ) ];
+						$args['posts'][] = [ 'url' => $link, 'cat_id' => $cat_id, 'revision_id' => wp_insert_post( [ 'post_type' => 'wpai', 'post_title' => sanitize_url( $link ) ] ) ];
 						
 					}
 				}
@@ -1210,8 +1210,8 @@ class AIASIST{
 			$args = [
 						'ID' => (int) $post_id, 
 						'post_status' => 'draft', 
-						'post_title' => sanitize_text_field( wp_unslash( $_POST['header'] ) ), 
-						'post_content' => wp_kses_post( wp_unslash( $_POST['content'] ) ) 
+						'post_title' => $this->validText( $_POST['header'] ), 
+						'post_content' => $this->validText( $_POST['content'], 'content' ) 
 					];
 		
 			if( $post_id = wp_update_post( $args ) ){
@@ -1374,6 +1374,20 @@ class AIASIST{
 		add_meta_box('ai_assistant', 'AI WP Writer', function(){
 			include __DIR__ .'/tpl/workspace.php';
 		}, array_values( get_post_types() ), 'normal', 'high' );
+	}
+	
+	private function validText( $text, $column = 'title' ){
+		global $wpdb;
+		
+		switch( $column ){
+			case 'title':
+				$text = $wpdb->strip_invalid_text_for_column( $wpdb->posts, 'post_title', sanitize_text_field( wp_unslash( $text ) ) );
+			break;
+			case 'content':
+				$text = $wpdb->strip_invalid_text_for_column( $wpdb->posts, 'post_content', wp_kses_post( wp_unslash( $text ) ) );
+			break;
+		}
+		return $text;
 	}
 	
 	private function convertArrayToBoundaryData( array $data, $args = '' ) {

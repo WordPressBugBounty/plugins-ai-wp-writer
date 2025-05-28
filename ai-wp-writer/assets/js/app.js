@@ -22,7 +22,6 @@ jQuery( document ).ready(function($){
 			$(document).on('submit', '#aiassist-sign', app.sign);
 			$(document).on('submit', '#aiassist-stat', app.getStat);
 			$(document).on('click', 'button[name="step"]', app.statStep);
-			$(document).on('click', '#exclude_context', app.excludeContext);
 			$(document).on('click', '.aiassist-buy', app.buy);
 			$(document).on('submit', '#aiassist-custom-buy', app.buyForm);
 			$(document).on('focus', '#out_summ', app.outSummFocus);
@@ -1672,11 +1671,7 @@ jQuery( document ).ready(function($){
 			$('.wpai-tab').removeClass('active');
 			e.addClass('active');
 		},
-		
-		excludeContext: () => {
-			app.setCookie('excludeContext', $('#exclude_context').is(':checked') ? 1 : 0 );
-		},
-		
+
 		stepStop: async () => {
 			app.loader();
 		},
@@ -1869,7 +1864,7 @@ jQuery( document ).ready(function($){
 						$('#aiassist-loader').after('<div id="aiassist-progress-generator"></div>');
 					$('#aiassist-progress-generator').text( Math.round( ( parseInt( k ) / structure.length ) * 100 ) +'%');
 					
-					let data = await app.addTask( { action: ( $('#exclude_context').is(':checked') ? 'generateContent' : 'generateContentItem' ), lang_id: parseInt( $('.aiassist-lang-promts:visible:first').val() ), header: header, item: subHeader, prom: prom, structure: structure, context: ( k > 0 ? app.editor.getContent() : null ) } );
+					let data = await app.addTask( { action: 'generateContentItem', lang_id: parseInt( $('.aiassist-lang-promts:visible:first').val() ), header: header, item: subHeader, prom: prom, structure: structure, context: ( k > 0 ? app.editor.getContent() : null ) } );
 					
 					if( data.content ){
 						let headItem = '<h2>'+ subHeader +'</h2>';
