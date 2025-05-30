@@ -1053,7 +1053,7 @@
 								<span class="aiassist-queue-status">
 									<?php if( ! $queue ){ ?>
 										
-										<?php if( ( (int) @$article['check'] < 60 && ( @$this->info->limit > 1 || @$this->info->sLimit > 1 ) ) && @$autoGen['counter'][ date('Ymd') ] < @$autoGen['publishInDay'] ){ ?>
+										<?php if( ( (int) @$article['check'] < 60 && ( @$this->info->limit > 1 || @$this->info->sLimit > 1 ) ) && @$autoGen['start'] && ( ! @$autoGen['counter'][ date('Ymd') ] || ! @$autoGen['publishInDay'] || @$autoGen['counter'][ date('Ymd') ] < @$autoGen['publishInDay'] ) ){ ?>
 											<?php _e('Generation in progress', 'wp-ai-assistant') ?>
 										<?php } else { ?>
 											<?php _e('Suspended', 'wp-ai-assistant') ?>
