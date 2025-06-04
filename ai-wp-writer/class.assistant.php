@@ -24,7 +24,7 @@ class AIASIST{
 		add_action('admin_init',						[$this, 'setInfo']);
 		add_action('plugins_loaded',					[$this, 'langs']);
 		add_action('admin_menu',						[$this, 'menu']);
-		add_action('wp_enqueue_scripts', 				[$this, 'front'] );
+		add_action('wp_footer', 						[$this, 'front'] );
 		add_action('admin_enqueue_scripts', 			[$this, 'scripts'] );
 		add_filter('mce_external_plugins',				[$this, 'add_button']);
 		add_filter('mce_buttons', 						[$this, 'button_init'], 999);
@@ -44,8 +44,8 @@ class AIASIST{
 		add_action('wp_ajax_rewriteOptions',			[$this, 'rewriteOptions']);
 		add_action('wp_ajax_autoGenOptions',			[$this, 'autoGenOptions']);
 		
-		add_action('wp_ajax_aiassist_cron',				[$this, 'cron']);
-		add_action('wp_ajax_nopriv_aiassist_cron',		[$this, 'cron']);
+		add_action('wp_ajax_assistcron',				[$this, 'cron']);
+		add_action('wp_ajax_nopriv_assistcron',			[$this, 'cron']);
 		
 		add_action('wp_ajax_initRewrite',				[$this, 'initRewrite']);
 		add_action('wp_ajax_startRewrite',				[$this, 'startRewrite']);
@@ -111,7 +111,9 @@ class AIASIST{
 		}
 		
 		$wpdb->query('COMMIT');
-		wp_die( json_encode( $data ) );
+		
+		if( is_user_logged_in() )
+			wp_die( json_encode( $data ) );
 	}
 	
 	public function options(){
@@ -212,6 +214,8 @@ class AIASIST{
 	}
 	
 	public function replaceImagesStart(){
+		global $wpdb;
+		
 		if( ! $this->checkNonce() || ! current_user_can('manage_options') )
 			return;
 		
@@ -224,17 +228,35 @@ class AIASIST{
 			$data['imageModel'] = sanitize_text_field( $_POST['imageModel'] );
 		
 		if( $_POST['cat'] ){
-			if( $posts = get_posts( [ 'category' => (int) $_POST['cat'], 'post_status' => 'any', 'posts_per_page' => -1 ] ) ){
-				foreach( $posts as $post )
-					$posts_ids[] = $post->ID;
-			}
+			$sql = 'SELECT 
+						p.`ID`
+					FROM 
+						'. $wpdb->posts .' p
+					INNER JOIN '. $wpdb->term_relationships .' tr ON (p.ID=tr.object_id)
+					INNER JOIN '. $wpdb->term_taxonomy .' tt ON (tr.term_taxonomy_id=tt.term_taxonomy_id)
+					WHERE 
+						tt.`taxonomy`="category"
+					AND 
+						tt.`term_id`=%d
+					AND 
+						( p.`post_status`="publish" OR p.`post_status`="private" OR p.`post_status`="pending" OR p.`post_status`="draft" OR p.`post_status`="future" )';
+
+			$posts_ids = $wpdb->get_col( $wpdb->prepare( $sql, (int) $_POST['cat'] ) );
 		}
 		
-		if( $_POST['types'] ){
-			if( $posts = get_posts( [ 'post_type' => $_POST['types'], 'post_status' => 'any', 'posts_per_page' => -1 ] ) ){
-				foreach( $posts as $post )
-					$posts_ids[] = $post->ID;
-			}
+		if( $_POST['types'] ){			
+			$types = array_map('sanitize_key', (array) $_POST['types']);
+			
+			$sql = 'SELECT 
+						`ID`
+					FROM 
+						'. $wpdb->posts .'
+					WHERE 
+						`post_type` IN ('. implode( ',', array_fill( 0, count( $types ), '%s' ) ) .')
+					AND 
+						( `post_status`="publish" OR `post_status`="private" OR `post_status`="pending" OR `post_status`="draft" OR `post_status`="future" )';
+
+			$posts_ids = $wpdb->get_col( $wpdb->prepare( $sql, ...$types ) );
 		}
 		
 		if( $_POST['links'] ){
@@ -247,8 +269,9 @@ class AIASIST{
 		if( $posts_ids ){
 			$i = -1;
 			$data['attachments'] = [];
+			$posts_ids = array_map( 'absint', $posts_ids );
 			
-			if( $posts = get_posts( [ 'post__in' => $posts_ids, 'post_status' => 'any', 'posts_per_page' => -1 ] ) ){
+			if( $posts = $wpdb->get_results( $wpdb->prepare('SELECT `ID`, `post_content` FROM '. $wpdb->posts .' WHERE `ID` IN ('. implode( ',', array_fill( 0, count( $posts_ids ), '%d' ) ) .')', ...$posts_ids ) ) ){
 				foreach( $posts as $post ){
 					
 					if( $thumbnail_id = (int) get_post_meta( (int) $post->ID, '_thumbnail_id', true ) ){ $i++;
@@ -938,6 +961,8 @@ class AIASIST{
 	}
 
 	public function initRewrite(){
+		global $wpdb;
+		
 		if( ! $this->checkNonce() || ! current_user_can('manage_options') )
 			return;	
 			
@@ -946,19 +971,43 @@ class AIASIST{
 		$args['start'] = true;
 		
 		if( $_POST['cats'] ){
-			if( $posts = get_posts( [ 'category__in' => $_POST['cats'], 'post_status' => 'any', 'posts_per_page' => -1 ] ) ){
-				foreach( $posts as $post )
-					$args['posts'][] = [ 'id' => $post->ID, 'title' => $post->post_title ];
-			}
+			$sql = 'SELECT 
+						p.`ID`, p.`post_title` 
+					FROM 
+						'. $wpdb->posts .' p
+					INNER JOIN 
+							'. $wpdb->term_relationships .' tr ON ( p.ID = tr.object_id )
+					INNER JOIN 
+							'. $wpdb->term_taxonomy .' tt ON ( tr.term_taxonomy_id = tt.term_taxonomy_id )
+					WHERE 
+						tt.taxonomy = "category"
+					AND 
+						tt.term_id IN ('. implode( ',', array_map( 'intval', $_POST['cats'] ) ) .')
+					AND 
+						( p.`post_status`="publish" OR p.`post_status`="private" OR p.`post_status`="pending" OR p.`post_status`="draft" OR p.`post_status`="future" )';
+
+			if( $posts = $wpdb->get_results( $sql ) )
+				$args['posts'] = array_map(function( $post ){ 
+					return [ 'id' => (int) $post->ID, 'title' => $post->post_title ]; 
+				}, $posts);
 		}
 
 		if( $_POST['types'] ){
-			if( $posts = get_posts( [ 'post_type' => $_POST['types'], 'post_status' => 'any', 'posts_per_page' => -1 ] ) ){
-				foreach( $posts as $post ){
-					if( trim( $post->post_title ) && trim( $post->post_content ) )
-						$args['posts'][] = [ 'id' => $post->ID, 'title' => $post->post_title ];
-				}
-			}
+			$types = array_map('sanitize_key', (array) $_POST['types']);
+			
+			$sql = 'SELECT 
+						`ID`, `post_title`
+					FROM 
+						'. $wpdb->posts .'
+					WHERE 
+						`post_type` IN ('. implode( ',', array_fill( 0, count( $types ), '%s' ) ) .')
+					AND 
+						( `post_status`="publish" OR `post_status`="private" OR `post_status`="pending" OR `post_status`="draft" OR `post_status`="future" )';
+
+			if( $posts = $wpdb->get_results( $wpdb->prepare( $sql, ...$types ) ) )
+				$args['posts'] = array_map(function( $post ){ 
+					return [ 'id' => (int) $post->ID, 'title' => $post->post_title ]; 
+				}, $posts);
 		}
 		
 		if( $_POST['links'] ){
@@ -978,10 +1027,12 @@ class AIASIST{
 			}
 			
 			if( $posts_ids ){
-				if( $posts = get_posts( [ 'post__in' => $posts_ids, 'post_status' => 'any', 'posts_per_page' => -1 ] ) ){
-					foreach( $posts as $post )
-						$args['posts'][] = [ 'id' => $post->ID, 'title' => $post->post_title ];
-				}
+				$posts_ids = array_map( 'absint', $posts_ids );
+				
+				if( $posts = $wpdb->get_results( $wpdb->prepare('SELECT `ID`, `post_title` FROM '. $wpdb->posts .' WHERE `ID` IN ('. implode( ',', array_fill( 0, count( $posts_ids ), '%d' ) ) .')', ...$posts_ids ) ) )
+					$args['posts'] = array_map(function( $post ){ 
+						return [ 'id' => (int) $post->ID, 'title' => $post->post_title ]; 
+					}, $posts);
 			}
 		}
 			
@@ -1246,8 +1297,7 @@ class AIASIST{
 	}
 
 	public function front(){
-		wp_enqueue_script('aiassist-cron', plugin_dir_url( __FILE__ ) .'assets/js/cron.js?t='. time(), false, false, false );
-		wp_localize_script('aiassist-cron', 'aiassist', [ 'ajaxurl' => admin_url('admin-ajax.php'), 'nonce' => wp_create_nonce('aiassist') ] );
+		?><script>fetch('<?php echo admin_url('admin-ajax.php') ?>?action=assistcron&nonce=<?php echo wp_create_nonce('aiassist') ?>')</script><?php
 	}
 	
 	public function setInfo(){

@@ -909,7 +909,7 @@ jQuery( document ).ready(function($){
 		cron: async () => {
 			await app.ping(3000);
 			
-			let args = await app.request( { action: 'aiassist_cron', nonce: aiassist.nonce } );
+			let args = await app.request( { action: 'assistcron', nonce: aiassist.nonce } );
 			let limit = await app.request( { action: 'getLimit', token: aiassist.token }, aiassist.api );
 			
 			if( ! isNaN( parseInt( limit.sLimit ) ) && $('#wpai-symbols-subscribe').length )
