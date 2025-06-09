@@ -4,14 +4,14 @@ Tags: AI, generator, articles, content, image
 Requires at least: 5.0.0
 Tested up to: 6.8.1
 Requires PHP: 5.6.0
-Stable tag: 4.0.6.5
+Stable tag: 4.0.7.3
 License: GPLv3
 License URI: https://www.gnu.org/licenses/gpl-3.0.html
 
 AI article generator for WordPress with images, AI-powered blog post auto content generator, rewriting tool. ChatGPT, GPT-4.1, Dalle 3, GPT-image, FLUX.
 
 == Description ==
-The AI WP Writer plugin is a powerful AI article generator for WordPress, powered by ChatGPT, GPT-4.1, and the best AI neural networks for image generation. It is designed for fast and effortless automatic content generation, allowing website owners to fill their sites with high-quality, unique, and SEO-optimized articles in just a few clicks.
+The AI WP Writer plugin is a powerful AI article generator for WordPress, powered by ChatGPT, GPT-4.1, GPT-4.1-mini, GPT-4.1-nano, o3-mini and the best AI neural networks for image generation. It is designed for fast and effortless automatic content generation, allowing website owners to fill their sites with high-quality, unique, and SEO-optimized articles in just a few clicks.
 
 With this WordPress AI content generator, you can create SEO-optimized articles tailored to your needs. The plugin not only generates text but also integrates an AI image generator for WordPress, allowing you to create AI-powered images that perfectly match your content. Additionally, it provides an automated meta title and meta description generator for better SEO rankings.
 

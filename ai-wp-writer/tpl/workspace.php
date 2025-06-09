@@ -15,6 +15,7 @@
 				<div class="aiassist-option" data-value="gpt3">GPT-4.1 mini</div>
 				<div class="aiassist-option" data-value="gpt4_nano">GPT-4.1 nano</div>
 				<div class="aiassist-option <?php echo ! @$this->info->subscribe->expire ? 'aiassist-lock' : ''?>" data-value="gpt4">GPT-4.1</div>
+				<div class="aiassist-option <?php echo ! @$this->info->subscribe->expire ? 'aiassist-lock' : ''?>" data-value="gpt_o3_mini">o3-mini</div>
 				<input type="hidden" name="aiassist-text-model" id="aiassist-change-text-model-editor" value="gpt3" />
 			</div>
 		</div>
@@ -49,7 +50,7 @@
 			<?php if( @$this->info->promts->lang ){ $lang_id = $this->getDefaultLangId(); ?>
 				<div class="aiassist-lang-block">
 					<div class="aiassist-lang-promts-item">
-						<div>Promt lang: </div>
+						<div><?php _e('Prompts language: ', 'wp-ai-assistant') ?></div>
 						<select class="aiassist-lang-promts">
 							<?php foreach( $this->info->promts->lang as $k => $lang ){ ?>
 								<?php
