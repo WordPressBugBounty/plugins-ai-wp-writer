@@ -53,6 +53,14 @@
 					
 					<input name="token" value="<?php echo esc_attr( @$this->options->token ) ?>" /><br /><br /><br />
 				</div>
+
+				<div class="row">
+					<label>
+						<input type="checkbox" name="cron" <?php echo @$this->options->cron || @$this->info->cron_enabled || ! isset( $this->options->token ) ? 'checked' : ''?> />
+						<?php _e('This enables requests to be sent from the plugin server to the website. This is required for background tasks such as bulk generation, rewriting or ensuring image uniqueness. This allows you to generate content when there is no traffic on the website and the admin panel is closed.', 'wp-ai-assistant') ?>
+					</label>
+				</div>
+			
 				<div class="row">
 					<button name="save"><?php _e('Save', 'wp-ai-assistant') ?></button>
 				</div>
@@ -182,6 +190,9 @@
 					<option value="midjourney" <?php echo @$images['imageModel'] == 'midjourney' ? 'selected' : '' ?>>Midjourney</option>
 				</select>
 			</div>
+			
+			<br />
+				<div><?php echo _e('<b>Important!</b> To make generation work faster in the background, the option to send requests from the plugin server to the site must be enabled in the <b>Settings</b> tab.', 'wp-ai-assistant') ?></div>
 			
 			<div class="aiassist-options-images">
 				<button id="start-images" <?php echo @$images['start'] ? 'disabled' : '' ?>><?php _e('Start', 'wp-ai-assistant') ?></button>
@@ -455,7 +466,8 @@
 			</div>
 			
 			<div>
-				<?php _e('The text of the original articles from your own site will be replaced by the rewritten text. If the third-party site pages are rewritten, new articles will be created. You can use the “Restore original texts” buttons only if you rewrite articles on your own site.', 'wp-ai-assistant') ?>
+				<?php _e('The text of the original articles from your own site will be replaced by the rewritten text. If the third-party site pages are rewritten, new articles will be created. You can use the “Restore original texts” buttons only if you rewrite articles on your own site.', 'wp-ai-assistant') ?><br />
+				<?php echo _e('<b>Important!</b> To make generation work faster in the background, the option to send requests from the plugin server to the site must be enabled in the <b>Settings</b> tab.', 'wp-ai-assistant') ?>
 			</div>
 			
 			<div class="aiassist-option-item">
@@ -1005,7 +1017,8 @@
 						</div>
 					</div>
 				</div>
-				
+				<br />
+				<div><?php echo _e('<b>Important!</b> To make generation work faster in the background, the option to send requests from the plugin server to the site must be enabled in the <b>Settings</b> tab.', 'wp-ai-assistant') ?></div>
 			</div>
 			
 			<div class="aiassist-option-item">

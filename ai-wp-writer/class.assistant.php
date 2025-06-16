@@ -118,11 +118,11 @@ class AIASIST{
 	
 	public function options(){
 		if( isset( $_POST['save'] ) && $this->checkNonce() && current_user_can('manage_options') ){
+			$this->options = new stdClass();
+			$this->options->cron = isset( $_POST['cron'] );
 			
 			if( isset( $_POST['token'] ) )
-				$this->activation( sanitize_text_field( $_POST['token'] ) );
-		
-			$this->options = new stdClass();
+				$this->activation( sanitize_text_field( $_POST['token'] ), $this->options->cron );
 			
 			if( isset( $_POST['token'] ) && preg_match('/^[A-Za-z0-9]{64}$/i', $_POST['token']) ){
 				$this->options->token = sanitize_text_field( $_POST['token'] );
@@ -449,8 +449,8 @@ class AIASIST{
 		$this->wpcurl( [ 'host' => $this->getHost(), 'action' => 'inactive' ] );
 	}
 	
-	private function activation( $token ){
-		$this->wpcurl( [ 'host' => $this->getHost(), 'action' => 'activation', 'token' => sanitize_text_field( $token ) ] );
+	private function activation( $token, $cron = false ){
+		$this->wpcurl( [ 'host' => $this->getHost(), 'action' => 'activation', 'cron' => $cron, 'token' => sanitize_text_field( $token ) ] );
 	}
 	
 	public function getBonus(){
