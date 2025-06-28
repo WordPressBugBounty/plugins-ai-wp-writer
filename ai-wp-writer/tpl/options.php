@@ -551,15 +551,22 @@
 			<h2 class="rates-header"><?php _e('Payment & Pricing', 'wp-ai-assistant') ?></h2>
 			
 			<div class="pay-methods">
-				<div class="pay-method active">
+				<div class="pay-method active" data-billing="robokassa">
 					<div class="robokassa"></div>
 					<div class="pay-method-label visa"><?php _e('Visa, Mastercard, Мир, ЮMoney', 'wp-ai-assistant') ?></div>
 				</div>
 				
-				<div class="pay-method">
+				<div class="pay-method" data-billing="cryptocloud">
 					<div class="cryptocloud"></div>
 					<div class="pay-method-label"><?php _e('USDT, Bitcoin, Ethereum', 'wp-ai-assistant') ?></div>
 				</div>
+				
+				<?php if( get_locale() != 'ru_RU' ){ ?>
+					<div class="pay-method" data-billing="paypal">
+						<div class="paypal"></div>
+						<div class="pay-method-label"><?php _e('Visa, Mastercard, PayPal', 'wp-ai-assistant') ?></div>
+					</div>
+				<?php } ?>
 			</div>
 			
 			<?php if( isset( $this->info->rates ) ){ ?>

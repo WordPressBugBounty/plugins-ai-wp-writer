@@ -438,7 +438,7 @@ class AIASIST{
 		if( ! $this->checkNonce()  || ! current_user_can('manage_options') )
 			return;
 	
-		wp_die( $this->wpcurl( [ 'token' => sanitize_text_field( $this->options->token ), 'action' => 'getPayUrl', 'promocode' => $_POST['promocode'], 'type' => sanitize_text_field( $_POST['type'] ), 'crypto' => sanitize_text_field( $_POST['crypto'] ), 'out_summ' => sanitize_text_field( $_POST['out_summ'] ), 'currency' => __('$', 'wp-ai-assistant'), 'locale' => get_locale() ] ) );
+		wp_die( $this->wpcurl( [ 'token' => sanitize_text_field( $this->options->token ), 'action' => 'getPayUrl', 'promocode' => $_POST['promocode'], 'type' => sanitize_text_field( $_POST['type'] ), 'billing' => sanitize_text_field( $_POST['billing'] ), 'out_summ' => sanitize_text_field( $_POST['out_summ'] ), 'currency' => __('$', 'wp-ai-assistant'), 'locale' => get_locale() ] ) );
 	}
 	
 	public function active(){
@@ -613,8 +613,11 @@ class AIASIST{
 							$this->updatePostMeta( $post_id, $task->title, $task->description );
 						
 							if( $task->thumb ){
-								if( $thumb_id = (int) $this->loadFile( $this->api .'/?action=getImage&image='. $task->thumb, $post_id ) )
+								if( $thumb_id = (int) $this->loadFile( $this->api .'/?action=getImage&image='. $task->thumb, $post_id ) ){
 									set_post_thumbnail( $post_id, $thumb_id );
+									wp_update_post( [ 'ID' => $thumb_id, 'post_title' => $this->validText( $task->header ) ] );
+									update_post_meta( $thumb_id, '_wp_attachment_image_alt', $this->validText( $task->header ) );
+								}
 							}
 							
 							if( $task->images ){
@@ -928,8 +931,11 @@ class AIASIST{
 								$this->updatePostMeta( $post_id, $task->meta_title, $task->meta_description );
 								
 								if( $task->thumb ){
-									if( $thumb_id = (int) $this->loadFile( $this->api .'/?action=getImage&image='. $task->thumb, $post_id ) )
+									if( $thumb_id = (int) $this->loadFile( $this->api .'/?action=getImage&image='. $task->thumb, $post_id ) ){
 										set_post_thumbnail( $post_id, $thumb_id );
+										wp_update_post( [ 'ID' => $thumb_id, 'post_title' => $this->validText( $task->post_title ) ] );
+										update_post_meta( $thumb_id, '_wp_attachment_image_alt', $this->validText( $task->post_title ) );
+									}
 								}
 								
 								if( $task->images ){
@@ -1254,8 +1260,11 @@ class AIASIST{
 			}
 			
 			if( $_POST['thumbnail'] ){
-				if( $thumb_id = (int) $this->loadFile( $_POST['thumbnail'], $post_id ) )
+				if( $thumb_id = (int) $this->loadFile( $_POST['thumbnail'], $post_id ) ){
 					set_post_thumbnail( $post_id, $thumb_id );
+					wp_update_post( [ 'ID' => $thumb_id, 'post_title' => $this->validText( $_POST['header'] ) ] );
+					update_post_meta( $thumb_id, '_wp_attachment_image_alt', $this->validText( $_POST['header'] ) );
+				}
 			}
 
 			$args = [

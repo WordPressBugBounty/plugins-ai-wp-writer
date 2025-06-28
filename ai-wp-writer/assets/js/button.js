@@ -82,19 +82,18 @@
 			$(document).on('click', '#aiassist-regenerate', async () => {
 				let content = ed.selection.getContent();
 				
-				if( content ){
-					button.loader( true );
-					
-					$('#aiassist-regenerate-close').click();
-					$('#aiassist-prom-regenerate').val();
+				button.loader( true );
 				
-					let task = await button.request( { content: content, prom: $('#aiassist-prom-regenerate').val(), lang_id: parseInt( $('.aiassist-lang-promts-regenerate:first').val() ), token: aiassist.token, action: 'reGenerateContent' }, aiassist.api );
-					
-					data = await button.getTask( task.task_id );
-					
-					if( data.content )
-						ed.selection.setContent( data.content );						
-				}
+				$('#aiassist-regenerate-close').click();
+				$('#aiassist-prom-regenerate').val();
+			
+				let task = await button.request( { content: content, prom: $('#aiassist-prom-regenerate').val(), lang_id: parseInt( $('.aiassist-lang-promts-regenerate:first').val() ), token: aiassist.token, action: 'reGenerateContent' }, aiassist.api );
+				
+				data = await button.getTask( task.task_id );
+				
+				if( data.content )
+					ed.selection.setContent( data.content );						
+				
 				button.loader();
 			})
 			

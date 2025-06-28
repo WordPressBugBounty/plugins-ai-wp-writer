@@ -1719,6 +1719,16 @@ button[name="save"]{
 		background: url(../images/cryptocloud.png) no-repeat;
 		background-size: 100%;
 	}
+	
+	.paypal{
+		width: 113px;
+		height: 34px;
+		margin: auto;
+		top: 4px;
+		position: relative;
+		background: url(../images/paypal.png) no-repeat;
+		background-size: 100%;
+	}
 
 
 /* rerite tab end */

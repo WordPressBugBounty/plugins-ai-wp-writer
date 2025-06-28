@@ -83,7 +83,7 @@ jQuery( document ).ready(function($){
 			$(document).on('paste', '.aiassist-keywords-input input, .aiassist-multi-keywords .aiassist-multi-item', app.showKeywordsArea);
 			$(document).on('change', 'select.aiassist-lang-promts', app.changeLangPromts);
 			$(document).on('change', 'select.aiassist-lang-promts-regenerate', app.changeLangPromtsToRegenerate);
-			$(document).on('click', '.pay-method', app.setPayMethod);
+			$(document).on('click', '.pay-method:not(.active)', app.setPayMethod);
 			$(document).on('click', '.aiassist-copy', app.copy);
 			$(document).on('submit', '#aiassist-get-bonus', app.getBonus);
 			$(document).on('keydown', '.aiassist-multi-item', app.multiKeydownItems);
@@ -444,6 +444,18 @@ jQuery( document ).ready(function($){
 					
 					let rub = e.text();
 					let usdt = e.attr('data-usdt');
+					
+					/* mod fix s */
+						switch( $('.pay-method.active').data('billing') ){
+							case 'robokassa':
+								if( usdt.indexOf('$') != -1 )
+									return;
+							break;
+							default:
+								if( usdt.indexOf('$') == -1 )
+									return;
+						}
+					/* mod fix e */
 					
 					switch( $(this).prop('tagName') ){
 						case 'INPUT':
@@ -1564,7 +1576,7 @@ jQuery( document ).ready(function($){
 			$(this).closest('div, form').addClass('disabled');
 			
 			let summ = $('#out_summ').val().trim();
-			let buy = await app.request( { 'out_summ': summ, action: 'aiassist_buy', promocode: $('.aiassist-promocode input[name="promocode"]').val(), type: $(this).data('type'), crypto: $('.pay-method.active .cryptocloud').length, nonce: aiassist.nonce } );
+			let buy = await app.request( { 'out_summ': summ, action: 'aiassist_buy', promocode: $('.aiassist-promocode input[name="promocode"]').val(), type: $(this).data('type'), billing: $('.pay-method.active').data('billing'), nonce: aiassist.nonce } );
 			
 			if( buy.error )
 				alert( buy.error );
