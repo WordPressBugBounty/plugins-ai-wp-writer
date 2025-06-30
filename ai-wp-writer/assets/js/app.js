@@ -1811,7 +1811,7 @@ jQuery( document ).ready(function($){
 			if( keywords.length )
 				promt += "\n"+ $('#aiassist-article-prom-keywords').val().replace('{keywords}', keywords);
 			
-			let data = await app.addTask( { action: 'generateStandartContent', prom: promt } );
+			let data = await app.addTask( { action: 'generateStandartContent', prom: promt, lang_id: parseInt( $('.aiassist-lang-promts:visible:first').val() ) } );
 			
 			if( data.content ){
 				$('#step3').show();
