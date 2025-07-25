@@ -29,7 +29,8 @@
 	position: relative;
 }
 
-#wpai-logo{
+#wpai-logo,
+.wpai-logo{
 	width: 150px;
 	height: 150px;
 	background: url(../images/logo.png) no-repeat;
@@ -170,15 +171,10 @@ input.aiassist-error{
 }
 
 .aiassist-regenerate-info{
-	position: relative;
-	top: -70px;
-	height: 55px;
-	background: #fff;
-	width: 634px;
-	padding: 5px;
-	left: -56px;
-	border: solid 1px #ccc;
-	border-radius: 5px 5px 0px 0px;
+	position: absolute;
+	top: -29px;
+	left: -55px;
+	font-size: 14pt;
 }
 
 .aiassist-promt-label{
@@ -2068,3 +2064,72 @@ button[name="save"]{
 }
 
 /* replace images end */
+
+.aiassist-rates-info{
+	font-size: 14pt;
+	padding: 20px 0px 0px 20px;
+}
+
+.aiassist-image-how-to-use{
+	font-size: 14pt;
+}
+
+/* notices start */
+	
+	.aiwriter-notice{
+		height: 180px;
+		position: relative;
+		background-color: #fff;
+	}
+	
+	.aiwriter-notice.halvin{
+		height: 140px;
+	}
+	
+	.aiwriter-notice.logo{
+		background: url('../images/bg-to-logo.png') no-repeat right;
+		background-color: #fff;
+	}
+	
+	.aiwriter-notice.logo .wpai-logo{
+		top: 12px;
+		right: 50px;
+		margin: auto;
+		position: absolute;
+	}
+
+	.aiwriter-notice-content{
+		padding: 30px 30px;
+	}
+
+	.aiwriter-title{
+		font-size: 24px;
+		color: rgb( 30, 36, 50 );
+		margin-bottom: 15px;
+	}
+
+	.aiwriter-notice-text{
+		color: rgb( 30, 36, 50 );
+	}
+	
+	.aiwriter-notice-buttons{
+		bottom: 13px;
+		position: absolute;
+	}
+	
+	.aiwriter-notice-buttons button{
+		border: none;
+		cursor: pointer;
+		border-radius: 3px;
+		color: rgb( 255, 255, 255 );
+		background-color: #2271b1;
+		padding: 5px 25px;
+	}
+	
+	.aiwriter-notice-buttons .notice-action-button{
+		background: none;
+		border: none;
+		color: rgb( 66, 179, 213 );
+	}
+
+/* notices end */

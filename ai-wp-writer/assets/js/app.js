@@ -17,6 +17,7 @@ jQuery( document ).ready(function($){
 			});
 			
 			$(document).on('click', '.wpai-tab', app.tabs);
+			$(document).on('click', '.close-notice, .aiwriter-notice .notice-dismiss', app.closeNotice);
 			$(document).on('click', '.aiassist-tab:not(.aiassist-tab-inactive, .aiassist-lock)', app.wsTabs);
 			$(document).on('click', '.aiassist-tab-inactive', app.wsTabsInactive);
 			$(document).on('submit', '#aiassist-sign', app.sign);
@@ -123,6 +124,11 @@ jQuery( document ).ready(function($){
 				if( $('.aiassist-empty-limit').length > 1 && $('.aiassist-tab[data-tab="rates"]').length )
 					$('.aiassist-tab[data-tab="rates"]').click();
 				
+				if( window.location.hash == '#rates' ){
+					$('.aiassist-tab[data-tab="rates"]').click();
+					$('html, body').animate( { scrollTop: $('.aiassist-tab[data-tab="rates"]').offset().top }, 1000);
+				}
+				
 				if( ! aiassist.token )
 					$('.aiassist-tab[data-tab="settings"]').click();
 			}
@@ -140,6 +146,13 @@ jQuery( document ).ready(function($){
 			$(document).on('change', '#cat-images', app.disabledImagesUrlArea);
 			$(document).on('change', '#replace-images-all', app.replaceAllImagesChecked);
 			$(document).on('change', 'input[name*="images_type"]', app.imagesTypeChecked);
+		},
+		
+		closeNotice: function(){
+			const notice = $(this).closest('.aiwriter-notice');
+			
+			notice.hide();
+			app.setCookie( notice.data('notice'), true );
 		},
 		
 		replaceImagesRemove: async () => {
@@ -162,7 +175,7 @@ jQuery( document ).ready(function($){
 			if( ! confirm( aiassist.locale['Are you sure?'] ) )
 				return false;
 			
-			$('#restore-images').addClass('disabled').text( aiassist.locale['Recovery...'] );
+			$('#restore-images').addClass('disabled').text( aiassist.locale['Restoring...'] );
 			
 			await app.request( { action: 'replaceImagesRestore', nonce: aiassist.nonce } );
 			
@@ -414,7 +427,7 @@ jQuery( document ).ready(function($){
 			event.preventDefault();
 
 			let e = $(this);
-			e.find('button').before('<div>'+ aiassist.locale['Payment request sent'] +'</div>').addClass('disabled');
+			e.find('button').before('<div>'+ aiassist.locale['Payout request sent'] +'</div>').addClass('disabled');
 			
 			let args = app.getFormData( e );
 			e[0].reset();
@@ -738,7 +751,7 @@ jQuery( document ).ready(function($){
 				let status = e.closest('.aiassist-rewrite-queue').find('.aiassist-queue-status');
 				e.remove();
 				
-				status.text( aiassist.locale['Recovery...'] );
+				status.text( aiassist.locale['Restoring...'] );
 				await app.request( { action: 'postRestore', post_id: e.attr('post_id'), revision_id: e.attr('revision_id'), nonce: aiassist.nonce } );
 				status.text( aiassist.locale['Restored'] );
 				resolve( true );
@@ -760,7 +773,7 @@ jQuery( document ).ready(function($){
 		},
 		
 		clearContent: async () => {
-			if( ! confirm( aiassist.locale['Are you sure you want to clear all fields from generated text?'] ) )
+			if( ! confirm( aiassist.locale['Are you sure you want to clear all fields from the generated text?'] ) )
 				return false;
 		
 			app.editor.setContent('');
@@ -1772,7 +1785,7 @@ jQuery( document ).ready(function($){
 		},
 		
 		generateStructure: async () => {
-			app.loader( true, aiassist.locale['Generating structure'] );
+			app.loader( true, aiassist.locale['Structure generation'] );
 			
 			let header = $('#aiassist-header').val();
 			let prom = $('#aiassist-structure-prom').val();
@@ -1840,7 +1853,7 @@ jQuery( document ).ready(function($){
 		},
 		
 		generateContent: async () => {
-			app.loader( true, aiassist.locale['Generating an introduction'] );
+			app.loader( true, aiassist.locale['Introduction generation'] );
 			
 			let header = $('#aiassist-header').val();
 			let structure = $('#aiassist-structure').val();
@@ -1898,7 +1911,7 @@ jQuery( document ).ready(function($){
 		},
 		
 		generateMeta: async () => {
-			app.loader( true, aiassist.locale['Generate meta title'] );
+			app.loader( true, aiassist.locale['Meta title generation'] );
 			
 			$('#step4').show();
 			
@@ -1917,7 +1930,7 @@ jQuery( document ).ready(function($){
 				await app.request( { val: data.content, act: 'title', action: 'saveStep', nonce: aiassist.nonce } );
 			}
 			
-			$('#aiassist-loader-info').text( aiassist.locale['Generating meta description'] );
+			$('#aiassist-loader-info').text( aiassist.locale['Meta description generation'] );
 			
 			data = await app.addTask( { action: 'generateDesc', prom: $('#aiassist-desc-prom').val(), header: header, lang_id: lang_id } );
 			

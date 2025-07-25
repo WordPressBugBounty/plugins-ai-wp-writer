@@ -2,7 +2,7 @@
 	tinymce.create('tinymce.plugins.key2', {
 		init: ( ed, url ) => {
 			ed.addButton('ai_image', {
-				title : aiassist.locale['The image is generated at the location of the cursor.'],
+				title : aiassist.locale['The image is generated where the cursor is positioned.'],
 				text: 'AI image creator',
 				icon: false,
 				onclick: () => {

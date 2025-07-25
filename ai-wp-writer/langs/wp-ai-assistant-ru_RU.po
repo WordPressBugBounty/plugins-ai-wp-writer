@@ -25,7 +25,7 @@ msgid "Need help?"
 msgstr "Нужна помощь?"
 
 #: tpl/options.php:22
-msgid "Write in Telegram"
+msgid "Our support on Telegram"
 msgstr "Напишите в Telegram"
 
 #: tpl/options.php:29
@@ -37,16 +37,40 @@ msgid "Payment & Pricing"
 msgstr "Тарифы и оплата"
 
 #: tpl/options.php
+msgid "The subscription applies to all sites connected to your API key, and one common credit balance is used for all sites."
+msgstr "Подписка распространяется на все сайты подключенные к вашему API-ключу и используется один общий баланс лимитов."
+
+#: tpl/options.php
 msgid "Bulk generation"
 msgstr "Массовая генерация"
 
 #: tpl/options.php
-msgid "All domains"
+msgid "All sites"
 msgstr "Все сайты"
 
-#: tpl/options.php:32 tpl/options.php:116
-msgid "Rewrite"
-msgstr "Рерайт"
+#: tpl/options.php
+msgid "<a href=\"https://aiwpw.com/docs/image-uniqueness-and-regeneration/\" target=\"_blank\">How to use</a>"
+msgstr "<a href=\"https://aiwpwriter.com/docs/unikalizatsiya-i-peregeneratsiya-izobrazheniy-na-sayte/\" target=\"_blank\">Как использовать</a>"
+
+#: tpl/options.php
+msgid "<a href=\"https://aiwpw.com/docs/article-rewriting/\" target=\"_blank\">How to use</a>"
+msgstr "<a href=\"https://aiwpwriter.com/docs/kak-zapustit-protsess-rerayta-statey/\" target=\"_blank\">Как использовать</a>"
+
+#: tpl/options.php
+msgid "<a href=\"https://aiwpw.com/docs/bulk-generation/\" target=\"_blank\">How to use</a>"
+msgstr "<a href=\"https://aiwpwriter.com/docs/massovaya-generatsiya-statey/\" target=\"_blank\">Как использовать</a>"
+
+#: tpl/options.php
+msgid "<a href=\"https://aiwpw.com/docs/ai-assist/\" target=\"_blank\">How to use</a>"
+msgstr "<a href=\"https://aiwpwriter.com/docs/ai-assist-generatsiya-ili-peregeneratsiya-fragmentov-teksta/\" target=\"_blank\">Как использовать</a>"
+
+#: tpl/options.php
+msgid "<a href=\"https://aiwpw.com/docs/ai-image-creator/\" target=\"_blank\">How to use</a>"
+msgstr "<a href=\"https://aiwpwriter.com/docs/ai-image-creator-generatsiya-izobrazheniy-v-proizvolnom-meste/\" target=\"_blank\">Как использовать</a>"
+
+#: tpl/options.php
+msgid "Rewriting and translation"
+msgstr "Рерайт и перевод"
 
 #: tpl/options.php:33
 msgid "Generation in editor"
@@ -57,7 +81,7 @@ msgid "Affiliate Program"
 msgstr "Партнерская программа"
 
 #: tpl/options.php:40
-msgid "Attract new users to the plugin and earn money!<br />New users who enter the referral code will receive a 15% discount on their first deposit, <br />and you will receive 10% on your balance from all webmaster payments. <br />The more active users you can attract, the more money you will make. <br />Payment is made on request, within a day, to the USDT trc20 wallet. <br />A network commission of 1.4 USDT is charged on the payout. <br />By participating in the referral program you agree with <a href=\"https://aiwpwriter.com/user-agreement\">rules</a>."
+msgid "Attract new users to the Plugin and earn money!<br />New users who enter the referral code will receive a 15% discount on their first deposit, <br />and you will receive 10% on your balance from all webmaster payments. <br />The more Active Users you attract, the more money you make. <br />Payout is made on request, within a day, to the USDT trc20 wallet. <br />Network commission of 1.4 USDT is charged on the payout. <br />By participating in the Referral Program you agree with the <a href="https://aiwpw.com/user-agreement">Rules</a>."
 msgstr "Привлекайте новых пользователей в плагин и зарабатывайте на этом!<br />Новые пользователи, которые введут реферальный код, получат скидку 15% на свой первый депозит,<br />а вы будете получать 10% на свой баланс от всех платежей вебмастера.<br />Чем больше вы привлечете активных пользователей, тем больше будет ваш заработок.<br />Выплата производится по запросу, в течение суток, на кошелек USDT trc20.<br />С выплаты удерживается комиссия сети в размере 1,4 usdt.<br />Участвуя в реферальной программе, вы соглашаетесь с <a href=\"https://aiwpwriter.com/user-agreement/\">правилами</a>."
 
 #: tpl/options.php:51
@@ -73,19 +97,19 @@ msgid "Attracted referrals:"
 msgstr "Привлеченных рефералов:"
 
 #: tpl/options.php:63
-msgid "Method for receiving the payout:"
+msgid "Payout method:"
 msgstr "Способ для получения выплаты:"
 
 #: tpl/options.php:66
-msgid "Specify the wallet number to receive the payment:"
+msgid "Specify your wallet number to receive the payment:"
 msgstr "Укажите номер кошелька для получения платежа:"
 
 #: tpl/options.php
-msgid "Please provide us with your Telegram or email to contact you if any additional questions arise:"
+msgid "Please specify your Telegram or email to contact you in case of any additional questions:"
 msgstr "Укажите Telegram или email, мы свяжемся если возникнут дополнительные вопросы:"
 
 #: tpl/options.php:89
-msgid "The request for payment has been accepted:"
+msgid "Request for payout accepted:"
 msgstr "Запрос на выплату принят:"
 
 #: tpl/options.php:93
@@ -93,12 +117,12 @@ msgid "Minimum payout amount:"
 msgstr "Минимальный порог выплаты:"
 
 #: tpl/options.php:96
-msgid "Request payment"
+msgid "Request payout"
 msgstr "Запросить выплату"
 
 #: tpl/options.php:98
-msgid "You can generate articles directly in the Wordpress editor. The plugin functionality is located at the bottom of the page, under the main editor. <br />You can also generate images in any articles and in any place pressing the button (or widget in Gutenberg editor) AI image creator. <br />To regenerate any text fragment in any articles use the AI Assist button. To do it, select the text fragment, press AI Assist and the <b>Regenerate</b> button."
-msgstr "Вы можете генерировать статьи непосредственно в редакторе Wordpress. Функционал плагина находится внизу страницы, под основным редактором. <br />Так же можете генерировать изображения в любых статьях в произвольном месте через кнопку (или виджет в редакторе Gutenberg) AI image creator. <br />Для перегенерации любого фрагмента текста в любых статьях используйте кнопку AI Assist, для этого выделите фрагмент текста, нажимите AI Assist и кнопку <b>Перегенерировать</b>."
+msgid "You can generate articles directly in the WordPress Editor. The plugin functionality is located at the bottom of the page, under the main editor. <br />You can also generate images anywhere in your articles pressing the button <b>AI image creator</b> (or widget in Gutenberg editor). <br />To regenerate any text fragment in any article, use the <b>AI Assist</b> button. To do it, select the text fragment, press <b>AI Assist<b/> and the <b>Generate</b> button."
+msgstr "Вы можете генерировать статьи непосредственно в редакторе Wordpress. Функционал плагина находится внизу страницы, под основным редактором. <br />Подробное руководство с видео по <a href="https://aiwpwriter.com/docs/generatsiya-statey-odnim-zaprosom/" target="_blank">генерации одним запросом</a> и <a href="https://aiwpwriter.com/docs/generatsiya-bolshoy-stati-po-planu/" target="_blank">генерации большой статьи по плану</a> найдете в документации у нас на сайте. Как добавить изображения при генерации новых статей в редакторе рассказали и показали <a href="https://aiwpwriter.com/docs/generatsiya-izobrazheniy-dlya-novoy-stati/" target="_blank">на этой стрнице</a>. <br />Так же можете генерировать изображения в любых статьях в произвольном месте через кнопку (или виджет в редакторе Gutenberg) <b>AI image creator</b>. <a href="https://aiwpwriter.com/docs/ai-image-creator/" target="_blank">Руководство по AI image creator.</a> <br />Для перегенерации любого фрагмента текста в любых статьях используйте кнопку <b>AI Assist</b>, для этого выделите фрагмент текста, нажимите <b>AI Assist</b> и кнопку <b>Сгенерировать</b>. <a href="https://aiwpwriter.com/docs/ai-assist/" target="_blank">Руководство по AI Assist.</a>"
 
 #: tpl/options.php:108
 msgid "Generate article"
@@ -109,7 +133,7 @@ msgid "Generate page"
 msgstr "Сгенерировать страницу"
 
 #: tpl/options.php:120
-msgid "You can rewrite your entire site, individual pages, categories.  Also there is an opportunity to rewrite pages of third-party sites by url. We tried to maintain the highest quality of rewritten third-party sites. It is important to take into account that third-party sites have different markup, layout and structure, that’s why in the rewritten article can occur unwanted elements. For testing we recommend you to do a few pages. If you find a lot of unwanted elements in your articles, feel free to contact our support team. We are ready to customize the plugin for specific third-party sites for active users of the plugin."
+msgid "You can rewrite your entire site, individual pages, categories. You can also rewrite pages of third-party sites using URL. We try to maintain the highest quality of rewritten third-party sites. Please note that third-party sites have different markup, layout and structure, that’s why unwanted elements can occur in a rewritten article. We recommend you to rewrite a few pages first, for testing. If you find unwanted elements in your articles, feel free to contact our support team. For Active Users of the plugin, we are ready to customize it for rewriting specific third-party sites."
 msgstr "Вы можете сделать рерайт всего своего сайта, отдельных страниц, категорий, а так же рерайтить страницы сторонних сайтов по url. Мы постарались сделать так чтобы сторонние сайты рерайтились максимально качественно. При этом важно учитывать, что сторонние сайты имеют различную разметку, верстку и структуру, из-за этого иногда в статью после рерайта могут попадать нежелательные элементы. Рекомендуем для теста делать рерайт нескольких страниц. Если в статьи попадает мусор, напишите нам в поддержку, мы готовы выполнить для активных пользователей плагина персональную адаптацию под рерайт определенных сторонних сайтов."
 
 #: tpl/options.php:122
@@ -117,27 +141,27 @@ msgid "Rewrite mode"
 msgstr "Режим рерайта"
 
 #: tpl/options.php:124
-msgid "Paragraph by paragraph"
+msgid "Rewrite paragraph by paragraph"
 msgstr "Рерайт по абзацам"
 
 #: tpl/options.php:125
-msgid "Rewrite by segments between headings"
+msgid "Rewrite segment by segment between headings"
 msgstr "Рерайт по сегментам между заголовками"
 
 #: tpl/options.php:125
-msgid "Rewriting the entire text"
-msgstr "Рерайта всего текста целиком"
+msgid "Rewrite the entire text"
+msgstr "Рерайт всего текста целиком"
 
 #: tpl/options.php:131
-msgid "Category of rerighting"
+msgid "Rewriting category"
 msgstr "Категория рерайта"
 
 #: tpl/options.php:133
-msgid "Categories"
+msgid "Category"
 msgstr "Категория"
 
 #: tpl/options.php:142
-msgid "Specify the types of records that need to be rewritten:"
+msgid "Specify the types of posts that need to be rewritten:"
 msgstr "Укажите типы записей по которым нужно сделать рерайт:"
 
 #: tpl/options.php:145
@@ -145,11 +169,11 @@ msgid "Rewrite all the articles on this site"
 msgstr "Рерайт всех статей этого сайта"
 
 #: tpl/options.php:155
-msgid "Or specify a list of URLs you want to rewrite. You can add any links, including links on third-party sites"
+msgid "Or specify the list of URLs you want to rewrite. You can add any links, including links on third-party sites."
 msgstr "Или укажите список URL по которым нужно сделать рерайт. Можно добавить любые ссылки в том числе и на сторонних сайтах"
 
 #: tpl/options.php:160
-msgid "Choose the category in which to place the articles after rewriting:"
+msgid "Choose the category for placing articles after rewriting:"
 msgstr "Выберите категорию в которую помещать статьи после рерайта:"
 
 #: tpl/options.php:162 tpl/options.php:518
@@ -161,8 +185,8 @@ msgid "Add another list of URLs for another category"
 msgstr "Добавить еще один список URL для еще одной категории"
 
 #: tpl/options.php:180
-msgid "Promt for article rewriting. This promt will be used to rewrite titles, paragraphs, meta title and description."
-msgstr "Промт для рерайта статей. По этому промту будет сделан рерайт заголовков, абзацев, meta title и description."
+msgid "Prompt for article rewriting. This prompt will be used to rewrite headings, paragraphs, meta title and meta description."
+msgstr "Промт для рерайта статей. По этому промту будет сделан рерайт подзаголовков, абзацев, meta title и meta description."
 
 #: tpl/options.php:184
 msgid "Restore the default prompt."
@@ -173,7 +197,7 @@ msgid "Prompt language:"
 msgstr "Язык промпта:"
 
 #: tpl/options.php:208
-msgid "Images generation for rewrited article based on headlines. If you leave the checkboxes empty, the rewrited version will be done without images."
+msgid "Image generation for rewritten article based on headings. If you leave the checkboxes empty, the rewritten version will have no images."
 msgstr "Генерация изображений для статьи после рерайта на основе заголовков. Если чекбоксы оставить пустыми, то рерайт будет делаться без изображений."
 
 #: tpl/options.php:211
@@ -181,7 +205,7 @@ msgid "Generate all possible images for the post"
 msgstr "Генерировать все возможные изображения для записи"
 
 #: tpl/options.php:215 tpl/options.php:581
-msgid "Generate the thumbnail (record image)"
+msgid "Generate the thumbnail"
 msgstr "Генерировать изображение записи (миниатюру)"
 
 #: tpl/options.php:219
@@ -201,7 +225,7 @@ msgid "Image generation model"
 msgstr "Модель генерации изображений"
 
 #: tpl/options.php:243
-msgid "The text of the original articles from your own site will be replaced by the rewritten text. If the third-party site pages are rewritten, new articles will be created. You can use the “Restore original texts” buttons only if you rewrite articles on your own site."
+msgid "The text in the original articles from your own site will be replaced by the rewritten text. If third-party site pages are rewritten, new articles will be created. You can use the “Restore original texts” buttons only if you rewrite articles on your own site."
 msgstr "Текст в исходных статьях на своем сайте будет заменяться на текст после рерайта. Если делается рерайт страниц стороннего сайта, то создадутся новые статьи. Воспользоваться кнопками \"Востановить оригинальные текста\" можно только если делается рерайт статей на своем сайте."
 
 #: tpl/options.php:247
@@ -209,7 +233,7 @@ msgid "Start a rewrite"
 msgstr "Запустить рерайт"
 
 #: tpl/options.php:248
-msgid "Stop rewriting"
+msgid "Stop the rewrite"
 msgstr "Остановить рерайт"
 
 #: tpl/options.php:249
@@ -257,24 +281,24 @@ msgid "How to use the AI WP Writer plugin"
 msgstr "Как использовать плагин AI WP Writer"
 
 #: tpl/options.php:348
-msgid "- After entering the key, a plugin widget appears under the Classic Editor and Gutenberg text editor."
-msgstr "- После того как ввели ключ, под текстовым редактором Classic Editor и Gutenberg появляется виджет плагина."
+msgid "- After you enter the key, a plugin widget appears under the <b>Classic Editor</b> and <b>Gutenberg</b> text editor."
+msgstr "- После того как ввели ключ, под текстовым редактором <b>Classic Editor</b> и <b>Gutenberg</b> появляется виджет плагина."
 
 #: tpl/options.php:384
-msgid "- To generate images anywhere in the new articles, as for the old ones, there is an <b>AI image creator</b> button. In the Gutenberg editor, add a new block and type <b>AI image creator</b> in the widget search."
+msgid "- To generate images anywhere in the new or old articles, use the <b>AI image creator</b> button. In the Gutenberg editor, add a new block and type <b>AI image creator</b> in the widget search."
 msgstr "- Для генерации картинок в любом месте статьи, в том числе для старых статей, используйте кнопку <b>AI image creator</b>. В редакторе Gutenberg добавьте новый блок и введите в поиске виджетов <b>AI image creator</b>."
 
 #: tpl/options.php:385
-msgid "- The <b>AI assist</b> button will help to regenerate a piece of text you do not like or generate a text fragment in the editor where the cursor is. It works in the classic editor. To regenerate, select a piece of text, press <b>AI assist</b>, use standard or enter your own prompt. You can use regeneration or generation of text in an arbitrary place for any articles, including already published ones."
-msgstr "- Кнопка AI assist поможет перегенерировать не понравившийся кусок текста или сгенерировать фрагмент текста в редакторе, там где стоит курсор. Работает в классическом редакторе. Для перегенерации выделите часть текста, нажмите AI assist, используйте стандартный или введите свой промпт. Использовать перегенерацию или генерацию текста в произвольном месте можно для любых статей, в том числе уже опубликованных."
+msgid "- The <b>AI assist</b> button will help to regenerate a piece of text you do not like or generate a text fragment in the editor where the cursor is positioned. It works in the <b>Classic Editor</b>. To regenerate, select a part of text, press <b>AI assist</b>, use a standard or enter your own prompt. You can use regeneration or generation of text anywhere in you material for any articles, including those already published."
+msgstr "- Кнопка <b>AI assist</b> поможет перегенерировать не понравившийся кусок текста или сгенерировать фрагмент текста в редакторе, там где стоит курсор. Работает в классическом редакторе. Для перегенерации выделите часть текста, нажмите <b>AI assist</b>, используйте стандартный или введите свой промпт. Использовать перегенерацию или генерацию текста в произвольном месте можно для любых статей, в том числе уже опубликованных."
 
 #: tpl/options.php:351
 msgid "- The <b>Bulk generation</b> tab is used to create articles in large volumes based on a list of key phrases. You can schedule a certain number of articles to be automatically published every day."
 msgstr "- Вкладка <b>Массовая генерация</b> используется для создания статей в больших объемах по списку ключевых фраз. Можно запланировать чтобы каждый день автоматически публиковалось определенное количество статей."
 
 #: tpl/options.php:352
-msgid "- The <b>Rewrite</b> tab is used when you need to rewrite the text preserving its meaning. It can be used both for the articles on your own site and for the rewriting articles on third-party sites by url list."
-msgstr "- Вкладка <b>Рерайт</b> используется когда нужно переписать текст с сохранением смысла. Можно использовать как для статей на своем сайте, так и для рерайта статей на сторонних сайтах по списку url."
+msgid "- The <b>Rewrite and translation</b> tab is used when you need to rewrite a text preserving its original meaning. You can use it both for the articles on your own site and for rewriting articles on third-party sites according to URL list. You can also translate and rewrite pages simultaneously. To do this, select the target language and the text will be translated into it."
+msgstr "- Вкладка <b>Рерайт и перевод</b> используется когда нужно переписать текст с сохранением смысла. Можно использовать как для статей на своем сайте, так и для рерайта статей на сторонних сайтах по списку url. Так же вы можете сделать одновременно рерайт и перевод страниц, для этого выберите язык промпта, на этот язык и будет переведен текст."
 
 #: tpl/options.php:358
 msgid "Sign in"
@@ -293,7 +317,7 @@ msgid "Apply"
 msgstr "Применить"
 
 #: tpl/options.php:423 tpl/options.php:464
-msgid "Payment for any amount"
+msgid "Pay any amount you choose"
 msgstr "Оплата на произвольную сумму"
 
 #: tpl/options.php:424 tpl/options.php:465
@@ -330,11 +354,11 @@ msgid "For those who generate in large volumes"
 msgstr "Для тех кто генерирует в больших объемах"
 
 #: tpl/options.php:506
-msgid "Add article topics in a list in the left column, each row being a new article. If desired, add one or more keywords, separated by commas, in the right column."
+msgid "Add article topics in a list in the left column, each line being a new article. If necessary, add one or more keywords, separated by commas, in the right column."
 msgstr "Добавьте темы статьи списком в левый столбец, каждая строка - это новая статья. Если требуется добавьте одну или несколько ключевых фраз через запятую в правый столбец."
 
 #: tpl/options.php:515
-msgid "Select a category to publish articles to"
+msgid "Select a category for publishing articles"
 msgstr "Выберите категорию в которую публиковать статьи"
 
 #: tpl/options.php:532
@@ -342,8 +366,8 @@ msgid "Add another list of keys for another category"
 msgstr "Добавить еще один список ключей для еще одной категории"
 
 #: tpl/options.php:536
-msgid "Prompt for generating articles. Instead of the {key} variable, key phrases from the list are substituted."
-msgstr "Промпт для генерации статей. Вместо переменой {key} подставляются ключевые фразы из списка."
+msgid "Prompt for generating articles. The {key} variable will be replaced by main topic from the list."
+msgstr "Промпт для генерации статей. Вместо переменой {key} подставляется главная тема статьи из списка.<br /> Опираясь на наш большой опыт генерации статей и сервисы для оценки качества текстов, мы разработали и используем дополнительный системный промпт. Этот промпт скрыт на сервере и автоматически используется при каждой генерации - он делает тексты живыми и не похожими на сгенерированные нейросетью, что улучшает индексирование и привлекает больше трафика."
 
 #: tpl/options.php:540 tpl/workspace.php:17 tpl/workspace.php:191
 msgid "Restore default prompts"
@@ -354,11 +378,11 @@ msgid "Prompts language: "
 msgstr "Язык промптов: "
 
 #: tpl/options.php:569
-msgid "How many articles should be generated in the specified time period. If the field is left blank, articles for all specified keys will be generated as soon as possible.<br /> Specify the number of articles:"
+msgid "The number of articles to be generated in the specified time period. If the field is left blank, articles according to all preset keys will be generated as soon as possible.<br /> Specify the number of articles:"
 msgstr "Сколько сколько статей нужно генерировать в указанный период времени. Если оставить поле пустым, то будут сгенерированы статьи по всем заданным ключам в кратчайшие сроки.<br /> Укажите количество статей:"
 
 #: tpl/options.php:574
-msgid "The images to generate for the article. If you leave the input form blank, the articles will be generated without images."
+msgid "The images to be generated for the article. If you leave the field blank, the articles will be generated without images."
 msgstr "Какие сгенерировать изображения для статьи. Если оставить пустым, то статьи будут генерироваться без изображений."
 
 #: tpl/options.php:577
@@ -374,7 +398,7 @@ msgid "Prices"
 msgstr "Посмотреть тарифы"
 
 #: tpl/options.php:609
-msgid "Start generating articles"
+msgid "Start articles generation"
 msgstr "Запустить генерацию статей"
 
 #: tpl/options.php:610
@@ -390,7 +414,7 @@ msgid "You have not added the API key! The key is sent to the mail after registr
 msgstr "Вы не добавили API-ключ! Ключ после регистрации в плагине отправляется на почту. Зарегистрируйтесь и добавьте ключ из письма в специальное поле в настройках плагина и генерация станет доступна."
 
 #: tpl/options.php:621
-msgid "Limits have expired, top up your balance to continue generating!"
+msgid "You have no credits left, top up your balance to continue generating!"
 msgstr "Лимиты закончились, для продолжения генерации пополните баланс!"
 
 #: tpl/workspace.php:7
@@ -402,16 +426,16 @@ msgid "Single request generation"
 msgstr "Генерация одним запросом"
 
 #: tpl/workspace.php:17
-msgid "Generating an article according to a plan (large article)"
+msgid "Generating an article according to outline (large article)"
 msgstr "Генерация статьи по плану (большая статья)"
 
 #: tpl/workspace.php:25
-msgid "Enter the subject of the article, it will be automatically substituted in the prompt. This field must be filled in for meta tags and images to be generated."
+msgid "Enter the subject of the article, it will be automatically inserted into the prompt. This field must be filled in for meta tags and images to be generated."
 msgstr "Введите тему статьи, она автоматически подставится в промпт. Для того чтобы сгенерировались метатеги и картинки, это поле должно быть обязательно заполнено."
 
 #: tpl/workspace.php:29
-msgid "You can change the prompt as you wish, it determines how the article will turn out. Instead of the {key} variable, the key phrase will be substituted."
-msgstr "Вы можете изменить промпт по своему усмотрению, от него зависит какой получится статья. Вместо переменой {key} подставится ключевая фраза."
+msgid "You can change the prompt as you wish, it determines how the article will turn out. The {key} variable will be replaced by the article topic."
+msgstr "Вы можете изменить промпт по своему усмотрению, от него зависит какой получится статья. Вместо переменой {key} подставится тема статьи.<br /> Опираясь на наш большой опыт генерации статей и сервисы для оценки качества текстов, мы разработали и используем дополнительный системный промпт. Этот промпт скрыт на сервере и автоматически используется при каждой генерации - он делает тексты живыми и не похожими на сгенерированные нейросетью, что улучшает индексирование и привлекает больше трафика."
 
 #: tpl/workspace.php:53 tpl/workspace.php:109
 msgid "Generate article text"
@@ -426,8 +450,8 @@ msgid "Generate article header"
 msgstr "Сгенерировать заголовок статьи"
 
 #: tpl/workspace.php:100
-msgid "Prompt for an article outline. Instead of the {key} variable, the key phrase will be substituted. "
-msgstr "Промт для плана статьи. Вместо переменой {key} подставится ключевая фраза. "
+msgid "Prompt for an article outline. The {key} variable will be replaced by the topic of the article."
+msgstr "Промт для плана статьи. Вместо переменой {key} подставится тема статьи. "
 
 #: tpl/workspace.php:101
 msgid "Create article structure"
@@ -437,9 +461,29 @@ msgstr "Создать структуру статьи"
 msgid "Prompt:"
 msgstr "Промпт:"
 
+#: tpl/workspace.php:108
+msgid "Prompt for the headline:"
+msgstr "Промпт для заголовка:"
+
+#: tpl/workspace.php:120
+msgid "Generate article headline"
+msgstr "Сгенерировать заголовок статьи:"
+
 #: tpl/workspace.php:120
 msgid "Generate meta tags"
 msgstr "Сгенерировать метатеги"
+
+#: tpl/workspace.php:153
+msgid "Prompt for generating an article. The article topic is substituted for the {header} variable. <br/>Several additional prompts, which are hidden on the server, are also used to improve the quality of the article and make it less similar to text generated by a neural network. This improves search engine indexing and attracts more traffic."
+msgstr "Промпт для генерации статьи. Вместо переменной {header} подставляется тема статьи. <br/>Дополнительно используется еще несколько скрытых на сервере промптов, они делают текст статьи качественным и не похожим на текст сгенерированный нейросетью. Это улучшает индексирование в поисковых системах и привлекает больше трафика."
+
+#: tpl/workspace.php:172
+msgid "Prompt for generating meta title:"
+msgstr "Промпт для генерации meta title:"
+
+#: tpl/workspace.php:180
+msgid "Prompt for generating meta description:"
+msgstr "Промпт для генерации meta description:"
 
 #: tpl/workspace.php:133
 msgid "Generating images for an article. Select a model:"
@@ -470,7 +514,7 @@ msgid "Credits left:"
 msgstr "Лимитов осталось:"
 
 #: tpl/options.php:266 in js
-msgid "The process of rewriting articles is complete."
+msgid "Articles rewriting is completed."
 msgstr "Процесс рерайта статей завершен."
 
 #: tpl/options.php
@@ -507,7 +551,7 @@ msgid "Suspended"
 msgstr "Приостановлено"
 
 #: tpl/options.php
-msgid "In line"
+msgid "In queue"
 msgstr "В очереди"
 
 #: tpl/options.php
@@ -515,7 +559,7 @@ msgid "By registering, you agree to"
 msgstr "Регистрируясь, вы соглашаетесь с"
 
 #: tpl/options.php
-msgid "Mail"
+msgid "E-mail"
 msgstr "E-mail"
 
 #: tpl/options.php
@@ -547,7 +591,7 @@ msgid "Promo code activated!"
 msgstr "Промокод активирован!"
 
 #: tpl/options.php
-msgid "The promo code is not correct!"
+msgid "The promo code is incorrect!"
 msgstr "Промокод не верный!"
 
 #: tpl/options.php
@@ -599,15 +643,15 @@ msgid "Promt:"
 msgstr "Промпт:"
 
 #: tpl/options.php
-msgid "The process of generating articles is in progress, the information is updated automatically. If this does not happen, refresh the browser page to see the current list of generated articles."
+msgid "Articles generation is in progress, the information is updated automatically. If this does not happen, refresh the browser page to see the current list of generated articles."
 msgstr "Идет процесс генерации статей, информация обновляется автоматически. Если этого не происходит, обновите страницу браузера, чтобы увидеть актуальный список сгенерированных статей."
 
 #: tpl/options.php
-msgid "The article generation process has been suspended."
+msgid "Articles generation has been suspended."
 msgstr "Процесс генерации статей приостановлен."
 
 #: tpl/options.php
-msgid "The article generation process is complete."
+msgid "Articles generation is completed."
 msgstr "Процесс генерации статей завершен."
 
 #: tpl/options.php
@@ -615,7 +659,7 @@ msgid "Generated by"
 msgstr "Сгенерировано"
 
 #: tpl/options.php
-msgid "Generate an article without pictures"
+msgid "Generate an article without images"
 msgstr "Генерировать статью без изображений"
 
 #: tpl/options.php
@@ -623,11 +667,11 @@ msgid "Generate pictures for all headlines"
 msgstr "Генерировать картинки для всех заголовков"
 
 #: tpl/options.php
-msgid "Generate pictures for h2 headlines only"
+msgid "Generate images for h2 headings only"
 msgstr "Генерировать изображения только для заголовков h2"
 
 #: tpl/options.php
-msgid "Maximum number of pictures to generate"
+msgid "Maximum number of images to generate"
 msgstr "Максимальное количество изображений для генерации"
 
 #: tpl/options.php
@@ -647,7 +691,7 @@ msgid "Key phrases"
 msgstr "Ключевые фразы"
 
 #: tpl/options.php
-msgid "Visa, Mastercard, Мир, ЮMoney"
+msgid "Visa, Mastercard, Мir, YooMoney"
 msgstr "Visa, Mastercard, Мир, ЮMoney"
 
 #: tpl/options.php
@@ -683,23 +727,23 @@ msgid "1 million credits"
 msgstr "1 млн лимитов"
 
 #: tpl/options.php
-msgid "How much content can be generated<br />~ 4 400 000 characters GPT-4.1 nano**<br />~ 2 640 000 characters GPT-4.1 mini**<br />~ 660 000 characters GPT-4.1**<br /><br />~ 1 320 000 characters o3-mini**<br />~ 942 images FLUX Schnell<br />~ 165 generations Midjourney v7<br />~ 188 images Dalle 3<br />~ 165 images GPT-image"
-msgstr "Сколько можно сгенерировать<br />~ 4 400 000 символов GPT-4.1 nano**<br />~ 2 640 000 символов GPT-4.1 mini**<br />~ 660 000 символов GPT-4.1**<br />~ 1 320 000 символов o3-mini**<br />~ 942 изображения FLUX Schnell<br />~ 165 изображений Midjourney v7<br />~ 188 изображений Dalle 3<br />~ 165 изображений GPT-image"
+msgid "How much content can be generated<br />~6600000 characters (~1320000 words) GPT-4.1 nano**<br />~3300000 characters (~660000 words) GPT-4.1 mini**<br />~825000 characters (~165000 words) GPT-4.1**<br />~1650000 characters (~330000 words) o3-mini**<br />~ 942 images FLUX Schnell<br />~ 165 generations Midjourney v7<br />~ 188 images Dalle 3<br />~ 165 images GPT-image"
+msgstr "Сколько можно сгенерировать<br />~6600000 символов GPT-4.1 nano**<br />~3300000 символов GPT-4.1 mini**<br />~825000 символов GPT-4.1**<br />~1650000 символов o3-mini**<br />~ 942 изображения FLUX Schnell<br />~ 165 изображений Midjourney v7<br />~ 188 изображений Dalle 3<br />~ 165 изображений GPT-image"
 
 #: tpl/options.php
-msgid "How much content can be generated<br />~ 13 666 000 characters GPT-4.1 nano**<br />~ 8 200 000 characters GPT-4.1 mini**<br />~ 2 050 000 characters GPT-4.1**<br />~ 4 100 000 characters o3-mini**<br />~ 2 928 images FLUX Schnell<br />~ 512 generations Midjourney v7<br />~ 585 images Dalle 3<br />~ 512 images GPT-image"
-msgstr "Сколько можно сгенерировать<br />~ 13 666 000 символов GPT-4.1 nano**<br />~ 8 200 000 символов GPT-4.1 mini**<br />~ 2 050 000 символов GPT-4.1**<br />~ 4 100 000 символов o3-mini**<br />~ 2 928 изображений FLUX Schnell<br />~ 512 изображений Midjourney v7<br />~ 585 изображения Dalle 3<br />~ 512 изображений GPT-image"
+msgid "How much content can be generated<br />~20500000 characters (~4100000 words) GPT-4.1 nano**<br />~10250000 characters (~2050000 words) GPT-4.1 mini**<br />~2562000 characters (~512400 words) GPT-4.1**<br />~5125000 characters (~1025000 words) o3-mini**<br />~ 2 928 images FLUX Schnell<br />~ 512 generations Midjourney v7<br />~ 585 images Dalle 3<br />~ 512 images GPT-image"
+msgstr "Сколько можно сгенерировать<br />~20500000 символов GPT-4.1 nano**<br />~10250000 символов GPT-4.1 mini**<br />~2562000 символов GPT-4.1**<br />~5125000 символов o3-mini**<br />~ 2 928 изображений FLUX Schnell<br />~ 512 изображений Midjourney v7<br />~ 585 изображения Dalle 3<br />~ 512 изображений GPT-image"
 
 #: tpl/options.php
-msgid "How much content can be generated<br />~ 33 333 000 characters GPT-4.1 nano**<br />~ 20 000 000 characters GPT-4.1 mini**<br />~ 5 000 000 characters GPT-4.1**<br />~ 10 000 000 characters o3-mini**<br />~ 7 142 images FLUX Schnell<br />~ 1 250 generations Midjourney v7<br />~ 1 428 images Dalle 3<br />~ 1 250 images GPT-image"
-msgstr "Сколько можно сгенерировать<br />~ 33 333 000 символов GPT-4.1 nano**<br />~ 20 000 000 символов GPT-4o mini**<br />~ 5 000 000 символов GPT-4.1**<br />~ 10 000 000 символов o3-mini**<br />~ 7 142 изображения FLUX Schnell<br />~ 1 250 изображений Midjourney v7<br />~ 1 428 изображений Dalle 3<br />~ 1 250 изображений GPT-image"
+msgid "How much content can be generated<br />~50000000 characters (~10000000 words) GPT-4.1 nano**<br />~25000000 characters (~5000000 words) GPT-4.1 mini**<br />~6250000 characters (~1250000 words) GPT-4.1**<br />~12500000 characters (~2500000 words) o3-mini**<br />~ 7 142 images FLUX Schnell<br />~ 1 250 generations Midjourney v7<br />~ 1 428 images Dalle 3<br />~ 1 250 images GPT-image"
+msgstr "Сколько можно сгенерировать<br />~50000000 символов GPT-4.1 nano**<br />~25000000 символов GPT-4o mini**<br />~6250000 символов GPT-4.1**<br />~12500000 символов o3-mini**<br />~ 7 142 изображения FLUX Schnell<br />~ 1 250 изображений Midjourney v7<br />~ 1 428 изображений Dalle 3<br />~ 1 250 изображений GPT-image"
 
 #: tpl/options.php
 msgid "Neural Networks: GPT-4.1, GPT-4.1-mini, GPT-4.1-nano, o3-mini (reasoning), Midjourney v7, Dalle 3, GPT-image, FLUX."
 msgstr "Нейросети: GPT-4.1, GPT-4.1-mini, GPT-4.1-nano, o3-mini (рассуждающая), Midjourney v7, Dalle 3, GPT-image, FLUX."
 
 #: tpl/options.php
-msgid "Bulk generation and generation articles in the editor"
+msgid "Bulk generation and generation of articles in the editor"
 msgstr "Массовая генерация и генерация статей в редакторе"
 
 #: tpl/options.php
@@ -707,7 +751,7 @@ msgid "AI Assist, AI image creator"
 msgstr "AI Assist, AI image creator"
 
 #: tpl/options.php
-msgid "Rewrite articles on your site and pages from other sites"
+msgid "Rewrite articles on your site and pages from third-party sites"
 msgstr "Рерайт статей своего сайта и страниц сторонних сайтов"
 
 #: tpl/options.php
@@ -715,7 +759,7 @@ msgid "Free plan"
 msgstr "Free plan"
 
 #: tpl/options.php
-msgid "Once you sign up, you will receive 10,000 free credits. You can also buy credits in packages or for any amount. These credits do not expire and remain on your balance until you use them."
+msgid "Once you register, you will receive 10,000 free credits. You can also buy credits in packages or for any amount you choose. These credits do not expire and remain on your balance until you use them."
 msgstr "После регистрации вам начисляется 10000 бесплатных лимитов. Дополнительно можете докупить лимиты пакетами или на произвольную сумму. Эти лимиты не сгорают и будут на балансе пока их не используете."
 
 #: tpl/options.php
@@ -731,7 +775,7 @@ msgid "Neural networks: GPT-4.1-mini, GPT-4.1-nano, FLUX"
 msgstr "Нейросети: GPT-4.1-mini, GPT-4.1-nano, FLUX"
 
 #: tpl/options.php
-msgid "* If you buy the same number of credits that you get by subscribing to the program. <br />** Payment is spent only for generating characters or images. No hidden fees! You don't pay for tokens used to send context. You do not pay for sending context, you do not pay for sending requests for generation, you do not pay for tokens used to markup articles, you do not pay for spaces. articles, payment for whitespace is not deducted."
+msgid "* If you buy, for any amount you choose, the same number of credits you get by subscribing. <br />** Payment is spent only on generating characters or images. No hidden fees! You do not pay for tokens used to send context. You do not pay for sending requests for generation. You do not pay for tokens used to mark up articles. You do not pay for spaces."
 msgstr "* Если покупать на произвольную сумму такое же количество лимитов которое вы получите оформив подписку. <br />** Оплата расходуется только за генерацию символов или изображений. Никаких скрытых списаний! Вы не оплачиваете расход токенов на отправку контекста, не оплачиваете отправку запросов на генерацию, оплата не списывается за токены которые используются для разметки статьи, оплата за пробелы не снимается."
 
 #: tpl/options.php
@@ -739,7 +783,7 @@ msgid "Add extra credits by packages or any amount."
 msgstr "Покупка лимитов пакетами или на произвольную сумму."
 
 #: tpl/options.php
-msgid "Limits purchased by packages or any amount will <b>not disappear.</b>"
+msgid "Credits purchased in packages or for any amount you choose <b>do not expire.</b>"
 msgstr "Купленные лимиты пакетами или на произвольную сумму <b>не сгорают.</b>"
 
 #: tpl/options.php
@@ -767,11 +811,11 @@ msgid "I already have a subscription. Can I purchase additional credits?"
 msgstr "Могу ли приобрести дополнительные лимиты, если уже оформлена подписка?"
 
 #: tpl/options.php
-msgid "Yes, you can. Subscription credits and purchased credits in packages are counted separately. First of all, the subscription credits are deducted from the balance, if they have run out, the credits purchased in packages will be deducted."
+msgid "Yes, you can. Subscription credits and credits purchased in packages are counted separately. At first, subscription credits are deducted from the balance, and if they run out, the credits purchased in packages will be deducted."
 msgstr "Да, можете. Лимиты подписки и приобретенные лимиты пакетами считаются отдельно. В первую очередь с баланса списываются лимиты которые входят в подписку, если они закончились, то будут списываться лимиты купленные пакетами."
 
 #: tpl/options.php
-msgid "Do purchased credits disappear?"
+msgid "Do purchased credits expire?"
 msgstr "Сгорают ли приобретенные лимиты?"
 
 #: tpl/options.php
@@ -791,7 +835,7 @@ msgid "'These neural networks are only available by subscription only, check out
 msgstr "'Эти нейросети доступны только по подписке, оформите ее в разделе \"Тарифы и оплата\"!'"
 
 #: tpl/options.php
-msgid "Subscription active"
+msgid "Active subscription"
 msgstr "Подписка активна"
 
 #: tpl/options.php
@@ -799,7 +843,7 @@ msgid "Image regeneration and uniqueization"
 msgstr "Перегенерация и уникализация изображений"
 
 #: tpl/options.php
-msgid "You can make images on your website unique by using neural networks. How it works: we take the original image, generate a similar image and automatically replace it on the site pages. Supported extensions: PNG (.png), JPEG (.jpeg and .jpg), WEBP (.webp), non-animated GIF (.gif). Images must not be subject to censorship or other restrictions imposed by neural networks. If the image cannot be regenerated, we skip it and move on to the next one."
+msgid "You can make images on your website unique using neural networks. The way it works: we take the original image, generate a similar one and automatically replace it on the site pages. Supported extensions: PNG (.png), JPEG (.jpeg and .jpg), WEBP (.webp), non-animated GIF (.gif). Images must not fall under censorship or other restrictions imposed by neural networks. If the image cannot be regenerated, we skip it and move on to the next one."
 msgstr "Вы можете сделать изображения на сайте уникальными через нейросети. Как это работает: мы берем исходное изображение, генерируем похожую картинку и автоматически заменяем на страницах сайта. Поддерживаемые расширения: PNG (.png), JPEG (.jpeg and .jpg), WEBP (.webp), не анимированный GIF (.gif). Изображения не должны попадать под цензуру и другие ограничения накладываемые нейросетями. В случае если не удается перегенерировать картинку, мы ее пропускаем и переходим к следующей."
 
 #: tpl/options.php
@@ -819,19 +863,19 @@ msgid "Or specify a list of URLs where you would like to regenerate images:"
 msgstr "Или укажите список URL на которых хотели бы перегенерировать изображения:"
 
 #: tpl/options.php
-msgid "The balance has reached its limits, after replenishing the balance, the process will automatically continue"
-msgstr "На балансе закончились лимиты, после того как пополнить баланс, процесс автоматически продолжится"
+msgid "There are no credits left on your balance. When you top up the balance, the process will continue automatically."
+msgstr "На балансе закончились лимиты, после того как пополните баланс, процесс автоматически продолжится"
 
 #: tpl/options.php
-msgid "The process of regeneration is underway..."
+msgid "Regeneration in progress..."
 msgstr "Идет процесс перегенерации..."
 
 #: tpl/options.php
-msgid "The regeneration process has been stopped."
+msgid "Regeneration has been stopped."
 msgstr "Процесс перегенерации остановлен."
 
 #: tpl/options.php
-msgid "The regeneration process is complete."
+msgid "Regeneration is completed."
 msgstr "Процесс перегенерации завершен"
 
 #: tpl/options.php
@@ -851,7 +895,7 @@ msgid "Stop"
 msgstr "Стоп"
 
 #: tpl/options.php
-msgid "Restore original / removing generated images"
+msgid "Restore original / remove generated images"
 msgstr "Восстановить оригинальные / удалить сгенерированные картинки"
 
 #: tpl/options.php
@@ -859,11 +903,11 @@ msgid "Remove original images"
 msgstr "Удалить исходные изображения"
 
 #: tpl/options.php
-msgid "Reset"
+msgid "Clear"
 msgstr "Очистить"
 
 #: tpl/options.php
-msgid "Image uniqueization"
+msgid "Making images unique"
 msgstr "Уникализация изображений"
 
 #: tpl/options.php
@@ -875,7 +919,7 @@ msgid "Removing..."
 msgstr "Удаление..."
 
 #: tpl/options.php
-msgid "Removeds"
+msgid "Removed"
 msgstr "Удалены"
 
 #: tpl/options.php
@@ -907,11 +951,11 @@ msgid "Don't rewrite meta description"
 msgstr "Не рерайтить meta description"
 
 #: tpl/worckspace.php
-msgid "Enter a subject..."
+msgid "Enter a topic..."
 msgstr "Введите тему..."
 
 #: tpl/worckspace.php
-msgid "The article cost:"
+msgid "Spent on the article:"
 msgstr "На статью потрачено:"
 
 #: tpl/worckspace.php
@@ -923,8 +967,18 @@ msgid "Enter keywords..."
 msgstr "Введите ключевые фразы..."
 
 #: tpl/worckspace.php
-msgid "Enter key phrases for the article, separated by commas. Key phrases are automatically substituted in place of the variable {keywords}."
-msgstr "Введите ключевые фразы для статьи через запятую. Ключевые фразы самостоятельно подставляются на место переменной {keywords}."
+msgid "Enter key phrases for the article, separated by commas. The variable {keywords} will be automatically replaced by the key phrases."
+msgstr "Введите ключевые фразы для статьи через запятую. Ключевые фразы автоматически подставляются на место переменной {keywords}."
+
+
+
+
+#: tpl/worckspace.php
+msgid "If the current article outline does not suit your needs, click \"Create article structure\" again to generate a new one. You can also manually delete items from the outline or add new ones. It is important that each item in the outline is marked with &lt;h2&gt; and &lt;h3&gt; tags."
+msgstr "Если не подходит текущий план статьи, для генерации нового нажмите еще раз \"Создать структуру статьи\". Также вы можете вручную удалить пункты плана или добавить новые. При этом важно чтобы каждый пункт плана был размечен тегами &lt;h2&gt; и &lt;h3&gt;."
+
+
+
 
 #: in js
 msgid "To regenerate a piece of text, highlight it and click 'Generate'.\n"
@@ -933,15 +987,15 @@ msgstr "Для перегенерации части текста, выдели�
 "Для генерация нового фрагмента текста, установите курсор, где нужно добавить текст, введите промпт и нажмите 'Сгенерировать'."
 
 #: in js
-msgid "Are you sure you want to clear all fields from generated text?"
+msgid "Are you sure you want to clear all fields from the generated text?"
 msgstr "Вы уверены что хотите очистить все поля от сгенерированного текста?"
 
 #: in js
-msgid "'Limits are over! Do not close the page, top up your balance and click \"Generate\" again. <a href=\"/wp-admin/admin.php?page=wpai-assistant\" target=\"_blank\">Top up your balance</a>"
+msgid "You have no credits left. Do not close the page, top up your balance and click "Generate" again. <a href="/wp-admin/admin.php?page=wpai-assistant" target="_blank">Top up balance</a>"
 msgstr "'Закончились лимиты! Не закрывайте страницу, пополните баланс и нажмите снова \"Сгенерировать\". <a href=\"/wp-admin/admin.php?page=wpai-assistant\" target=\"_blank\">Пополнить баланс</a>"
 
 #: in js
-msgid "Prompt was censored, one or more words prevent image generation. Try changing the prompt!"
+msgid "The prompt was censored, one or more words prevent image generation. Try changing the prompt!"
 msgstr "Промт попал под цензуру, одно или несколько слов не дают сгенерировать изображение. Попробуйте изменить промт!"
 
 #: in js
@@ -949,11 +1003,11 @@ msgid "photo"
 msgstr "фото"
 
 #: in js
-msgid "The limits have been reached, please top up your balance to continue generating!"
+msgid "You have no credits left, please top up your balance to continue generating!"
 msgstr "Лимиты заканчились, для продолжения генерации пополните баланс!"
 
 #: in js
-msgid "The limits have been reached, to continue generation (rewriting) please top up your balance!"
+msgid "You have no credits left, please top up your balance to continue generating (rewriting)!"
 msgstr "Лимиты заканчились, для продолжения генерации (рерайта) пополните баланс!"
 
 #: in js
@@ -961,15 +1015,15 @@ msgid "Are you sure?"
 msgstr "Вы уверены?"
 
 #: in js
-msgid "Payment request sent"
+msgid "Payout request sent"
 msgstr "Запрос на выплату отправлен"
 
 #: in js
-msgid "Recovery..."
+msgid "Restoring..."
 msgstr "Восстановление..."
 
 #: in js
-msgid "The article rewriting process is in progress, the information is updated automatically. If this does not happen, refresh the browser page to see the current list of articles that have been rewritten."
+msgid "Articles rewriting is in progress, the information is updated automatically. If this does not happen, refresh the browser page to see the current list of articles that have been rewritten."
 msgstr "Идет процесс рерайта статей, информация обновляется автоматически. Если этого не происходит, обновите страницу браузера, чтобы увидеть актуальный список статей по которым выполнен рерайт."
 
 #: in js
@@ -1009,7 +1063,7 @@ msgid "Header generation"
 msgstr "Генерация заголовка"
 
 #: in js
-msgid "Generating structure"
+msgid "Structure generation"
 msgstr "Генерация структуры"
 
 #: in js
@@ -1017,7 +1071,7 @@ msgid "Text generation"
 msgstr "Генерация текста"
 
 #: in js
-msgid "Generating an introduction"
+msgid "Introduction generation"
 msgstr "Генерация вступления"
 
 #: in js
@@ -1025,11 +1079,11 @@ msgid "Item generation:"
 msgstr "Генерация пункта:"
 
 #: in js
-msgid "Generate meta title"
+msgid "Meta title generation"
 msgstr "Генерация meta title"
 
 #: in js
-msgid "Generating meta description"
+msgid "Meta description generation"
 msgstr "Генерация meta description"
 
 #: in js
@@ -1041,19 +1095,19 @@ msgid "Close"
 msgstr "Закрыть"
 
 #: in js
-msgid "The image is generated at the location of the cursor."
+msgid "The image is generated where the cursor is positioned."
 msgstr "Картинка генерируется в то место где стоит курсор."
 
 #: in js
-msgid "To regenerate a piece of text, highlight it and click Generate.To generate a new piece of text, place the cursor where you want to add text, enter a prompt and click Generate."
+msgid "To regenerate a text fragment, highlight it and click Generate. To generate a new text fragment, place the cursor where you want to add text, enter a prompt and click Generate."
 msgstr "Чтобы повторно сгенерировать фрагмент текста, выделите его и нажмите Сгенерировать. Чтобы сгенерировать новый фрагмент текста, поместите курсор в то место, куда вы хотите добавить текст, введите промпт и нажмите Сгенерировать."
 
 #: in js
-msgid "To get started, register and save the api key that will come in the mail."
-msgstr "Для начала зарегистрируйтесь и сохраните api ключ, который придет на почту."
+msgid "First of all, sign up and save the API key that will come to your e-mail."
+msgstr "Для начала зарегистрируйтесь и сохраните api ключ, который придет на e-mail."
 
 #: in js
-msgid "There is no variable {key} (or {header}) in your prompt. Add it in the place where the key word should be. If you generate an article without the variable, the text won’t be relevant to your topic."
+msgid "There is no variable {key} (or {header} - only when generating a large article according to outline) in your prompt. Add it in the place where the key phrase should be. If you generate a text without the variable, it won’t be relevant to your topic."
 msgstr "У вас не хватает в промпте переменной {key} (или {header} - только в генерации большой статьи по плану), добавьте ее в то место куда должна подставляться ключевая фраза. Если генерировать без переменной, то текст получится нерелевантным вашей теме."
 
 #: in js
@@ -1061,13 +1115,66 @@ msgid "This option is only available with a subscription, check the \"Payment & 
 msgstr "Эта опция доступна только по подписке, перейдите в \"Тарифы и оплата\"."
 
 #: tpl/options.php
-msgid "The credits included in the subscription are renewed every 30 days. Credits purchased in packages or for any amount will not disappear and will remain on your balance until you use them."
+msgid "The credits included in your subscription are renewed every 30 days. Credits purchased in packages or for any amount you choose do not expire and remain on your balance until you use them."
 msgstr "Лимиты которые входят в подписку обновляются каждые 30 дней. Лимиты купленные пакетами или на произвольную сумму не сгорают и будут на баланса до тех пор, пока их не используете."
 
 #: tpl/options.php
-msgid "This enables requests to be sent from the plugin server to the website. This is required for background tasks such as bulk generation, rewriting or ensuring image uniqueness. This allows you to generate content when there is no traffic on the website and the admin panel is closed."
+msgid "Activate sending requests from the plugin server to the website in order to enable bulk generation, rewriting or ensuring image uniqueness in background mode. This allows you to generate content when there is no traffic on the website and the admin panel is closed."
 msgstr "Включить отправку запросов от сервера плагина на сайт, для работы массовой генерации, рерайта или уникализации изображений в фоновом режиме. Это позволит генерировать контент когда на сайте нет трафика и закрыта админка."
 
 #: tpl/options.php
 msgid "<b>Important!</b> To make generation work faster in the background, the option to send requests from the plugin server to the site must be enabled in the <b>Settings</b> tab."
 msgstr "<b>Важно!</b> Чтобы генерация работала быстрее в фоновом режиме, должна быть включена опция отправки запросов от сервера плагина на сайт, во вкладке <b>Настройки</b>."
+
+#: tpl/options.php
+msgid "Rewrite and translation"
+msgstr "Рерайт и перевод"
+
+
+
+
+
+
+#: tpl/notice.php
+msgid "Use AI WP Writer with maximum benefit!"
+msgstr "Используй AI WP Writer с максимальной выгодой!"
+
+#: tpl/notice.php
+msgid "Create high-quality, SEO-optimized articles that drive real traffic - all at unbeatable rates."
+msgstr "Генерируй по выгодным тарифам SEO-оптимизированные статьи привлекающие трафик."
+
+#: tpl/notice.php
+msgid "Subscribe now and <b>save up to $100!</b>"
+msgstr "Оформи подписку сейчас и <b>экономь до 8000 рублей</b>!"
+
+#: tpl/notice.php
+msgid "maximum opportunities at the best prices!"
+msgstr "моксимум возможностей по самым выгодным ценам!"
+
+#: tpl/notice.php
+msgid "See rates and sign up for subscription!"
+msgstr "Посмотреть тарифы и оформить подписку!"
+
+#: tpl/notice.php
+msgid "Thank you for using AI WP Writer to generate high quality content!"
+msgstr "Спасибо что используешь AI WP Writer для генерации качественного контента! Поставь, пожалуйста, оценку 5 звезд в"
+
+#: tpl/notice.php
+msgid "WordPress, this motivates us to make the plugin better and helps it develop."
+msgstr "WordPress, это мотивирует нас делать плагин лучше и помогает развиваться."
+
+#: tpl/notice.php
+msgid "Ok, you deserve it"
+msgstr "Хорошо, вы заслужили!"
+
+#: tpl/notice.php
+msgid "I've already done it"
+msgstr "Я уже поставил оценку"
+
+#: tpl/notice.php
+msgid "I need support"
+msgstr "Мне нужна помощь"
+
+#: tpl/notice.php
+msgid "Not now"
+msgstr "Нет, еще есть над чем работать"

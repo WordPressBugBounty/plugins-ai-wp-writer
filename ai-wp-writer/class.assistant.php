@@ -67,6 +67,10 @@ class AIASIST{
 		
 		add_action('activated_plugin',					[$this, 'active'], 10, 2 );
 		add_action('deactivate_plugin',					[$this, 'inactive']);
+		
+		add_action('admin_notices',						[$this, 'notice']);
+		add_action('admin_init',						[$this, 'removeNotice'] );
+		
 	}
 	
 	public function langs(){
@@ -81,9 +85,38 @@ class AIASIST{
 		
 		return 0;
 	}
-		
+	
 	public function menu(){
 		add_menu_page('AI WP Writer', 'AI WP Writer', 'level_10', 'wpai-assistant', [$this, 'options'], 'dashicons-businessperson', 777);
+	}
+
+	public function notice(){
+		$screen = get_current_screen();
+
+		switch( @$screen->id ){
+			case 'plugins':
+			case 'dashboard':
+			case 'toplevel_page_wpai-assistant':
+				include dirname(__FILE__) . '/tpl/notice.php';
+			break;
+		}
+	}
+	
+	public function removeNotice() {
+		global $wp_filter;
+	
+		if( ! isset( $wp_filter['admin_notices'] ) || ! ( $wp_filter['admin_notices'] instanceof WP_Hook ) || @$_GET['page'] != 'wpai-assistant' )
+			return;
+
+		$hook = new WP_Hook();
+
+		foreach( $wp_filter['admin_notices']->callbacks as $priority => $callbacks ){
+			foreach( $callbacks as $callback_id => $callback ){
+				if( is_array( $callback['function'] ) && is_object( $callback['function'][0] ) && get_class( $callback['function'][0] ) === get_class( $this ) )
+					$hook->add_filter( $priority, $callback['function'], $priority, $callback['accepted_args'] );
+			}
+		}
+		$wp_filter['admin_notices'] = $hook;
 	}
 		
 	public function cron(){
@@ -1346,27 +1379,27 @@ class AIASIST{
 			'promts'	=> @$this->steps['promts'],
 			'locale'	=> [
 				'Need help?'	=> __('Need help?', 'wp-ai-assistant'),
-				'Are you sure you want to clear all fields from generated text?'	=> __('Are you sure you want to clear all fields from generated text?', 'wp-ai-assistant'),
-				'Limits are over'	=> __('Limits are over! Do not close the page, top up your balance and click "Generate" again. <a href="/wp-admin/admin.php?page=wpai-assistant" target="_blank">Top up your balance</a>', 'wp-ai-assistant'),
-				'Prompt was censored'	=> __('Prompt was censored, one or more words prevent image generation. Try changing the prompt!', 'wp-ai-assistant'),
+				'Are you sure you want to clear all fields from generated text?'	=> __('Are you sure you want to clear all fields from the generated text?', 'wp-ai-assistant'),
+				'Limits are over'	=> __('You have no credits left. Do not close the page, top up your balance and click "Generate" again. <a href="/wp-admin/admin.php?page=wpai-assistant" target="_blank">Top up balance</a>', 'wp-ai-assistant'),
+				'Prompt was censored'	=> __('The prompt was censored, one or more words prevent image generation. Try changing the prompt!', 'wp-ai-assistant'),
 				'photo'	=> __('photo', 'wp-ai-assistant'),
-				'The limits have been reached'	=> __('The limits have been reached, please top up your balance to continue generating!', 'wp-ai-assistant'),
+				'The limits have been reached'	=> __('You have no credits left, please top up your balance to continue generating!', 'wp-ai-assistant'),
 				'Generated'	=> __('Generated', 'wp-ai-assistant'),
 				'Suspended'	=> __('Suspended', 'wp-ai-assistant'),
 				'Generation in progress'	=> __('Generation in progress', 'wp-ai-assistant'),
-				'The limits have been reached, to continue generation (rewriting) please top up your balance!'	=> __('The limits have been reached, to continue generation (rewriting) please top up your balance!', 'wp-ai-assistant'),
-				'The process of rewriting articles is complete.'	=> __('The process of rewriting articles is complete.', 'wp-ai-assistant'),
+				'The limits have been reached, to continue generation (rewriting) please top up your balance!'	=> __('You have no credits left, please top up your balance to continue generating (rewriting)!', 'wp-ai-assistant'),
+				'The process of rewriting articles is complete.'	=> __('Articles rewriting is completed.', 'wp-ai-assistant'),
 				'Are you sure?'	=> __('Are you sure?', 'wp-ai-assistant'),
-				'Payment request sent'	=> __('Payment request sent', 'wp-ai-assistant'),
-				'Recovery...'	=> __('Recovery...', 'wp-ai-assistant'),
+				'Payment request sent'	=> __('Payout request sent', 'wp-ai-assistant'),
+				'Recovery...'	=> __('Restoring...', 'wp-ai-assistant'),
 				'These neural networks are only available by subscription only'	=> __('This option is only available with a subscription, check the "Payment & Pricing" section', 'wp-ai-assistant'),
 				'Restored'	=> __('Restored', 'wp-ai-assistant'),
-				'The article generation process has been suspended.'	=> __('The article generation process has been suspended.', 'wp-ai-assistant'),
-				'The process of generating'	=> __('The process of generating articles is in progress, the information is updated automatically. If this does not happen, refresh the browser page to see the current list of generated articles.', 'wp-ai-assistant'),
+				'The article generation process has been suspended.'	=> __('Articles generation has been suspended.', 'wp-ai-assistant'),
+				'The process of generating'	=> __('Articles generation is in progress, the information is updated automatically. If this does not happen, refresh the browser page to see the current list of generated articles.', 'wp-ai-assistant'),
 				'Generated by'	=> __('Generated by', 'wp-ai-assistant'),
 				'articles from'	=> __('articles from', 'wp-ai-assistant'),
-				'In line'	=> __('In line', 'wp-ai-assistant'),
-				'The article rewriting process is in progress'	=> __('The article rewriting process is in progress, the information is updated automatically. If this does not happen, refresh the browser page to see the current list of articles that have been rewritten.', 'wp-ai-assistant'),
+				'In line'	=> __('In queue', 'wp-ai-assistant'),
+				'The article rewriting process is in progress'	=> __('Articles rewriting is in progress, the information is updated automatically. If this does not happen, refresh the browser page to see the current list of articles that have been rewritten.', 'wp-ai-assistant'),
 				'Translation of prompts for images'	=> __('Translation of prompts for images', 'wp-ai-assistant'),
 				'5 $'	=> __('5 $', 'wp-ai-assistant'),
 				'Registration was successful, you have been sent an email with a key.'	=> __('Registration was successful, you have been sent an email with a key.', 'wp-ai-assistant'),
@@ -1374,29 +1407,29 @@ class AIASIST{
 				'Loading image'	=> __('Loading image: ', 'wp-ai-assistant'),
 				'Header generation'	=> __('Header generation', 'wp-ai-assistant'),
 				'Completion...'	=> __('Completion...', 'wp-ai-assistant'),
-				'Generating structure'	=> __('Generating structure', 'wp-ai-assistant'),
+				'Generating structure'	=> __('Structure generation', 'wp-ai-assistant'),
 				'Text generation'	=> __('Text generation', 'wp-ai-assistant'),
 				'Featured image'	=> __('Featured image', 'wp-ai-assistant'),
 				'Promt:'	=> __('Promt:', 'wp-ai-assistant'),
 				'Generate'	=> __('Generate', 'wp-ai-assistant'),
-				'Generating an introduction'	=> __('Generating an introduction', 'wp-ai-assistant'),
-				'Generate meta title'	=> __('Generate meta title', 'wp-ai-assistant'),
-				'Generating meta description'	=> __('Generating meta description', 'wp-ai-assistant'),
+				'Generating an introduction'	=> __('Introduction generation', 'wp-ai-assistant'),
+				'Generate meta title'	=> __('Meta title generation', 'wp-ai-assistant'),
+				'Generating meta description'	=> __('Meta description generation', 'wp-ai-assistant'),
 				'Cancel'	=> __('Cancel', 'wp-ai-assistant'),
 				'You have not added the API key'	=> __('You have not added the API key! The key is sent to the mail after registration in the plugin. Register and add the key from the email to the special field in the plugin settings and generation will become available.', 'wp-ai-assistant'),
 				'Item generation:'	=> __('Item generation:', 'wp-ai-assistant'),
-				'The image is generated at the location of the cursor.'	=> __('The image is generated at the location of the cursor.', 'wp-ai-assistant'),
+				'The image is generated at the location of the cursor.'	=> __('The image is generated where the cursor is positioned.', 'wp-ai-assistant'),
 				'AI image creator'	=> __('AI image creator', 'wp-ai-assistant'),
-				'To regenerate a piece of text'	=> __('To regenerate a piece of text, highlight it and click Generate.To generate a new piece of text, place the cursor where you want to add text, enter a prompt and click Generate.', 'wp-ai-assistant'),
-				'To get started'	=> __('To get started, register and save the api key that will come in the mail.', 'wp-ai-assistant'),
-				'There is no variable'	=> __('There is no variable {key} (or {header}) in your prompt. Add it in the place where the key word should be. If you generate an article without the variable, the text won’t be relevant to your topic.', 'wp-ai-assistant'),
-				'The article generation process is complete.'	=> __('The article generation process is complete.', 'wp-ai-assistant'),
+				'To regenerate a piece of text'	=> __('To regenerate a text fragment, highlight it and click Generate. To generate a new text fragment, place the cursor where you want to add text, enter a prompt and click Generate.', 'wp-ai-assistant'),
+				'To get started'	=> __('First of all, sign up and save the API key that will come to your e-mail.', 'wp-ai-assistant'),
+				'There is no variable'	=> __('There is no variable {key} (or {header} - only when generating a large article according to outline) in your prompt. Add it in the place where the key phrase should be. If you generate a text without the variable, it won’t be relevant to your topic.', 'wp-ai-assistant'),
+				'The article generation process is complete.'	=> __('Articles generation is completed.', 'wp-ai-assistant'),
 				'Restore original text'	=> __('Restore original text', 'wp-ai-assistant'),
 				'No data found!'	=> __('No data found!', 'wp-ai-assistant'),
 				'Credits'	=> __('Credits', 'wp-ai-assistant'),
-				'The regeneration process has been stopped.'	=> __('The regeneration process has been stopped.', 'wp-ai-assistant'),
-				'The process of regeneration is underway...'	=> __('The process of regeneration is underway...', 'wp-ai-assistant'),
-				'The regeneration process is complete.'	=> __('The regeneration process is complete.', 'wp-ai-assistant'),
+				'The regeneration process has been stopped.'	=> __('Regeneration has been stopped.', 'wp-ai-assistant'),
+				'The process of regeneration is underway...'	=> __('Regeneration in progress...', 'wp-ai-assistant'),
+				'The regeneration process is complete.'	=> __('Regeneration is completed.', 'wp-ai-assistant'),
 				'Original images installed and generated ones removed'	=> __('Original images installed and generated ones removed', 'wp-ai-assistant'),
 				'Removing...'	=> __('Removing...', 'wp-ai-assistant'),
 				'Removeds'	=> __('Removeds', 'wp-ai-assistant'),

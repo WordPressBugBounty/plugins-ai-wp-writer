@@ -25,7 +25,7 @@
 	
 	<div class="aiassist-tabs">
 		<div class="aiassist-tab active" data-tab="standart"><?php _e('Single request generation', 'wp-ai-assistant') ?></div>
-		<div class="aiassist-tab" data-tab="long"><?php _e('Generating an article according to a plan (large article)', 'wp-ai-assistant') ?></div>
+		<div class="aiassist-tab" data-tab="long"><?php _e('Generating an article according to outline (large article)', 'wp-ai-assistant') ?></div>
 	</div>
 	
 	<button type="button" class="aiassist-set-default-promts"><?php _e('Restore default prompts', 'wp-ai-assistant') ?></button>
@@ -33,19 +33,19 @@
 	<div class="aiassist-tab-data active" data-tab="standart">
 		
 		<div class="aiassist-item center">
-			<p><?php _e('Enter the subject of the article, it will be automatically substituted in the prompt. This field must be filled in for meta tags and images to be generated.', 'wp-ai-assistant') ?></p>
+			<p><?php _e('Enter the subject of the article, it will be automatically inserted into the prompt. This field must be filled in for meta tags and images to be generated.', 'wp-ai-assistant') ?></p>
 			
 			<div class="aiassist-theme-standart">
-				<input id="aiassist-theme-standart" class="aiassist-prom" placeholder="<?php _e('Enter a subject...', 'wp-ai-assistant') ?>" value="<?php echo esc_attr( isset( $this->steps['aiassist-theme-standart'] ) ? $this->steps['aiassist-theme-standart'] : '' )?>" />
+				<input id="aiassist-theme-standart" class="aiassist-prom" placeholder="<?php _e('Enter a topic...', 'wp-ai-assistant') ?>" value="<?php echo esc_attr( isset( $this->steps['aiassist-theme-standart'] ) ? $this->steps['aiassist-theme-standart'] : '' )?>" />
 			</div>
 			
-			<p><?php _e('Enter key phrases for the article, separated by commas. Key phrases are automatically substituted in place of the variable {keywords}.', 'wp-ai-assistant') ?></p>
+			<p><?php _e('Enter key phrases for the article, separated by commas. The variable {keywords} will be automatically replaced by the key phrases.', 'wp-ai-assistant') ?></p>
 			<div class="aiassist-keywords-input">
 				<input id="aiassist-standart-keywords" class="aiassist-prom" placeholder="<?php _e('Enter keywords...', 'wp-ai-assistant') ?>" value="<?php echo esc_attr( isset( $this->steps['aiassist-standart-keywords'] ) ? $this->steps['aiassist-standart-keywords'] : '' )?>" />
 			</div>
 			
 			
-			<p><?php _e('You can change the prompt as you wish, it determines how the article will turn out. Instead of the {key} variable, the key phrase will be substituted.', 'wp-ai-assistant') ?></p>
+			<p><?php _e('You can change the prompt as you wish, it determines how the article will turn out. The {key} variable will be replaced by the article topic.', 'wp-ai-assistant') ?></p>
 			
 			<?php if( @$this->info->promts->lang ){ $lang_id = $this->getDefaultLangId(); ?>
 				<div class="aiassist-lang-block">
@@ -105,26 +105,26 @@
 				</div>
 			<?php } ?>
 			
-			<?php _e('Promt:', 'wp-ai-assistant') ?> <input id="aiassist-theme-prom" class="aiassist-prom" value="<?php echo esc_attr( @$this->steps['promts']['long_header'][ $lang_id ] ? $this->steps['promts']['long_header'][ $lang_id ] : @$this->info->promts->long_header[ $lang_id ] )?>" />
+			<?php _e('Prompt for the headline:', 'wp-ai-assistant') ?> <input id="aiassist-theme-prom" class="aiassist-prom" value="<?php echo esc_attr( @$this->steps['promts']['long_header'][ $lang_id ] ? $this->steps['promts']['long_header'][ $lang_id ] : @$this->info->promts->long_header[ $lang_id ] )?>" />
 			<br /><br />
 			<div>
-				<input id="aiassist-theme" class="aiassist-prom" placeholder="<?php _e('Enter a subject...', 'wp-ai-assistant') ?>" value="<?php echo esc_attr( isset( $this->steps['aiassist-theme'] ) ? $this->steps['aiassist-theme'] : '' )?>" />
+				<input id="aiassist-theme" class="aiassist-prom" placeholder="<?php _e('Enter a topic...', 'wp-ai-assistant') ?>" value="<?php echo esc_attr( isset( $this->steps['aiassist-theme'] ) ? $this->steps['aiassist-theme'] : '' )?>" />
 			</div>
 			
-			<p><?php _e('Enter key phrases for the article, separated by commas. Key phrases are automatically substituted in place of the variable {keywords}.', 'wp-ai-assistant') ?></p>
+			<p><?php _e('Enter key phrases for the article, separated by commas. The variable {keywords} will be automatically replaced by the key phrases.', 'wp-ai-assistant') ?></p>
 			<div class="aiassist-keywords-input">
 				<input id="aiassist-long-keywords" class="aiassist-prom" placeholder="<?php _e('Enter keywords...', 'wp-ai-assistant') ?>" value="<?php echo esc_attr( isset( $this->steps['aiassist-long-keywords'] ) ? $this->steps['aiassist-long-keywords'] : '' )?>" />
 			</div>
 			
 			<div class="next-step">
-				<button type="button" id="aiassist-theme-generate"><?php _e('Generate article header', 'wp-ai-assistant') ?></button>
+				<button type="button" id="aiassist-theme-generate"><?php _e('Generate article headline', 'wp-ai-assistant') ?></button>
 			</div>
 		</div>
 		
 		<div class="aiassist-item center step <?php echo esc_attr( isset( $this->steps['header'] ) ? 'active' : '' )?>" id="step1">
 			<input name="aiassist_header" id="aiassist-header" value="<?php echo esc_attr( isset( $this->steps['header'] ) ? $this->steps['header'] : '' )?>" />
 			<div class="next-step">
-				<?php _e('Prompt for an article outline. Instead of the {key} variable, the key phrase will be substituted. ', 'wp-ai-assistant') ?>
+				<?php _e('Prompt for an article outline. The {key} variable will be replaced by the topic of the article.', 'wp-ai-assistant') ?>
 				
 				<?php $promt = esc_attr( @$this->steps['promts']['long_structure'][ $lang_id ] ? $this->steps['promts']['long_structure'][ $lang_id ] : @$this->info->promts->long_structure[ $lang_id ] ) ?>
 				<textarea id="aiassist-structure-prom" class="aiassist-prom" data-check="{key}"><?php echo $promt ?></textarea>
@@ -142,11 +142,15 @@
 		</div>
 		
 		<div class="aiassist-item center step <?php echo esc_attr( isset( $this->steps['structure'] ) ? 'active' : '' )?>" id="step2">
+			<div>
+				<?php _e('If the current article outline does not suit your needs, click "Create article structure" again to generate a new one. You can also manually delete items from the outline or add new ones. It is important that each item in the outline is marked with &lt;h2&gt; and &lt;h3&gt; tags.', 'wp-ai-assistant') ?>
+			</div>
+		
 			<textarea id="aiassist-structure"><?php echo esc_textarea( isset( $this->steps['structure'] ) ? $this->steps['structure'] : '' )?></textarea>
 			<div class="next-step">
 				
 				<?php $promt = esc_attr( @$this->steps['promts']['long'][ $lang_id ] ? $this->steps['promts']['long'][ $lang_id ] : @$this->info->promts->long[ $lang_id ] ); ?>
-				<?php _e('Prompt:', 'wp-ai-assistant') ?> <textarea id="aiassist-content-prom" class="aiassist-prom" data-check="{header}"><?php echo $promt ?></textarea>
+				<?php _e('Prompt for generating an article. The article topic is substituted for the {header} variable. <br/>Several additional prompts, which are hidden on the server, are also used to improve the quality of the article and make it less similar to text generated by a neural network. This improves search engine indexing and attracts more traffic.', 'wp-ai-assistant') ?> <textarea id="aiassist-content-prom" class="aiassist-prom" data-check="{header}"><?php echo $promt ?></textarea>
 				
 				<?php if( strpos( $promt, '{header}') === false ){ ?>
 					<div class="aiassist-check-key"><?php _e('There is no variable {key} (or {header}) in your prompt. Add it in the place where the key word should be. If you generate an article without the variable, the text won’t be relevant to your topic.', 'wp-ai-assistant') ?></div>
@@ -164,7 +168,7 @@
 			
 			<div>
 				<?php $promt = esc_attr( @$this->steps['promts']['long_title'][ $lang_id ] ? $this->steps['promts']['long_title'][ $lang_id ] : @$this->info->promts->long_title[ $lang_id ] ) ?>
-				<?php _e('Promt:', 'wp-ai-assistant') ?> <input id="aiassist-title-prom" class="aiassist-prom" data-check="{key}" value="<?php echo $promt ?>" />
+				<?php _e('Prompt for generating meta title:', 'wp-ai-assistant') ?> <input id="aiassist-title-prom" class="aiassist-prom" data-check="{key}" value="<?php echo $promt ?>" />
 				<?php if( strpos( $promt, '{key}') === false ){ ?>
 					<div class="aiassist-check-key"><?php _e('There is no variable {key} (or {header}) in your prompt. Add it in the place where the key word should be. If you generate an article without the variable, the text won’t be relevant to your topic.', 'wp-ai-assistant') ?></div>
 				<?php } ?>
@@ -172,7 +176,7 @@
 			
 			<div>
 				<?php $promt = esc_attr( @$this->steps['promts']['long_desc'][ $lang_id ] ? $this->steps['promts']['long_desc'][ $lang_id ] : @$this->info->promts->long_desc[ $lang_id ] ); ?>
-				<?php _e('Promt:', 'wp-ai-assistant') ?> <input id="aiassist-desc-prom" class="aiassist-prom" data-check="{key}" value="<?php echo $promt ?>" />
+				<?php _e('Prompt for generating meta description:', 'wp-ai-assistant') ?> <input id="aiassist-desc-prom" class="aiassist-prom" data-check="{key}" value="<?php echo $promt ?>" />
 				<?php if( strpos( $promt, '{key}') === false ){ ?>
 					<div class="aiassist-check-key"><?php _e('There is no variable {key} (or {header}) in your prompt. Add it in the place where the key word should be. If you generate an article without the variable, the text won’t be relevant to your topic.', 'wp-ai-assistant') ?></div>
 				<?php } ?>
@@ -244,7 +248,7 @@
 	
 	
 	<div class="next-step" id="step5">
-		<div><?php _e('The article cost:', 'wp-ai-assistant') ?> <span id="aiassist-article-symbols"><?php echo esc_html( isset( $_COOKIE['spent'] ) ? (int) $_COOKIE['spent'] : 0 )?></span> <?php _e('credits', 'wp-ai-assistant') ?></div>
+		<div><?php _e('Spent on the article:', 'wp-ai-assistant') ?> <span id="aiassist-article-symbols"><?php echo esc_html( isset( $_COOKIE['spent'] ) ? (int) $_COOKIE['spent'] : 0 )?></span> <?php _e('credits', 'wp-ai-assistant') ?></div>
 		<div><?php _e('Spent on image generation:', 'wp-ai-assistant') ?> <span id="images-article-symbols"><?php echo esc_html( isset( $_COOKIE['imgSpent'] ) ? (int) $_COOKIE['imgSpent'] : 0 )?></span> <?php _e('credits', 'wp-ai-assistant') ?></div>
 		
 		<button type="button" id="aiassist-clear-content"><?php _e('Clear', 'wp-ai-assistant') ?></button>
@@ -255,7 +259,7 @@
 		<div id="aiassist-regenerate-close">&#10006;</div>
 		
 		<div class="aiassist-regenerate-info">
-			<?php _e('To regenerate a piece of text, highlight it and click Generate.To generate a new piece of text, place the cursor where you want to add text, enter a prompt and click Generate.', 'wp-ai-assistant') ?>
+			<?php _e('<a href="https://aiwpw.com/docs/ai-assist/" target="_blank">How to use</a>', 'wp-ai-assistant') ?>
 		</div>
 		
 		<button type="button" class="aiassist-set-default-promts-regenerate"><?php _e('Restore default prompts', 'wp-ai-assistant') ?></button>
@@ -281,6 +285,8 @@
 	<div id="aiassist-generate-image">
 		<div id="aiassist-generate-image-close">&#10006;</div>
 		<div class="aiassist-image-tiny">
+		
+			<div class="aiassist-image-how-to-use"><?php _e('<a href="https://aiwpw.com/docs/ai-image-creator/" target="_blank">How to use</a>', 'wp-ai-assistant') ?></div>
 		
 			<div class="aiassist-select-wrap">
 				<div class="aiassist-select-lable">FLUX schnell</div>
