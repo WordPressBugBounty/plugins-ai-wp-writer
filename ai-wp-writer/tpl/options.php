@@ -589,7 +589,7 @@
 				</form>
 				
 				<div class="aiassist-rates-wrap">
-					
+				
 					<div class="aiassist-rates-info"><?php _e('The subscription applies to all sites connected to your API key, and one common credit balance is used for all sites.', 'wp-ai-assistant') ?></div>
 					
 					<div class="aiassist-rates-items">

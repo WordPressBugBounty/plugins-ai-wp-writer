@@ -1439,6 +1439,7 @@ class AIASIST{
 				'Regenerate images'	=> __('Regenerate images', 'wp-ai-assistant'),
 				'Restore original / removing generated images'	=> __('Restore original / removing generated images', 'wp-ai-assistant'),
 				'Remove original images'	=> __('Remove original images', 'wp-ai-assistant'),
+				'Start articles generation'	=> __('Start articles generation', 'wp-ai-assistant'),
 			],
 		] );
 	}

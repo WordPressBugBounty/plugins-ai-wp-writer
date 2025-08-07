@@ -296,6 +296,10 @@ input.aiassist-error{
 	}
 }
 
+#start-articles-generations #aiassist-loader{
+	display: inline-block;
+}
+
 /* loader end */
 
 .next-step{
@@ -1094,6 +1098,27 @@ button[name="save"]{
 			transform-origin: 30% 22%;
 			transition: transform 0.2s ease-in-out;
 		}
+		
+		.aiassist-rates-tabs{
+			display: flex;
+			width: 50%;
+			margin: auto;
+			padding: 20px;
+		}
+		
+		.aiassist-rates-tab{
+			width: 200px;
+			border: solid 1px #ccc;
+			text-align: center;
+			cursor: pointer;
+			padding: 10px;
+		}
+		
+		.aiassist-rates-tab.active{
+			background: #fff;
+			border-bottom: none;
+		}
+		
 	/* tab rates end */
 	
 		.aiassist-rewrite-item,
@@ -1695,6 +1720,7 @@ button[name="save"]{
 	}
 
 	.pay-method.active{
+		background: #fff;
 		border: solid 1px rgb( 66, 179, 213 );
 	}
 
@@ -2067,6 +2093,7 @@ button[name="save"]{
 
 .aiassist-rates-info{
 	font-size: 14pt;
+	text-align: center;
 	padding: 20px 0px 0px 20px;
 }
 

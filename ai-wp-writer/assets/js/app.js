@@ -1154,25 +1154,34 @@ jQuery( document ).ready(function($){
 			}
 			
 			if( items.length ){
-				let articles = {};
 				
 				let c = 0;
-			
+				let index = 0;
+				let articles = {}
+				
 				items.each(function(){
 					let e = $(this);
 					let id = e.find('.cats-item').val();
-					
-					if( articles[ id ] == undefined )
-						articles[ id ] = [];
 					
 					e.find('.aiassist-multi-themes .aiassist-multi-item').each(function(){
 						let item = $(this);
 						let theme = item.val();
 						
 						if( theme !== '' ){ c++;
-							articles[ id ].push( { theme: theme, keywords: e.find('.aiassist-multi-keywords .aiassist-multi-item:eq('+( item.index() - 1 )+')').val() } );
+						
+							if( c % 300 === 0 )
+								index++;
+							
+							if( articles[ index ] == undefined )
+								articles[ index ] = {};
+							
+							if( articles[ index ][ id ] == undefined )
+								articles[ index ][ id ] = [];
+						
+							articles[ index ][ id ].push( { theme: theme, keywords: e.find('.aiassist-multi-keywords .aiassist-multi-item:eq('+( item.index() - 1 )+')').val() } );
 							$('.aiassist-articles-queue').append('<div class="aiassist-article-queue aiassist-queue"><div class="aiassist-article-item-close" data-key="'+( c - 1 )+'"></div><span class="aiassist-queue-keyword">'+ theme +'</span> <span class="aiassist-queue-status">'+( c==1 ? aiassist.locale['Generation in progress'] : aiassist.locale['In line'] )+'</span></div>');
 						}
+						
 					})
 					
 				})
@@ -1184,7 +1193,14 @@ jQuery( document ).ready(function($){
 					imageModel = $('#aiassist-image-model').val();
 					textModel = $('#aiassist-change-text-model').val();
 				
-				await app.request( { articles: articles, artPromt: artPromt, titlePromt: titlePromt, textModel: textModel, imageModel: imageModel, descPromt: descPromt, action: 'initArticlesGen', nonce: aiassist.nonce } ); 
+				$('#start-articles-generations').html('<div id="aiassist-loader"></div>');
+				
+				for( let k in articles ){
+					await app.sleep( 3 );
+					await app.request( { articles: articles[ k ], artPromt: artPromt, titlePromt: titlePromt, textModel: textModel, imageModel: imageModel, descPromt: descPromt, action: 'initArticlesGen', nonce: aiassist.nonce } ); 
+				}
+				
+				$('#start-articles-generations').text( aiassist.locale['Start articles generation'] );
 				
 				$('.aiassist-article-item:not(:first)').remove();
 				app.addItemArticle();
