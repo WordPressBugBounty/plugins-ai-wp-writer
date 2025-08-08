@@ -445,9 +445,9 @@
 				<div>
 					<div><?php _e('Text generation model', 'wp-ai-assistant') ?></div>
 					<select name="aiassist-text-model" class="aiassist-rewrite-options" id="aiassist-rewrite-text-model">
-						<option value="gpt3" <?php echo @$rewrites['textModel'] == 'gpt3' ? 'selected' : '' ?>>GPT-4.1 mini</option>
-						<option value="gpt4_nano" <?php echo @$rewrites['textModel'] == 'gpt4_nano' ? 'selected' : '' ?>>GPT-4.1 nano</option>
-						<option value="gpt4" <?php echo @$rewrites['textModel'] == 'gpt4' ? 'selected' : '' ?>>GPT-4.1</option>
+						<option value="gpt3" <?php echo @$rewrites['textModel'] == 'gpt3' ? 'selected' : '' ?>>GPT-5 mini</option>
+						<option value="gpt4_nano" <?php echo @$rewrites['textModel'] == 'gpt4_nano' ? 'selected' : '' ?>>GPT-5 nano</option>
+						<option value="gpt4" <?php echo @$rewrites['textModel'] == 'gpt4' ? 'selected' : '' ?>>GPT-5</option>
 						<option value="gpt_o3_mini" <?php echo @$rewrites['textModel'] == 'gpt_o3_mini' ? 'selected' : '' ?>>o3-mini</option>
 					</select>
 					<a href="<?php echo get_locale() == 'ru_RU' ? 'https://aiwpwriter.com/prices/' : 'https://aiwpw.com/prices/ ' ?>" target="_blank" class="aiassist-small"><?php _e('View rates', 'wp-ai-assistant') ?></a>
@@ -613,10 +613,10 @@
 							</div>
 							
 							<div class="aiassist-rate-desc">
-								<?php _e('How much content can be generated<br />~6600000 characters (~1320000 words) GPT-4.1 nano**<br />~3300000 characters (~660000 words) GPT-4.1 mini**<br />~825000 characters (~165000 words) GPT-4.1**<br />~1650000 characters (~330000 words) o3-mini**<br />~ 942 images FLUX Schnell<br />~ 165 generations Midjourney v7<br />~ 188 images Dalle 3<br />~ 165 images GPT-image', 'wp-ai-assistant') ?>			
+								<?php _e('How much content can be generated<br />~6600000 characters (~1320000 words) GPT-5 nano**<br />~3300000 characters (~660000 words) GPT-5 mini**<br />~825000 characters (~165000 words) GPT-5**<br />~1650000 characters (~330000 words) o3-mini**<br />~ 942 images FLUX Schnell<br />~ 165 generations Midjourney v7<br />~ 188 images Dalle 3<br />~ 165 images GPT-image', 'wp-ai-assistant') ?>			
 							</div>
 							<div class="aiassist-rate-checklist">
-								<div class="aiassist-rate-check"><?php _e('Neural Networks: GPT-4.1, GPT-4.1-mini, GPT-4.1-nano, o3-mini (reasoning), Midjourney v7, Dalle 3, GPT-image, FLUX.', 'wp-ai-assistant') ?></div>
+								<div class="aiassist-rate-check"><?php _e('Neural Networks: GPT-5, GPT-5 mini, GPT-5 nano, o3-mini (reasoning), Midjourney v7, Dalle 3, GPT-image, FLUX.', 'wp-ai-assistant') ?></div>
 								<div class="aiassist-rate-check"><?php _e('Bulk generation and generation of articles in the editor', 'wp-ai-assistant') ?></div>
 								<div class="aiassist-rate-check"><?php _e('AI Assist, AI image creator', 'wp-ai-assistant') ?></div>
 								<div class="aiassist-rate-check"><?php _e('Rewrite articles on your site and pages from third-party sites', 'wp-ai-assistant') ?></div>
@@ -653,10 +653,10 @@
 							</div>
 							
 							<div class="aiassist-rate-desc">
-								<?php _e('How much content can be generated<br />~20500000 characters (~4100000 words) GPT-4.1 nano**<br />~10250000 characters (~2050000 words) GPT-4.1 mini**<br />~2562000 characters (~512400 words) GPT-4.1**<br />~5125000 characters (~1025000 words) o3-mini**<br />~ 2 928 images FLUX Schnell<br />~ 512 generations Midjourney v7<br />~ 585 images Dalle 3<br />~ 512 images GPT-image', 'wp-ai-assistant') ?>						
+								<?php _e('How much content can be generated<br />~20500000 characters (~4100000 words) GPT-5 nano**<br />~10250000 characters (~2050000 words) GPT-5 mini**<br />~2562000 characters (~512400 words) GPT-5**<br />~5125000 characters (~1025000 words) o3-mini**<br />~ 2 928 images FLUX Schnell<br />~ 512 generations Midjourney v7<br />~ 585 images Dalle 3<br />~ 512 images GPT-image', 'wp-ai-assistant') ?>						
 							</div>
 							<div class="aiassist-rate-checklist">
-								<div class="aiassist-rate-check"><?php _e('Neural Networks: GPT-4.1, GPT-4.1-mini, GPT-4.1-nano, o3-mini (reasoning), Midjourney v7, Dalle 3, GPT-image, FLUX.', 'wp-ai-assistant') ?></div>
+								<div class="aiassist-rate-check"><?php _e('Neural Networks: GPT-5, GPT-5 mini, GPT-5 nano, o3-mini (reasoning), Midjourney v7, Dalle 3, GPT-image, FLUX.', 'wp-ai-assistant') ?></div>
 								<div class="aiassist-rate-check"><?php _e('Bulk generation and generation of articles in the editor', 'wp-ai-assistant') ?></div>
 								<div class="aiassist-rate-check"><?php _e('AI Assist, AI image creator', 'wp-ai-assistant') ?></div>
 								<div class="aiassist-rate-check"><?php _e('Rewrite articles on your site and pages from third-party sites', 'wp-ai-assistant') ?></div>
@@ -691,10 +691,10 @@
 							</div>
 							
 							<div class="aiassist-rate-desc">
-								<?php _e('How much content can be generated<br />~50000000 characters (~10000000 words) GPT-4.1 nano**<br />~25000000 characters (~5000000 words) GPT-4.1 mini**<br />~6250000 characters (~1250000 words) GPT-4.1**<br />~12500000 characters (~2500000 words) o3-mini**<br />~ 7 142 images FLUX Schnell<br />~ 1 250 generations Midjourney v7<br />~ 1 428 images Dalle 3<br />~ 1 250 images GPT-image', 'wp-ai-assistant') ?>
+								<?php _e('How much content can be generated<br />~50000000 characters (~10000000 words) GPT-5 nano**<br />~25000000 characters (~5000000 words) GPT-5 mini**<br />~6250000 characters (~1250000 words) GPT-5**<br />~12500000 characters (~2500000 words) o3-mini**<br />~ 7 142 images FLUX Schnell<br />~ 1 250 generations Midjourney v7<br />~ 1 428 images Dalle 3<br />~ 1 250 images GPT-image', 'wp-ai-assistant') ?>
 							</div>
 							<div class="aiassist-rate-checklist">
-								<div class="aiassist-rate-check"><?php _e('Neural Networks: GPT-4.1, GPT-4.1-mini, GPT-4.1-nano, o3-mini (reasoning), Midjourney v7, Dalle 3, GPT-image, FLUX.', 'wp-ai-assistant') ?></div>
+								<div class="aiassist-rate-check"><?php _e('Neural Networks: GPT-5, GPT-5 mini, GPT-5 nano, o3-mini (reasoning), Midjourney v7, Dalle 3, GPT-image, FLUX.', 'wp-ai-assistant') ?></div>
 								<div class="aiassist-rate-check"><?php _e('Bulk generation and generation articles in the editor', 'wp-ai-assistant') ?></div>
 								<div class="aiassist-rate-check"><?php _e('AI Assist, AI image creator', 'wp-ai-assistant') ?></div>
 								<div class="aiassist-rate-check"><?php _e('Rewrite articles on your site and pages from third-party sites', 'wp-ai-assistant') ?></div>
@@ -724,7 +724,7 @@
 								<div class="aiassist-rate-check"><?php _e('AI Assist', 'wp-ai-assistant') ?></div>
 							</div>
 							<div class="aiassist-rate-checklist aiassist-rates-free-item">
-								<div class="aiassist-rate-check"><?php _e('Neural networks: GPT-4.1-mini, GPT-4.1-nano, FLUX', 'wp-ai-assistant') ?></div>
+								<div class="aiassist-rate-check"><?php _e('Neural networks: GPT-5 mini, GPT-5 nano, FLUX', 'wp-ai-assistant') ?></div>
 								<div class="aiassist-rate-check"><?php _e('AI image creator', 'wp-ai-assistant') ?></div>
 							</div>
 						</div>
@@ -1000,11 +1000,11 @@
 				<div>
 					<div><?php _e('Text generation model', 'wp-ai-assistant') ?></div>
 					<div class="aiassist-select-wrap">
-						<div class="aiassist-select-lable">GPT-4.1 mini</div>
+						<div class="aiassist-select-lable">GPT-5 mini</div>
 						<div class="aiassist-select">	
-							<div class="aiassist-option" data-value="gpt3">GPT-4.1 mini</div>
-							<div class="aiassist-option" data-value="gpt4_nano">GPT-4.1 nano</div>
-							<div class="aiassist-option <?php echo ! @$this->info->subscribe->expire ? 'aiassist-lock' : ''?>" data-value="gpt4">GPT-4.1</div>
+							<div class="aiassist-option" data-value="gpt3">GPT-5 mini</div>
+							<div class="aiassist-option" data-value="gpt4_nano">GPT-5 nano</div>
+							<div class="aiassist-option <?php echo ! @$this->info->subscribe->expire ? 'aiassist-lock' : ''?>" data-value="gpt4">GPT-5</div>
 							<div class="aiassist-option <?php echo ! @$this->info->subscribe->expire ? 'aiassist-lock' : ''?>" data-value="gpt_o3_mini">o3-mini</div>
 							<input type="hidden" name="aiassist-text-model" class="aiassist-auto-options" id="aiassist-change-text-model" value="gpt3" />
 						</div>
