@@ -66,20 +66,27 @@
 
 	tinymce.create('tinymce.plugins.key', {
 		init: ( ed, url ) => {
-			// if( ed.id != 'AIASSIST' )
-				// return;
+			
+			var ed_id;
 		
 			ed.addButton('AIASSIST', {
 				title : aiassist.locale['To regenerate a piece of text'],
 				text: 'AI assist',
 				icon: false,
 				onclick: () => {
+					
+					ed_id = ed.id;
 					$('#aiassist-regenerate-wrap').show();
 					$('#aiassist-prom-regenerate').focus().blur();
 				}
 			});
 			
 			$(document).on('click', '#aiassist-regenerate', async () => {
+				const ed = tinymce.activeEditor;
+				
+				if( ed_id != ed.id )
+					return;
+				
 				let content = ed.selection.getContent();
 				
 				button.loader( true );

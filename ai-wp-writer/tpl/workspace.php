@@ -201,7 +201,7 @@
 			<div class="aiassist-select-lable">FLUX schnell</div>
 			<div class="aiassist-select aiassist-image-model">	
 				<div class="aiassist-option" data-value="flux">FLUX schnell</div>
-				<div class="aiassist-option <?php echo ! @$this->info->subscribe->expire ? 'aiassist-lock' : ''?>" data-value="midjourney">Midjourney</div>
+				<div class="aiassist-option <?php echo ! @$this->info->subscribe->expire ? 'aiassist-lock' : ''?>" data-value="midjourney">Midjourney v7</div>
 				<div class="aiassist-option <?php echo ! @$this->info->subscribe->expire ? 'aiassist-lock' : ''?>" data-value="dalle">Dalle 3</div>
 				<div class="aiassist-option <?php echo ! @$this->info->subscribe->expire ? 'aiassist-lock' : ''?>" data-value="gptImage">GPT-image</div>
 				<input type="hidden" name="aiassist-image-model" id="aiassist-change-image-model" value="flux" />
@@ -232,7 +232,7 @@
 				<?php foreach( $headers[1] as $k => $header ){ ?>
 					<div class="aiassist-header-item">
 						<label><input type="checkbox" value="<?php echo esc_attr( $header )?>" /><span><?php echo esc_html( $header )?></span></label>
-						<div class="aiassist-translate-promt-image">Promt: <input value="<?php echo esc_attr( @$this->steps['header'] .' '. $header )?>" data-en="<?php echo esc_attr( @$this->steps[ @$header ] )?>" /> <div class="image-generate-item"><?php _e('Generate', 'wp-ai-assistant') ?></div></div>
+						<div class="aiassist-translate-promt-image">Prompt: <input value="<?php echo esc_attr( @$this->steps['header'] .' '. $header )?>" data-en="<?php echo esc_attr( @$this->steps[ @$header ] )?>" /> <div class="image-generate-item"><?php _e('Generate', 'wp-ai-assistant') ?></div></div>
 					</div>
 				<?php } ?>
 			<?php } ?>
@@ -292,8 +292,8 @@
 				<div class="aiassist-select-lable">FLUX schnell</div>
 				<div class="aiassist-select aiassist-image-model">	
 					<div class="aiassist-option" data-value="flux">FLUX schnell</div>
-					<div class="aiassist-option <?php echo ! @$this->info->subscribe->expire ? 'aiassist-lock' : ''?>" data-value="midjourney">Midjourney</div>
-					<div class="aiassist-option <?php echo ! @$this->info->subscribe->expire ? 'aiassist-lock' : ''?>" data-value="dalle">Dalle</div>
+					<div class="aiassist-option <?php echo ! @$this->info->subscribe->expire ? 'aiassist-lock' : ''?>" data-value="midjourney">Midjourney v7</div>
+					<div class="aiassist-option <?php echo ! @$this->info->subscribe->expire ? 'aiassist-lock' : ''?>" data-value="dalle">Dalle 3</div>
 					<div class="aiassist-option <?php echo ! @$this->info->subscribe->expire ? 'aiassist-lock' : ''?>" data-value="gptImage">GPT-image</div>
 					<input type="hidden" name="aiassist-image-model" id="aiassist-tiny-image-model" value="flux" />
 				</div>

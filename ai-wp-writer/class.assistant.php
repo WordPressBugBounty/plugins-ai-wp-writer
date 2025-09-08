@@ -540,7 +540,7 @@ class AIASIST{
 			if( (int) $data['publishEveryDay'] ){
 			
 				if( ! isset( $data['everyDayCounter'] ) )
-					$data['everyDayCounter'] = [ $key => 0 ];
+					$data['everyDayCounter'][ $key ] = 0;
 				
 				$data['everyDayCounter'][ $key ]++;
 				
@@ -1435,6 +1435,10 @@ class AIASIST{
 				'Removeds'	=> __('Removeds', 'wp-ai-assistant'),
 				'Original images removed'	=> __('Original images removed', 'wp-ai-assistant'),
 				'Date'	=> __('Date', 'wp-ai-assistant'),
+				'Pause'	=> __('Pause', 'wp-ai-assistant'),
+				'Activate'	=> __('Activate', 'wp-ai-assistant'),
+				'active'	=> __('active', 'wp-ai-assistant'),
+				'inactive'	=> __('inactive', 'wp-ai-assistant'),
 				'Generations'	=> __('Generations', 'wp-ai-assistant'),
 				'Regenerate images'	=> __('Regenerate images', 'wp-ai-assistant'),
 				'Restore original / removing generated images'	=> __('Restore original / removing generated images', 'wp-ai-assistant'),

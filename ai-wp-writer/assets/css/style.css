@@ -550,10 +550,14 @@ button[name="save"]{
 
 #out_summ,
 #out_summ_usdt{
-	width: 250px;
+	width: 100px;
 	height: 30px;
 	outline: none;
-	margin: 20px 0px 20px 0px;
+	margin: 20px 22px 10px 20px;
+}
+
+#aiassist-custom-buy .aiassist-buy{
+	width: 100px;
 }
 
 /* signInUp */
@@ -911,22 +915,26 @@ button[name="save"]{
 		.aiassist-rates-items{
 			width: 980px;
 			margin: auto;
-			display: flex;
 			margin-top: 20px;
 		}
 		
 		.aiassist-rates-item{
 			width: 235px;
-			height: 545px;
+			background: #f9f9f9;
+			min-height: 545px;
 			padding: 25px;
 			margin: 20px auto;
 			border: solid 1px #ccc;
 			border-radius: 16px;
 			position: relative;
-			transition: .2s;
+			transition: .8s;
+			display: inline-grid;
+			margin: 20px 16px 20px 20px;
 		}
 		
 		.aiassist-rates-item:hover{
+			cursor: pointer;
+			background: #fff;
 			box-shadow: 0px 1px 2px 8px #eee;
 		}
 		
@@ -937,8 +945,35 @@ button[name="save"]{
 			margin: 15px 0px 5px 0px;
 		}
 		
+		.aiassist-rate-price{
+			text-align: center;
+		}
+		
+		.aiassist-rate-price span{
+			font-size: 16pt;
+			font-weight: bold;
+		}
+		
 		.aiassist-rate-info{
 			text-align: center;
+		}
+		
+		.aiassist-rates-item .aiassist-rate-info.bg,
+		.aiassist-rates-package .aiassist-rate-info.bg{
+			background: #fff2cc;
+			border: solid 1px #ead390;
+			width: 55%;
+			margin: auto;
+			padding: 5px;
+			font-size: 14px;
+			border-radius: 8px;
+		}
+		
+		.aiassist-rates-package .aiassist-rate-info.bg{
+			width: 66%;
+			padding: 5px;
+			line-height: 19px;
+			margin: 5px auto 15px auto;
 		}
 		
 		.aiassist-rate-info i{
@@ -946,16 +981,88 @@ button[name="save"]{
 			text-decoration: line-through;
 		}
 		
+		.aiassist-rates-package .aiassist-rate-info:not(.bg) div{
+			top: -45px;
+			position: relative;
+		}
+		
+		.aiassist-rates-package:hover{
+			cursor: pointer;
+			background: #fff;
+			box-shadow: 0px 1px 2px 8px #eee;
+		}
+		
+		
+		.aiassist-subscribe-block{
+			position: relative;
+		}
+		
+		.aiassist-recurring{
+			top: -6px;
+			right: 20px;
+			position: absolute;
+		}
+		
+		.aiassist-recurring-status{
+			padding: 10px;
+		}
+		
+		#aiassist-recurring-status{
+			color: #00d000;
+		}
+		
+		#aiassist-recurring-status.inactive{
+			color: #f00;
+		}
+		
+		.aiassist-recurring-activate{
+			height: 30px;
+			border-radius: 5px;
+			width: max-content;
+			cursor: pointer;
+			padding: 0px 15px;
+			background: #d5e8d4;
+			border: solid 1px #ccc;
+			margin-right: 15px;
+		}
+		
+		.aiassist-recurring-pause{
+			height: 30px;
+			border: none;
+			cursor: pointer;
+			padding: 0px 15px;
+			border-radius: 5px;
+			background: #fee5cd;	
+		}
+		
 		.aiassist-rates-item .aiassist-buy,
 		.aiassist-rates-package .aiassist-buy,
 		.aiassist-rates-item .aiassist-subscribe-type{
 			left: 0;
 			right: 0;
-			bottom: 20px;
+			bottom: 40px;
 			margin: auto;
 			position: absolute;
 		}
 		
+		.aiassist-rates-package .aiassist-buy{
+			bottom: 20px;
+		}
+		
+		.aiassist-rates-item .aiassist-buy,
+		.aiassist-rates-item .aiassist-subscribe-type{
+			position: initial;
+		}
+		
+		.aiassist-buy-button{
+			text-align: center;
+			margin-top: 10px;
+		}
+		
+		.aiassist-recurring-agree{
+			height: 20px;
+			margin-bottom: 6px;
+		}
 		
 		.aiassist-buy,
 		.aiassist-subscribe-type{
@@ -964,14 +1071,14 @@ button[name="save"]{
 			width: max-content;
 			cursor: pointer;
 			padding: 0px 15px;
-			background: #d5e8d4;
+			background: #97d077;
 			border: solid 1px #ccc;
 		}
 		
 		.aiassist-subscribe-type{
 			border: none;
 			background: rgb( 66, 179, 213 );
-			pointer-events: none;
+			/* pointer-events: none; */
 			color: rgb( 255, 255, 255 );
 		}
 		
@@ -989,6 +1096,7 @@ button[name="save"]{
 		
 		.aiassist-rates-free{
 			width: 905px;
+			background: #f9f9f9;
 			margin: 10px auto 35px auto;
 			border: solid 1px #ccc;
 			border-radius: 16px;
@@ -1009,27 +1117,33 @@ button[name="save"]{
 		}
 		
 		.aiassist-rates-free-item{
-			width: 28%;
+			width: 26%;
 			top: -10px;
 			position: relative;
+			display: inline-grid;
 		}
 	
 		.aiassist-rates-package{
 			width: 200px;
 			margin: auto;
+			background: #f9f9f9;
 			position: relative;
-			height: 180px;
+			height: 238px;
 			border: solid 1px #ccc;
 			border-radius: 16px;
 			padding-top: 10px;
+			transition: .8s;
+			display: inline-grid;
+			margin: 20px 16px 20px 20px;
 		}
 		
 		.aiassist-rates-custom{
 			width: 905px;
-			  margin: 35px auto;
-			  border: solid 1px #ccc;
-			  padding: 13px;
-			  border-radius: 16px;
+			margin: 35px auto;
+			border: solid 1px #ccc;
+			padding: 13px;
+			border-radius: 16px;
+			background: #f9f9f9;
 		}
 		
 		.aiassist-rate-check{
@@ -1117,6 +1231,25 @@ button[name="save"]{
 		.aiassist-rates-tab.active{
 			background: #fff;
 			border-bottom: none;
+			border: solid 1px rgb( 66, 179, 213 );
+		}
+		
+		.aiassist-rates-view{
+			display: none;
+		}
+		
+		.aiassist-rates-view.active{
+			display: block;
+		}
+		
+		.aiassist-rate-info.bg span{
+			font-size: 14px;
+			font-weight: bold;
+		}
+		
+		.aiassist-rate-title span{
+			font-size: 16pt;
+			font-weight: bold;
 		}
 		
 	/* tab rates end */
@@ -1749,6 +1882,16 @@ button[name="save"]{
 		top: 4px;
 		position: relative;
 		background: url(../images/paypal.png) no-repeat;
+		background-size: 100%;
+	}
+
+	.stripe{
+		width: 64px;
+		height: 34px;
+		margin: auto;
+		top: 4px;
+		position: relative;
+		background: url(../images/stripe.png) no-repeat;
 		background-size: 100%;
 	}
 

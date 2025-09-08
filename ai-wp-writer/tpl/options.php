@@ -124,7 +124,7 @@
 				</div>
 				
 				<div class="row">
-					<button><?php _e('Registration', 'wp-ai-assistant') ?></button>
+					<button><?php _e('Get started', 'wp-ai-assistant') ?></button>
 				</div>
 				
 			</form>
@@ -292,7 +292,7 @@
 		<div class="aiassist-tab-data" data-tab="guide">
 		
 			<div class="aiassist-white-bg">
-				<?php _e('You can generate articles directly in the WordPress Editor. The plugin functionality is located at the bottom of the page, under the main editor. <br />You can also generate images anywhere in your articles pressing the button <b>AI image creator</b> (or widget in Gutenberg editor). <br />To regenerate any text fragment in any article, use the <b>AI Assist</b> button. To do it, select the text fragment, press <b>AI Assist<b/> and the <b>Generate</b> button.', 'wp-ai-assistant') ?>
+				<?php _e('You can generate articles directly in the WordPress Editor. The plugin functionality is located at the bottom of the page, under the main editor. <br />You can also generate images anywhere in your articles pressing the button <b>AI image creator</b> (or widget in Gutenberg editor). <br />To regenerate any text fragment in any article, use the <b>AI Assist</b> button. To do it, select the text fragment, press <b>AI Assist</b> and the <b>Generate</b> button.', 'wp-ai-assistant') ?>
 			</div>
 			
 			<div class="aiassist-guide-button">
@@ -459,7 +459,7 @@
 						<option value="flux" <?php echo @$rewrites['imageModel'] == 'flux' ? 'selected' : '' ?>>FLUX schnell</option>
 						<option value="dalle" <?php echo @$rewrites['imageModel'] == 'dalle' ? 'selected' : '' ?>>Dalle 3</option>
 						<option value="gptImage" <?php echo @$rewrites['imageModel'] == 'gptImage' ? 'selected' : '' ?>>GPT-image</option>
-						<option value="midjourney" <?php echo @$rewrites['imageModel'] == 'midjourney' ? 'selected' : '' ?>>MidJourney</option>
+						<option value="midjourney" <?php echo @$rewrites['imageModel'] == 'midjourney' ? 'selected' : '' ?>>MidJourney v7</option>
 					</select>
 				</div>
 				
@@ -549,20 +549,35 @@
 		<div class="aiassist-tab-data" data-tab="rates">
 			
 			<div class="pay-methods">
-				<div class="pay-method active" data-billing="robokassa">
-					<div class="robokassa"></div>
-					<div class="pay-method-label visa"><?php _e('Visa, Mastercard, Мir, YooMoney', 'wp-ai-assistant') ?></div>
-				</div>
-				
-				<div class="pay-method" data-billing="cryptocloud">
-					<div class="cryptocloud"></div>
-					<div class="pay-method-label"><?php _e('USDT, Bitcoin, Ethereum', 'wp-ai-assistant') ?></div>
-				</div>
-				
 				<?php if( get_locale() != 'ru_RU' ){ ?>
+					<div class="pay-method active" data-billing="stripe">
+						<div class="stripe"></div>
+						<div class="pay-method-label"><?php _e('Visa, Mastercard, Stripe', 'wp-ai-assistant') ?></div>
+					</div>
+					
 					<div class="pay-method" data-billing="paypal">
 						<div class="paypal"></div>
 						<div class="pay-method-label"><?php _e('Visa, Mastercard, PayPal', 'wp-ai-assistant') ?></div>
+					</div>
+					
+					<div class="pay-method" data-billing="cryptocloud">
+						<div class="cryptocloud"></div>
+						<div class="pay-method-label"><?php _e('USDT, Bitcoin, Ethereum', 'wp-ai-assistant') ?></div>
+					</div>
+					
+					<div class="pay-method" data-billing="robokassa">
+						<div class="robokassa"></div>
+						<div class="pay-method-label visa"><?php _e('Visa, Mastercard, Мir, YooMoney', 'wp-ai-assistant') ?></div>
+					</div>
+				<?php } else { ?>
+					<div class="pay-method active" data-billing="robokassa">
+						<div class="robokassa"></div>
+						<div class="pay-method-label visa"><?php _e('Visa, Mastercard, Мir, YooMoney', 'wp-ai-assistant') ?></div>
+					</div>
+				
+					<div class="pay-method" data-billing="cryptocloud">
+						<div class="cryptocloud"></div>
+						<div class="pay-method-label"><?php _e('USDT, Bitcoin, Ethereum', 'wp-ai-assistant') ?></div>
 					</div>
 				<?php } ?>
 			</div>
@@ -590,255 +605,361 @@
 				
 				<div class="aiassist-rates-wrap">
 				
-					<div class="aiassist-rates-info"><?php _e('The subscription applies to all sites connected to your API key, and one common credit balance is used for all sites.', 'wp-ai-assistant') ?></div>
-					
-					<div class="aiassist-rates-items">
-						
-						<div class="aiassist-rates-item">
-							<?php if( @$this->info->rates->subscribe_basic_best ){ ?>
-								<div class="aiassist-popular"><?php _e('Popular', 'wp-ai-assistant') ?></div>
-							<?php } ?>
-							<div class="aiassist-rate-title">
-								<div><?php _e('Basic', 'wp-ai-assistant') ?></div>
-								<div><span data-usdt="<?php echo (float) @$this->info->rates->subscribe_basic_rate_usdt ?>$"><?php echo (float) @$this->info->rates->subscribe_basic_rate ?><?php _e('$', 'wp-ai-assistant') ?></span>/<?php _e('month', 'wp-ai-assistant') ?></div>
-							</div>
-							<div class="aiassist-rate-info">
-								<div><?php _e('Instead of', 'wp-ai-assistant') ?> <i data-usdt="<?php echo $rateMainUsdt = round( @$this->info->rates->subscribe_basic_symbols / 1000 * @$this->info->price_usdt )?>$"><?php echo $rateMain = round( @$this->info->rates->subscribe_basic_symbols / 1000 * @$this->info->price ) ?><?php _e('$', 'wp-ai-assistant') ?></i></div>
-								<div><?php _e('Savings of', 'wp-ai-assistant') ?> <span data-usdt="<?php echo round( $rateMainUsdt - @$this->info->rates->subscribe_basic_rate_usdt )?>$"><?php echo $rateMain - @$this->info->rates->subscribe_basic_rate ?><?php _e('$', 'wp-ai-assistant') ?></span>*</div>	
-							</div>
-							<div class="aiassist-rate-title"><?php echo number_format( @$this->info->rates->subscribe_basic_symbols, 0, ' ', ' ' ) ?> <?php _e('credits', 'wp-ai-assistant') ?>/<?php _e('month', 'wp-ai-assistant') ?></div>
-							
-							<div class="aiassist-rate-info">
-								<div><span data-usdt="<?php echo @round( @$this->info->rates->subscribe_basic_rate_usdt / @$this->info->rates->subscribe_basic_symbols * 1000000 ) ?>$"><?php echo @round( @$this->info->rates->subscribe_basic_rate / @$this->info->rates->subscribe_basic_symbols * 1000000 ) ?><?php _e('$', 'wp-ai-assistant') ?></span> - <?php _e('1 million credits', 'wp-ai-assistant') ?></div>
-							</div>
-							
-							<div class="aiassist-rate-desc">
-								<?php _e('How much content can be generated<br />~6600000 characters (~1320000 words) GPT-5 nano**<br />~3300000 characters (~660000 words) GPT-5 mini**<br />~825000 characters (~165000 words) GPT-5**<br />~1650000 characters (~330000 words) o3-mini**<br />~ 942 images FLUX Schnell<br />~ 165 generations Midjourney v7<br />~ 188 images Dalle 3<br />~ 165 images GPT-image', 'wp-ai-assistant') ?>			
-							</div>
-							<div class="aiassist-rate-checklist">
-								<div class="aiassist-rate-check"><?php _e('Neural Networks: GPT-5, GPT-5 mini, GPT-5 nano, o3-mini (reasoning), Midjourney v7, Dalle 3, GPT-image, FLUX.', 'wp-ai-assistant') ?></div>
-								<div class="aiassist-rate-check"><?php _e('Bulk generation and generation of articles in the editor', 'wp-ai-assistant') ?></div>
-								<div class="aiassist-rate-check"><?php _e('AI Assist, AI image creator', 'wp-ai-assistant') ?></div>
-								<div class="aiassist-rate-check"><?php _e('Rewrite articles on your site and pages from third-party sites', 'wp-ai-assistant') ?></div>
-								<div class="aiassist-rate-check"><?php _e('Making images unique', 'wp-ai-assistant') ?></div>
-							</div>
-							
-							<?php if( @$this->info->subscribe->type == 'basic' ){ ?>
-								<button type="button" class="aiassist-subscribe-type"><?php _e('Active subscription', 'wp-ai-assistant') ?></button>
-							<?php } else {?>
-								<button type="button" class="aiassist-buy" data-type="subscribe_basic"><?php _e('Subscribe', 'wp-ai-assistant') ?></button>
-							<?php } ?>
-						</div>
-						
-						
-						<div class="aiassist-rates-item">
-							
-							<?php if( @$this->info->rates->subscribe_pro_best ){ ?>
-								<div class="aiassist-popular"><?php _e('Popular', 'wp-ai-assistant') ?></div>
-							<?php } ?>
-							
-							<div class="aiassist-rate-title">
-								<div>Pro</div>
-								<div><span data-usdt="<?php echo (float) @$this->info->rates->subscribe_pro_rate_usdt ?>$"><?php echo (float) @$this->info->rates->subscribe_pro_rate ?><?php _e('$', 'wp-ai-assistant') ?></span>/<?php _e('month', 'wp-ai-assistant') ?></div>
-							</div>
-							<div class="aiassist-rate-info">
-								<div><?php _e('Instead of', 'wp-ai-assistant') ?> <i data-usdt="<?php echo $rateMainUsdt = round( @$this->info->rates->subscribe_pro_symbols / 1000 * @$this->info->price_usdt ) ?>$"><?php echo $rateMain = round( @$this->info->rates->subscribe_pro_symbols / 1000 * @$this->info->price ) ?><?php _e('$', 'wp-ai-assistant') ?></i></div>
-								<div><?php _e('Savings of', 'wp-ai-assistant') ?> <span data-usdt="<?php echo $rateMainUsdt - @$this->info->rates->subscribe_pro_rate_usdt ?>$"><?php echo $rateMain - @$this->info->rates->subscribe_pro_rate ?><?php _e('$', 'wp-ai-assistant') ?></span>*</div>
-							</div>
-							
-							<div class="aiassist-rate-title"><?php echo number_format( @$this->info->rates->subscribe_pro_symbols, 0, ' ', ' ' ) ?> <?php _e('credits', 'wp-ai-assistant') ?>/<?php _e('month', 'wp-ai-assistant') ?></div>
-							
-							<div class="aiassist-rate-info">
-								<div><span data-usdt="<?php echo @round( @$this->info->rates->subscribe_pro_rate_usdt / @$this->info->rates->subscribe_pro_symbols * 1000000 ) ?>$"><?php echo @round( @$this->info->rates->subscribe_pro_rate / @$this->info->rates->subscribe_pro_symbols * 1000000 ) ?><?php _e('$', 'wp-ai-assistant') ?></span> - <?php _e('1 million credits', 'wp-ai-assistant') ?></div>
-							</div>
-							
-							<div class="aiassist-rate-desc">
-								<?php _e('How much content can be generated<br />~20500000 characters (~4100000 words) GPT-5 nano**<br />~10250000 characters (~2050000 words) GPT-5 mini**<br />~2562000 characters (~512400 words) GPT-5**<br />~5125000 characters (~1025000 words) o3-mini**<br />~ 2 928 images FLUX Schnell<br />~ 512 generations Midjourney v7<br />~ 585 images Dalle 3<br />~ 512 images GPT-image', 'wp-ai-assistant') ?>						
-							</div>
-							<div class="aiassist-rate-checklist">
-								<div class="aiassist-rate-check"><?php _e('Neural Networks: GPT-5, GPT-5 mini, GPT-5 nano, o3-mini (reasoning), Midjourney v7, Dalle 3, GPT-image, FLUX.', 'wp-ai-assistant') ?></div>
-								<div class="aiassist-rate-check"><?php _e('Bulk generation and generation of articles in the editor', 'wp-ai-assistant') ?></div>
-								<div class="aiassist-rate-check"><?php _e('AI Assist, AI image creator', 'wp-ai-assistant') ?></div>
-								<div class="aiassist-rate-check"><?php _e('Rewrite articles on your site and pages from third-party sites', 'wp-ai-assistant') ?></div>
-								<div class="aiassist-rate-check"><?php _e('Making images unique', 'wp-ai-assistant') ?></div>
-							</div>
-							
-							<?php if( @$this->info->subscribe->type == 'pro' ){ ?>
-								<button type="button" class="aiassist-subscribe-type"><?php _e('Active subscription', 'wp-ai-assistant') ?></button>
-							<?php } else {?>
-								<button type="button" class="aiassist-buy" data-type="subscribe_pro"><?php _e('Subscribe', 'wp-ai-assistant') ?></button>
-							<?php } ?>
-							
-						</div>
-						
-						
-						<div class="aiassist-rates-item">
-							<?php if( @$this->info->rates->subscribe_premium_best ){ ?>
-								<div class="aiassist-popular"><?php _e('Popular', 'wp-ai-assistant') ?></div>
-							<?php } ?>
-							<div class="aiassist-rate-title">
-								<div>Premium</div>
-								<div><span data-usdt="<?php echo (float) @$this->info->rates->subscribe_premium_rate_usdt ?>$"><?php echo (float) @$this->info->rates->subscribe_premium_rate ?><?php _e('$', 'wp-ai-assistant') ?></span>/<?php _e('month', 'wp-ai-assistant') ?></div>
-							</div>
-							<div class="aiassist-rate-info">
-								<div><?php _e('Instead of', 'wp-ai-assistant') ?> <i data-usdt="<?php echo $rateMainUsdt = round( @$this->info->rates->subscribe_premium_symbols / 1000 * @$this->info->price_usdt ) ?>$"><?php echo $rateMain = round( @$this->info->rates->subscribe_premium_symbols / 1000 * @$this->info->price ) ?><?php _e('$', 'wp-ai-assistant') ?></i></div>
-								<div><?php _e('Savings of', 'wp-ai-assistant') ?> <span data-usdt="<?php echo $rateMainUsdt - @$this->info->rates->subscribe_premium_rate_usdt ?>$"><?php echo $rateMain - @$this->info->rates->subscribe_premium_rate ?><?php _e('$', 'wp-ai-assistant') ?></span>*</div>
-							</div>
-							<div class="aiassist-rate-title"><?php echo number_format( @$this->info->rates->subscribe_premium_symbols, 0, ' ', ' ' ) ?> <?php _e('credits', 'wp-ai-assistant') ?>/<?php _e('month', 'wp-ai-assistant') ?></div>
-							
-							<div class="aiassist-rate-info">
-								<div><span data-usdt="<?php echo @round( @$this->info->rates->subscribe_premium_rate_usdt / @$this->info->rates->subscribe_premium_symbols * 1000000 ) ?>$"><?php echo @round( @$this->info->rates->subscribe_premium_rate / @$this->info->rates->subscribe_premium_symbols * 1000000 ) ?><?php _e('$', 'wp-ai-assistant') ?></span> - <?php _e('1 million credits', 'wp-ai-assistant') ?></div>
-							</div>
-							
-							<div class="aiassist-rate-desc">
-								<?php _e('How much content can be generated<br />~50000000 characters (~10000000 words) GPT-5 nano**<br />~25000000 characters (~5000000 words) GPT-5 mini**<br />~6250000 characters (~1250000 words) GPT-5**<br />~12500000 characters (~2500000 words) o3-mini**<br />~ 7 142 images FLUX Schnell<br />~ 1 250 generations Midjourney v7<br />~ 1 428 images Dalle 3<br />~ 1 250 images GPT-image', 'wp-ai-assistant') ?>
-							</div>
-							<div class="aiassist-rate-checklist">
-								<div class="aiassist-rate-check"><?php _e('Neural Networks: GPT-5, GPT-5 mini, GPT-5 nano, o3-mini (reasoning), Midjourney v7, Dalle 3, GPT-image, FLUX.', 'wp-ai-assistant') ?></div>
-								<div class="aiassist-rate-check"><?php _e('Bulk generation and generation articles in the editor', 'wp-ai-assistant') ?></div>
-								<div class="aiassist-rate-check"><?php _e('AI Assist, AI image creator', 'wp-ai-assistant') ?></div>
-								<div class="aiassist-rate-check"><?php _e('Rewrite articles on your site and pages from third-party sites', 'wp-ai-assistant') ?></div>
-								<div class="aiassist-rate-check"><?php _e('Making images unique', 'wp-ai-assistant') ?></div>
-							</div>
-							
-							<?php if( @$this->info->subscribe->type == 'premium' ){ ?>
-								<button type="button" class="aiassist-subscribe-type"><?php _e('Active subscription', 'wp-ai-assistant') ?></button>
-							<?php } else {?>
-								<button type="button" class="aiassist-buy" data-type="subscribe_premium"><?php _e('Subscribe', 'wp-ai-assistant') ?></button>
-							<?php } ?>
-							
-						</div>	
-						
+					<div class="aiassist-rates-tabs">
+						<div class="aiassist-rates-tab active" data-view="subscribe"><?php _e('Subscription plans', 'wp-ai-assistant') ?></div>
+						<div class="aiassist-rates-tab" data-view="packages"><?php _e('Buy extra credits', 'wp-ai-assistant') ?></div>
 					</div>
+				
+					<div class="aiassist-rates-view active" data-view="subscribe">
 					
-					
-					<div class="aiassist-rates-free">
-						<div class="aiassist-rate-title"><?php _e('Free plan', 'wp-ai-assistant') ?></div>
+						<div class="aiassist-rates-info"><?php _e('The subscription applies to all sites connected to your API key, and one common credit balance is used for all sites.', 'wp-ai-assistant') ?></div>
+						
 						<div class="aiassist-rates-items">
-							<div class="aiassist-rates-free-item">
-								<?php _e('Once you register, you will receive 10,000 free credits. You can also buy credits in packages or for any amount you choose. These credits do not expire and remain on your balance until you use them.', 'wp-ai-assistant') ?>
-							</div>
-							<div class="aiassist-rate-checklist aiassist-rates-free-item">
-								<div class="aiassist-rate-check"><?php _e('Bulk generation', 'wp-ai-assistant') ?></div>
-								<div class="aiassist-rate-check"><?php _e('Generation in the editor', 'wp-ai-assistant') ?></div>
-								<div class="aiassist-rate-check"><?php _e('AI Assist', 'wp-ai-assistant') ?></div>
-							</div>
-							<div class="aiassist-rate-checklist aiassist-rates-free-item">
-								<div class="aiassist-rate-check"><?php _e('Neural networks: GPT-5 mini, GPT-5 nano, FLUX', 'wp-ai-assistant') ?></div>
-								<div class="aiassist-rate-check"><?php _e('AI image creator', 'wp-ai-assistant') ?></div>
-							</div>
-						</div>
-					</div>
-					
-					
-					<div class="aiassist-rates-note-block">
-						<?php _e('* If you buy, for any amount you choose, the same number of credits you get by subscribing. <br />** Payment is spent only on generating characters or images. No hidden fees! You do not pay for tokens used to send context. You do not pay for sending requests for generation. You do not pay for tokens used to mark up articles. You do not pay for spaces.', 'wp-ai-assistant') ?>
-					</div>
-					
-					<div class="aiassist-rate-title"><?php _e('Add extra credits by packages or any amount.', 'wp-ai-assistant') ?></div>
-					<div class="aiassist-rates-note-block center"><?php _e('Credits purchased in packages or for any amount you choose <b>do not expire.</b>', 'wp-ai-assistant') ?></div>
-					
-					
-					<div class="aiassist-rates-items">
-						
-						<div class="aiassist-rates-package">
-							<?php if( @$this->info->rates->packege_base_best ){ ?>
-								<div class="aiassist-popular"><?php _e('Popular', 'wp-ai-assistant') ?></div>
-							<?php } ?>
-							<div class="aiassist-rate-title">
-								<div data-usdt="<?php echo (float) @$this->info->rates->packege_base_rate_usdt ?>$"><?php echo (float) @$this->info->rates->packege_base_rate ?><?php _e('$', 'wp-ai-assistant') ?></div>
-								<div><?php echo number_format( @$this->info->rates->packege_base_symbols, 0, ' ', ' ' ) ?> <?php _e('credits', 'wp-ai-assistant') ?></div>
-							</div>
-							<div class="aiassist-rate-info">
-								<div><span data-usdt="<?php echo @round( @$this->info->rates->packege_base_rate_usdt / @$this->info->rates->packege_base_symbols * 1000000 ) ?>$"><?php echo @round( @$this->info->rates->packege_base_rate / @$this->info->rates->packege_base_symbols * 1000000 ) ?><?php _e('$', 'wp-ai-assistant') ?></span> - <?php _e('1 million credits', 'wp-ai-assistant') ?></div>
-							</div>
-							<button type="button" class="aiassist-buy" data-type="base"><?php _e('Buy a package', 'wp-ai-assistant') ?></button>
-						</div>
-					
-						<div class="aiassist-rates-package">
-							<?php if( @$this->info->rates->packege_pro_best ){ ?>
-								<div class="aiassist-popular"><?php _e('Popular', 'wp-ai-assistant') ?></div>
-							<?php } ?>
-							<div class="aiassist-rate-title">
-								<div data-usdt="<?php echo (float) @$this->info->rates->packege_pro_rate_usdt ?>$"><?php echo (float) @$this->info->rates->packege_pro_rate ?><?php _e('$', 'wp-ai-assistant') ?></div>
-								<div><?php echo number_format( @$this->info->rates->packege_pro_symbols, 0, ' ', ' ' ) ?> <?php _e('credits', 'wp-ai-assistant') ?></div>
-							</div>
-							<div class="aiassist-rate-info">
-								<div><span data-usdt="<?php echo @round( @$this->info->rates->packege_pro_rate_usdt / @$this->info->rates->packege_pro_symbols * 1000000 ) ?>$"><?php echo @round( @$this->info->rates->packege_pro_rate / @$this->info->rates->packege_pro_symbols * 1000000 ) ?><?php _e('$', 'wp-ai-assistant') ?></span> - <?php _e('1 million credits', 'wp-ai-assistant') ?></div>
-							</div>
-							<button type="button" class="aiassist-buy" data-type="professional"><?php _e('Buy a package', 'wp-ai-assistant') ?></button>
-						</div>
-						
-						<div class="aiassist-rates-package">
-							<?php if( @$this->info->rates->packege_popular_best ){ ?>
-								<div class="aiassist-popular"><?php _e('Popular', 'wp-ai-assistant') ?></div>
-							<?php } ?>
 							
-							<div class="aiassist-rate-title">
-								<div data-usdt="<?php echo (float) @$this->info->rates->packege_popular_rate_usdt ?>$"><?php echo (float) @$this->info->rates->packege_popular_rate ?><?php _e('$', 'wp-ai-assistant') ?></div>
-								<div><?php echo number_format( @$this->info->rates->packege_popular_symbols, 0, ' ', ' ' ) ?> <?php _e('credits', 'wp-ai-assistant') ?></div>
+							<div class="aiassist-rates-item">
+								<?php if( @$this->info->rates->subscribe_basic_best ){ ?>
+									<div class="aiassist-popular"><?php _e('Popular', 'wp-ai-assistant') ?></div>
+								<?php } ?>
+								
+								<div class="aiassist-rate-title"><?php _e('Basic', 'wp-ai-assistant') ?></div>
+								<div class="aiassist-rate-price">
+									<span data-usdt="<?php echo (float) @$this->info->rates->subscribe_basic_rate_usdt ?>$">
+										<?php echo (float) @$this->info->rates->subscribe_basic_rate ?><?php _e('$', 'wp-ai-assistant') ?>
+									</span> / 30 <?php _e('days', 'wp-ai-assistant') ?>
+								</div>
+								
+								<div class="aiassist-rate-info bg">
+									<div><?php _e('Instead of', 'wp-ai-assistant') ?> <i data-usdt="<?php echo $rateMainUsdt = round( @$this->info->rates->subscribe_basic_symbols / 1000 * @$this->info->price_usdt )?>$"><?php echo $rateMain = round( @$this->info->rates->subscribe_basic_symbols / 1000 * @$this->info->price ) ?><?php _e('$', 'wp-ai-assistant') ?></i></div>
+									<div><?php _e('Savings of', 'wp-ai-assistant') ?> <span data-usdt="<?php echo round( $rateMainUsdt - @$this->info->rates->subscribe_basic_rate_usdt )?>$"><?php echo $rateMain - @$this->info->rates->subscribe_basic_rate ?><?php _e('$', 'wp-ai-assistant') ?></span>*</div>	
+								</div>
+								
+								<div class="aiassist-rate-title">
+									<span><?php echo number_format( @$this->info->rates->subscribe_basic_symbols, 0, ' ', ' ' ) ?></span> <?php _e('credits', 'wp-ai-assistant') ?>
+								</div>
+								
+								<div class="aiassist-rate-info">
+									<div><span data-usdt="<?php echo @round( @$this->info->rates->subscribe_basic_rate_usdt / @$this->info->rates->subscribe_basic_symbols * 1000000 ) ?>$"><?php echo @round( @$this->info->rates->subscribe_basic_rate / @$this->info->rates->subscribe_basic_symbols * 1000000 ) ?><?php _e('$', 'wp-ai-assistant') ?></span> - <?php _e('1 million credits', 'wp-ai-assistant') ?></div>
+								</div>
+								
+								<div class="aiassist-buy-button">
+								
+									<?php if( ! @$this->info->recurring ){ ?>
+										<div class="aiassist-recurring-agree">
+											<label>
+												<input type="checkbox" name="recurring" /><?php _e('Auto-renew', 'wp-ai-assistant') ?>
+											</label>
+										</div>
+									<?php } ?>
+									
+									<?php if( @$this->info->subscribe->type == 'basic' ){ ?>
+										<button type="button" class="aiassist-buy aiassist-subscribe-type" data-type="subscribe_basic"><?php _e('Renew subscription', 'wp-ai-assistant') ?></button>
+									<?php } else { ?>
+										<button type="button" class="aiassist-buy" data-type="subscribe_basic"><?php _e('Subscribe', 'wp-ai-assistant') ?></button>
+									<?php } ?>
+								</div>
+								
+								<div class="aiassist-rate-desc">
+									<?php _e('How much content can be generated<br />~6600000 characters (~1320000 words) GPT-5 nano**<br />~3300000 characters (~660000 words) GPT-5 mini**<br />~825000 characters (~165000 words) GPT-5**<br />~1650000 characters (~330000 words) o3-mini**<br />~ 942 images FLUX Schnell<br />~ 165 generations Midjourney v7<br />~ 188 images Dalle 3<br />~ 165 images GPT-image', 'wp-ai-assistant') ?>			
+								</div>
+								<div class="aiassist-rate-checklist">
+									<div class="aiassist-rate-check"><?php _e('Neural Networks: GPT-5, GPT-5 mini, GPT-5 nano, o3-mini (reasoning), Midjourney v7, Dalle 3, GPT-image, FLUX.', 'wp-ai-assistant') ?></div>
+									<div class="aiassist-rate-check"><?php _e('Bulk generation and generation of articles in the editor', 'wp-ai-assistant') ?></div>
+									<div class="aiassist-rate-check"><?php _e('AI Assist, AI image creator', 'wp-ai-assistant') ?></div>
+									<div class="aiassist-rate-check"><?php _e('Rewrite articles on your site and pages from third-party sites', 'wp-ai-assistant') ?></div>
+									<div class="aiassist-rate-check"><?php _e('Making images unique', 'wp-ai-assistant') ?></div>
+								</div>
+								
 							</div>
-							<div class="aiassist-rate-info">
-								<div><span data-usdt="<?php echo @round( @$this->info->rates->packege_popular_rate_usdt / @$this->info->rates->packege_popular_symbols * 1000000 ) ?>$"><?php echo @round( @$this->info->rates->packege_popular_rate / @$this->info->rates->packege_popular_symbols * 1000000 ) ?><?php _e('$', 'wp-ai-assistant') ?></span> - <?php _e('1 million credits', 'wp-ai-assistant') ?></div>
+							
+							
+							<div class="aiassist-rates-item">
+								
+								<?php if( @$this->info->rates->subscribe_pro_best ){ ?>
+									<div class="aiassist-popular"><?php _e('Popular', 'wp-ai-assistant') ?></div>
+								<?php } ?>
+								
+								<div class="aiassist-rate-title"><?php _e('Pro', 'wp-ai-assistant') ?></div>
+								<div class="aiassist-rate-price">
+									<span data-usdt="<?php echo (float) @$this->info->rates->subscribe_pro_rate_usdt ?>$">
+										<?php echo (float) @$this->info->rates->subscribe_pro_rate ?><?php _e('$', 'wp-ai-assistant') ?>
+									</span> / 30 <?php _e('days', 'wp-ai-assistant') ?>
+								</div>
+								
+								<div class="aiassist-rate-info bg">
+									<div><?php _e('Instead of', 'wp-ai-assistant') ?> <i data-usdt="<?php echo $rateMainUsdt = round( @$this->info->rates->subscribe_pro_symbols / 1000 * @$this->info->price_usdt ) ?>$"><?php echo $rateMain = round( @$this->info->rates->subscribe_pro_symbols / 1000 * @$this->info->price ) ?><?php _e('$', 'wp-ai-assistant') ?></i></div>
+									<div><?php _e('Savings of', 'wp-ai-assistant') ?> <span data-usdt="<?php echo $rateMainUsdt - @$this->info->rates->subscribe_pro_rate_usdt ?>$"><?php echo $rateMain - @$this->info->rates->subscribe_pro_rate ?><?php _e('$', 'wp-ai-assistant') ?></span>*</div>
+								</div>
+								
+								<div class="aiassist-rate-title">
+									<span><?php echo number_format( @$this->info->rates->subscribe_pro_symbols, 0, ' ', ' ' ) ?></span> <?php _e('credits', 'wp-ai-assistant') ?>
+								</div>
+								
+								<div class="aiassist-rate-info">
+									<div><span data-usdt="<?php echo @round( @$this->info->rates->subscribe_pro_rate_usdt / @$this->info->rates->subscribe_pro_symbols * 1000000 ) ?>$"><?php echo @round( @$this->info->rates->subscribe_pro_rate / @$this->info->rates->subscribe_pro_symbols * 1000000 ) ?><?php _e('$', 'wp-ai-assistant') ?></span> - <?php _e('1 million credits', 'wp-ai-assistant') ?></div>
+								</div>
+								
+								<div class="aiassist-buy-button">
+
+									<?php if( ! @$this->info->recurring ){ ?>
+										<div class="aiassist-recurring-agree">
+											<label>
+												<input type="checkbox" name="recurring" /><?php _e('Auto-renew', 'wp-ai-assistant') ?>
+											</label>
+										</div>
+									<?php } ?>
+									
+									<?php if( @$this->info->subscribe->type == 'pro' ){ ?>
+										<button type="button" class="aiassist-buy aiassist-subscribe-type" data-type="subscribe_pro"><?php _e('Renew subscription', 'wp-ai-assistant') ?></button>
+									<?php } else {?>
+										<button type="button" class="aiassist-buy" data-type="subscribe_pro"><?php _e('Subscribe', 'wp-ai-assistant') ?></button>
+									<?php } ?>
+								</div>
+								
+								<div class="aiassist-rate-desc">
+									<?php _e('How much content can be generated<br />~20500000 characters (~4100000 words) GPT-5 nano**<br />~10250000 characters (~2050000 words) GPT-5 mini**<br />~2562000 characters (~512400 words) GPT-5**<br />~5125000 characters (~1025000 words) o3-mini**<br />~ 2 928 images FLUX Schnell<br />~ 512 generations Midjourney v7<br />~ 585 images Dalle 3<br />~ 512 images GPT-image', 'wp-ai-assistant') ?>						
+								</div>
+								<div class="aiassist-rate-checklist">
+									<div class="aiassist-rate-check"><?php _e('Neural Networks: GPT-5, GPT-5 mini, GPT-5 nano, o3-mini (reasoning), Midjourney v7, Dalle 3, GPT-image, FLUX.', 'wp-ai-assistant') ?></div>
+									<div class="aiassist-rate-check"><?php _e('Bulk generation and generation of articles in the editor', 'wp-ai-assistant') ?></div>
+									<div class="aiassist-rate-check"><?php _e('AI Assist, AI image creator', 'wp-ai-assistant') ?></div>
+									<div class="aiassist-rate-check"><?php _e('Rewrite articles on your site and pages from third-party sites', 'wp-ai-assistant') ?></div>
+									<div class="aiassist-rate-check"><?php _e('Making images unique', 'wp-ai-assistant') ?></div>
+								</div>
+								
 							</div>
-							<button type="button" class="aiassist-buy" data-type="popular"><?php _e('Buy a package', 'wp-ai-assistant') ?></button>
+							
+							
+							<div class="aiassist-rates-item">
+								<?php if( @$this->info->rates->subscribe_premium_best ){ ?>
+									<div class="aiassist-popular"><?php _e('Popular', 'wp-ai-assistant') ?></div>
+								<?php } ?>
+								
+								<div class="aiassist-rate-title"><?php _e('Premium', 'wp-ai-assistant') ?></div>
+								<div class="aiassist-rate-price">
+									<span data-usdt="<?php echo (float) @$this->info->rates->subscribe_premium_rate_usdt ?>$">
+										<?php echo (float) @$this->info->rates->subscribe_premium_rate ?><?php _e('$', 'wp-ai-assistant') ?>
+									</span> / 30 <?php _e('days', 'wp-ai-assistant') ?>
+								</div>
+								
+								<div class="aiassist-rate-info bg">
+									<div><?php _e('Instead of', 'wp-ai-assistant') ?> <i data-usdt="<?php echo $rateMainUsdt = round( @$this->info->rates->subscribe_premium_symbols / 1000 * @$this->info->price_usdt ) ?>$"><?php echo $rateMain = round( @$this->info->rates->subscribe_premium_symbols / 1000 * @$this->info->price ) ?><?php _e('$', 'wp-ai-assistant') ?></i></div>
+									<div><?php _e('Savings of', 'wp-ai-assistant') ?> <span data-usdt="<?php echo $rateMainUsdt - @$this->info->rates->subscribe_premium_rate_usdt ?>$"><?php echo $rateMain - @$this->info->rates->subscribe_premium_rate ?><?php _e('$', 'wp-ai-assistant') ?></span>*</div>
+								</div>
+				
+								<div class="aiassist-rate-title">
+									<span><?php echo number_format( @$this->info->rates->subscribe_premium_symbols, 0, ' ', ' ' ) ?></span> <?php _e('credits', 'wp-ai-assistant') ?>
+								</div>
+								
+								<div class="aiassist-rate-info">
+									<div><span data-usdt="<?php echo @round( @$this->info->rates->subscribe_premium_rate_usdt / @$this->info->rates->subscribe_premium_symbols * 1000000 ) ?>$"><?php echo @round( @$this->info->rates->subscribe_premium_rate / @$this->info->rates->subscribe_premium_symbols * 1000000 ) ?><?php _e('$', 'wp-ai-assistant') ?></span> - <?php _e('1 million credits', 'wp-ai-assistant') ?></div>
+								</div>
+								
+								<div class="aiassist-buy-button">
+								
+									<?php if( ! @$this->info->recurring ){ ?>
+										<div class="aiassist-recurring-agree">
+											<label>
+												<input type="checkbox" name="recurring" /><?php _e('Auto-renew', 'wp-ai-assistant') ?>
+											</label>
+										</div>
+									<?php } ?>
+									
+									<?php if( @$this->info->subscribe->type == 'premium' ){ ?>
+										<button type="button" class="aiassist-buy aiassist-subscribe-type" data-type="subscribe_premium"><?php _e('Renew subscription', 'wp-ai-assistant') ?></button>
+									<?php } else {?>
+										<button type="button" class="aiassist-buy" data-type="subscribe_premium"><?php _e('Subscribe', 'wp-ai-assistant') ?></button>
+									<?php } ?>
+								</div>
+								
+								<div class="aiassist-rate-desc">
+									<?php _e('How much content can be generated<br />~50000000 characters (~10000000 words) GPT-5 nano**<br />~25000000 characters (~5000000 words) GPT-5 mini**<br />~6250000 characters (~1250000 words) GPT-5**<br />~12500000 characters (~2500000 words) o3-mini**<br />~ 7 142 images FLUX Schnell<br />~ 1 250 generations Midjourney v7<br />~ 1 428 images Dalle 3<br />~ 1 250 images GPT-image', 'wp-ai-assistant') ?>
+								</div>
+								<div class="aiassist-rate-checklist">
+									<div class="aiassist-rate-check"><?php _e('Neural Networks: GPT-5, GPT-5 mini, GPT-5 nano, o3-mini (reasoning), Midjourney v7, Dalle 3, GPT-image, FLUX.', 'wp-ai-assistant') ?></div>
+									<div class="aiassist-rate-check"><?php _e('Bulk generation and generation articles in the editor', 'wp-ai-assistant') ?></div>
+									<div class="aiassist-rate-check"><?php _e('AI Assist, AI image creator', 'wp-ai-assistant') ?></div>
+									<div class="aiassist-rate-check"><?php _e('Rewrite articles on your site and pages from third-party sites', 'wp-ai-assistant') ?></div>
+									<div class="aiassist-rate-check"><?php _e('Making images unique', 'wp-ai-assistant') ?></div>
+								</div>
+								
+							</div>	
+							
 						</div>
 						
-						<div class="aiassist-rates-package">
-							<?php if( @$this->info->rates->packege_max_best ){ ?>
-								<div class="aiassist-popular"><?php _e('Popular', 'wp-ai-assistant') ?></div>
-							<?php } ?>
-							<div class="aiassist-rate-title">
-								<div data-usdt="<?php echo (float) @$this->info->rates->packege_max_rate_usdt ?>$"><?php echo (float) @$this->info->rates->packege_max_rate ?><?php _e('$', 'wp-ai-assistant') ?></div>
-								<div><?php echo number_format( @$this->info->rates->packege_max_symbols, 0, ' ', ' ' ) ?> <?php _e('credits', 'wp-ai-assistant') ?></div>
+						<div class="aiassist-rates-free">
+							<div class="aiassist-rate-title"><?php _e('Free plan', 'wp-ai-assistant') ?></div>
+							<div class="aiassist-rates-items">
+								<div class="aiassist-rates-free-item">
+									<?php _e('Once you register, you will receive 10,000 free credits. You can also buy credits in packages or for any amount you choose. These credits do not expire and remain on your balance until you use them.', 'wp-ai-assistant') ?>
+								</div>
+								<div class="aiassist-rate-checklist aiassist-rates-free-item">
+									<div class="aiassist-rate-check"><?php _e('Bulk generation', 'wp-ai-assistant') ?></div>
+									<div class="aiassist-rate-check"><?php _e('Generation in the editor', 'wp-ai-assistant') ?></div>
+									<div class="aiassist-rate-check"><?php _e('AI Assist', 'wp-ai-assistant') ?></div>
+								</div>
+								<div class="aiassist-rate-checklist aiassist-rates-free-item">
+									<div class="aiassist-rate-check"><?php _e('Neural networks: GPT-5 mini, GPT-5 nano, FLUX', 'wp-ai-assistant') ?></div>
+									<div class="aiassist-rate-check"><?php _e('AI image creator', 'wp-ai-assistant') ?></div>
+								</div>
 							</div>
-							<div class="aiassist-rate-info">
-								<div><span data-usdt="<?php echo @round( @$this->info->rates->packege_max_rate_usdt / @$this->info->rates->packege_max_symbols * 1000000 ) ?>$"><?php echo @round( @$this->info->rates->packege_max_rate / @$this->info->rates->packege_max_symbols * 1000000 ) ?><?php _e('$', 'wp-ai-assistant') ?></span> - <?php _e('1 million credits', 'wp-ai-assistant') ?></div>
-							</div>
-							<button type="button" class="aiassist-buy" data-type="max"><?php _e('Buy a package', 'wp-ai-assistant') ?></button>
 						</div>
-					
-					</div>
-					
-					<div class="aiassist-rates-custom">
-						<div class="aiassist-rate-title"><?php _e('Pay any amount you choose', 'wp-ai-assistant') ?></div>
-						<div class="aiassist-rate-info"><?php _e('Enter amount to top up your balance (minimum 5$). Credits do not disappear, you can generate text and images at any time.', 'wp-ai-assistant') ?></div>
 						
-						<form id="aiassist-custom-buy" class="aiassist-buy-form">
-							<input type="number" step="1" min="<?php echo (float) @$this->info->rates->min_buy ?>" id="out_summ" placeholder="<?php _e('5 $', 'wp-ai-assistant') ?>" data-usdt="5 $" required />
-							<button type="submit" class="aiassist-buy" data-type="custom"><?php _e('Buy', 'wp-ai-assistant') ?></button>
-						</form>	
 						
-						<div>
-							<?php _e('Price', 'wp-ai-assistant') ?> 
-							<b data-usdt="<?php echo (float) @$this->info->price_usdt ?> $"><?php echo (float) @$this->info->price ?> <?php _e('$', 'wp-ai-assistant') ?></b> 
-							<?php _e('for 1000 credits.', 'wp-ai-assistant') ?>
-						</div>
-					</div>
-					
-					<?php if( @$this->info->subscribe->expire ){ ?>
-						<div class="aiassist-rates-custom aiassist-subscribe-block">
-							<div class="aiassist-rate-info"><?php _e('You have an active subscription ', 'wp-ai-assistant') ?> <b><?php echo esc_html( @$this->info->subscribe->type ) ?></b> <?php _e('until', 'wp-ai-assistant') ?> <?php echo date('d.m.Y', (int) @$this->info->subscribe->expire ) ?></div>
-							<button type="button" class="aiassist-buy" data-type="subscribe_<?php echo esc_attr( @$this->info->subscribe->type ) ?>"><?php _e('Renew subscription', 'wp-ai-assistant') ?></button>
-						</div>
-					<?php } ?>
-					
-					
-					<div class="aiassist-rate-title"><?php _e('Rates Questions and Answers', 'wp-ai-assistant') ?></div>
-					<br /><br />
-					
-					<div class="aiassist-rates-note-wrap">
-						<div class="aiassist-rate-note-title"><?php _e('I already have a subscription. Can I purchase additional credits?', 'wp-ai-assistant') ?></div>
 						<div class="aiassist-rates-note-block">
-							<?php _e('Yes, you can. Subscription credits and credits purchased in packages are counted separately. At first, subscription credits are deducted from the balance, and if they run out, the credits purchased in packages will be deducted.', 'wp-ai-assistant') ?>
+							<?php _e('* If you buy, for any amount you choose, the same number of credits you get by subscribing. <br />** Payment is spent only on generating characters or images. No hidden fees! You do not pay for tokens used to send context. You do not pay for sending requests for generation. You do not pay for tokens used to mark up articles. You do not pay for spaces.', 'wp-ai-assistant') ?>
 						</div>
-					</div>
 						
-					<div class="aiassist-rates-note-wrap">
-						<div class="aiassist-rate-note-title"><?php _e('Do purchased credits expire?', 'wp-ai-assistant') ?></div>
-						<div class="aiassist-rates-note-block">
-							<?php _e('The credits included in your subscription are renewed every 30 days. Credits purchased in packages or for any amount you choose do not expire and remain on your balance until you use them.', 'wp-ai-assistant') ?>
+						<?php if( @$this->info->subscribe->expire ){ ?>
+							<div class="aiassist-rates-custom aiassist-subscribe-block">
+								<div class="aiassist-rate-info"><?php _e('You have an active subscription ', 'wp-ai-assistant') ?> <b><?php echo esc_html( @$this->info->subscribe->type ) ?></b> <?php _e('until', 'wp-ai-assistant') ?> <?php echo date('d.m.Y', (int) @$this->info->subscribe->expire ) ?></div>
+								
+								<?php if( ! @$this->info->recurring ){ ?>
+									<div class="aiassist-recurring-agree">
+										<label>
+											<input type="checkbox" name="recurring" /><?php _e('Auto-renew', 'wp-ai-assistant') ?>
+										</label>
+									</div>
+								<?php } ?>
+									
+								<button type="button" class="aiassist-buy" data-type="subscribe_<?php echo esc_attr( @$this->info->subscribe->type ) ?>"><?php _e('Renew subscription', 'wp-ai-assistant') ?></button>
+								
+								<?php if( @$this->info->recurring ){ ?>
+									<div class="aiassist-recurring">
+										<div class="aiassist-recurring-status"><?php _e('Autofill', 'wp-ai-assistant') ?> - <span id="aiassist-recurring-status" class="<?php echo ! @$this->info->recurring ? 'inactive' : '' ?>"><?php @$this->info->recurring ? _e('active', 'wp-ai-assistant') : _e('inactive', 'wp-ai-assistant') ?></span></div>
+										<button class="aiassist-recurring-pause"><?php _e('Pause', 'wp-ai-assistant') ?></button>
+										<button class="aiassist-recurring-activate"><?php _e('Activate', 'wp-ai-assistant') ?></button>
+									</div>
+								<?php } ?>
+							
+							</div>
+						<?php } ?>
+					
+					</div>
+					
+					<div class="aiassist-rates-view" data-view="packages">
+					
+						<div class="aiassist-rate-title"><?php _e('Add extra credits by packages or any amount.', 'wp-ai-assistant') ?></div>
+						<div class="aiassist-rates-note-block center"><?php _e('Credits purchased in packages or for any amount you choose <b>do not expire.</b>', 'wp-ai-assistant') ?></div>
+						
+						
+						<div class="aiassist-rates-items">
+							
+							<div class="aiassist-rates-package">
+								<?php if( @$this->info->rates->packege_base_best ){ ?>
+									<div class="aiassist-popular"><?php _e('Popular', 'wp-ai-assistant') ?></div>
+								<?php } ?>
+								<div class="aiassist-rate-title">
+									<div class="aiassist-rate-price" data-usdt="<?php echo (float) @$this->info->rates->packege_base_rate_usdt ?>$"><span><?php echo (float) @$this->info->rates->packege_base_rate ?><?php _e('$', 'wp-ai-assistant') ?></span></div>
+									
+									<div class="aiassist-rate-info bg">
+										<div><?php _e('Instead of', 'wp-ai-assistant') ?> <i data-usdt="<?php echo $rateMainUsdt = round( @$this->info->rates->packege_base_symbols / 1000 * @$this->info->price_usdt ) ?>$"><?php echo $rateMain = round( @$this->info->rates->packege_base_symbols / 1000 * @$this->info->price ) ?><?php _e('$', 'wp-ai-assistant') ?></i></div>
+										<div><?php _e('Savings of', 'wp-ai-assistant') ?> <span data-usdt="<?php echo $rateMainUsdt - @$this->info->rates->packege_base_rate_usdt ?>$"><?php echo $rateMain - @$this->info->rates->packege_base_rate ?><?php _e('$', 'wp-ai-assistant') ?></span></div>	
+									</div>
+									
+									<div><span><?php echo number_format( @$this->info->rates->packege_base_symbols, 0, ' ', ' ' ) ?></span> <?php _e('credits', 'wp-ai-assistant') ?></div>
+								</div>
+								<div class="aiassist-rate-info">
+									<div><span data-usdt="<?php echo @round( @$this->info->rates->packege_base_rate_usdt / @$this->info->rates->packege_base_symbols * 1000000 ) ?>$"><?php echo @round( @$this->info->rates->packege_base_rate / @$this->info->rates->packege_base_symbols * 1000000 ) ?><?php _e('$', 'wp-ai-assistant') ?></span> - <?php _e('1 million credits', 'wp-ai-assistant') ?></div>
+								</div>
+								<button type="button" class="aiassist-buy" data-type="base"><?php _e('Buy a package', 'wp-ai-assistant') ?></button>
+							</div>
+						
+							<div class="aiassist-rates-package">
+								<?php if( @$this->info->rates->packege_pro_best ){ ?>
+									<div class="aiassist-popular"><?php _e('Popular', 'wp-ai-assistant') ?></div>
+								<?php } ?>
+								<div class="aiassist-rate-title">
+									<div class="aiassist-rate-price" data-usdt="<?php echo (float) @$this->info->rates->packege_pro_rate_usdt ?>$"><span><?php echo (float) @$this->info->rates->packege_pro_rate ?><?php _e('$', 'wp-ai-assistant') ?></span></div>
+									
+									<div class="aiassist-rate-info bg">
+										<div><?php _e('Instead of', 'wp-ai-assistant') ?> <i data-usdt="<?php echo $rateMainUsdt = round( @$this->info->rates->packege_pro_symbols / 1000 * @$this->info->price_usdt ) ?>$"><?php echo $rateMain = round( @$this->info->rates->packege_pro_symbols / 1000 * @$this->info->price ) ?><?php _e('$', 'wp-ai-assistant') ?></i></div>
+										<div><?php _e('Savings of', 'wp-ai-assistant') ?> <span data-usdt="<?php echo $rateMainUsdt - @$this->info->rates->packege_pro_rate_usdt ?>$"><?php echo $rateMain - @$this->info->rates->packege_pro_rate ?><?php _e('$', 'wp-ai-assistant') ?></span></div>	
+									</div>
+									
+									<div><span><?php echo number_format( @$this->info->rates->packege_pro_symbols, 0, ' ', ' ' ) ?></span> <?php _e('credits', 'wp-ai-assistant') ?></div>
+								</div>
+								<div class="aiassist-rate-info">
+									<div><span data-usdt="<?php echo @round( @$this->info->rates->packege_pro_rate_usdt / @$this->info->rates->packege_pro_symbols * 1000000 ) ?>$"><?php echo @round( @$this->info->rates->packege_pro_rate / @$this->info->rates->packege_pro_symbols * 1000000 ) ?><?php _e('$', 'wp-ai-assistant') ?></span> - <?php _e('1 million credits', 'wp-ai-assistant') ?></div>
+								</div>
+								<button type="button" class="aiassist-buy" data-type="professional"><?php _e('Buy a package', 'wp-ai-assistant') ?></button>
+							</div>
+							
+							<div class="aiassist-rates-package">
+								<?php if( @$this->info->rates->packege_popular_best ){ ?>
+									<div class="aiassist-popular"><?php _e('Popular', 'wp-ai-assistant') ?></div>
+								<?php } ?>
+								
+								<div class="aiassist-rate-title">
+									<div class="aiassist-rate-price" data-usdt="<?php echo (float) @$this->info->rates->packege_popular_rate_usdt ?>$"><span><?php echo (float) @$this->info->rates->packege_popular_rate ?><?php _e('$', 'wp-ai-assistant') ?></span></div>
+									
+									<div class="aiassist-rate-info bg">
+										<div><?php _e('Instead of', 'wp-ai-assistant') ?> <i data-usdt="<?php echo $rateMainUsdt = round( @$this->info->rates->packege_popular_symbols / 1000 * @$this->info->price_usdt ) ?>$"><?php echo $rateMain = round( @$this->info->rates->packege_popular_symbols / 1000 * @$this->info->price ) ?><?php _e('$', 'wp-ai-assistant') ?></i></div>
+										<div><?php _e('Savings of', 'wp-ai-assistant') ?> <span data-usdt="<?php echo $rateMainUsdt - @$this->info->rates->packege_popular_rate_usdt ?>$"><?php echo $rateMain - @$this->info->rates->packege_popular_rate ?><?php _e('$', 'wp-ai-assistant') ?></span></div>	
+									</div>
+									
+									<div><span><?php echo number_format( @$this->info->rates->packege_popular_symbols, 0, ' ', ' ' ) ?></span> <?php _e('credits', 'wp-ai-assistant') ?></div>
+								</div>
+								<div class="aiassist-rate-info">
+									<div><span data-usdt="<?php echo @round( @$this->info->rates->packege_popular_rate_usdt / @$this->info->rates->packege_popular_symbols * 1000000 ) ?>$"><?php echo @round( @$this->info->rates->packege_popular_rate / @$this->info->rates->packege_popular_symbols * 1000000 ) ?><?php _e('$', 'wp-ai-assistant') ?></span> - <?php _e('1 million credits', 'wp-ai-assistant') ?></div>
+								</div>
+								<button type="button" class="aiassist-buy" data-type="popular"><?php _e('Buy a package', 'wp-ai-assistant') ?></button>
+							</div>
+							
+							<div class="aiassist-rates-package">
+								<?php if( @$this->info->rates->packege_max_best ){ ?>
+									<div class="aiassist-popular"><?php _e('Popular', 'wp-ai-assistant') ?></div>
+								<?php } ?>
+								<div class="aiassist-rate-title">
+									<div class="aiassist-rate-price" data-usdt="<?php echo (float) @$this->info->rates->packege_max_rate_usdt ?>$"><span><?php echo (float) @$this->info->rates->packege_max_rate ?> <?php _e('$', 'wp-ai-assistant') ?></span></div>
+									
+									<div class="aiassist-rate-info bg">
+										<div><?php _e('Instead of', 'wp-ai-assistant') ?> <i data-usdt="<?php echo $rateMainUsdt = round( @$this->info->rates->packege_max_symbols / 1000 * @$this->info->price_usdt ) ?>$"><?php echo $rateMain = round( @$this->info->rates->packege_max_symbols / 1000 * @$this->info->price ) ?><?php _e('$', 'wp-ai-assistant') ?></i></div>
+										<div><?php _e('Savings of', 'wp-ai-assistant') ?> <span data-usdt="<?php echo $rateMainUsdt - @$this->info->rates->packege_max_rate_usdt ?>$"><?php echo $rateMain - @$this->info->rates->packege_max_rate ?><?php _e('$', 'wp-ai-assistant') ?></span></div>	
+									</div>
+									
+									<div><span><?php echo number_format( @$this->info->rates->packege_max_symbols, 0, ' ', ' ' ) ?></span> <?php _e('credits', 'wp-ai-assistant') ?></div>
+								</div>
+								<div class="aiassist-rate-info">
+									<div><span data-usdt="<?php echo @round( @$this->info->rates->packege_max_rate_usdt / @$this->info->rates->packege_max_symbols * 1000000 ) ?>$"><?php echo @round( @$this->info->rates->packege_max_rate / @$this->info->rates->packege_max_symbols * 1000000 ) ?><?php _e('$', 'wp-ai-assistant') ?></span> - <?php _e('1 million credits', 'wp-ai-assistant') ?></div>
+								</div>
+								<button type="button" class="aiassist-buy" data-type="max"><?php _e('Buy a package', 'wp-ai-assistant') ?></button>
+							</div>
+						
 						</div>
+						
+						<div class="aiassist-rates-custom">
+							<div class="aiassist-rate-title"><?php _e('Pay any amount you choose', 'wp-ai-assistant') ?></div>
+							<div class="aiassist-rate-info"><?php _e('Enter amount to top up your balance (minimum 5$). Credits do not disappear, you can generate text and images at any time.', 'wp-ai-assistant') ?></div>
+							
+							<form id="aiassist-custom-buy" class="aiassist-buy-form">
+								<input type="number" step="1" min="<?php echo (float) @$this->info->rates->min_buy ?>" id="out_summ" placeholder="<?php _e('5 $', 'wp-ai-assistant') ?>" data-usdt="5 $" required />
+								<button type="submit" class="aiassist-buy" data-type="custom"><?php _e('Buy', 'wp-ai-assistant') ?></button>
+							</form>	
+							
+							<div>
+								<?php _e('Price', 'wp-ai-assistant') ?> 
+								<b data-usdt="<?php echo (float) @$this->info->price_usdt ?> $"><?php echo (float) @$this->info->price ?> <?php _e('$', 'wp-ai-assistant') ?></b> 
+								<?php _e('for 1000 credits.', 'wp-ai-assistant') ?>
+							</div>
+						</div>
+						
+						<div class="aiassist-rate-title"><?php _e('Rates Questions and Answers', 'wp-ai-assistant') ?></div>
+						<br /><br />
+						
+						<div class="aiassist-rates-note-wrap">
+							<div class="aiassist-rate-note-title"><?php _e('I already have a subscription. Can I purchase additional credits?', 'wp-ai-assistant') ?></div>
+							<div class="aiassist-rates-note-block">
+								<?php _e('Yes, you can. Subscription credits and credits purchased in packages are counted separately. At first, subscription credits are deducted from the balance, and if they run out, the credits purchased in packages will be deducted.', 'wp-ai-assistant') ?>
+							</div>
+						</div>
+							
+						<div class="aiassist-rates-note-wrap">
+							<div class="aiassist-rate-note-title"><?php _e('Do purchased credits expire?', 'wp-ai-assistant') ?></div>
+							<div class="aiassist-rates-note-block">
+								<?php _e('The credits included in your subscription are renewed every 30 days. Credits purchased in packages or for any amount you choose do not expire and remain on your balance until you use them.', 'wp-ai-assistant') ?>
+							</div>
+						</div>
+					
 					</div>
 					
 				</div>
@@ -1018,7 +1139,7 @@
 						<div class="aiassist-select-lable">FLUX schnell</div>
 						<div class="aiassist-select aiassist-image-model-auto">	
 							<div class="aiassist-option" data-value="flux">FLUX schnell</div>
-							<div class="aiassist-option <?php echo ! @$this->info->subscribe->expire ? 'aiassist-lock' : ''?>" data-value="midjourney">Midjourney</div>
+							<div class="aiassist-option <?php echo ! @$this->info->subscribe->expire ? 'aiassist-lock' : ''?>" data-value="midjourney">Midjourney v7</div>
 							<div class="aiassist-option <?php echo ! @$this->info->subscribe->expire ? 'aiassist-lock' : ''?>" data-value="dalle">Dalle 3</div>
 							<div class="aiassist-option <?php echo ! @$this->info->subscribe->expire ? 'aiassist-lock' : ''?>" data-value="gptImage">GPT-image</div>
 							<input type="hidden" name="aiassist-image-model" class="aiassist-auto-options"  id="aiassist-image-model" value="flux" />

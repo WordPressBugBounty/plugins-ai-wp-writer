@@ -17,6 +17,7 @@ jQuery( document ).ready(function($){
 			});
 			
 			$(document).on('click', '.wpai-tab', app.tabs);
+			$(document).on('click', '.aiassist-rates-tab', app.rateTabs);
 			$(document).on('click', '.close-notice, .aiwriter-notice .notice-dismiss', app.closeNotice);
 			$(document).on('click', '.aiassist-tab:not(.aiassist-tab-inactive, .aiassist-lock)', app.wsTabs);
 			$(document).on('click', '.aiassist-tab-inactive', app.wsTabsInactive);
@@ -24,6 +25,8 @@ jQuery( document ).ready(function($){
 			$(document).on('submit', '#aiassist-stat', app.getStat);
 			$(document).on('click', 'button[name="step"]', app.statStep);
 			$(document).on('click', '.aiassist-buy', app.buy);
+			$(document).on('click', '.aiassist-recurring-activate', app.recurringActivate);
+			$(document).on('click', '.aiassist-recurring-pause', app.recurringPause);
 			$(document).on('submit', '#aiassist-custom-buy', app.buyForm);
 			$(document).on('focus', '#out_summ', app.outSummFocus);
 			$(document).on('blur', '#out_summ', app.outSummFocusOut);
@@ -451,6 +454,9 @@ jQuery( document ).ready(function($){
 			$('.pay-method').removeClass('active');
 			e.addClass('active');
 			
+			let billing = e.data('billing');
+			$('.aiassist-recurring-agree label')[ ( billing == 'robokassa' ) ? 'show' : 'hide' ]();
+			
 			if( $('[data-usdt]').length ){
 				$('[data-usdt]').each(function(){
 					const e = $(this);
@@ -459,7 +465,7 @@ jQuery( document ).ready(function($){
 					let usdt = e.attr('data-usdt');
 					
 					/* mod fix s */
-						switch( $('.pay-method.active').data('billing') ){
+						switch( billing ){
 							case 'robokassa':
 								if( usdt.indexOf('$') != -1 )
 									return;
@@ -633,7 +639,7 @@ jQuery( document ).ready(function($){
 					aiassist.promts.multi[ lang ]			= aiassist.info.promts.multi[ lang ];
 					aiassist.promts.multi_title[ lang ]		= aiassist.info.promts.multi_title[ lang ];
 					aiassist.promts.multi_desc[ lang ]		= aiassist.info.promts.multi_desc[ lang ];
-					aiassist.promts.long_keywords[ lang ]	= aiassist.info.promts.long_keywords[ lang ];
+					aiassist.promts.multi_keywords[ lang ]	= aiassist.info.promts.multi_keywords[ lang ];
 				}
 			
 				// if( $('#aiassist-generation-prom').is(':visible') )
@@ -646,7 +652,7 @@ jQuery( document ).ready(function($){
 					$('#aiassist-desc-prom-multi').val( aiassist.promts.multi_desc[ lang ] )
 				
 				// if( $('#aiassist-generation-prom-keywords').is(':visible') )
-					$('#aiassist-generation-prom-keywords').val( aiassist.promts.long_keywords[ lang ] )
+					$('#aiassist-generation-prom-keywords').val( aiassist.promts.multi_keywords[ lang ] )
 			}
 			
 			
@@ -666,6 +672,7 @@ jQuery( document ).ready(function($){
 					aiassist.promts.short[ lang ]			= aiassist.info.promts.short[ lang ];
 					aiassist.promts.long_title[ lang ]		= aiassist.info.promts.long_title[ lang ];
 					aiassist.promts.long_desc[ lang ]		= aiassist.info.promts.long_desc[ lang ];
+					aiassist.promts.keywords[ lang ]		= aiassist.info.promts.keywords[ lang ];
 					aiassist.promts.long_keywords[ lang ]	= aiassist.info.promts.long_keywords[ lang ];
 				}
 				
@@ -678,7 +685,7 @@ jQuery( document ).ready(function($){
 					$('#aiassist-desc-prom').val( aiassist.promts.long_desc[ lang ] )
 				
 				// if( $('#aiassist-article-prom-keywords').is(':visible') )
-					$('#aiassist-article-prom-keywords').val( aiassist.promts.long_keywords[ lang ] )
+					$('#aiassist-article-prom-keywords').val( aiassist.promts.keywords[ lang ] )
 			}
 			
 			if( typeof aiassist.promts.long_header[ lang ] !== 'undefined' && $('#aiassist-theme-prom').is(':visible') ){
@@ -1601,11 +1608,20 @@ jQuery( document ).ready(function($){
 			e.preventDefault();
 		},
 		
+		recurringActivate: () => {
+			$('.aiassist-rates-custom .aiassist-buy').click();
+		},
+		
+		recurringPause: async function (){
+			await app.request( { token: aiassist.token, action: 'recurringPause' }, aiassist.api );
+			$('#aiassist-recurring-status').addClass('inactive').text( aiassist.locale['inactive'] );
+		},
+		
 		buy: async function (){
 			$(this).closest('div, form').addClass('disabled');
 			
 			let summ = $('#out_summ').val().trim();
-			let buy = await app.request( { 'out_summ': summ, action: 'aiassist_buy', promocode: $('.aiassist-promocode input[name="promocode"]').val(), type: $(this).data('type'), billing: $('.pay-method.active').data('billing'), nonce: aiassist.nonce } );
+			let buy = await app.request( { 'out_summ': summ, action: 'aiassist_buy', recurring: $(this).closest('.aiassist-buy-button').find('.aiassist-recurring-agree input[name="recurring"]:checked').length,  promocode: $('.aiassist-promocode input[name="promocode"]').val(), type: $(this).data('type'), billing: $('.pay-method.active').data('billing'), nonce: aiassist.nonce } );
 			
 			if( buy.error )
 				alert( buy.error );
@@ -1702,6 +1718,13 @@ jQuery( document ).ready(function($){
 			$('.aiassist-tab-data[data-tab="'+ e.data('tab') +'"]').addClass('active');
 			app.setCookie('activeTab', e.data('tab'));
 			
+			e.addClass('active');
+		},
+		
+		rateTabs: function(){
+			let e = $(this);
+			$('.aiassist-rates-tab, .aiassist-rates-view').removeClass('active');
+			$('.aiassist-rates-view[data-view="'+ e.data('view') +'"]').addClass('active');
 			e.addClass('active');
 		},
 		
@@ -1824,9 +1847,9 @@ jQuery( document ).ready(function($){
 		},
 		
 		standartGenerateContent: async () => {
-			let h1 = $('#aiassist-theme-standart').val();
+			let header = $('#aiassist-theme-standart').val();
 			
-			if( ! h1 ){
+			if( ! header ){
 				$('#aiassist-theme-standart').addClass('aiassist-error');
 				return false;
 			}
@@ -1834,19 +1857,17 @@ jQuery( document ).ready(function($){
 		
 			app.loader( true, aiassist.locale['Text generation'] );
 			
-			let promt = $('#aiassist-article-prom').val().replace('{key}', h1);
+			let promt = $('#aiassist-article-prom').val();
 			let keywords = $('#aiassist-standart-keywords').val();
+			let keywordsPromt = $('#aiassist-article-prom-keywords').val();
 			
-			if( keywords.length )
-				promt += "\n"+ $('#aiassist-article-prom-keywords').val().replace('{keywords}', keywords);
-			
-			let data = await app.addTask( { action: 'generateStandartContent', prom: promt, lang_id: parseInt( $('.aiassist-lang-promts:visible:first').val() ) } );
+			let data = await app.addTask( { action: 'generateStandartContent', header: header, keywords: keywords, keywordsPromt: keywordsPromt, prom: promt, lang_id: parseInt( $('.aiassist-lang-promts:visible:first').val() ) } );
 			
 			if( data.content ){
 				$('#step3').show();
 				$('.aiassist-headers .aiassist-header-item').remove();
 				
-				$('.aiassist-headers').append('<div class="aiassist-header-item aiassist-main-header"><div class="left">'+ aiassist.locale['Featured image'] +'</div><label><input type="checkbox" id="aiassist-main" value="'+( h1 )+'" /><span>'+( h1 )+'</span></label><div class="aiassist-translate-promt-image">'+ aiassist.locale['Promt:'] +' <input /> <div class="image-generate-item">'+ aiassist.locale['Generate'] +'</div></div></div>');	
+				$('.aiassist-headers').append('<div class="aiassist-header-item aiassist-main-header"><div class="left">'+ aiassist.locale['Featured image'] +'</div><label><input type="checkbox" id="aiassist-main" value="'+( header )+'" /><span>'+( header )+'</span></label><div class="aiassist-translate-promt-image">'+ aiassist.locale['Promt:'] +' <input /> <div class="image-generate-item">'+ aiassist.locale['Generate'] +'</div></div></div>');	
 				
 				if( headers = data.content.match(/<h[2-6][^>]*>([^<]+)<\/h[2-6]>/gi) ){
 					for(let i in headers ){

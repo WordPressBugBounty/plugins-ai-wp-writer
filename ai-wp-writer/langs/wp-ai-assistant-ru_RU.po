@@ -121,7 +121,7 @@ msgid "Request payout"
 msgstr "Запросить выплату"
 
 #: tpl/options.php:98
-msgid "You can generate articles directly in the WordPress Editor. The plugin functionality is located at the bottom of the page, under the main editor. <br />You can also generate images anywhere in your articles pressing the button <b>AI image creator</b> (or widget in Gutenberg editor). <br />To regenerate any text fragment in any article, use the <b>AI Assist</b> button. To do it, select the text fragment, press <b>AI Assist<b/> and the <b>Generate</b> button."
+msgid "You can generate articles directly in the WordPress Editor. The plugin functionality is located at the bottom of the page, under the main editor. <br />You can also generate images anywhere in your articles pressing the button <b>AI image creator</b> (or widget in Gutenberg editor). <br />To regenerate any text fragment in any article, use the <b>AI Assist</b> button. To do it, select the text fragment, press <b>AI Assist</b> and the <b>Generate</b> button."
 msgstr "Вы можете генерировать статьи непосредственно в редакторе Wordpress. Функционал плагина находится внизу страницы, под основным редактором. <br />Подробное руководство с видео по <a href="https://aiwpwriter.com/docs/generatsiya-statey-odnim-zaprosom/" target="_blank">генерации одним запросом</a> и <a href="https://aiwpwriter.com/docs/generatsiya-bolshoy-stati-po-planu/" target="_blank">генерации большой статьи по плану</a> найдете в документации у нас на сайте. Как добавить изображения при генерации новых статей в редакторе рассказали и показали <a href="https://aiwpwriter.com/docs/generatsiya-izobrazheniy-dlya-novoy-stati/" target="_blank">на этой стрнице</a>. <br />Так же можете генерировать изображения в любых статьях в произвольном месте через кнопку (или виджет в редакторе Gutenberg) <b>AI image creator</b>. <a href="https://aiwpwriter.com/docs/ai-image-creator/" target="_blank">Руководство по AI image creator.</a> <br />Для перегенерации любого фрагмента текста в любых статьях используйте кнопку <b>AI Assist</b>, для этого выделите фрагмент текста, нажимите <b>AI Assist</b> и кнопку <b>Сгенерировать</b>. <a href="https://aiwpwriter.com/docs/ai-assist/" target="_blank">Руководство по AI Assist.</a>"
 
 #: tpl/options.php:108
@@ -679,7 +679,7 @@ msgid "How often articles should be generated. (For example, if you specify 2, t
 msgstr "Как часто нужно генерировать статьи. (Например если указать 2, то указанное ранее количество статей будет генерироваться каждые 2 дня).<br /> Укажите количество дней:"
 
 #: tpl/options.php
-msgid "Registration"
+msgid "Get started"
 msgstr "Регистрация"
 
 #: tpl/options.php
@@ -705,6 +705,10 @@ msgstr "Популярный"
 #: tpl/options.php
 msgid "Basic"
 msgstr "Basic"
+
+#: tpl/options.php
+msgid "days"
+msgstr "дней"
 
 #: tpl/options.php
 msgid "month"
@@ -835,8 +839,8 @@ msgid "'These neural networks are only available by subscription only, check out
 msgstr "'Эти нейросети доступны только по подписке, оформите ее в разделе \"Тарифы и оплата\"!'"
 
 #: tpl/options.php
-msgid "Active subscription"
-msgstr "Подписка активна"
+msgid "Renew subscription"
+msgstr "Продлить подписку"
 
 #: tpl/options.php
 msgid "Image regeneration and uniqueization"
@@ -950,6 +954,34 @@ msgstr "Не рерайтить meta title"
 msgid "Don't rewrite meta description"
 msgstr "Не рерайтить meta description"
 
+#: tpl/options.php
+msgid "Subscription plans"
+msgstr "Оформить подписку"
+
+#: tpl/options.php
+msgid "Buy extra credits"
+msgstr "Купить лимиты пакетами"
+
+#: tpl/options.php
+msgid "Autofill"
+msgstr "Автопополнение"
+
+#: tpl/options.php
+msgid "active"
+msgstr "активно"
+
+#: tpl/options.php
+msgid "inactive"
+msgstr "не активно"
+
+#: tpl/options.php
+msgid "Activate"
+msgstr "Активировать"
+
+#: tpl/options.php
+msgid "Pause"
+msgstr "Приостановить"
+
 #: tpl/worckspace.php
 msgid "Enter a topic..."
 msgstr "Введите тему..."
@@ -970,15 +1002,9 @@ msgstr "Введите ключевые фразы..."
 msgid "Enter key phrases for the article, separated by commas. The variable {keywords} will be automatically replaced by the key phrases."
 msgstr "Введите ключевые фразы для статьи через запятую. Ключевые фразы автоматически подставляются на место переменной {keywords}."
 
-
-
-
 #: tpl/worckspace.php
 msgid "If the current article outline does not suit your needs, click \"Create article structure\" again to generate a new one. You can also manually delete items from the outline or add new ones. It is important that each item in the outline is marked with &lt;h2&gt; and &lt;h3&gt; tags."
 msgstr "Если не подходит текущий план статьи, для генерации нового нажмите еще раз \"Создать структуру статьи\". Также вы можете вручную удалить пункты плана или добавить новые. При этом важно чтобы каждый пункт плана был размечен тегами &lt;h2&gt; и &lt;h3&gt;."
-
-
-
 
 #: in js
 msgid "To regenerate a piece of text, highlight it and click 'Generate'.\n"
@@ -1129,6 +1155,10 @@ msgstr "<b>Важно!</b> Чтобы генерация работала быс
 #: tpl/options.php
 msgid "Rewrite and translation"
 msgstr "Рерайт и перевод"
+
+#: tpl/options.php
+msgid "Auto-renew"
+msgstr "Автоматически продлевать"
 
 
 
