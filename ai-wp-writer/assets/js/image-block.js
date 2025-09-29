@@ -110,6 +110,41 @@ wp.blocks.registerBlockType('ai-image-creator/ai-image-creator', {
 			$( event.currentTarget ).closest('.aiassist-image-block').find('.aiassist-image-item').removeClass('dalle midjourney flux').addClass( event.target.dataset.value );
 		}
 		
+		function addModel( model, enabled = true, lable = '23', attr = '' ){
+			if( enabled ){
+				switch( model ){
+					case 'label':
+						if( aiassist.info.labels.img_model_3_on )
+							lable = aiassist.info.labels.img_model_3;
+						if( aiassist.info.labels.img_model_2_on )
+							lable = aiassist.info.labels.img_model_2;
+						if( aiassist.info.labels.img_model_1_on )
+							lable = aiassist.info.labels.img_model_1;
+						if( aiassist.info.labels.img_model_4_on )
+							lable = aiassist.info.labels.img_model_4;
+					
+						return aiImageBlcokEl( 'div', { class: attr, 'data-value': model, onClick: setModel }, lable );
+					break;
+					
+					case 'input':
+						if( aiassist.info.labels.img_model_3_on )
+							model = 'gptImage';
+						if( aiassist.info.labels.img_model_2_on )
+							model = 'dalle';
+						if( aiassist.info.labels.img_model_1_on )
+							model = 'midjourney';
+						if( aiassist.info.labels.img_model_4_on )
+							model = 'flux';
+							
+						return aiImageBlcokEl( 'input', { type: 'hidden',  name: 'aiassist-image-model', value: model } );
+					break;
+					
+					default:
+						return aiImageBlcokEl( 'div', { class: attr, 'data-value': model, onClick: setModel }, lable );
+				}
+			}
+		}
+		
 		return aiImageBlcokEl(
 			'div', { class: 'aiassist-image-block' },
 			
@@ -118,13 +153,13 @@ wp.blocks.registerBlockType('ai-image-creator/ai-image-creator', {
 				
 				aiImageBlcokEl(
 					'div', { class: 'aiassist-select-wrap' },
-					aiImageBlcokEl( 'div', { class: 'aiassist-select-lable' }, 'FLUX schnell' ),
+					addModel('label', true, '', 'aiassist-select-lable'),
 					aiImageBlcokEl( 'div',  { class: 'aiassist-select aiassist-image-model' },
-						aiImageBlcokEl( 'div', { class: 'aiassist-option', 'data-value': 'flux', onClick: setModel }, 'FLUX schnell' ),
-						aiImageBlcokEl( 'div', { class: 'aiassist-option '+( ! aiassist.info.subscribe.expire ? 'aiassist-lock' : '' ), 'data-value': 'midjourney', onClick: setModel }, 'Midjourney' ),
-						aiImageBlcokEl( 'div', { class: 'aiassist-option '+( ! aiassist.info.subscribe.expire ? 'aiassist-lock' : '' ), 'data-value': 'dalle', onClick: setModel }, 'Dalle 3' ),
-						aiImageBlcokEl( 'div', { class: 'aiassist-option '+( ! aiassist.info.subscribe.expire ? 'aiassist-lock' : '' ), 'data-value': 'gptImage', onClick: setModel }, 'GPT-image' ),
-						aiImageBlcokEl( 'input', { type: 'hidden',  name: 'aiassist-image-model', value: props.attributes.model } ),
+						addModel('flux', aiassist.info.labels.img_model_4_on, aiassist.info.labels.img_model_4, 'aiassist-option'),
+						addModel('midjourney', aiassist.info.labels.img_model_1_on, aiassist.info.labels.img_model_1, 'aiassist-option'+( ! aiassist.info.subscribe.expire ? 'aiassist-lock' : '' ) ),
+						addModel('dalle', aiassist.info.labels.img_model_2_on, aiassist.info.labels.img_model_2, 'aiassist-option'+( ! aiassist.info.subscribe.expire ? 'aiassist-lock' : '' ) ),
+						addModel('gptImage', aiassist.info.labels.img_model_3_on, aiassist.info.labels.img_model_3, 'aiassist-option'+( ! aiassist.info.subscribe.expire ? 'aiassist-lock' : '' ) ),
+						addModel('input'),
 					),
 				),
 				

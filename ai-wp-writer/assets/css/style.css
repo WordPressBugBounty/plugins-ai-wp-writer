@@ -568,8 +568,12 @@ button[name="save"]{
 	background: #fff;
 	width: 408px;
 	padding: 33px;
-	margin-top: -20px;
+	margin-top: 70px;
 	border-radius: 0px 0px 10px 10px;
+}
+
+.aiassist-sign-title{
+	font-size: 14pt;
 }
 
 #aiassist-sign input{
@@ -1062,6 +1066,10 @@ button[name="save"]{
 		.aiassist-recurring-agree{
 			height: 20px;
 			margin-bottom: 6px;
+		}
+		
+		.aiassist-recurring-agree:not(.ru_RU) label{
+			display: none;
 		}
 		
 		.aiassist-buy,
@@ -2149,13 +2157,15 @@ button[name="save"]{
 }
 
 .aiassist-select-lable{
-	width: 100px;
+	width: max-content;
+	min-width: 100px;
 	height: 23px;
 	cursor: pointer;
 	background: #fff;
 	border-radius: 3px;
 	padding: 5px 0px 0px 10px;
 	border: solid 1px #979797;
+	padding: 3px 6px;
 }
 
 .aiassist-select-lable:after{

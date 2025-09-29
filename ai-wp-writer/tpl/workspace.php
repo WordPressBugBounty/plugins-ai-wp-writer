@@ -10,13 +10,42 @@
 		<div><?php _e('Generation model', 'wp-ai-assistant') ?></div>
 		
 		<div class="aiassist-select-wrap text-model-editor">
-			<div class="aiassist-select-lable">GPT-5 mini</div>
+			<?php
+				if( @$this->info->labels->text_model_4_on ){
+					$model = 'gpt_o3_mini';
+					$label = $this->info->labels->text_model_4;
+				}
+				
+				if( @$this->info->labels->text_model_3_on ){
+					$model = 'gpt4';
+					$label = $this->info->labels->text_model_3;
+				}
+				
+				if( @$this->info->labels->text_model_2_on ){
+					$model = 'gpt4_nano';
+					$label = $this->info->labels->text_model_2;
+				}
+				
+				if( @$this->info->labels->text_model_1_on ){
+					$model = 'gpt3';
+					$label = $this->info->labels->text_model_1;
+				}
+			?>
+			<div class="aiassist-select-lable"><?php echo esc_html( $label )?></div>
 			<div class="aiassist-select">	
-				<div class="aiassist-option" data-value="gpt3">GPT-5 mini</div>
-				<div class="aiassist-option" data-value="gpt4_nano">GPT-5 nano</div>
-				<div class="aiassist-option <?php echo ! @$this->info->subscribe->expire ? 'aiassist-lock' : ''?>" data-value="gpt4">GPT-5</div>
-				<div class="aiassist-option <?php echo ! @$this->info->subscribe->expire ? 'aiassist-lock' : ''?>" data-value="gpt_o3_mini">o3-mini</div>
-				<input type="hidden" name="aiassist-text-model" id="aiassist-change-text-model-editor" value="gpt3" />
+				<?php if( @$this->info->labels->text_model_1_on ){ ?>
+					<div class="aiassist-option" data-value="gpt3"><?php echo esc_html( $this->info->labels->text_model_1 )?></div>
+				<?php } ?>
+				<?php if( @$this->info->labels->text_model_2_on ){ ?>
+					<div class="aiassist-option" data-value="gpt4_nano"><?php echo esc_html( $this->info->labels->text_model_2 )?></div>
+				<?php } ?>
+				<?php if( @$this->info->labels->text_model_3_on ){ ?>
+					<div class="aiassist-option <?php echo ! @$this->info->subscribe->expire ? 'aiassist-lock' : ''?>" data-value="gpt4"><?php echo esc_html( $this->info->labels->text_model_3 )?></div>
+				<?php } ?>
+				<?php if( @$this->info->labels->text_model_4_on ){ ?>
+					<div class="aiassist-option <?php echo ! @$this->info->subscribe->expire ? 'aiassist-lock' : ''?>" data-value="gpt_o3_mini"><?php echo esc_html( $this->info->labels->text_model_4 )?></div>
+				<?php } ?>
+				<input type="hidden" name="aiassist-text-model" class="aiassist-auto-options" id="aiassist-change-text-model" value="<?php echo $model ?>" />
 			</div>
 		</div>
 		
@@ -198,15 +227,45 @@
 		<div class="aiassist-step-title center"><?php _e('Generating images for an article. Select a model:', 'wp-ai-assistant') ?></div>
 		
 		<div class="aiassist-select-wrap">
-			<div class="aiassist-select-lable">FLUX schnell</div>
+			<?php
+				if( @$this->info->labels->img_model_3_on ){
+					$model = 'gptImage';
+					$label = $this->info->labels->img_model_3;
+				}
+				if( @$this->info->labels->img_model_2_on ){
+					$model = 'dalle';
+					$label = $this->info->labels->img_model_2;
+				}
+				if( @$this->info->labels->img_model_1_on ){
+					$model = 'midjourney';
+					$label = $this->info->labels->img_model_1;
+				}
+				if( @$this->info->labels->img_model_4_on ){
+					$model = 'flux';
+					$label = $this->info->labels->img_model_4;
+				}
+			?>
+		
+			<div class="aiassist-select-lable"><?php echo esc_html( $label )?></div>
 			<div class="aiassist-select aiassist-image-model">	
-				<div class="aiassist-option" data-value="flux">FLUX schnell</div>
-				<div class="aiassist-option <?php echo ! @$this->info->subscribe->expire ? 'aiassist-lock' : ''?>" data-value="midjourney">Midjourney v7</div>
-				<div class="aiassist-option <?php echo ! @$this->info->subscribe->expire ? 'aiassist-lock' : ''?>" data-value="dalle">Dalle 3</div>
-				<div class="aiassist-option <?php echo ! @$this->info->subscribe->expire ? 'aiassist-lock' : ''?>" data-value="gptImage">GPT-image</div>
-				<input type="hidden" name="aiassist-image-model" id="aiassist-change-image-model" value="flux" />
+			
+				<?php if( @$this->info->labels->img_model_4_on ){ ?>
+					<div class="aiassist-option" data-value="flux"><?php echo esc_html( $this->info->labels->img_model_4 )?></div>
+				<?php } ?>
+				<?php if( @$this->info->labels->img_model_1_on ){ ?>
+					<div class="aiassist-option <?php echo ! @$this->info->subscribe->expire ? 'aiassist-lock' : ''?>" data-value="midjourney"><?php echo esc_html( $this->info->labels->img_model_1 )?></div>
+				<?php } ?>
+				<?php if( @$this->info->labels->img_model_2_on ){ ?>
+					<div class="aiassist-option <?php echo ! @$this->info->subscribe->expire ? 'aiassist-lock' : ''?>" data-value="dalle"><?php echo esc_html( $this->info->labels->img_model_2 )?></div>
+				<?php } ?>
+				<?php if( @$this->info->labels->img_model_3_on ){ ?>
+					<div class="aiassist-option <?php echo ! @$this->info->subscribe->expire ? 'aiassist-lock' : ''?>" data-value="gptImage"><?php echo esc_html( $this->info->labels->img_model_3 )?></div>
+				<?php } ?>
+				<input type="hidden" name="aiassist-image-model" class="aiassist-auto-options"  id="aiassist-change-image-model" value="<?php echo esc_attr( $model ) ?>" />
 			</div>
+			
 		</div>
+		
 		<a href="<?php echo get_locale() == 'ru_RU' ? 'https://aiwpwriter.com/prices/' : 'https://aiwpw.com/prices/ ' ?>" target="_blank" class="aiassist-small aiassist-after-change-image-model"><?php _e('Prices', 'wp-ai-assistant') ?></a>
 		
 		<div class="aiassist-step-desc"><?php _e('For which headers to generate images:', 'wp-ai-assistant') ?></div>
@@ -289,14 +348,41 @@
 			<div class="aiassist-image-how-to-use"><?php _e('<a href="https://aiwpw.com/docs/ai-image-creator/" target="_blank">How to use</a>', 'wp-ai-assistant') ?></div>
 		
 			<div class="aiassist-select-wrap">
-				<div class="aiassist-select-lable">FLUX schnell</div>
+				<?php
+					if( @$this->info->labels->img_model_3_on ){
+						$model = 'gptImage';
+						$label = $this->info->labels->img_model_3;
+					}
+					if( @$this->info->labels->img_model_2_on ){
+						$model = 'dalle';
+						$label = $this->info->labels->img_model_2;
+					}
+					if( @$this->info->labels->img_model_1_on ){
+						$model = 'midjourney';
+						$label = $this->info->labels->img_model_1;
+					}
+					if( @$this->info->labels->img_model_4_on ){
+						$model = 'flux';
+						$label = $this->info->labels->img_model_4;
+					}
+				?>
+				<div class="aiassist-select-lable"><?php echo esc_html( $label )?></div>
 				<div class="aiassist-select aiassist-image-model">	
-					<div class="aiassist-option" data-value="flux">FLUX schnell</div>
-					<div class="aiassist-option <?php echo ! @$this->info->subscribe->expire ? 'aiassist-lock' : ''?>" data-value="midjourney">Midjourney v7</div>
-					<div class="aiassist-option <?php echo ! @$this->info->subscribe->expire ? 'aiassist-lock' : ''?>" data-value="dalle">Dalle 3</div>
-					<div class="aiassist-option <?php echo ! @$this->info->subscribe->expire ? 'aiassist-lock' : ''?>" data-value="gptImage">GPT-image</div>
-					<input type="hidden" name="aiassist-image-model" id="aiassist-tiny-image-model" value="flux" />
+					<?php if( @$this->info->labels->img_model_4_on ){ ?>
+						<div class="aiassist-option" data-value="flux"><?php echo esc_html( $this->info->labels->img_model_4 )?></div>
+					<?php } ?>
+					<?php if( @$this->info->labels->img_model_1_on ){ ?>
+						<div class="aiassist-option <?php echo ! @$this->info->subscribe->expire ? 'aiassist-lock' : ''?>" data-value="midjourney"><?php echo esc_html( $this->info->labels->img_model_1 )?></div>
+					<?php } ?>
+					<?php if( @$this->info->labels->img_model_2_on ){ ?>
+						<div class="aiassist-option <?php echo ! @$this->info->subscribe->expire ? 'aiassist-lock' : ''?>" data-value="dalle"><?php echo esc_html( $this->info->labels->img_model_2 )?></div>
+					<?php } ?>
+					<?php if( @$this->info->labels->img_model_3_on ){ ?>
+						<div class="aiassist-option <?php echo ! @$this->info->subscribe->expire ? 'aiassist-lock' : ''?>" data-value="gptImage"><?php echo esc_html( $this->info->labels->img_model_3 )?></div>
+					<?php } ?>
+					<input type="hidden" name="aiassist-image-model" class="aiassist-auto-options"  id="aiassist-tiny-image-model" value="<?php echo esc_attr( $model ) ?>" />
 				</div>
+				
 			</div>
 			
 			<input type="text" name="aiassist-image-promt" id="aiassist-tiny-image-promt" placeholder="Input promt" />

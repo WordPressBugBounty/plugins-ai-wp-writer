@@ -305,8 +305,12 @@ msgid "Sign in"
 msgstr "Вход"
 
 #: tpl/options.php:359
-msgid "Sign up"
-msgstr "Регистрация"
+msgid "Create a new API key or restore an existing key"
+msgstr "Создать новый API ключ или восстановить существующий"
+
+#: tpl/options.php:119
+msgid "Get API key"
+msgstr "Получить API ключ"
 
 #: tpl/options.php:408
 msgid "Promo code:"
@@ -559,8 +563,8 @@ msgid "By registering, you agree to"
 msgstr "Регистрируясь, вы соглашаетесь с"
 
 #: tpl/options.php
-msgid "E-mail"
-msgstr "E-mail"
+msgid "Enter your email and accept the plugin’s terms of use"
+msgstr "Введите свой email и согласитесь с условиями использования плагина"
 
 #: tpl/options.php
 msgid "Your password"

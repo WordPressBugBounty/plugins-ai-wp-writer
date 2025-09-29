@@ -1,46 +1,69 @@
-=== AI WP Writer - best AI content generator, ChatGPT, GPT-5, Dalle 3, GPT-image, FLUX ===
+=== AI WP Writer - best WordPress AI plugin for generating content ===
 Contributors: aipost
 Tags: AI, generator, articles, content, image
 Requires at least: 5.0.0
 Tested up to: 6.8.2
 Requires PHP: 5.6.0
-Stable tag: 4.2.0
+Stable tag: 4.2.3.3
 License: GPLv3
 License URI: https://www.gnu.org/licenses/gpl-3.0.html
 
-AI article generator with images, AI-powered blog post auto content generator, rewriting tool. ChatGPT, GPT-5, Dalle 3, GPT-image, FLUX.
+Generate SEO-optimized AI articles with images that drive traffic from search engines. The site is automatically populated with AI-generated content using an AI text generator, an AI content generator, including article rewriting and automatic post translation. Powered by: ChatGPT, GPT-5, DALL·E 3, GPT-Image, and FLUX.
 
 == Description ==
-The AI WP Writer plugin is a powerful AI article generator for WordPress, powered by ChatGPT, GPT-5, GPT-5-mini, GPT-5-nano, o3-mini and the best AI neural networks for image generation. It is designed for fast and effortless automatic content generation, allowing website owners to fill their sites with high-quality, unique, and SEO-optimized articles in just a few clicks.
+AI WP Writer is a powerful AI content generator for WordPress. To generate AI texts, it supports ChatGPT, GPT-5, GPT-5 mini, GPT-5 nano, o3-mini and built-in functions for generating images through FLUX, Dalle 3, GPT-image. Implementing the plugin instruments you may use different generation variations, choose topics, automate tasks and create unique articles.
 
-With this WordPress AI content generator, you can create SEO-optimized articles tailored to your needs. The plugin not only generates text but also integrates an AI image generator for WordPress, allowing you to create AI-powered images that perfectly match your content. Additionally, it provides an automated meta title and meta description generator for better SEO rankings.
+AI WP Writer generates publications with meta title and meta description, which improves SEO, positions in Google. The plugin creates high-quality SEO optimized articles using key words, helps to make up headings, allows to get more traffic and upgrade site content.
 
-## Generate short and long-form articles with AI
+## Creating content in WordPress editor
 
-The AI-powered Article Writer plugin can create both short articles (5000-16000 characters) on a single request, as well as long-form articles based on a structured outline. This ensures that your content fully matches users' search intent, improving engagement and ranking potential.
+You can use the plugin inside WordPress editor. Two generation variations are available:
 
-## Automate content creation with AI
+* With one request — a quick way to generate an AI text up to 18,000 characters. This variant is suitable for topics with a small number of competitors.
+* Plan based — extended generation that covers all the key words, including high frequency ones, and helps to take better positions in search.
 
-Simply schedule content publication by defining a list of SEO keywords and the WordPress auto content generator will create and publish articles in the background. This automated article creation for WordPress sites saves time and helps keep your website consistently updated.
+Both modes enable the creation of SEO content, add images and edit the content. With this plugin, even a beginner author can use AI to create high-quality texts.
 
-## AI image creator for WordPress
+## Automatic filling of WordPress site
 
-Enhance your articles with AI-generated images! The AI image creator for blog posts works seamlessly within the Gutenberg and Classic editors. Simply add a new block, search for the AI image creator widget, or click the AI image creator button to generate visuals for any post—whether new or already published.
+You can choose topics and fine-tune automatic site filling. The plugin creates articles according to schedule for a day, week or year in advance. Publications are saved in a finished form and posted automatically saving money and effort for you. This has particular importance for big WordPress projects that require regular information updates.
 
-## AI text rewriting and generation
+## AI Assist and AI Image Creator tools
 
-The plugin also includes a text rewriting tool AI-powered. You can rewrite articles from your own site or regenerate content from third-party URLs to create fresh, unique versions. Additionally, the AI writing assistant tool allows you to generate or refine specific text fragments within the Classic Editor — just select the text and press AI Assist.
+AI Image Creator ensures quick image addition to Gutenberg or the Classic Editor. AI Assist is an AI aide in writing texts: it helps to edit content, make changes, write descriptions of WooCommerce goods, create question and answer forms, as well as do rewriting and translation.
 
-## Boost your WordPress website with AI-generated content
+With AI Assist and AI Image Creator tools you can optimize the structure, add new unique images to pages, correct errors, create new blocks and improve the quality of materials. AI WP Writer provides user-friendly interface and makes working with content possible inside WordPress editor through AI.
 
-With the GPT-4.1 blog post generator, adding high-quality, AI-generated articles to your WordPress site is now easier than ever. Whether you need an AI-powered writing assistant, a SEO AI content generator, or an AI-driven content creation tool, the AI WP Writer plugin has you covered.
+## Rewriting and text translation using AI
 
-The plugin works through an API, sending requests and receiving AI-generated content and images in real time. Automated article generation and image creation is now a reality - boost your website's SEO and engagement effortlessly with AI WP Writer!
+The plugin allows to rewrite articles, create unique variations of materials and translate them into other languages. You can delete unnecessary HTML code, tags and external links. It helps to get a finished text without complications and enhances readability for the audience. The rewriting functionality will be of particular use for restoring sites on dropped domains.
 
-Queries are exchanged through our domain https://aipost.ru.
-Official site of the plugin https://aiwpw.com/
-Instructions for working with the plugin https://aiwpw.com/docs/
-Privacy Policy https://aiwpw.com/privacy-policy/
+## AI WP Writer is the best WordPress plugin for generating AI content
+
+AI WP Writer is a convenient solution for automating article creation. It is suitable for blogs, online shops, business sites and other projects. Users can utilize the plugin to work with SEO, create finished publications, manage content and integrate services.
+
+WordPress plugin developers release updates and additional functions regularly. There is a free version, as well as paid plans — Basic, Pro and Premium. The price for subscription depends on the package you choose, but even the basic version gives you extensive possibilities for SEO optimization and article creation.
+
+AI WP Writer helps to create texts quicker through AI, enhances performance, optimizes resources and increases the efficiency of content marketing. This tool allows users to create articles, save publications and use modern WordPress technology for site development.
+
+## Advantages
+
+* Free credits to start working with WordPress plugin.
+* Content generation in Classic Editor and Gutenberg.
+* Automatic site filling with high-quality articles according to schedule.
+* Simple installation and the first launch take only a few minutes.
+* Use of AI for SEO optimization and text improvement by the plugin.
+* Convenience for creating blogs, PBN networks, shops and business sites.
+* Support of article generation in Gutenberg and Classic Editor.
+* Opportunity to use ready prompts and write your own ones adapted to the site theme.
+* Professional functions to improve quality, automation and optimization.
+
+AI WP Writer works through API, exchanging data with neural networks in real time. You do not need to have a separate account for each neural network, but only to connect to AI WP Writer and subscribe. All sites connected to your API key have a common balance and one common subscription.
+
+
+Official site: https://aiwpw.com/
+Plugin Documentation: https://aiwpw.com/docs/
+Privacy Policy: https://aiwpw.com/privacy-policy/
 
 == Installation ==
 The plugin requires an API key, you can get it by simple registration.

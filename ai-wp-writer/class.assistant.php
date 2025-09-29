@@ -149,18 +149,35 @@ class AIASIST{
 			wp_die( json_encode( $data ) );
 	}
 	
+	private function maskKey( $key, $first = 4, $last = 5 ){
+		if( $key == '' )
+			return null;
+		
+		return esc_attr( substr( $key, 0, $first ) .' '. str_repeat('•', max(4, strlen( $key ) - $first - $last ) ) .' '. substr( $key, -$last ) );
+	}
+	
 	public function options(){
 		if( isset( $_POST['save'] ) && $this->checkNonce() && current_user_can('manage_options') ){
 			$this->options = new stdClass();
 			$this->options->cron = isset( $_POST['cron'] );
 			
-			if( isset( $_POST['token'] ) )
+			if( @$_POST['token'] != '' )
 				$this->activation( sanitize_text_field( $_POST['token'] ), $this->options->cron );
 			
-			if( isset( $_POST['token'] ) && preg_match('/^[A-Za-z0-9]{64}$/i', $_POST['token']) ){
+			if( @$_POST['token'] != '' && preg_match('/^[A-Za-z0-9]{64}$/i', $_POST['token']) ){
 				$this->options->token = sanitize_text_field( $_POST['token'] );
 				$this->setInfo();
 			}
+			
+			if( ! isset( $this->options->token ) ){
+				if( ! $options = get_option('_ai_assistant') )
+					$options = (object) [];
+				
+				$this->options->token = @$options->token;
+			}
+			
+			if( @$_POST['token'] == '' )
+				unset( $this->options->token );
 			
 			update_option('_ai_assistant', $this->options );
 		}
@@ -1179,8 +1196,8 @@ class AIASIST{
 		update_post_meta( $post_id, '_aioseo_title', sanitize_text_field( wp_unslash( $title ) ) );
 		update_post_meta( $post_id, '_aioseo_description', sanitize_text_field( wp_unslash( $description ) ) );
 		
-		if( defined('AIOSEO_VERSION') )
-			$wpdb->update( $wpdb->prefix . 'aioseo_posts', [ 'title' => $title, 'description' => $description ], [ 'post_id' => $post_id ], [ '%s', '%s' ], [ '%d' ] );
+		if( defined('AIOSEO_VERSION') || function_exists('aioseo') )
+			$wpdb->replace( $wpdb->prefix . 'aioseo_posts', [ 'post_id' => $post_id, 'title' => $title, 'description' => $description ], [ '%d', '%s', '%s' ] );
 	}
 	
 	private function getPostMeta( $post_id ){

@@ -455,7 +455,7 @@ jQuery( document ).ready(function($){
 			e.addClass('active');
 			
 			let billing = e.data('billing');
-			$('.aiassist-recurring-agree label')[ ( billing == 'robokassa' ) ? 'show' : 'hide' ]();
+			$('.aiassist-recurring-agree label')[ ( billing == 'robokassa' ? 'show' : 'hide' ) ]();
 			
 			if( $('[data-usdt]').length ){
 				$('[data-usdt]').each(function(){
@@ -1203,7 +1203,9 @@ jQuery( document ).ready(function($){
 				$('#start-articles-generations').html('<div id="aiassist-loader"></div>');
 				
 				for( let k in articles ){
-					await app.sleep( 3 );
+					if( k > 0 )
+						await app.sleep( 3 );
+					
 					await app.request( { articles: articles[ k ], artPromt: artPromt, titlePromt: titlePromt, textModel: textModel, imageModel: imageModel, descPromt: descPromt, action: 'initArticlesGen', nonce: aiassist.nonce } ); 
 				}
 				
@@ -1615,6 +1617,7 @@ jQuery( document ).ready(function($){
 		recurringPause: async function (){
 			await app.request( { token: aiassist.token, action: 'recurringPause' }, aiassist.api );
 			$('#aiassist-recurring-status').addClass('inactive').text( aiassist.locale['inactive'] );
+			$('.aiassist-recurring-pause').toggleClass('aiassist-recurring-pause aiassist-recurring-activate').text( aiassist.locale['Activate'] );
 		},
 		
 		buy: async function (){
@@ -1688,9 +1691,8 @@ jQuery( document ).ready(function($){
 			
 			let e = $(this);
 			let args = app.getFormData( e );
-			let act = e.attr('data-action');
 			
-			let auth = await app.request( Object.assign( args, { act: act, action: 'aiassist_sign', nonce: aiassist.nonce } ) );
+			let auth = await app.request( Object.assign( args, { act: 'signUp', action: 'aiassist_sign', nonce: aiassist.nonce } ) );
 			
 			if( auth.message )
 				$('#wpai-errors-messages').html( auth.message );

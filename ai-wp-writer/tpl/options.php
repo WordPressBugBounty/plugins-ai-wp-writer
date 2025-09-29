@@ -51,7 +51,7 @@
 						<label class="title"><p style="font-size: 16px; line-height:1.5;"><?php _e('<b>Getting started with the plugin is easy and free!</b> </br> 1. Fill out the registration form below. </br> 2. The API key will be sent to your email address. If you do not receive the email please check your spam folder. </br> 3. Save the API key in the appropriate field. After registration you will receive 10000 free credits. One key can be used on multiple sites, all sites will have a common balance and one common subscription. </br></br> Notice! If the site is hosted on localhost, the plugin may not work correctly, and free credits will not be accrued. Use the plugin for sites hosted on a server or web hosting. </br> For a quicker understanding of the plugin functionality, check out the documentation on our <a href="https://aiwpw.com/docs/" target="_blank">official website</a>. </br> If you still have any questions, write to us via <a href="https://t.me/wpwriter" target="_blank">Telegram</a>. <br /><br /> <b>Enter the API key:</b>', 'wp-ai-assistant') ?></p></label>
 					<?php } ?>
 					
-					<input name="token" value="<?php echo esc_attr( @$this->options->token ) ?>" /><br /><br /><br />
+					<input name="token" value="<?php echo $this->maskKey( @$this->options->token ) ?>" /><br /><br /><br />
 				</div>
 
 				<div class="row">
@@ -99,24 +99,16 @@
 		<?php } ?>
 		
 		<?php if( ! @$this->options->token ){ ?>
-			<div class="wpai-tabs">
-				<div class="wpai-tab active" data-action="signUp"><?php _e('Sign up', 'wp-ai-assistant') ?></div>
-			</div>
 			<form method="POST" class="wpai-form" id="aiassist-sign" data-action="signUp">
-				<div id="wpai-errors-messages"></div>
-				<div class="row">
-					<div><?php _e('E-mail', 'wp-ai-assistant') ?></div>
-					<input type="email" name="email" required />
+				<div class="aiassist-sign-title">
+					<?php _e('Create a new API key or restore an existing key', 'wp-ai-assistant') ?>
 				</div>
 				
-				<div class="row">
-					<div><?php _e('Your password', 'wp-ai-assistant') ?></div>
-					<input type="password" name="password" required />
-				</div>
+				<div id="wpai-errors-messages"></div>
 				
 				<div class="row password2">
-					<div><?php _e('Repeat password', 'wp-ai-assistant') ?></div>
-					<input type="password" name="password2" />
+					<div><?php _e('Enter your email and accept the plugin’s terms of use', 'wp-ai-assistant') ?></div>
+					<input type="email" name="email" required />
 					
 					<label> 
 						<input type="checkbox" name="license" required /> <?php _e('By registering, you agree to', 'wp-ai-assistant') ?> <a href="https://aiwpwriter.com/privacy-policy/" target="_blank"><?php _e('privacy policy', 'wp-ai-assistant') ?></a>, <a href="https://aiwpwriter.com/publichnaja-oferta-o-zakljuchenii-dogovora-ob-okazanii-uslug/" target="_blank"><?php _e('offer', 'wp-ai-assistant') ?></a> <?php _e('and', 'wp-ai-assistant') ?> <a href="https://aiwpwriter.com/user-agreement/" target="_blank"><?php _e('user agreement', 'wp-ai-assistant') ?></a>.
@@ -124,7 +116,7 @@
 				</div>
 				
 				<div class="row">
-					<button><?php _e('Get started', 'wp-ai-assistant') ?></button>
+					<button><?php _e('Get API key', 'wp-ai-assistant') ?></button>
 				</div>
 				
 			</form>
@@ -184,10 +176,18 @@
 			<div>
 				<div><?php _e('Image generation model', 'wp-ai-assistant') ?></div>
 				<select name="aiassist-image-model" class="aiassist-images-options" id="aiassist-images-model">
-					<option value="flux" <?php echo @$images['imageModel'] == 'flux' ? 'selected' : '' ?>>FLUX schnell</option>
-					<option value="dalle" <?php echo @$images['imageModel'] == 'dalle' ? 'selected' : '' ?>>Dalle 3</option>
-					<option value="gptImage" <?php echo @$images['imageModel'] == 'gptImage' ? 'selected' : '' ?>>GPT-image</option>
-					<option value="midjourney" <?php echo @$images['imageModel'] == 'midjourney' ? 'selected' : '' ?>>Midjourney</option>
+					<?php if( @$this->info->labels->img_model_4_on ){ ?>
+						<option value="flux" <?php echo @$images['imageModel'] == 'flux' ? 'selected' : '' ?>><?php echo esc_html( $this->info->labels->img_model_4 )?></option>
+					<?php } ?>
+					<?php if( @$this->info->labels->img_model_2_on ){ ?>
+						<option value="dalle" <?php echo @$images['imageModel'] == 'dalle' ? 'selected' : '' ?>><?php echo esc_html( $this->info->labels->img_model_2 )?></option>
+					<?php } ?>
+					<?php if( @$this->info->labels->img_model_3_on ){ ?>
+						<option value="gptImage" <?php echo @$images['imageModel'] == 'gptImage' ? 'selected' : '' ?>><?php echo esc_html( $this->info->labels->img_model_3)?></option>
+					<?php } ?>
+					<?php if( @$this->info->labels->img_model_1_on ){ ?>
+						<option value="midjourney" <?php echo @$images['imageModel'] == 'midjourney' ? 'selected' : '' ?>><?php echo esc_html( $this->info->labels->img_model_1 )?></option>
+					<?php } ?>
 				</select>
 			</div>
 			
@@ -445,10 +445,18 @@
 				<div>
 					<div><?php _e('Text generation model', 'wp-ai-assistant') ?></div>
 					<select name="aiassist-text-model" class="aiassist-rewrite-options" id="aiassist-rewrite-text-model">
-						<option value="gpt3" <?php echo @$rewrites['textModel'] == 'gpt3' ? 'selected' : '' ?>>GPT-5 mini</option>
-						<option value="gpt4_nano" <?php echo @$rewrites['textModel'] == 'gpt4_nano' ? 'selected' : '' ?>>GPT-5 nano</option>
-						<option value="gpt4" <?php echo @$rewrites['textModel'] == 'gpt4' ? 'selected' : '' ?>>GPT-5</option>
-						<option value="gpt_o3_mini" <?php echo @$rewrites['textModel'] == 'gpt_o3_mini' ? 'selected' : '' ?>>o3-mini</option>
+						<?php if( @$this->info->labels->text_model_1_on ){ ?>
+							<option value="gpt3" <?php echo @$rewrites['textModel'] == 'gpt3' ? 'selected' : '' ?>><?php echo esc_html( @$this->info->labels->text_model_1 )?></option>
+						<?php } ?>
+						<?php if( @$this->info->labels->text_model_2_on ){ ?>
+							<option value="gpt4_nano" <?php echo @$rewrites['textModel'] == 'gpt4_nano' ? 'selected' : '' ?>><?php echo esc_html( @$this->info->labels->text_model_2 )?></option>
+						<?php } ?>
+						<?php if( @$this->info->labels->text_model_3_on ){ ?>
+							<option value="gpt4" <?php echo @$rewrites['textModel'] == 'gpt4' ? 'selected' : '' ?>><?php echo esc_html( @$this->info->labels->text_model_3 )?></option>
+						<?php } ?>
+						<?php if( @$this->info->labels->text_model_4_on ){ ?>
+							<option value="gpt_o3_mini" <?php echo @$rewrites['textModel'] == 'gpt_o3_mini' ? 'selected' : '' ?>><?php echo esc_html( @$this->info->labels->text_model_4 )?></option>
+						<?php } ?>
 					</select>
 					<a href="<?php echo get_locale() == 'ru_RU' ? 'https://aiwpwriter.com/prices/' : 'https://aiwpw.com/prices/ ' ?>" target="_blank" class="aiassist-small"><?php _e('View rates', 'wp-ai-assistant') ?></a>
 				</div>
@@ -456,10 +464,18 @@
 				<div>
 					<div><?php _e('Image generation model', 'wp-ai-assistant') ?></div>
 					<select name="aiassist-image-model" class="aiassist-rewrite-options" id="aiassist-rewrite-image-model">
-						<option value="flux" <?php echo @$rewrites['imageModel'] == 'flux' ? 'selected' : '' ?>>FLUX schnell</option>
-						<option value="dalle" <?php echo @$rewrites['imageModel'] == 'dalle' ? 'selected' : '' ?>>Dalle 3</option>
-						<option value="gptImage" <?php echo @$rewrites['imageModel'] == 'gptImage' ? 'selected' : '' ?>>GPT-image</option>
-						<option value="midjourney" <?php echo @$rewrites['imageModel'] == 'midjourney' ? 'selected' : '' ?>>MidJourney v7</option>
+						<?php if( @$this->info->labels->img_model_1_on ){ ?>
+							<option value="flux" <?php echo @$rewrites['imageModel'] == 'flux' ? 'selected' : '' ?>><?php echo esc_html( @$this->info->labels->img_model_1 )?></option>
+						<?php } ?>
+						<?php if( @$this->info->labels->img_model_2_on ){ ?>
+							<option value="dalle" <?php echo @$rewrites['imageModel'] == 'dalle' ? 'selected' : '' ?>><?php echo esc_html( @$this->info->labels->img_model_2 )?></option>
+						<?php } ?>
+						<?php if( @$this->info->labels->img_model_3_on ){ ?>
+							<option value="gptImage" <?php echo @$rewrites['imageModel'] == 'gptImage' ? 'selected' : '' ?>><?php echo esc_html( @$this->info->labels->img_model_3 )?></option>
+						<?php } ?>
+						<?php if( @$this->info->labels->img_model_4_on ){ ?>
+							<option value="midjourney" <?php echo @$rewrites['imageModel'] == 'midjourney' ? 'selected' : '' ?>><?php echo esc_html( @$this->info->labels->img_model_4 )?></option>
+						<?php } ?>
 					</select>
 				</div>
 				
@@ -550,12 +566,7 @@
 			
 			<div class="pay-methods">
 				<?php if( get_locale() != 'ru_RU' ){ ?>
-					<div class="pay-method active" data-billing="stripe">
-						<div class="stripe"></div>
-						<div class="pay-method-label"><?php _e('Visa, Mastercard, Stripe', 'wp-ai-assistant') ?></div>
-					</div>
-					
-					<div class="pay-method" data-billing="paypal">
+					<div class="pay-method active" data-billing="paypal">
 						<div class="paypal"></div>
 						<div class="pay-method-label"><?php _e('Visa, Mastercard, PayPal', 'wp-ai-assistant') ?></div>
 					</div>
@@ -644,7 +655,7 @@
 								<div class="aiassist-buy-button">
 								
 									<?php if( ! @$this->info->recurring ){ ?>
-										<div class="aiassist-recurring-agree">
+										<div class="aiassist-recurring-agree <?php echo esc_attr( get_locale() ) ?>">
 											<label>
 												<input type="checkbox" name="recurring" /><?php _e('Auto-renew', 'wp-ai-assistant') ?>
 											</label>
@@ -701,7 +712,7 @@
 								<div class="aiassist-buy-button">
 
 									<?php if( ! @$this->info->recurring ){ ?>
-										<div class="aiassist-recurring-agree">
+										<div class="aiassist-recurring-agree <?php echo esc_attr( get_locale() ) ?>">
 											<label>
 												<input type="checkbox" name="recurring" /><?php _e('Auto-renew', 'wp-ai-assistant') ?>
 											</label>
@@ -757,7 +768,7 @@
 								<div class="aiassist-buy-button">
 								
 									<?php if( ! @$this->info->recurring ){ ?>
-										<div class="aiassist-recurring-agree">
+										<div class="aiassist-recurring-agree <?php echo esc_attr( get_locale() ) ?>">
 											<label>
 												<input type="checkbox" name="recurring" /><?php _e('Auto-renew', 'wp-ai-assistant') ?>
 											</label>
@@ -814,7 +825,7 @@
 								<div class="aiassist-rate-info"><?php _e('You have an active subscription ', 'wp-ai-assistant') ?> <b><?php echo esc_html( @$this->info->subscribe->type ) ?></b> <?php _e('until', 'wp-ai-assistant') ?> <?php echo date('d.m.Y', (int) @$this->info->subscribe->expire ) ?></div>
 								
 								<?php if( ! @$this->info->recurring ){ ?>
-									<div class="aiassist-recurring-agree">
+									<div class="aiassist-recurring-agree <?php echo esc_attr( get_locale() ) ?>">
 										<label>
 											<input type="checkbox" name="recurring" /><?php _e('Auto-renew', 'wp-ai-assistant') ?>
 										</label>
@@ -823,13 +834,15 @@
 									
 								<button type="button" class="aiassist-buy" data-type="subscribe_<?php echo esc_attr( @$this->info->subscribe->type ) ?>"><?php _e('Renew subscription', 'wp-ai-assistant') ?></button>
 								
-								<?php if( @$this->info->recurring ){ ?>
-									<div class="aiassist-recurring">
-										<div class="aiassist-recurring-status"><?php _e('Autofill', 'wp-ai-assistant') ?> - <span id="aiassist-recurring-status" class="<?php echo ! @$this->info->recurring ? 'inactive' : '' ?>"><?php @$this->info->recurring ? _e('active', 'wp-ai-assistant') : _e('inactive', 'wp-ai-assistant') ?></span></div>
+								<div class="aiassist-recurring">
+									<div class="aiassist-recurring-status"><?php _e('Autofill', 'wp-ai-assistant') ?> - <span id="aiassist-recurring-status" class="<?php echo ! @$this->info->recurring ? 'inactive' : '' ?>"><?php @$this->info->recurring ? _e('active', 'wp-ai-assistant') : _e('inactive', 'wp-ai-assistant') ?></span></div>									
+									
+									<?php if( @$this->info->recurring ){ ?>
 										<button class="aiassist-recurring-pause"><?php _e('Pause', 'wp-ai-assistant') ?></button>
+									<?php } else { ?>
 										<button class="aiassist-recurring-activate"><?php _e('Activate', 'wp-ai-assistant') ?></button>
-									</div>
-								<?php } ?>
+									<?php } ?>
+								</div>
 							
 							</div>
 						<?php } ?>
@@ -1121,31 +1134,93 @@
 				<div>
 					<div><?php _e('Text generation model', 'wp-ai-assistant') ?></div>
 					<div class="aiassist-select-wrap">
-						<div class="aiassist-select-lable">GPT-5 mini</div>
+						<?php
+							if( @$this->info->labels->text_model_4_on ){
+								$model = 'gpt_o3_mini';
+								$label = $this->info->labels->text_model_4;
+							}
+							
+							if( @$this->info->labels->text_model_3_on ){
+								$model = 'gpt4';
+								$label = $this->info->labels->text_model_3;
+							}
+							
+							if( @$this->info->labels->text_model_2_on ){
+								$model = 'gpt4_nano';
+								$label = $this->info->labels->text_model_2;
+							}
+							
+							if( @$this->info->labels->text_model_1_on ){
+								$model = 'gpt3';
+								$label = $this->info->labels->text_model_1;
+							}
+						?>
+						<div class="aiassist-select-lable"><?php echo esc_html( $label )?></div>
 						<div class="aiassist-select">	
-							<div class="aiassist-option" data-value="gpt3">GPT-5 mini</div>
-							<div class="aiassist-option" data-value="gpt4_nano">GPT-5 nano</div>
-							<div class="aiassist-option <?php echo ! @$this->info->subscribe->expire ? 'aiassist-lock' : ''?>" data-value="gpt4">GPT-5</div>
-							<div class="aiassist-option <?php echo ! @$this->info->subscribe->expire ? 'aiassist-lock' : ''?>" data-value="gpt_o3_mini">o3-mini</div>
-							<input type="hidden" name="aiassist-text-model" class="aiassist-auto-options" id="aiassist-change-text-model" value="gpt3" />
+							<?php if( @$this->info->labels->text_model_1_on ){ ?>
+								<div class="aiassist-option" data-value="gpt3"><?php echo esc_html( $this->info->labels->text_model_1 )?></div>
+							<?php } ?>
+							<?php if( @$this->info->labels->text_model_2_on ){ ?>
+								<div class="aiassist-option" data-value="gpt4_nano"><?php echo esc_html( $this->info->labels->text_model_2 )?></div>
+							<?php } ?>
+							<?php if( @$this->info->labels->text_model_3_on ){ ?>
+								<div class="aiassist-option <?php echo ! @$this->info->subscribe->expire ? 'aiassist-lock' : ''?>" data-value="gpt4"><?php echo esc_html( $this->info->labels->text_model_3 )?></div>
+							<?php } ?>
+							<?php if( @$this->info->labels->text_model_4_on ){ ?>
+								<div class="aiassist-option <?php echo ! @$this->info->subscribe->expire ? 'aiassist-lock' : ''?>" data-value="gpt_o3_mini"><?php echo esc_html( $this->info->labels->text_model_4 )?></div>
+							<?php } ?>
+							<input type="hidden" name="aiassist-text-model" class="aiassist-auto-options" id="aiassist-change-text-model" value="<?php echo $model ?>" />
 						</div>
 					</div>
+					
 					<a href="<?php echo get_locale() == 'ru_RU' ? 'https://aiwpwriter.com/prices/' : 'https://aiwpw.com/prices/ ' ?>" target="_blank" class="aiassist-small"><?php _e('Prices', 'wp-ai-assistant') ?></a>
 				</div>
+				
+				
+				
 				
 				<div>
 					<div><?php _e('Image generation model', 'wp-ai-assistant') ?></div>
 					<div class="aiassist-select-wrap">
-						<div class="aiassist-select-lable">FLUX schnell</div>
+						<?php
+							if( @$this->info->labels->img_model_3_on ){
+								$model = 'gptImage';
+								$label = $this->info->labels->img_model_3;
+							}
+							if( @$this->info->labels->img_model_2_on ){
+								$model = 'dalle';
+								$label = $this->info->labels->img_model_2;
+							}
+							if( @$this->info->labels->img_model_1_on ){
+								$model = 'midjourney';
+								$label = $this->info->labels->img_model_1;
+							}
+							if( @$this->info->labels->img_model_4_on ){
+								$model = 'flux';
+								$label = $this->info->labels->img_model_4;
+							}
+						?>
+						<div class="aiassist-select-lable"><?php echo esc_html( $label )?></div>
 						<div class="aiassist-select aiassist-image-model-auto">	
-							<div class="aiassist-option" data-value="flux">FLUX schnell</div>
-							<div class="aiassist-option <?php echo ! @$this->info->subscribe->expire ? 'aiassist-lock' : ''?>" data-value="midjourney">Midjourney v7</div>
-							<div class="aiassist-option <?php echo ! @$this->info->subscribe->expire ? 'aiassist-lock' : ''?>" data-value="dalle">Dalle 3</div>
-							<div class="aiassist-option <?php echo ! @$this->info->subscribe->expire ? 'aiassist-lock' : ''?>" data-value="gptImage">GPT-image</div>
-							<input type="hidden" name="aiassist-image-model" class="aiassist-auto-options"  id="aiassist-image-model" value="flux" />
+							<?php if( @$this->info->labels->img_model_4_on ){ ?>
+								<div class="aiassist-option" data-value="flux"><?php echo esc_html( $this->info->labels->img_model_4 )?></div>
+							<?php } ?>
+							<?php if( @$this->info->labels->img_model_1_on ){ ?>
+								<div class="aiassist-option <?php echo ! @$this->info->subscribe->expire ? 'aiassist-lock' : ''?>" data-value="midjourney"><?php echo esc_html( $this->info->labels->img_model_1 )?></div>
+							<?php } ?>
+							<?php if( @$this->info->labels->img_model_2_on ){ ?>
+								<div class="aiassist-option <?php echo ! @$this->info->subscribe->expire ? 'aiassist-lock' : ''?>" data-value="dalle"><?php echo esc_html( $this->info->labels->img_model_2 )?></div>
+							<?php } ?>
+							<?php if( @$this->info->labels->img_model_3_on ){ ?>
+								<div class="aiassist-option <?php echo ! @$this->info->subscribe->expire ? 'aiassist-lock' : ''?>" data-value="gptImage"><?php echo esc_html( $this->info->labels->img_model_3 )?></div>
+							<?php } ?>
+							<input type="hidden" name="aiassist-image-model" class="aiassist-auto-options"  id="aiassist-image-model" value="<?php echo esc_attr( $model ) ?>" />
 						</div>
 					</div>
 				</div>
+				
+				
+				
 				<br />
 				<div><?php echo _e('<b>Important!</b> To make generation work faster in the background, the option to send requests from the plugin server to the site must be enabled in the <b>Settings</b> tab.', 'wp-ai-assistant') ?></div>
 			</div>
