@@ -45,7 +45,7 @@
 				<?php if( @$this->info->labels->text_model_4_on ){ ?>
 					<div class="aiassist-option <?php echo ! @$this->info->subscribe->expire ? 'aiassist-lock' : ''?>" data-value="gpt_o3_mini"><?php echo esc_html( $this->info->labels->text_model_4 )?></div>
 				<?php } ?>
-				<input type="hidden" name="aiassist-text-model" class="aiassist-auto-options" id="aiassist-change-text-model" value="<?php echo $model ?>" />
+				<input type="hidden" name="aiassist-text-model" id="aiassist-change-text-model-editor" value="<?php echo $model ?>" />
 			</div>
 		</div>
 		
@@ -261,7 +261,7 @@
 				<?php if( @$this->info->labels->img_model_3_on ){ ?>
 					<div class="aiassist-option <?php echo ! @$this->info->subscribe->expire ? 'aiassist-lock' : ''?>" data-value="gptImage"><?php echo esc_html( $this->info->labels->img_model_3 )?></div>
 				<?php } ?>
-				<input type="hidden" name="aiassist-image-model" class="aiassist-auto-options"  id="aiassist-change-image-model" value="<?php echo esc_attr( $model ) ?>" />
+				<input type="hidden" name="aiassist-image-model" id="aiassist-change-image-model" value="<?php echo esc_attr( $model ) ?>" />
 			</div>
 			
 		</div>
@@ -380,7 +380,7 @@
 					<?php if( @$this->info->labels->img_model_3_on ){ ?>
 						<div class="aiassist-option <?php echo ! @$this->info->subscribe->expire ? 'aiassist-lock' : ''?>" data-value="gptImage"><?php echo esc_html( $this->info->labels->img_model_3 )?></div>
 					<?php } ?>
-					<input type="hidden" name="aiassist-image-model" class="aiassist-auto-options"  id="aiassist-tiny-image-model" value="<?php echo esc_attr( $model ) ?>" />
+					<input type="hidden" name="aiassist-image-model" id="aiassist-tiny-image-model" value="<?php echo esc_attr( $model ) ?>" />
 				</div>
 				
 			</div>

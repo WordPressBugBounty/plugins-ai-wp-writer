@@ -488,7 +488,7 @@ class AIASIST{
 		if( ! $this->checkNonce()  || ! current_user_can('manage_options') )
 			return;
 	
-		wp_die( $this->wpcurl( [ 'token' => sanitize_text_field( $this->options->token ), 'action' => 'getPayUrl', 'promocode' => $_POST['promocode'], 'type' => sanitize_text_field( $_POST['type'] ), 'billing' => sanitize_text_field( $_POST['billing'] ), 'out_summ' => sanitize_text_field( $_POST['out_summ'] ), 'currency' => __('$', 'wp-ai-assistant'), 'locale' => get_locale() ] ) );
+		wp_die( $this->wpcurl( [ 'token' => sanitize_text_field( $this->options->token ), 'action' => 'getPayUrl', 'recurring' => (int) $_POST['recurring'], 'promocode' => $_POST['promocode'], 'type' => sanitize_text_field( $_POST['type'] ), 'billing' => sanitize_text_field( $_POST['billing'] ), 'out_summ' => sanitize_text_field( $_POST['out_summ'] ), 'currency' => __('$', 'wp-ai-assistant'), 'locale' => get_locale() ] ) );
 	}
 	
 	public function active(){

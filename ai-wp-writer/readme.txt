@@ -2,9 +2,9 @@
 Contributors: aipost
 Tags: AI, generator, articles, content, image
 Requires at least: 5.0.0
-Tested up to: 6.8.2
+Tested up to: 6.8.3
 Requires PHP: 5.6.0
-Stable tag: 4.2.3.3
+Stable tag: 4.2.5
 License: GPLv3
 License URI: https://www.gnu.org/licenses/gpl-3.0.html
 
