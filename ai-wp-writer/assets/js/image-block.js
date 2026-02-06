@@ -114,6 +114,10 @@ wp.blocks.registerBlockType('ai-image-creator/ai-image-creator', {
 			if( enabled ){
 				switch( model ){
 					case 'label':
+						if( aiassist.info.labels.img_model_6_on )
+							lable = aiassist.info.labels.img_model_6;
+						if( aiassist.info.labels.img_model_5_on )
+							lable = aiassist.info.labels.img_model_5;
 						if( aiassist.info.labels.img_model_3_on )
 							lable = aiassist.info.labels.img_model_3;
 						if( aiassist.info.labels.img_model_2_on )
@@ -127,6 +131,10 @@ wp.blocks.registerBlockType('ai-image-creator/ai-image-creator', {
 					break;
 					
 					case 'input':
+						if( aiassist.info.labels.img_model_6_on )
+							model = 'banana';
+						if( aiassist.info.labels.img_model_5_on )
+							model = 'gptMini';
 						if( aiassist.info.labels.img_model_3_on )
 							model = 'gptImage';
 						if( aiassist.info.labels.img_model_2_on )
@@ -156,9 +164,11 @@ wp.blocks.registerBlockType('ai-image-creator/ai-image-creator', {
 					addModel('label', true, '', 'aiassist-select-lable'),
 					aiImageBlcokEl( 'div',  { class: 'aiassist-select aiassist-image-model' },
 						addModel('flux', aiassist.info.labels.img_model_4_on, aiassist.info.labels.img_model_4, 'aiassist-option'),
-						addModel('midjourney', aiassist.info.labels.img_model_1_on, aiassist.info.labels.img_model_1, 'aiassist-option'+( ! aiassist.info.subscribe.expire ? 'aiassist-lock' : '' ) ),
-						addModel('dalle', aiassist.info.labels.img_model_2_on, aiassist.info.labels.img_model_2, 'aiassist-option'+( ! aiassist.info.subscribe.expire ? 'aiassist-lock' : '' ) ),
-						addModel('gptImage', aiassist.info.labels.img_model_3_on, aiassist.info.labels.img_model_3, 'aiassist-option'+( ! aiassist.info.subscribe.expire ? 'aiassist-lock' : '' ) ),
+						addModel('midjourney', aiassist.info.labels.img_model_1_on, aiassist.info.labels.img_model_1, 'aiassist-option '+( ! aiassist.info.subscribe.expire ? 'aiassist-lock' : '' ) ),
+						addModel('dalle', aiassist.info.labels.img_model_2_on, aiassist.info.labels.img_model_2, 'aiassist-option '+( ! aiassist.info.subscribe.expire ? 'aiassist-lock' : '' ) ),
+						addModel('gptImage', aiassist.info.labels.img_model_3_on, aiassist.info.labels.img_model_3, 'aiassist-option '+( ! aiassist.info.subscribe.expire ? 'aiassist-lock' : '' ) ),
+						addModel('gptMini', aiassist.info.labels.img_model_5_on, aiassist.info.labels.img_model_5, 'aiassist-option' ),
+						addModel('banana', aiassist.info.labels.img_model_6_on, aiassist.info.labels.img_model_6, 'aiassist-option '+( ! aiassist.info.subscribe.expire ? 'aiassist-lock' : '' ) ),
 						addModel('input'),
 					),
 				),

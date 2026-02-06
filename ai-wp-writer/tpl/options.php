@@ -10,11 +10,11 @@
 			<?php if( isset( $this->options->token ) ){ ?>
 				<div class="wpai-symbols">
 					<div class="wpai-symbols-item <?php echo (int) @$this->info->limit < 1 ? 'aiassist-warning-limits aiassist-empty-limit' : '' ?>">
-						<div id="wpai-symbols-text"><?php _e('Extra credits:', 'wp-ai-assistant') ?></div>
+						<div id="wpai-symbols-text"><?php echo wp_kses_post( __('Extra credits:', 'wp-ai-assistant') ) ?></div>
 						<div id="wpai-symbols"><?php echo number_format( (int) @$this->info->limit, 0, ' ', ' ' )?></div>
 					</div>
 					<div class="wpai-symbols-item <?php echo (int) @$this->info->sLimit < 1 ? 'aiassist-warning-limits aiassist-empty-limit' : '' ?>">
-						<div id="wpai-symbols-text-subscribe"><?php _e('Subscription credits:', 'wp-ai-assistant') ?></div>
+						<div id="wpai-symbols-text-subscribe"><?php echo wp_kses_post( __('Subscription credits:', 'wp-ai-assistant') ) ?></div>
 						<div id="wpai-symbols-subscribe"><?php echo number_format( (int) @$this->info->sLimit, 0, ' ', ' ' )?></div>	
 					</div>
 				</div>
@@ -24,21 +24,21 @@
 				<div id="wpai-doc"></div>
 				
 				<div class="help-block">
-					<div id="wpai-title"><?php _e('Need help?', 'wp-ai-assistant') ?></div>
-					<div onclick="window.open('https://t.me/wpwriter', '_blank')" id="telegram"><?php _e('Our support on Telegram', 'wp-ai-assistant') ?></div>
+					<div id="wpai-title"><?php echo wp_kses_post( __('Need help?', 'wp-ai-assistant') ) ?></div>
+					<div onclick="window.open('https://t.me/wpwriter', '_blank')" id="telegram"><?php echo wp_kses_post( __('Our support on Telegram', 'wp-ai-assistant') ) ?></div>
 				</div>
 			</div>
 		</div>
 	</div>
 
 	<div class="aiassist-tabs">
-		<div class="aiassist-tab active" data-tab="settings"><?php _e('Settings', 'wp-ai-assistant') ?></div>
-		<div class="aiassist-tab <?php echo ! esc_attr( @$this->options->token ) ? 'aiassist-tab-inactive' : ''?>" data-tab="rates"><?php _e('Payment & Pricing', 'wp-ai-assistant') ?></div>
-		<div class="aiassist-tab <?php echo ! esc_attr( @$this->options->token ) ? 'aiassist-tab-inactive' : ''?>" data-tab="generations"><?php _e('Bulk generation', 'wp-ai-assistant') ?></div>
-		<div class="aiassist-tab <?php echo ! esc_attr( @$this->options->token ) ? 'aiassist-tab-inactive' : ''?> <?php echo ! @$this->info->subscribe->expire ? 'aiassist-lock' : ''?>" data-tab="rewrite"><?php _e('Rewrite and translation', 'wp-ai-assistant') ?></div>
-		<div class="aiassist-tab <?php echo ! esc_attr( @$this->options->token ) ? 'aiassist-tab-inactive' : ''?> <?php echo ! @$this->info->subscribe->expire ? 'aiassist-lock' : ''?>" data-tab="images"><?php _e('Making images unique', 'wp-ai-assistant') ?></div>
-		<div class="aiassist-tab <?php echo ! esc_attr( @$this->options->token ) ? 'aiassist-tab-inactive' : ''?>" data-tab="guide"><?php _e('Generation in editor', 'wp-ai-assistant') ?></div>
-		<div class="aiassist-tab <?php echo ! esc_attr( @$this->options->token ) ? 'aiassist-tab-inactive' : ''?>" data-tab="referrals"><?php _e('Affiliate Program', 'wp-ai-assistant') ?></div>
+		<div class="aiassist-tab active" data-tab="settings"><?php echo wp_kses_post( __('Settings', 'wp-ai-assistant') ) ?></div>
+		<div class="aiassist-tab <?php echo ! esc_attr( @$this->options->token ) ? 'aiassist-tab-inactive' : ''?>" data-tab="rates"><?php echo wp_kses_post( __('Payment & Pricing', 'wp-ai-assistant') ) ?></div>
+		<div class="aiassist-tab <?php echo ! esc_attr( @$this->options->token ) ? 'aiassist-tab-inactive' : ''?>" data-tab="generations"><?php echo wp_kses_post( __('Bulk generation', 'wp-ai-assistant') ) ?></div>
+		<div class="aiassist-tab <?php echo ! esc_attr( @$this->options->token ) ? 'aiassist-tab-inactive' : ''?> <?php echo ! @$this->info->subscribe->expire ? 'aiassist-lock' : ''?>" data-tab="rewrite"><?php echo wp_kses_post( __('Rewrite and translation', 'wp-ai-assistant') ) ?></div>
+		<div class="aiassist-tab <?php echo ! esc_attr( @$this->options->token ) ? 'aiassist-tab-inactive' : ''?> <?php echo ! @$this->info->subscribe->expire ? 'aiassist-lock' : ''?>" data-tab="images"><?php echo wp_kses_post( __('Making images unique', 'wp-ai-assistant') ) ?></div>
+		<div class="aiassist-tab <?php echo ! esc_attr( @$this->options->token ) ? 'aiassist-tab-inactive' : ''?>" data-tab="guide"><?php echo wp_kses_post( __('Generation in editor', 'wp-ai-assistant') ) ?></div>
+		<div class="aiassist-tab <?php echo ! esc_attr( @$this->options->token ) ? 'aiassist-tab-inactive' : ''?>" data-tab="referrals"><?php echo wp_kses_post( __('Affiliate Program', 'wp-ai-assistant') ) ?></div>
 	</div>
 	
 	
@@ -46,9 +46,9 @@
 		<form method="POST" class="wpai-form">
 			<div class="license">
 				<div class="input-block">
-					<div class="title"><?php _e('Thank you for choosing AI WP Writer. API key settings:', 'wp-ai-assistant') ?></div>
+					<div class="title"><?php echo wp_kses_post( __('Thank you for choosing AI WP Writer. API key settings:', 'wp-ai-assistant') ) ?></div>
 					<?php if( ! isset( $this->options->token ) ){ ?>
-						<label class="title"><p style="font-size: 16px; line-height:1.5;"><?php _e('<b>Getting started with the plugin is easy and free!</b> </br> 1. Fill out the registration form below. </br> 2. The API key will be sent to your email address. If you do not receive the email please check your spam folder. </br> 3. Save the API key in the appropriate field. After registration you will receive 10000 free credits. One key can be used on multiple sites, all sites will have a common balance and one common subscription. </br></br> Notice! If the site is hosted on localhost, the plugin may not work correctly, and free credits will not be accrued. Use the plugin for sites hosted on a server or web hosting. </br> For a quicker understanding of the plugin functionality, check out the documentation on our <a href="https://aiwpw.com/docs/" target="_blank">official website</a>. </br> If you still have any questions, write to us via <a href="https://t.me/wpwriter" target="_blank">Telegram</a>. <br /><br /> <b>Enter the API key:</b>', 'wp-ai-assistant') ?></p></label>
+						<label class="title"><p style="font-size: 16px; line-height:1.5;"><?php echo wp_kses_post( __('<b>Getting started with the plugin is easy and free!</b> </br> 1. Fill out the registration form below. </br> 2. The API key will be sent to your email address. If you do not receive the email please check your spam folder. </br> 3. Save the API key in the appropriate field. After registration you will receive 10000 free credits. One key can be used on multiple sites, all sites will have a common balance and one common subscription. </br></br> Notice! If the site is hosted on localhost, the plugin may not work correctly, and free credits will not be accrued. Use the plugin for sites hosted on a server or web hosting. </br> For a quicker understanding of the plugin functionality, check out the documentation on our <a href="https://aiwpw.com/docs/" target="_blank">official website</a>. </br> If you still have any questions, write to us via <a href="https://t.me/wpwriter" target="_blank">Telegram</a>. <br /><br /> <b>Enter the API key:</b>', 'wp-ai-assistant') ) ?></p></label>
 					<?php } ?>
 					
 					<input name="token" value="<?php echo $this->maskKey( @$this->options->token ) ?>" /><br /><br /><br />
@@ -57,31 +57,31 @@
 				<div class="row">
 					<label>
 						<input type="checkbox" name="cron" <?php echo @$this->options->cron || @$this->info->cron_enabled || ! isset( $this->options->token ) ? 'checked' : ''?> />
-						<?php _e('Activate sending requests from the plugin server to the website in order to enable bulk generation, rewriting or ensuring image uniqueness in background mode. This allows you to generate content when there is no traffic on the website and the admin panel is closed.', 'wp-ai-assistant') ?>
+						<?php echo wp_kses_post( __('Activate sending requests from the plugin server to the website in order to enable bulk generation, rewriting or ensuring image uniqueness in background mode. This allows you to generate content when there is no traffic on the website and the admin panel is closed.', 'wp-ai-assistant') ) ?>
 					</label>
 				</div>
 			
 				<div class="row">
-					<button name="save"><?php _e('Save', 'wp-ai-assistant') ?></button>
+					<button name="save"><?php echo wp_kses_post( __('Save', 'wp-ai-assistant') ) ?></button>
 				</div>
 			</div>
 			<input type="hidden" name="nonce" value="<?php echo wp_create_nonce('aiassist'); ?>" />
 		</form>
 
 		<?php if( @$this->options->token ){ ?>
-			<div class="title"><?php _e('Statistics', 'wp-ai-assistant') ?></div>
+			<div class="title"><?php echo wp_kses_post( __('Statistics', 'wp-ai-assistant') ) ?></div>
 			<form id="aiassist-stat">
 				
 				<div class="aiassist-stat-item">
-					<button name="step" value="<?php echo esc_attr( date('Y-m-d') )?>|<?php echo esc_html( date('Y-m-d') )?>"><?php _e('Day', 'wp-ai-assistant') ?></button>
-					<button name="step" value="<?php echo esc_attr( date('Y-m-d', time() - 60*60*24*7) )?>|<?php echo esc_html( date('Y-m-d') )?>"><?php _e('Week', 'wp-ai-assistant') ?></button>
-					<button name="step" value="<?php echo esc_attr( date('Y-m-d', time() - 60*60*24*30) )?>|<?php echo esc_html( date('Y-m-d') )?>"><?php _e('Month', 'wp-ai-assistant') ?></button>
+					<button name="step" value="<?php echo esc_attr( date('Y-m-d') )?>|<?php echo esc_html( date('Y-m-d') )?>"><?php echo wp_kses_post( __('Day', 'wp-ai-assistant') ) ?></button>
+					<button name="step" value="<?php echo esc_attr( date('Y-m-d', time() - 60*60*24*7) )?>|<?php echo esc_html( date('Y-m-d') )?>"><?php echo wp_kses_post( __('Week', 'wp-ai-assistant') ) ?></button>
+					<button name="step" value="<?php echo esc_attr( date('Y-m-d', time() - 60*60*24*30) )?>|<?php echo esc_html( date('Y-m-d') )?>"><?php echo wp_kses_post( __('Month', 'wp-ai-assistant') ) ?></button>
 				</div>
 				
 				<div class="aiassist-stat-item">
 					<?php if( @$this->info->hosts ){ ?>
 						<select name="host">
-							<option value="all"><?php _e('All sites', 'wp-ai-assistant') ?></option>
+							<option value="all"><?php echo wp_kses_post( __('All sites', 'wp-ai-assistant') ) ?></option>
 							<?php foreach( $this->info->hosts as $host ){ ?>
 								<option value="<?php echo esc_attr( $host ) ?>"><?php echo esc_html( $host ) ?></option>
 							<?php } ?>
@@ -90,7 +90,7 @@
 					
 					<input type="date" name="dateStart" required />
 					<input type="date" name="dateEnd" required />	
-					<button id="aiassist-show-report"><?php _e('Show report', 'wp-ai-assistant') ?></button>
+					<button id="aiassist-show-report"><?php echo wp_kses_post( __('Show report', 'wp-ai-assistant') ) ?></button>
 				</div>
 				
 			</form>
@@ -101,228 +101,262 @@
 		<?php if( ! @$this->options->token ){ ?>
 			<form method="POST" class="wpai-form" id="aiassist-sign" data-action="signUp">
 				<div class="aiassist-sign-title">
-					<?php _e('Create a new API key or restore an existing key', 'wp-ai-assistant') ?>
+					<?php echo wp_kses_post( __('Create a new API key or restore an existing key', 'wp-ai-assistant') ) ?>
 				</div>
 				
 				<div id="wpai-errors-messages"></div>
 				
 				<div class="row password2">
-					<div><?php _e('Enter your email and accept the plugin’s terms of use', 'wp-ai-assistant') ?></div>
+					<div><?php echo wp_kses_post( __('Enter your email and accept the plugin’s terms of use', 'wp-ai-assistant') ) ?></div>
 					<input type="email" name="email" required />
 					
 					<label> 
-						<input type="checkbox" name="license" required /> <?php _e('By registering, you agree to', 'wp-ai-assistant') ?> <a href="https://aiwpwriter.com/privacy-policy/" target="_blank"><?php _e('privacy policy', 'wp-ai-assistant') ?></a>, <a href="https://aiwpwriter.com/publichnaja-oferta-o-zakljuchenii-dogovora-ob-okazanii-uslug/" target="_blank"><?php _e('offer', 'wp-ai-assistant') ?></a> <?php _e('and', 'wp-ai-assistant') ?> <a href="https://aiwpwriter.com/user-agreement/" target="_blank"><?php _e('user agreement', 'wp-ai-assistant') ?></a>.
+						<input type="checkbox" name="license" required /> <?php echo wp_kses_post( __('By registering, you agree to', 'wp-ai-assistant') ) ?> <a href="https://aiwpwriter.com/privacy-policy/" target="_blank"><?php echo wp_kses_post( __('privacy policy', 'wp-ai-assistant') ) ?></a>, <a href="https://aiwpwriter.com/publichnaja-oferta-o-zakljuchenii-dogovora-ob-okazanii-uslug/" target="_blank"><?php echo wp_kses_post( __('offer', 'wp-ai-assistant') ) ?></a> <?php echo wp_kses_post( __('and', 'wp-ai-assistant') ) ?> <a href="https://aiwpwriter.com/user-agreement/" target="_blank"><?php echo wp_kses_post( __('user agreement', 'wp-ai-assistant') ) ?></a>.
 					</label>
 				</div>
 				
 				<div class="row">
-					<button><?php _e('Get API key', 'wp-ai-assistant') ?></button>
+					<button><?php echo wp_kses_post( __('Get API key', 'wp-ai-assistant') ) ?></button>
 				</div>
 				
 			</form>
 		<?php } ?>
 		
 		<div class="aiassist-how-to-use-info">
-			<h3><?php _e('How to use the AI WP Writer plugin', 'wp-ai-assistant') ?></h3>
+			<h3><?php echo wp_kses_post( __('How to use the AI WP Writer plugin', 'wp-ai-assistant') ) ?></h3>
 			<ul>
-				<li><?php _e('- After you enter the key, a plugin widget appears under the <b>Classic Editor</b> and <b>Gutenberg</b> text editor.', 'wp-ai-assistant') ?></li>
-				<li><?php _e('- To generate images anywhere in the new or old articles, use the <b>AI image creator</b> button. In the Gutenberg editor, add a new block and type <b>AI image creator</b> in the widget search.', 'wp-ai-assistant') ?></li>
-				<li><?php _e('- The <b>AI assist</b> button will help to regenerate a piece of text you do not like or generate a text fragment in the editor where the cursor is positioned. It works in the <b>Classic Editor</b>. To regenerate, select a part of text, press <b>AI assist</b>, use a standard or enter your own prompt. You can use regeneration or generation of text anywhere in you material for any articles, including those already published.', 'wp-ai-assistant') ?></li>
-				<li><?php _e('- The <b>Bulk generation</b> tab is used to create articles in large volumes based on a list of key phrases. You can schedule a certain number of articles to be automatically published every day.', 'wp-ai-assistant') ?></li>
-				<li><?php _e('- The <b>Rewrite and translation</b> tab is used when you need to rewrite a text preserving its original meaning. You can use it both for the articles on your own site and for rewriting articles on third-party sites according to URL list. You can also translate and rewrite pages simultaneously. To do this, select the target language and the text will be translated into it.', 'wp-ai-assistant') ?></li>
+				<li><?php echo wp_kses_post( __('- After you enter the key, a plugin widget appears under the <b>Classic Editor</b> and <b>Gutenberg</b> text editor.', 'wp-ai-assistant') ) ?></li>
+				<li><?php echo wp_kses_post( __('- To generate images anywhere in the new or old articles, use the <b>AI image creator</b> button. In the Gutenberg editor, add a new block and type <b>AI image creator</b> in the widget search.', 'wp-ai-assistant') ) ?></li>
+				<li><?php echo wp_kses_post( __('- The <b>AI assist</b> button will help to regenerate a piece of text you do not like or generate a text fragment in the editor where the cursor is positioned. It works in the <b>Classic Editor</b>. To regenerate, select a part of text, press <b>AI assist</b>, use a standard or enter your own prompt. You can use regeneration or generation of text anywhere in you material for any articles, including those already published.', 'wp-ai-assistant') ) ?></li>
+				<li><?php echo wp_kses_post( __('- The <b>Bulk generation</b> tab is used to create articles in large volumes based on a list of key phrases. You can schedule a certain number of articles to be automatically published every day.', 'wp-ai-assistant') ) ?></li>
+				<li><?php echo wp_kses_post( __('- The <b>Rewrite and translation</b> tab is used when you need to rewrite a text preserving its original meaning. You can use it both for the articles on your own site and for rewriting articles on third-party sites according to URL list. You can also translate and rewrite pages simultaneously. To do this, select the target language and the text will be translated into it.', 'wp-ai-assistant') ) ?></li>
 			</ul>
 		</div>
 		
 	</div>
 	
 	
-	<?php if( @$this->info->success ){ ?>
+	<div class="aiassist-tab-data" data-tab="images">
+		<h2 class="generations-header"><?php echo wp_kses_post( __('<a href="https://aiwpw.com/docs/image-uniqueness-and-regeneration/" target="_blank">How to use</a>', 'wp-ai-assistant') ) ?></h2>
+		<div class="center"><?php echo wp_kses_post( __('You can make images on your website unique using neural networks. The way it works: we take the original image, generate a similar one and automatically replace it on the site pages. Supported extensions: PNG (.png), JPEG (.jpeg and .jpg), WEBP (.webp), non-animated GIF (.gif). Images must not fall under censorship or other restrictions imposed by neural networks. If the image cannot be regenerated, we skip it and move on to the next one.', 'wp-ai-assistant') ) ?><br /></div>
+		<br />
 	
-		<div class="aiassist-tab-data" data-tab="images">
-			<h2 class="generations-header"><?php _e('<a href="https://aiwpw.com/docs/image-uniqueness-and-regeneration/" target="_blank">How to use</a>', 'wp-ai-assistant') ?></h2>
-			<div class="center"><?php _e('You can make images on your website unique using neural networks. The way it works: we take the original image, generate a similar one and automatically replace it on the site pages. Supported extensions: PNG (.png), JPEG (.jpeg and .jpg), WEBP (.webp), non-animated GIF (.gif). Images must not fall under censorship or other restrictions imposed by neural networks. If the image cannot be regenerated, we skip it and move on to the next one.', 'wp-ai-assistant') ?><br /></div>
-			<br />
+		<div>
+			<div><?php echo wp_kses_post( __('Regenerate all images of posts in the category:', 'wp-ai-assistant') ) ?></div>
+			<select id="cat-images">
+				<option value="0"><?php echo wp_kses_post( __('Category', 'wp-ai-assistant') ) ?></option>
+				<?php if( $cats ){ ?>
+					<?php foreach( $cats as $cat ){ ?>
+						<option value="<?php echo esc_attr( $cat->term_id )?>"><?php echo esc_html( $cat->name )?></option>
+					<?php } ?>
+				<?php } ?>
+			</select>
+		</div>	
+			
+		<div class="aiassist-images-options-items">
+			<div class="aiassist-images-type-label"><?php echo wp_kses_post( __('Regenerate images for the following post types:', 'wp-ai-assistant') ) ?></div>
+				
+			<div class="mb-15 images-block-type">
+				<label><input type="checkbox" id="replace-images-all"/><?php echo wp_kses_post( __('Regenerate all images on this site', 'wp-ai-assistant') ) ?></label>
+				<?php if( $types = get_post_types( [ 'public' => true ] ) ){ unset( $types['attachment'] ); ?>
+					<?php foreach( $types as $type ){?>
+						<label><input type="checkbox" name="images_type[]" value="<?php echo esc_attr( $type )?>" <?php echo esc_attr( @in_array($type, ( @$options->post_type ? @$options->post_type : [] ) ) ? 'checked' : '' )?> /> <?php echo esc_html( $type )?></label>
+					<?php } ?>
+				<?php } ?>
+			</div>
+			
+			<div class="aiassist-images-item-block">	
+				<label><?php echo wp_kses_post( __('Or specify a list of URLs where you would like to regenerate images:', 'wp-ai-assistant') ) ?></label>
+				<textarea id="aiassist-images-item"></textarea>
+			</div>
+		</div>
 		
+		<div>
+			<div><?php echo wp_kses_post( __('Image generation model', 'wp-ai-assistant') ) ?></div>
+			<select name="aiassist-image-model" class="aiassist-images-options" id="aiassist-images-model">
+				<?php if( @$this->info->labels->img_model_4_on ){ ?>
+					<option value="flux" <?php echo @$images['imageModel'] == 'flux' ? 'selected' : '' ?>><?php echo esc_html( $this->info->labels->img_model_4 )?></option>
+				<?php } ?>
+				<?php if( @$this->info->labels->img_model_2_on ){ ?>
+					<option value="dalle" <?php echo @$images['imageModel'] == 'dalle' ? 'selected' : '' ?>><?php echo esc_html( $this->info->labels->img_model_2 )?></option>
+				<?php } ?>
+				<?php if( @$this->info->labels->img_model_3_on ){ ?>
+					<option value="gptImage" <?php echo @$images['imageModel'] == 'gptImage' ? 'selected' : '' ?>><?php echo esc_html( $this->info->labels->img_model_3)?></option>
+				<?php } ?>
+				<?php if( @$this->info->labels->img_model_5_on ){ ?>
+					<option value="gptMini" <?php echo @$images['imageModel'] == 'gptMini' ? 'selected' : '' ?>><?php echo esc_html( $this->info->labels->img_model_5 )?></option>
+				<?php } ?>
+				<?php if( @$this->info->labels->img_model_6_on ){ ?>
+					<option value="banana" <?php echo @$images['imageModel'] == 'banana' ? 'selected' : '' ?>><?php echo esc_html( $this->info->labels->img_model_6 )?></option>
+				<?php } ?>
+				<?php if( @$this->info->labels->img_model_1_on ){ ?>
+					<option value="midjourney" <?php echo @$images['imageModel'] == 'midjourney' ? 'selected' : '' ?>><?php echo esc_html( $this->info->labels->img_model_1 )?></option>
+				<?php } ?>
+			</select>
+		</div>
+		
+		<br />
+			<div><?php echo wp_kses_post( __('<b>Important!</b> To make generation work faster in the background, the option to send requests from the plugin server to the site must be enabled in the <b>Settings</b> tab.', 'wp-ai-assistant') ) ?></div>
+		
+		<div class="aiassist-options-images">
+			<button id="start-images" <?php echo @$images['start'] ? 'disabled' : '' ?>><?php echo wp_kses_post( __('Start', 'wp-ai-assistant') ) ?></button>
+			<button id="stop-images" <?php echo ! @$images['start'] ? 'disabled' : '' ?>><?php echo wp_kses_post( __('Stop', 'wp-ai-assistant') ) ?></button>
+			<button id="reset-images"><?php echo wp_kses_post( __('Clear', 'wp-ai-assistant') ) ?></button>
+			<button id="restore-images" class="aiassist-orange"><?php echo wp_kses_post( __('Restore original / remove generated images', 'wp-ai-assistant') ) ?></button>
+			<button id="remove-images" class="aiassist-orange"><?php echo wp_kses_post( __('Remove original images', 'wp-ai-assistant') ) ?></button>
+		</div>
+		
+		<?php
+			$images['attachments'] = $images['attachments'] ?? [];
+			$images_all = count( $images['attachments'] );
+			$images_compleate = count(array_filter($images['attachments'], function($attach) {
+				return array_key_exists('replace_id', $attach);
+			}));
+		?>
+		<div id="aiassist-images-status">
+			<?php if( ! @$this->options->token ){ ?>
+				<span class="aiassist-warning-limits"><?php echo wp_kses_post( __('You have not added the API key! The key is sent to the mail after registration in the plugin. Register and add the key from the email to the special field in the plugin settings and generation will become available.', 'wp-ai-assistant') ) ?></span>
+			<?php } elseif( ( (int) @$this->info->limit + (int) @$this->info->sLimit ) < 1 ){ ?>
+				<span class="aiassist-warning-limits"><?php echo wp_kses_post( __('There are no credits left on your balance. When you top up the balance, the process will continue automatically.', 'wp-ai-assistant') ) ?></span>
+			<?php } else { ?>
+				<?php if( @$images['start'] && @$images_all > $images_compleate ){ ?>
+					<?php echo wp_kses_post( __('Regeneration in progress...', 'wp-ai-assistant') ) ?>
+				<?php } elseif( ! @$images['start'] && isset( $images['attachments'] ) && @$images_all < $images_compleate ){ ?>
+					<?php echo wp_kses_post( __('Regeneration has been stopped.', 'wp-ai-assistant') ) ?>
+				<?php } elseif( isset( $images['attachments'] ) && @$images_all >= $images_compleate ){ ?>
+					<?php echo wp_kses_post( __('Regeneration is completed.', 'wp-ai-assistant') ) ?>
+				<?php } ?>
+			<?php } ?>
+		</div>
+		
+		<div id="aiassist-images-progress">
+			<?php echo wp_kses_post( __('Regenerated', 'wp-ai-assistant') ) ?> <b id="aiassist-images-compleat-count"><?php echo $images_compleate ?> </b>
+			<?php echo wp_kses_post( __('images of', 'wp-ai-assistant') ) ?> <b id="aiassist-images-all-count"><?php echo $images_all ?></b>
+		</div>
+
+	</div>
+	
+	<form id="aiassist-get-bonus" class="aiassist-tab-data" data-tab="referrals">
+		
+		<div class="aiassist-white-bg">
+			<?php echo wp_kses_post( __('Attract new users to the Plugin and earn money!<br />New users who enter the referral code will receive a 15% discount on their first deposit, <br />and you will receive 10% on your balance from all webmaster payments. <br />The more Active Users you attract, the more money you make. <br />Payout is made on request, within a day, to the USDT trc20 wallet. <br />Network commission of 1.4 USDT is charged on the payout. <br />By participating in the Referral Program you agree with the <a href="https://aiwpw.com/user-agreement">Rules</a>.', 'wp-ai-assistant') ) ?>
+		</div>
+		<br /><br />
+		
+		<div class="aiassist-bonus-item">
+			<b><?php echo wp_kses_post( __('Referral Code:', 'wp-ai-assistant') ) ?></b> <span id="aiassist-promocode"><?php echo esc_html( @$this->info->referral )?></span>
+		</div>
+		
+		<div class="aiassist-bonus-item">
+			<b><?php echo wp_kses_post( __('Your balance:', 'wp-ai-assistant') ) ?></b> <?php echo (float) @$this->info->bonus->amount_usdt ?>$
+		</div>
+		
+		<div class="aiassist-bonus-item">
+			<b><?php echo wp_kses_post( __('Attracted referrals:', 'wp-ai-assistant') ) ?></b> <?php echo (int) @$this->info->bonus->count ?>
+		</div>
+		
+		<div class="aiassist-bonus-item">
+			<b><?php echo wp_kses_post( __('Payout method:', 'wp-ai-assistant') ) ?></b>
 			<div>
-				<div><?php _e('Regenerate all images of posts in the category:', 'wp-ai-assistant') ?></div>
-				<select id="cat-images">
-					<option value="0"><?php _e('Category', 'wp-ai-assistant') ?></option>
+				<select name="method" required>
+					<option value="usdt">USDT trc-20</option>
+				</select>
+			</div>
+		</div>
+		
+		<div class="aiassist-bonus-item">
+			<b><?php echo wp_kses_post( __('Specify your wallet number to receive the payment:', 'wp-ai-assistant') ) ?></b>
+			<div>
+				<input name="wallet" required />
+			</div>
+		</div>
+		
+		<div class="aiassist-bonus-item">
+			<b><?php echo wp_kses_post( __('Please specify your Telegram or email to contact you in case of any additional questions:', 'wp-ai-assistant') ) ?></b>
+			<div>
+				<input name="info" required />
+			</div>
+		</div>
+		
+		
+		<div class="aiassist-bonus-item">
+		
+			<?php if( isset( $this->info->bonus->payment_request ) ){ ?>
+				<div><?php echo wp_kses_post( __('Request for payout accepted:', 'wp-ai-assistant') ) ?> <?php echo date( 'd.m.Y H:i', $this->info->bonus->payment_request ) ?></div>
+			<?php } ?>
+			
+			<?php if( (int) @$this->info->bonus->min_payment > (int) @$this->info->bonus->amount ){ ?>
+				<div><?php echo wp_kses_post( __('Minimum payout amount:', 'wp-ai-assistant') ) ?> <?php echo (int) @$this->info->bonus->min_payment ?> $</div>
+			<?php } ?>
+			
+			<button class="aiassist-button <?php echo isset( $this->info->bonus->payment_request ) || $this->info->bonus->min_payment > (int) @$this->info->bonus->amount ? 'disabled' :'' ?>"><?php echo wp_kses_post( __('Request payout', 'wp-ai-assistant') ) ?></button>
+		</div>
+	
+	</form>
+	
+	<div class="aiassist-tab-data" data-tab="guide">
+	
+		<div class="aiassist-white-bg">
+			<?php echo wp_kses_post( __('You can generate articles directly in the WordPress Editor. The plugin functionality is located at the bottom of the page, under the main editor. <br />You can also generate images anywhere in your articles pressing the button <b>AI image creator</b> (or widget in Gutenberg editor). <br />To regenerate any text fragment in any article, use the <b>AI Assist</b> button. To do it, select the text fragment, press <b>AI Assist</b> and the <b>Generate</b> button.', 'wp-ai-assistant') ) ?>
+		</div>
+		
+		<div class="aiassist-guide-button">
+			<a href="/wp-admin/post-new.php#ai_assistant" target="_blank" id="aiassist-new-post"><?php echo wp_kses_post( __('Generate article', 'wp-ai-assistant') ) ?></a>
+			<a href="/wp-admin/post-new.php?post_type=page#ai_assistant" target="_blank" id="aiassist-new-page"><?php echo wp_kses_post( __('Generate page', 'wp-ai-assistant') ) ?></a>
+		</div>
+	
+	</div>
+	
+	<div class="aiassist-tab-data" data-tab="rewrite">
+		
+		<h2 class="generations-header"><?php echo wp_kses_post( __('<a href="https://aiwpw.com/docs/article-rewriting/" target="_blank">How to use</a>', 'wp-ai-assistant') ) ?></h2>
+		
+		<div class="aiassist-rewrite-items">
+		
+			<div class="center"><?php echo wp_kses_post( __('You can rewrite your entire site, individual pages, categories. You can also rewrite pages of third-party sites using URL. We try to maintain the highest quality of rewritten third-party sites. Please note that third-party sites have different markup, layout and structure, that’s why unwanted elements can occur in a rewritten article. We recommend you to rewrite a few pages first, for testing. If you find unwanted elements in your articles, feel free to contact our support team. For Active Users of the plugin, we are ready to customize it for rewriting specific third-party sites.', 'wp-ai-assistant') ) ?><br /></div>
+			
+			<div><?php echo wp_kses_post( __('Rewrite mode', 'wp-ai-assistant') ) ?></div>
+			<select name="rewrite-split" id="aiassist-rewrite-split" class="aiassist-rewrite-options">
+				<option value="3" <?php echo esc_attr( @$rewrites['split'] == 3 ? 'selected' : '' )?>><?php echo wp_kses_post( __('Rewrite the entire text', 'wp-ai-assistant') ) ?></option>
+				<option value="1" <?php echo esc_attr( @$rewrites['split'] == 1 ? 'selected' : '' )?>><?php echo wp_kses_post( __('Rewrite paragraph by paragraph', 'wp-ai-assistant') ) ?></option>
+				<option value="2" <?php echo esc_attr( @$rewrites['split'] == 2 ? 'selected' : '' )?>><?php echo wp_kses_post( __('Rewrite segment by segment between headings', 'wp-ai-assistant') ) ?></option>
+			</select>
+			<br /><br />
+			
+			
+			<div>
+				<div><?php echo wp_kses_post( __('Rewriting category', 'wp-ai-assistant') ) ?></div>
+				<select class="cat-rewrite">
+					<option value="0"><?php echo wp_kses_post( __('Category', 'wp-ai-assistant') ) ?></option>
 					<?php if( $cats ){ ?>
 						<?php foreach( $cats as $cat ){ ?>
 							<option value="<?php echo esc_attr( $cat->term_id )?>"><?php echo esc_html( $cat->name )?></option>
 						<?php } ?>
 					<?php } ?>
 				</select>
-			</div>	
-				
-			<div class="aiassist-images-options-items">
-				<div class="aiassist-images-type-label"><?php _e('Regenerate images for the following post types:', 'wp-ai-assistant') ?></div>
-					
-				<div class="mb-15 images-block-type">
-					<label><input type="checkbox" id="replace-images-all"/><?php _e('Regenerate all images on this site', 'wp-ai-assistant') ?></label>
-					<?php if( $types = get_post_types( [ 'public' => true ] ) ){ unset( $types['attachment'] ); ?>
-						<?php foreach( $types as $type ){?>
-							<label><input type="checkbox" name="images_type[]" value="<?php echo esc_attr( $type )?>" <?php echo esc_attr( @in_array($type, ( @$options->post_type ? @$options->post_type : [] ) ) ? 'checked' : '' )?> /> <?php echo esc_html( $type )?></label>
-						<?php } ?>
-					<?php } ?>
-				</div>
-				
-				<div class="aiassist-images-item-block">	
-					<label><?php _e('Or specify a list of URLs where you would like to regenerate images:', 'wp-ai-assistant') ?></label>
-					<textarea id="aiassist-images-item"></textarea>
-				</div>
 			</div>
 			
-			<div>
-				<div><?php _e('Image generation model', 'wp-ai-assistant') ?></div>
-				<select name="aiassist-image-model" class="aiassist-images-options" id="aiassist-images-model">
-					<?php if( @$this->info->labels->img_model_4_on ){ ?>
-						<option value="flux" <?php echo @$images['imageModel'] == 'flux' ? 'selected' : '' ?>><?php echo esc_html( $this->info->labels->img_model_4 )?></option>
-					<?php } ?>
-					<?php if( @$this->info->labels->img_model_2_on ){ ?>
-						<option value="dalle" <?php echo @$images['imageModel'] == 'dalle' ? 'selected' : '' ?>><?php echo esc_html( $this->info->labels->img_model_2 )?></option>
-					<?php } ?>
-					<?php if( @$this->info->labels->img_model_3_on ){ ?>
-						<option value="gptImage" <?php echo @$images['imageModel'] == 'gptImage' ? 'selected' : '' ?>><?php echo esc_html( $this->info->labels->img_model_3)?></option>
-					<?php } ?>
-					<?php if( @$this->info->labels->img_model_1_on ){ ?>
-						<option value="midjourney" <?php echo @$images['imageModel'] == 'midjourney' ? 'selected' : '' ?>><?php echo esc_html( $this->info->labels->img_model_1 )?></option>
-					<?php } ?>
-				</select>
-			</div>
+			<div class="aiassist-rewrite-type-label"><?php echo wp_kses_post( __('Specify the types of posts that need to be rewritten:', 'wp-ai-assistant') ) ?></div>
 			
-			<br />
-				<div><?php echo _e('<b>Important!</b> To make generation work faster in the background, the option to send requests from the plugin server to the site must be enabled in the <b>Settings</b> tab.', 'wp-ai-assistant') ?></div>
-			
-			<div class="aiassist-options-images">
-				<button id="start-images" <?php echo @$images['start'] ? 'disabled' : '' ?>><?php _e('Start', 'wp-ai-assistant') ?></button>
-				<button id="stop-images" <?php echo ! @$images['start'] ? 'disabled' : '' ?>><?php _e('Stop', 'wp-ai-assistant') ?></button>
-				<button id="reset-images"><?php _e('Clear', 'wp-ai-assistant') ?></button>
-				<button id="restore-images" class="aiassist-orange"><?php _e('Restore original / remove generated images', 'wp-ai-assistant') ?></button>
-				<button id="remove-images" class="aiassist-orange"><?php _e('Remove original images', 'wp-ai-assistant') ?></button>
-			</div>
-			
-			<?php
-				$images_all = count( $images['attachments'] );
-				$images_compleate = count(array_filter($images['attachments'], function($attach) {
-					return array_key_exists('replace_id', $attach);
-				}));
-			?>
-			<div id="aiassist-images-status">
-				<?php if( ! @$this->options->token ){ ?>
-					<span class="aiassist-warning-limits"><?php _e('You have not added the API key! The key is sent to the mail after registration in the plugin. Register and add the key from the email to the special field in the plugin settings and generation will become available.', 'wp-ai-assistant') ?></span>
-				<?php } elseif( ( (int) @$this->info->limit + (int) @$this->info->sLimit ) < 1 ){ ?>
-					<span class="aiassist-warning-limits"><?php _e('There are no credits left on your balance. When you top up the balance, the process will continue automatically.', 'wp-ai-assistant') ?></span>
-				<?php } else { ?>
-					<?php if( @$images['start'] && @$images_all > $images_compleate ){ ?>
-						<?php _e('Regeneration in progress...', 'wp-ai-assistant') ?>
-					<?php } elseif( ! @$images['start'] && isset( $images['attachments'] ) && @$images_all < $images_compleate ){ ?>
-						<?php _e('Regeneration has been stopped.', 'wp-ai-assistant') ?>
-					<?php } elseif( isset( $images['attachments'] ) && @$images_all >= $images_compleate ){ ?>
-						<?php _e('Regeneration is completed.', 'wp-ai-assistant') ?>
+			<div class="mb-15 rewrite-block-type">
+				<label><input type="checkbox" id="rewrite_all"/><?php echo wp_kses_post( __('Rewrite all the articles on this site', 'wp-ai-assistant') ) ?></label>
+				<?php if( $types = get_post_types( [ 'public' => true ] ) ){ unset( $types['attachment'] ); ?>
+					<?php foreach( $types as $type ){?>
+						<label><input type="checkbox" name="rewrite_type[]" value="<?php echo esc_attr( $type )?>" <?php echo esc_attr( @in_array($type, ( @$options->post_type ? @$options->post_type : [] ) ) ? 'checked' : '' )?> /> <?php echo esc_html( $type )?></label>
 					<?php } ?>
 				<?php } ?>
 			</div>
 			
-			<div id="aiassist-images-progress">
-				<?php _e('Regenerated', 'wp-ai-assistant') ?> <b id="aiassist-images-compleat-count"><?php echo $images_compleate ?> </b>
-				<?php _e('images of', 'wp-ai-assistant') ?> <b id="aiassist-images-all-count"><?php echo $images_all ?></b>
-			</div>
+			<div class="aiassist-rewrite-item-block">	
 
-		</div>
-		
-		<form id="aiassist-get-bonus" class="aiassist-tab-data" data-tab="referrals">
-			
-			<div class="aiassist-white-bg">
-				<?php _e('Attract new users to the Plugin and earn money!<br />New users who enter the referral code will receive a 15% discount on their first deposit, <br />and you will receive 10% on your balance from all webmaster payments. <br />The more Active Users you attract, the more money you make. <br />Payout is made on request, within a day, to the USDT trc20 wallet. <br />Network commission of 1.4 USDT is charged on the payout. <br />By participating in the Referral Program you agree with the <a href="https://aiwpw.com/user-agreement">Rules</a>.', 'wp-ai-assistant') ?>
-			</div>
-			<br /><br />
-			
-			<div class="aiassist-bonus-item">
-				<b><?php _e('Referral Code:', 'wp-ai-assistant') ?></b> <span id="aiassist-promocode"><?php echo esc_html( @$this->info->referral )?></span>
-			</div>
-			
-			<div class="aiassist-bonus-item">
-				<b><?php _e('Your balance:', 'wp-ai-assistant') ?></b> <?php echo (float) @$this->info->bonus->amount_usdt ?>$
-			</div>
-			
-			<div class="aiassist-bonus-item">
-				<b><?php _e('Attracted referrals:', 'wp-ai-assistant') ?></b> <?php echo (int) @$this->info->bonus->count ?>
-			</div>
-			
-			<div class="aiassist-bonus-item">
-				<b><?php _e('Payout method:', 'wp-ai-assistant') ?></b>
-				<div>
-					<select name="method" required>
-						<option value="usdt">USDT trc-20</option>
-					</select>
-				</div>
-			</div>
-			
-			<div class="aiassist-bonus-item">
-				<b><?php _e('Specify your wallet number to receive the payment:', 'wp-ai-assistant') ?></b>
-				<div>
-					<input name="wallet" required />
-				</div>
-			</div>
-			
-			<div class="aiassist-bonus-item">
-				<b><?php _e('Please specify your Telegram or email to contact you in case of any additional questions:', 'wp-ai-assistant') ?></b>
-				<div>
-					<input name="info" required />
-				</div>
-			</div>
-			
-			
-			<div class="aiassist-bonus-item">
-			
-				<?php if( isset( $this->info->bonus->payment_request ) ){ ?>
-					<div><?php _e('Request for payout accepted:', 'wp-ai-assistant') ?> <?php echo date( 'd.m.Y H:i', $this->info->bonus->payment_request ) ?></div>
-				<?php } ?>
+				<label><?php echo wp_kses_post( __('Or specify the list of URLs you want to rewrite. You can add any links, including links on third-party sites.', 'wp-ai-assistant') ) ?></label>
 				
-				<?php if( (int) @$this->info->bonus->min_payment > (int) @$this->info->bonus->amount ){ ?>
-					<div><?php _e('Minimum payout amount:', 'wp-ai-assistant') ?> <?php echo (int) @$this->info->bonus->min_payment ?> $</div>
-				<?php } ?>
+				<textarea class="aiassist-rewrite-item"></textarea>
 				
-				<button class="aiassist-button <?php echo isset( $this->info->bonus->payment_request ) || $this->info->bonus->min_payment > (int) @$this->info->bonus->amount ? 'disabled' :'' ?>"><?php _e('Request payout', 'wp-ai-assistant') ?></button>
-			</div>
-		
-		</form>
-		
-		<div class="aiassist-tab-data" data-tab="guide">
-		
-			<div class="aiassist-white-bg">
-				<?php _e('You can generate articles directly in the WordPress Editor. The plugin functionality is located at the bottom of the page, under the main editor. <br />You can also generate images anywhere in your articles pressing the button <b>AI image creator</b> (or widget in Gutenberg editor). <br />To regenerate any text fragment in any article, use the <b>AI Assist</b> button. To do it, select the text fragment, press <b>AI Assist</b> and the <b>Generate</b> button.', 'wp-ai-assistant') ?>
-			</div>
-			
-			<div class="aiassist-guide-button">
-				<a href="/wp-admin/post-new.php#ai_assistant" target="_blank" id="aiassist-new-post"><?php _e('Generate article', 'wp-ai-assistant') ?></a>
-				<a href="/wp-admin/post-new.php?post_type=page#ai_assistant" target="_blank" id="aiassist-new-page"><?php _e('Generate page', 'wp-ai-assistant') ?></a>
-			</div>
-		
-		</div>
-		
-		<div class="aiassist-tab-data" data-tab="rewrite">
-			
-			<h2 class="generations-header"><?php _e('<a href="https://aiwpw.com/docs/article-rewriting/" target="_blank">How to use</a>', 'wp-ai-assistant') ?></h2>
-			
-			<div class="aiassist-rewrite-items">
-			
-				<div class="center"><?php _e('You can rewrite your entire site, individual pages, categories. You can also rewrite pages of third-party sites using URL. We try to maintain the highest quality of rewritten third-party sites. Please note that third-party sites have different markup, layout and structure, that’s why unwanted elements can occur in a rewritten article. We recommend you to rewrite a few pages first, for testing. If you find unwanted elements in your articles, feel free to contact our support team. For Active Users of the plugin, we are ready to customize it for rewriting specific third-party sites.', 'wp-ai-assistant') ?><br /></div>
-				
-				<div><?php _e('Rewrite mode', 'wp-ai-assistant') ?></div>
-				<select name="rewrite-split" id="aiassist-rewrite-split" class="aiassist-rewrite-options">
-					<option value="3" <?php echo esc_attr( @$rewrites['split'] == 3 ? 'selected' : '' )?>><?php _e('Rewrite the entire text', 'wp-ai-assistant') ?></option>
-					<option value="1" <?php echo esc_attr( @$rewrites['split'] == 1 ? 'selected' : '' )?>><?php _e('Rewrite paragraph by paragraph', 'wp-ai-assistant') ?></option>
-					<option value="2" <?php echo esc_attr( @$rewrites['split'] == 2 ? 'selected' : '' )?>><?php _e('Rewrite segment by segment between headings', 'wp-ai-assistant') ?></option>
-				</select>
-				<br /><br />
-				
-				
-				<div>
-					<div><?php _e('Rewriting category', 'wp-ai-assistant') ?></div>
-					<select class="cat-rewrite">
-						<option value="0"><?php _e('Category', 'wp-ai-assistant') ?></option>
+				<div class="aiassist-cats-item">
+					<?php echo wp_kses_post( __('Choose the category for placing articles after rewriting:', 'wp-ai-assistant') ) ?>
+					<select class="cats-item">
+						<option value="0"><?php echo wp_kses_post( __('Category', 'wp-ai-assistant') ) ?></option>
 						<?php if( $cats ){ ?>
 							<?php foreach( $cats as $cat ){ ?>
 								<option value="<?php echo esc_attr( $cat->term_id )?>"><?php echo esc_html( $cat->name )?></option>
@@ -331,968 +365,957 @@
 					</select>
 				</div>
 				
-				<div class="aiassist-rewrite-type-label"><?php _e('Specify the types of posts that need to be rewritten:', 'wp-ai-assistant') ?></div>
-				
-				<div class="mb-15 rewrite-block-type">
-					<label><input type="checkbox" id="rewrite_all"/><?php _e('Rewrite all the articles on this site', 'wp-ai-assistant') ?></label>
-					<?php if( $types = get_post_types( [ 'public' => true ] ) ){ unset( $types['attachment'] ); ?>
-						<?php foreach( $types as $type ){?>
-							<label><input type="checkbox" name="rewrite_type[]" value="<?php echo esc_attr( $type )?>" <?php echo esc_attr( @in_array($type, ( @$options->post_type ? @$options->post_type : [] ) ) ? 'checked' : '' )?> /> <?php echo esc_html( $type )?></label>
-						<?php } ?>
-					<?php } ?>
-				</div>
-				
-				<div class="aiassist-rewrite-item-block">	
-
-					<label><?php _e('Or specify the list of URLs you want to rewrite. You can add any links, including links on third-party sites.', 'wp-ai-assistant') ?></label>
-					
-					<textarea class="aiassist-rewrite-item"></textarea>
-					
-					<div class="aiassist-cats-item">
-						<?php _e('Choose the category for placing articles after rewriting:', 'wp-ai-assistant') ?>
-						<select class="cats-item">
-							<option value="0"><?php _e('Category', 'wp-ai-assistant') ?></option>
-							<?php if( $cats ){ ?>
-								<?php foreach( $cats as $cat ){ ?>
-									<option value="<?php echo esc_attr( $cat->term_id )?>"><?php echo esc_html( $cat->name )?></option>
-								<?php } ?>
-							<?php } ?>
-						</select>
-					</div>
-					
-				</div>
-				
-				
-			</div>
-			
-			<div class="aiassist-item-repeater">
-				<button id="aiassist-addItemRewrite"><?php _e('Add another list of URLs for another category', 'wp-ai-assistant') ?></button>
-			</div>
-			
-			<div class="aiassist-option-item"><?php _e('Prompt for article rewriting. This prompt will be used to rewrite headings, paragraphs, meta title and meta description.', 'wp-ai-assistant') ?></div>
-			
-			<br /><br /><br />
-			<div class="relative">
-				<button type="button" class="aiassist-set-default-promts"><?php _e('Restore the default prompt.', 'wp-ai-assistant') ?></button>
-			</div>
-			
-			<?php $lang_id = 0; ?>
-			<?php if( @$this->info->promts->lang ){ $lang_id = $this->getDefaultLangId(); ?>
-				<div class="relative">
-					<div class="aiassist-lang-promts-item">
-						<label><?php _e('Prompt language: ', 'wp-ai-assistant') ?></label>
-						<select class="aiassist-lang-promts">
-							<?php foreach( $this->info->promts->lang as $k => $lang ){ ?>
-								<?php
-									if( @$this->steps['promts']['rewrite_lang'] == $k )
-										$lang_id = (int) $k;
-								?>
-							
-								<option value="<?php echo (int) $k ?>" <?php echo @$this->steps['promts']['rewrite_lang'] == $k ? 'selected' : '' ?> ><?php echo esc_html( $lang ) ?></option>
-							<?php } ?>
-						</select>
-					</div>
-				</div>
-			<?php } ?>
-			
-			<textarea class="aiassist-prom" id="aiassist-rewrite-prom"><?php echo esc_textarea( isset( $this->steps['promts']['rewrite'][ $lang_id ] ) ? trim( $this->steps['promts']['rewrite'][ $lang_id ] ) : @$this->info->promts->rewrite[ $lang_id ] )?></textarea>
-			
-			
-			<div class="aiassist-option-item">
-				<label class="aiassist-option-item">
-					<input type="checkbox" class="aiassist-rewrite-options" id="aiassist-rewrite-excude-h1" <?php echo @$rewrites['excude_h1'] ? 'checked' : '' ?> />
-					<?php echo _e('Don\'t rewrite h1 header', 'wp-ai-assistant') ?>
-				</label>
-				
-				<label class="aiassist-option-item">
-					<input type="checkbox" class="aiassist-rewrite-options" id="aiassist-rewrite-excude-title" <?php echo @$rewrites['excude_title'] ? 'checked' : '' ?> />
-					<?php echo _e('Don\'t rewrite meta title', 'wp-ai-assistant') ?>
-				</label>
-				
-				<label class="aiassist-option-item">
-					<input type="checkbox" class="aiassist-rewrite-options" id="aiassist-rewrite-excude-desc" <?php echo @$rewrites['excude_desc'] ? 'checked' : '' ?> />
-					<?php echo _e('Don\'t rewrite meta description', 'wp-ai-assistant') ?>
-				</label>
 			</div>
 			
 			
-			<div class="aiassist-option-item">
-				<?php _e('Image generation for rewritten article based on headings. If you leave the checkboxes empty, the rewritten version will have no images.', 'wp-ai-assistant') ?>
-				
-				<label class="aiassist-option-item">
-					<select class="aiassist-rewrite-options" id="aiassist-rewrite-multi-images">
-						<option value="without" <?php echo esc_attr( @$rewrites['pictures'] == 'without' ? 'selected' : '' ) ?>><?php echo _e('Generate an article without images', 'wp-ai-assistant') ?></option>
-						<option value="all" <?php echo esc_attr( @$rewrites['pictures'] == 'all' ? 'selected' : '' ) ?>><?php echo _e('Generate pictures for all headlines', 'wp-ai-assistant') ?></option>
-						<option value="h2" <?php echo esc_attr( @$rewrites['pictures'] == 'h2' ? 'selected' : '' ) ?>><?php echo _e('Generate images for h2 headings only', 'wp-ai-assistant') ?></option>
-					</select>
-				</label>
-				
-				<label class="aiassist-option-item">
-					<div><?php echo _e('Maximum number of images to generate', 'wp-ai-assistant') ?></div>
-					<input type="number" class="aiassist-rewrite-options" id="aiassist-rewrite-max-pictures" value="<?php echo @$rewrites['max_pictures'] ? (int) @$rewrites['max_pictures'] : '' ?>" min="0" />
-				</label>
-				
-				
-				
-				<label class="aiassist-option-item">
-					<input type="checkbox" class="aiassist-rewrite-options" id="aiassist-rewrite-thumb" <?php echo esc_attr( @$rewrites['thumb'] ? 'checked' : '' ) ?> <?php echo esc_attr( @$rewrites['images'] && ! @$rewrites['thumb'] ? 'disabled' : '' ) ?> /> <?php _e('Generate the thumbnail', 'wp-ai-assistant') ?>
-				</label>
-				
-				<label class="aiassist-option-item">
-					<input type="checkbox" class="aiassist-rewrite-options" id="aiassist-rewrite-draft" <?php echo esc_attr( @$rewrites['draft'] ? 'checked' : '' ) ?> /> <?php _e('Send generated articles to draft (only for third-party sites rewriting)', 'wp-ai-assistant') ?>
-				</label>
-				
-				<div>
-					<div><?php _e('Text generation model', 'wp-ai-assistant') ?></div>
-					<select name="aiassist-text-model" class="aiassist-rewrite-options" id="aiassist-rewrite-text-model">
-						<?php if( @$this->info->labels->text_model_1_on ){ ?>
-							<option value="gpt3" <?php echo @$rewrites['textModel'] == 'gpt3' ? 'selected' : '' ?>><?php echo esc_html( @$this->info->labels->text_model_1 )?></option>
-						<?php } ?>
-						<?php if( @$this->info->labels->text_model_2_on ){ ?>
-							<option value="gpt4_nano" <?php echo @$rewrites['textModel'] == 'gpt4_nano' ? 'selected' : '' ?>><?php echo esc_html( @$this->info->labels->text_model_2 )?></option>
-						<?php } ?>
-						<?php if( @$this->info->labels->text_model_3_on ){ ?>
-							<option value="gpt4" <?php echo @$rewrites['textModel'] == 'gpt4' ? 'selected' : '' ?>><?php echo esc_html( @$this->info->labels->text_model_3 )?></option>
-						<?php } ?>
-						<?php if( @$this->info->labels->text_model_4_on ){ ?>
-							<option value="gpt_o3_mini" <?php echo @$rewrites['textModel'] == 'gpt_o3_mini' ? 'selected' : '' ?>><?php echo esc_html( @$this->info->labels->text_model_4 )?></option>
-						<?php } ?>
-					</select>
-					<a href="<?php echo get_locale() == 'ru_RU' ? 'https://aiwpwriter.com/prices/' : 'https://aiwpw.com/prices/ ' ?>" target="_blank" class="aiassist-small"><?php _e('View rates', 'wp-ai-assistant') ?></a>
-				</div>
-				
-				<div>
-					<div><?php _e('Image generation model', 'wp-ai-assistant') ?></div>
-					<select name="aiassist-image-model" class="aiassist-rewrite-options" id="aiassist-rewrite-image-model">
-						<?php if( @$this->info->labels->img_model_1_on ){ ?>
-							<option value="flux" <?php echo @$rewrites['imageModel'] == 'flux' ? 'selected' : '' ?>><?php echo esc_html( @$this->info->labels->img_model_1 )?></option>
-						<?php } ?>
-						<?php if( @$this->info->labels->img_model_2_on ){ ?>
-							<option value="dalle" <?php echo @$rewrites['imageModel'] == 'dalle' ? 'selected' : '' ?>><?php echo esc_html( @$this->info->labels->img_model_2 )?></option>
-						<?php } ?>
-						<?php if( @$this->info->labels->img_model_3_on ){ ?>
-							<option value="gptImage" <?php echo @$rewrites['imageModel'] == 'gptImage' ? 'selected' : '' ?>><?php echo esc_html( @$this->info->labels->img_model_3 )?></option>
-						<?php } ?>
-						<?php if( @$this->info->labels->img_model_4_on ){ ?>
-							<option value="midjourney" <?php echo @$rewrites['imageModel'] == 'midjourney' ? 'selected' : '' ?>><?php echo esc_html( @$this->info->labels->img_model_4 )?></option>
-						<?php } ?>
-					</select>
-				</div>
-				
-			</div>
-			
-			<div>
-				<?php _e('The text in the original articles from your own site will be replaced by the rewritten text. If third-party site pages are rewritten, new articles will be created. You can use the “Restore original texts” buttons only if you rewrite articles on your own site.', 'wp-ai-assistant') ?><br />
-				<?php echo _e('<b>Important!</b> To make generation work faster in the background, the option to send requests from the plugin server to the site must be enabled in the <b>Settings</b> tab.', 'wp-ai-assistant') ?>
-			</div>
-			
-			<div class="aiassist-option-item">
-				<button id="start-rewrite-generations" <?php echo @$rewrites['start'] ? 'disabled' : '' ?>><?php _e('Start a rewrite', 'wp-ai-assistant') ?></button>
-				<button id="stop-rewrite-generations" <?php echo ! @$rewrites['start'] ? 'disabled' : '' ?>><?php _e('Stop the rewrite', 'wp-ai-assistant') ?></button>
-				<button id="clear-rewrite-generations"><?php _e('Clear URL list', 'wp-ai-assistant') ?></button>
-				<button id="restore-rewrite-generations" class="aiassist-orange"><?php _e('Restore all original texts', 'wp-ai-assistant') ?></button>
-			</div>
-			
-			
-			<div id="aiassist-rewrite-status">
-				<?php if( ! @$this->options->token ){ ?>	
-					<span class="aiassist-warning-limits"><?php _e('You have not added the API key! The key is sent to the mail after registration in the plugin. Register and add the key from the email to the special field in the plugin settings and generation will become available.', 'wp-ai-assistant') ?></span>
-				<?php } elseif( ( (int) @$this->info->limit + (int) @$this->info->sLimit ) < 1 ){ ?>
-					<span class="aiassist-warning-limits"><?php _e('Limits have expired, to continue generating (rewriting) top up your balance!', 'wp-ai-assistant') ?></span>
-				<?php } else { ?>
-						
-					<?php if( @$rewrites['start'] ){ ?>
-							<?php _e('The process of rewriting articles is in progress, the information is updated automatically. If this does not happen, refresh the browser page to see the current list of articles that have been rewritten.', 'wp-ai-assistant') ?>
-					<?php } elseif( ! @$rewrites['start'] && isset( $rewrites['posts'] ) && @$rewrites['counter'] < count( $rewrites['posts'] ) ){ ?>
-						<?php _e('The process of rewriting articles has been suspended.', 'wp-ai-assistant') ?>
-					<?php } elseif( isset( $rewrites['posts'] ) && @$rewrites['counter'] >= count( $rewrites['posts'] ) ){ ?>
-							<?php _e('Articles rewriting is completed.', 'wp-ai-assistant') ?>
-					<?php } ?>
-					
-				<?php } ?>
-			</div>
-			<div class="aiassist-option-item <?php echo ! isset( $rewrites['start'] ) ? 'hidden' : ''?>" id="aiassist-rewrite-progress"><?php _e('Rewriting completed', 'wp-ai-assistant') ?> <span id="aiassist-rewrite-count-publish"><?php echo (int) @$rewrites['publish'] ?></span> <?php _e('articles from', 'wp-ai-assistant') ?> <?php echo isset( $rewrites['posts'] ) ? (int) count( @$rewrites['posts'] ) : 0 ?></div>
-			
-			<div class="aiassist-rewrites-queue">
-				<?php if( ! empty( $rewrites['posts'] ) ){ $queue = false; ?>
-					<?php foreach( $rewrites['posts'] as $rewrite ){ ?>
-						<div title="<?php echo esc_attr( isset( $rewrite['url'] ) ? $rewrite['url'] : $rewrite['title'] ) ?>">
-							<?php if( isset( $rewrite['post_id'] ) ){ ?>
-								<?php $queue = false; ?>
-								<div class="aiassist-rewrite-queue"><a href="<?php echo get_edit_post_link( $rewrite['post_id'] ) ?>" target="_blank"><?php echo esc_attr( isset( $rewrite['url'] ) ? $rewrite['url'] : $rewrite['title'] ) ?></a> 
-									
-									<span class="aiassist-queue-status">
-										<?php if( isset( $rewrite['restore'] ) ){ ?>
-											<?php _e('Restored', 'wp-ai-assistant') ?>
-										<?php } else { ?>
-											<?php _e('Generated', 'wp-ai-assistant') ?>
-										<?php } ?>
-									</span> 
-								
-									<?php if( isset( $rewrite['revision_id'] ) && ! isset( $rewrite['restore'] ) ){ ?>
-										<span class="aiassist-post-restore aiassist-orange" post_id="<?php echo (int) $rewrite['post_id'] ?>" revision_id="<?php echo (int) $rewrite['revision_id'] ?>"><?php _e('Restore original text', 'wp-ai-assistant') ?></span>
-									<?php } ?>
-								</div>
-							
-							<?php } else { ?>
-								<div class="aiassist-rewrite-queue aiassist-queue">
-									<span class="aiassist-queue-rewrite">
-										<?php echo esc_attr( isset( $rewrite['url'] ) ? $rewrite['url'] : $rewrite['title'] ) ?>
-									</span> 
-									<span class="aiassist-queue-status">
-										<?php if( ! $queue ){ ?>
-											<?php if( (int) @$rewrite['check'] < 60 && ( @$this->info->limit > 1 || @$this->info->sLimit > 1 ) ){ ?>
-												<?php _e('Generation in progress', 'wp-ai-assistant') ?>
-											<?php } else { ?>
-												
-												<?php _e('Suspended', 'wp-ai-assistant') ?>
-											<?php } ?>
-										<?php } else { ?>
-											<?php _e('In queue', 'wp-ai-assistant') ?>
-										<?php } ?>
-									</span> 
-								</div>
-							<?php $queue = true; ?>
-							<?php } ?>
-						</div>
-					<?php } ?>
-				<?php } ?>
-			</div>
+		</div>
 		
+		<div class="aiassist-item-repeater">
+			<button id="aiassist-addItemRewrite"><?php echo wp_kses_post( __('Add another list of URLs for another category', 'wp-ai-assistant') ) ?></button>
+		</div>
+		
+		<div class="aiassist-option-item"><?php echo wp_kses_post( __('Prompt for article rewriting. This prompt will be used to rewrite headings, paragraphs, meta title and meta description.', 'wp-ai-assistant') ) ?></div>
+		
+		<br /><br /><br />
+		<div class="relative">
+			<button type="button" class="aiassist-set-default-promts"><?php echo wp_kses_post( __('Restore the default prompt.', 'wp-ai-assistant') ) ?></button>
+		</div>
+		
+		<?php $lang_id = 0; ?>
+		<?php if( @$this->info->promts->lang ){ $lang_id = $this->getDefaultLangId(); ?>
+			<div class="relative">
+				<div class="aiassist-lang-promts-item">
+					<label><?php echo wp_kses_post( __('Prompt language: ', 'wp-ai-assistant') ) ?></label>
+					<select class="aiassist-lang-promts">
+						<?php foreach( $this->info->promts->lang as $k => $lang ){ ?>
+							<?php
+								if( @$this->steps['promts']['rewrite_lang'] == $k )
+									$lang_id = (int) $k;
+							?>
+						
+							<option value="<?php echo (int) $k ?>" <?php echo @$this->steps['promts']['rewrite_lang'] == $k ? 'selected' : '' ?> ><?php echo esc_html( $lang ) ?></option>
+						<?php } ?>
+					</select>
+				</div>
+			</div>
+		<?php } ?>
+		
+		<textarea class="aiassist-prom" id="aiassist-rewrite-prom"><?php echo esc_textarea( isset( $this->steps['promts']['rewrite'][ $lang_id ] ) ? trim( $this->steps['promts']['rewrite'][ $lang_id ] ) : @$this->info->promts->rewrite[ $lang_id ] )?></textarea>
+		
+		
+		<div class="aiassist-option-item">
+			<label class="aiassist-option-item">
+				<input type="checkbox" class="aiassist-rewrite-options" id="aiassist-rewrite-excude-h1" <?php echo @$rewrites['excude_h1'] ? 'checked' : '' ?> />
+				<?php echo wp_kses_post( __('Don\'t rewrite h1 header', 'wp-ai-assistant') ) ?>
+			</label>
+			
+			<label class="aiassist-option-item">
+				<input type="checkbox" class="aiassist-rewrite-options" id="aiassist-rewrite-excude-title" <?php echo @$rewrites['excude_title'] ? 'checked' : '' ?> />
+				<?php echo wp_kses_post( __('Don\'t rewrite meta title', 'wp-ai-assistant') ) ?>
+			</label>
+			
+			<label class="aiassist-option-item">
+				<input type="checkbox" class="aiassist-rewrite-options" id="aiassist-rewrite-excude-desc" <?php echo @$rewrites['excude_desc'] ? 'checked' : '' ?> />
+				<?php echo wp_kses_post( __('Don\'t rewrite meta description', 'wp-ai-assistant') ) ?>
+			</label>
 		</div>
 		
 		
-		<div class="aiassist-tab-data" data-tab="rates">
+		<div class="aiassist-option-item">
+			<?php echo wp_kses_post( __('Image generation for rewritten article based on headings. If you leave the checkboxes empty, the rewritten version will have no images.', 'wp-ai-assistant') ) ?>
 			
-			<div class="pay-methods">
-				<?php if( get_locale() != 'ru_RU' ){ ?>
-					<div class="pay-method active" data-billing="paypal">
-						<div class="paypal"></div>
-						<div class="pay-method-label"><?php _e('Visa, Mastercard, PayPal', 'wp-ai-assistant') ?></div>
-					</div>
-					
-					<div class="pay-method" data-billing="cryptocloud">
-						<div class="cryptocloud"></div>
-						<div class="pay-method-label"><?php _e('USDT, Bitcoin, Ethereum', 'wp-ai-assistant') ?></div>
-					</div>
-					
-					<div class="pay-method" data-billing="robokassa">
-						<div class="robokassa"></div>
-						<div class="pay-method-label visa"><?php _e('Visa, Mastercard, Мir, YooMoney', 'wp-ai-assistant') ?></div>
-					</div>
-				<?php } else { ?>
-					<div class="pay-method active" data-billing="robokassa">
-						<div class="robokassa"></div>
-						<div class="pay-method-label visa"><?php _e('Visa, Mastercard, Мir, YooMoney', 'wp-ai-assistant') ?></div>
-					</div>
-				
-					<div class="pay-method" data-billing="cryptocloud">
-						<div class="cryptocloud"></div>
-						<div class="pay-method-label"><?php _e('USDT, Bitcoin, Ethereum', 'wp-ai-assistant') ?></div>
-					</div>
-				<?php } ?>
+			<label class="aiassist-option-item">
+				<select class="aiassist-rewrite-options" id="aiassist-rewrite-multi-images">
+					<option value="without" <?php echo esc_attr( @$rewrites['pictures'] == 'without' ? 'selected' : '' ) ?>><?php echo wp_kses_post( __('Generate an article without images', 'wp-ai-assistant') ) ?></option>
+					<option value="all" <?php echo esc_attr( @$rewrites['pictures'] == 'all' ? 'selected' : '' ) ?>><?php echo wp_kses_post( __('Generate pictures for all headlines', 'wp-ai-assistant') ) ?></option>
+					<option value="h2" <?php echo esc_attr( @$rewrites['pictures'] == 'h2' ? 'selected' : '' ) ?>><?php echo wp_kses_post( __('Generate images for h2 headings only', 'wp-ai-assistant') ) ?></option>
+				</select>
+			</label>
+			
+			<label class="aiassist-option-item">
+				<div><?php echo wp_kses_post( __('Maximum number of images to generate', 'wp-ai-assistant') ) ?></div>
+				<input type="number" class="aiassist-rewrite-options" id="aiassist-rewrite-max-pictures" value="<?php echo @$rewrites['max_pictures'] ? (int) @$rewrites['max_pictures'] : '' ?>" min="0" />
+			</label>
+			
+			
+			
+			<label class="aiassist-option-item">
+				<input type="checkbox" class="aiassist-rewrite-options" id="aiassist-rewrite-thumb" <?php echo esc_attr( @$rewrites['thumb'] ? 'checked' : '' ) ?> <?php echo esc_attr( @$rewrites['images'] && ! @$rewrites['thumb'] ? 'disabled' : '' ) ?> /> <?php echo wp_kses_post( __('Generate the thumbnail', 'wp-ai-assistant') ) ?>
+			</label>
+			
+			<label class="aiassist-option-item">
+				<input type="checkbox" class="aiassist-rewrite-options" id="aiassist-rewrite-draft" <?php echo esc_attr( @$rewrites['draft'] ? 'checked' : '' ) ?> /> <?php echo wp_kses_post( __('Send generated articles to draft (only for third-party sites rewriting)', 'wp-ai-assistant') ) ?>
+			</label>
+			
+			<div>
+				<div><?php echo wp_kses_post( __('Text generation model', 'wp-ai-assistant') ) ?></div>
+				<select name="aiassist-text-model" class="aiassist-rewrite-options" id="aiassist-rewrite-text-model">
+					<?php if( @$this->info->labels->text_model_1_on ){ ?>
+						<option value="gpt3" <?php echo @$rewrites['textModel'] == 'gpt3' ? 'selected' : '' ?>><?php echo esc_html( @$this->info->labels->text_model_1 )?></option>
+					<?php } ?>
+					<?php if( @$this->info->labels->text_model_2_on ){ ?>
+						<option value="gpt4" <?php echo @$rewrites['textModel'] == 'gpt4' ? 'selected' : '' ?>><?php echo esc_html( @$this->info->labels->text_model_2 )?></option>
+					<?php } ?>
+					<?php if( @$this->info->labels->text_model_3_on ){ ?>
+						<option value="gpt4_nano" <?php echo @$rewrites['textModel'] == 'gpt4_nano' ? 'selected' : '' ?>><?php echo esc_html( @$this->info->labels->text_model_3 )?></option>
+					<?php } ?>
+					<?php if( @$this->info->labels->text_model_4_on ){ ?>
+						<option value="gpt_o3_mini" <?php echo @$rewrites['textModel'] == 'gpt_o3_mini' ? 'selected' : '' ?>><?php echo esc_html( @$this->info->labels->text_model_4 )?></option>
+					<?php } ?>
+				</select>
+				<a href="<?php echo get_locale() == 'ru_RU' ? 'https://aiwpwriter.com/prices/' : 'https://aiwpw.com/prices/ ' ?>" target="_blank" class="aiassist-small"><?php echo wp_kses_post( __('View rates', 'wp-ai-assistant') ) ?></a>
 			</div>
 			
-			<?php if( isset( $this->info->rates ) ){ ?>
+			<div>
+				<div><?php echo wp_kses_post( __('Image generation model', 'wp-ai-assistant') ) ?></div>
+				<select name="aiassist-image-model" class="aiassist-rewrite-options" id="aiassist-rewrite-image-model">
+					<?php if( @$this->info->labels->img_model_4_on ){ ?>
+						<option value="flux" <?php echo @$rewrites['imageModel'] == 'flux' ? 'selected' : '' ?>><?php echo esc_html( @$this->info->labels->img_model_4 )?></option>
+					<?php } ?>
+					<?php if( @$this->info->labels->img_model_2_on ){ ?>
+						<option value="dalle" <?php echo @$rewrites['imageModel'] == 'dalle' ? 'selected' : '' ?>><?php echo esc_html( @$this->info->labels->img_model_2 )?></option>
+					<?php } ?>
+					<?php if( @$this->info->labels->img_model_3_on ){ ?>
+						<option value="gptImage" <?php echo @$rewrites['imageModel'] == 'gptImage' ? 'selected' : '' ?>><?php echo esc_html( @$this->info->labels->img_model_3 )?></option>
+					<?php } ?>
+					<?php if( @$this->info->labels->img_model_5_on ){ ?>
+						<option value="gptMini" <?php echo @$rewrites['imageModel'] == 'gptMini' ? 'selected' : '' ?>><?php echo esc_html( @$this->info->labels->img_model_5 )?></option>
+					<?php } ?>
+					<?php if( @$this->info->labels->img_model_6_on ){ ?>
+						<option value="banana" <?php echo @$rewrites['imageModel'] == 'banana' ? 'selected' : '' ?>><?php echo esc_html( @$this->info->labels->img_model_6 )?></option>
+					<?php } ?>
+					<?php if( @$this->info->labels->img_model_1_on ){ ?>
+						<option value="midjourney" <?php echo @$rewrites['imageModel'] == 'midjourney' ? 'selected' : '' ?>><?php echo esc_html( @$this->info->labels->img_model_1 )?></option>
+					<?php } ?>
+				</select>
+			</div>
 			
-				<form method="POST" class="aiassist-promocode">
-					<label>
-						<span><?php _e('Promo code:', 'wp-ai-assistant') ?></span>
-						<input name="promocode" value="<?php echo isset( $_POST['promocode'] ) ? esc_attr( $_POST['promocode'] ) : '' ?>" />
-						<button id="aiassist-promocode-set"><?php _e('Apply', 'wp-ai-assistant') ?></button>
-						
-						<?php if( isset( $_POST['promocode'] ) ){ ?>
-							<div class="aiassist-promocode-status <?php echo ! isset( $this->info->rates->discount ) ? 'error-discount' : '' ?>">
-								<?php if( isset( $this->info->rates->discount ) ){ ?> 
-									<?php _e('Promo code activated!', 'wp-ai-assistant') ?>
-								<?php } else { ?>
-									<?php _e('The promo code is incorrect!', 'wp-ai-assistant') ?>
-								<?php } ?> 
-							</div>
-						<?php } ?>
-						
-					</label>
-				</form>
-				
-				<div class="aiassist-rates-wrap">
-				
-					<div class="aiassist-rates-tabs">
-						<div class="aiassist-rates-tab active" data-view="subscribe"><?php _e('Subscription plans', 'wp-ai-assistant') ?></div>
-						<div class="aiassist-rates-tab" data-view="packages"><?php _e('Buy extra credits', 'wp-ai-assistant') ?></div>
-					</div>
-				
-					<div class="aiassist-rates-view active" data-view="subscribe">
+		</div>
+		
+		<div>
+			<?php echo wp_kses_post( __('The text in the original articles from your own site will be replaced by the rewritten text. If third-party site pages are rewritten, new articles will be created. You can use the “Restore original texts” buttons only if you rewrite articles on your own site.', 'wp-ai-assistant') ) ?><br />
+			<?php echo wp_kses_post( __('<b>Important!</b> To make generation work faster in the background, the option to send requests from the plugin server to the site must be enabled in the <b>Settings</b> tab.', 'wp-ai-assistant') ) ?>
+		</div>
+		
+		<div class="aiassist-option-item">
+			<button id="start-rewrite-generations" <?php echo @$rewrites['start'] ? 'disabled' : '' ?>><?php echo wp_kses_post( __('Start a rewrite', 'wp-ai-assistant') ) ?></button>
+			<button id="stop-rewrite-generations" <?php echo ! @$rewrites['start'] ? 'disabled' : '' ?>><?php echo wp_kses_post( __('Stop the rewrite', 'wp-ai-assistant') ) ?></button>
+			<button id="clear-rewrite-generations"><?php echo wp_kses_post( __('Clear URL list', 'wp-ai-assistant') ) ?></button>
+			<button id="restore-rewrite-generations" class="aiassist-orange"><?php echo wp_kses_post( __('Restore all original texts', 'wp-ai-assistant') ) ?></button>
+		</div>
+		
+		
+		<div id="aiassist-rewrite-status">
+			<?php if( ! @$this->options->token ){ ?>	
+				<span class="aiassist-warning-limits"><?php echo wp_kses_post( __('You have not added the API key! The key is sent to the mail after registration in the plugin. Register and add the key from the email to the special field in the plugin settings and generation will become available.', 'wp-ai-assistant') ) ?></span>
+			<?php } elseif( ( (int) @$this->info->limit + (int) @$this->info->sLimit ) < 1 ){ ?>
+				<span class="aiassist-warning-limits"><?php echo wp_kses_post( __('Limits have expired, to continue generating (rewriting) top up your balance!', 'wp-ai-assistant') ) ?></span>
+			<?php } else { ?>
 					
-						<div class="aiassist-rates-info"><?php _e('The subscription applies to all sites connected to your API key, and one common credit balance is used for all sites.', 'wp-ai-assistant') ?></div>
-						
-						<div class="aiassist-rates-items">
-							
-							<div class="aiassist-rates-item">
-								<?php if( @$this->info->rates->subscribe_basic_best ){ ?>
-									<div class="aiassist-popular"><?php _e('Popular', 'wp-ai-assistant') ?></div>
-								<?php } ?>
-								
-								<div class="aiassist-rate-title"><?php _e('Basic', 'wp-ai-assistant') ?></div>
-								<div class="aiassist-rate-price">
-									<span data-usdt="<?php echo (float) @$this->info->rates->subscribe_basic_rate_usdt ?>$">
-										<?php echo (float) @$this->info->rates->subscribe_basic_rate ?><?php _e('$', 'wp-ai-assistant') ?>
-									</span> / 30 <?php _e('days', 'wp-ai-assistant') ?>
-								</div>
-								
-								<div class="aiassist-rate-info bg">
-									<div><?php _e('Instead of', 'wp-ai-assistant') ?> <i data-usdt="<?php echo $rateMainUsdt = round( @$this->info->rates->subscribe_basic_symbols / 1000 * @$this->info->price_usdt )?>$"><?php echo $rateMain = round( @$this->info->rates->subscribe_basic_symbols / 1000 * @$this->info->price ) ?><?php _e('$', 'wp-ai-assistant') ?></i></div>
-									<div><?php _e('Savings of', 'wp-ai-assistant') ?> <span data-usdt="<?php echo round( $rateMainUsdt - @$this->info->rates->subscribe_basic_rate_usdt )?>$"><?php echo $rateMain - @$this->info->rates->subscribe_basic_rate ?><?php _e('$', 'wp-ai-assistant') ?></span>*</div>	
-								</div>
-								
-								<div class="aiassist-rate-title">
-									<span><?php echo number_format( @$this->info->rates->subscribe_basic_symbols, 0, ' ', ' ' ) ?></span> <?php _e('credits', 'wp-ai-assistant') ?>
-								</div>
-								
-								<div class="aiassist-rate-info">
-									<div><span data-usdt="<?php echo @round( @$this->info->rates->subscribe_basic_rate_usdt / @$this->info->rates->subscribe_basic_symbols * 1000000 ) ?>$"><?php echo @round( @$this->info->rates->subscribe_basic_rate / @$this->info->rates->subscribe_basic_symbols * 1000000 ) ?><?php _e('$', 'wp-ai-assistant') ?></span> - <?php _e('1 million credits', 'wp-ai-assistant') ?></div>
-								</div>
-								
-								<div class="aiassist-buy-button">
-								
-									<?php if( ! @$this->info->recurring ){ ?>
-										<div class="aiassist-recurring-agree <?php echo esc_attr( get_locale() ) ?>">
-											<label>
-												<input type="checkbox" name="recurring" /><?php _e('Auto-renew', 'wp-ai-assistant') ?>
-											</label>
-										</div>
-									<?php } ?>
-									
-									<?php if( @$this->info->subscribe->type == 'basic' ){ ?>
-										<button type="button" class="aiassist-buy aiassist-subscribe-type" data-type="subscribe_basic"><?php _e('Renew subscription', 'wp-ai-assistant') ?></button>
-									<?php } else { ?>
-										<button type="button" class="aiassist-buy" data-type="subscribe_basic"><?php _e('Subscribe', 'wp-ai-assistant') ?></button>
-									<?php } ?>
-								</div>
-								
-								<div class="aiassist-rate-desc">
-									<?php _e('How much content can be generated<br />~6600000 characters (~1320000 words) GPT-5 nano**<br />~3300000 characters (~660000 words) GPT-5 mini**<br />~825000 characters (~165000 words) GPT-5**<br />~1650000 characters (~330000 words) o3-mini**<br />~ 942 images FLUX Schnell<br />~ 165 generations Midjourney v7<br />~ 188 images Dalle 3<br />~ 165 images GPT-image', 'wp-ai-assistant') ?>			
-								</div>
-								<div class="aiassist-rate-checklist">
-									<div class="aiassist-rate-check"><?php _e('Neural Networks: GPT-5, GPT-5 mini, GPT-5 nano, o3-mini (reasoning), Midjourney v7, Dalle 3, GPT-image, FLUX.', 'wp-ai-assistant') ?></div>
-									<div class="aiassist-rate-check"><?php _e('Bulk generation and generation of articles in the editor', 'wp-ai-assistant') ?></div>
-									<div class="aiassist-rate-check"><?php _e('AI Assist, AI image creator', 'wp-ai-assistant') ?></div>
-									<div class="aiassist-rate-check"><?php _e('Rewrite articles on your site and pages from third-party sites', 'wp-ai-assistant') ?></div>
-									<div class="aiassist-rate-check"><?php _e('Making images unique', 'wp-ai-assistant') ?></div>
-								</div>
-								
-							</div>
-							
-							
-							<div class="aiassist-rates-item">
-								
-								<?php if( @$this->info->rates->subscribe_pro_best ){ ?>
-									<div class="aiassist-popular"><?php _e('Popular', 'wp-ai-assistant') ?></div>
-								<?php } ?>
-								
-								<div class="aiassist-rate-title"><?php _e('Pro', 'wp-ai-assistant') ?></div>
-								<div class="aiassist-rate-price">
-									<span data-usdt="<?php echo (float) @$this->info->rates->subscribe_pro_rate_usdt ?>$">
-										<?php echo (float) @$this->info->rates->subscribe_pro_rate ?><?php _e('$', 'wp-ai-assistant') ?>
-									</span> / 30 <?php _e('days', 'wp-ai-assistant') ?>
-								</div>
-								
-								<div class="aiassist-rate-info bg">
-									<div><?php _e('Instead of', 'wp-ai-assistant') ?> <i data-usdt="<?php echo $rateMainUsdt = round( @$this->info->rates->subscribe_pro_symbols / 1000 * @$this->info->price_usdt ) ?>$"><?php echo $rateMain = round( @$this->info->rates->subscribe_pro_symbols / 1000 * @$this->info->price ) ?><?php _e('$', 'wp-ai-assistant') ?></i></div>
-									<div><?php _e('Savings of', 'wp-ai-assistant') ?> <span data-usdt="<?php echo $rateMainUsdt - @$this->info->rates->subscribe_pro_rate_usdt ?>$"><?php echo $rateMain - @$this->info->rates->subscribe_pro_rate ?><?php _e('$', 'wp-ai-assistant') ?></span>*</div>
-								</div>
-								
-								<div class="aiassist-rate-title">
-									<span><?php echo number_format( @$this->info->rates->subscribe_pro_symbols, 0, ' ', ' ' ) ?></span> <?php _e('credits', 'wp-ai-assistant') ?>
-								</div>
-								
-								<div class="aiassist-rate-info">
-									<div><span data-usdt="<?php echo @round( @$this->info->rates->subscribe_pro_rate_usdt / @$this->info->rates->subscribe_pro_symbols * 1000000 ) ?>$"><?php echo @round( @$this->info->rates->subscribe_pro_rate / @$this->info->rates->subscribe_pro_symbols * 1000000 ) ?><?php _e('$', 'wp-ai-assistant') ?></span> - <?php _e('1 million credits', 'wp-ai-assistant') ?></div>
-								</div>
-								
-								<div class="aiassist-buy-button">
-
-									<?php if( ! @$this->info->recurring ){ ?>
-										<div class="aiassist-recurring-agree <?php echo esc_attr( get_locale() ) ?>">
-											<label>
-												<input type="checkbox" name="recurring" /><?php _e('Auto-renew', 'wp-ai-assistant') ?>
-											</label>
-										</div>
-									<?php } ?>
-									
-									<?php if( @$this->info->subscribe->type == 'pro' ){ ?>
-										<button type="button" class="aiassist-buy aiassist-subscribe-type" data-type="subscribe_pro"><?php _e('Renew subscription', 'wp-ai-assistant') ?></button>
-									<?php } else {?>
-										<button type="button" class="aiassist-buy" data-type="subscribe_pro"><?php _e('Subscribe', 'wp-ai-assistant') ?></button>
-									<?php } ?>
-								</div>
-								
-								<div class="aiassist-rate-desc">
-									<?php _e('How much content can be generated<br />~20500000 characters (~4100000 words) GPT-5 nano**<br />~10250000 characters (~2050000 words) GPT-5 mini**<br />~2562000 characters (~512400 words) GPT-5**<br />~5125000 characters (~1025000 words) o3-mini**<br />~ 2 928 images FLUX Schnell<br />~ 512 generations Midjourney v7<br />~ 585 images Dalle 3<br />~ 512 images GPT-image', 'wp-ai-assistant') ?>						
-								</div>
-								<div class="aiassist-rate-checklist">
-									<div class="aiassist-rate-check"><?php _e('Neural Networks: GPT-5, GPT-5 mini, GPT-5 nano, o3-mini (reasoning), Midjourney v7, Dalle 3, GPT-image, FLUX.', 'wp-ai-assistant') ?></div>
-									<div class="aiassist-rate-check"><?php _e('Bulk generation and generation of articles in the editor', 'wp-ai-assistant') ?></div>
-									<div class="aiassist-rate-check"><?php _e('AI Assist, AI image creator', 'wp-ai-assistant') ?></div>
-									<div class="aiassist-rate-check"><?php _e('Rewrite articles on your site and pages from third-party sites', 'wp-ai-assistant') ?></div>
-									<div class="aiassist-rate-check"><?php _e('Making images unique', 'wp-ai-assistant') ?></div>
-								</div>
-								
-							</div>
-							
-							
-							<div class="aiassist-rates-item">
-								<?php if( @$this->info->rates->subscribe_premium_best ){ ?>
-									<div class="aiassist-popular"><?php _e('Popular', 'wp-ai-assistant') ?></div>
-								<?php } ?>
-								
-								<div class="aiassist-rate-title"><?php _e('Premium', 'wp-ai-assistant') ?></div>
-								<div class="aiassist-rate-price">
-									<span data-usdt="<?php echo (float) @$this->info->rates->subscribe_premium_rate_usdt ?>$">
-										<?php echo (float) @$this->info->rates->subscribe_premium_rate ?><?php _e('$', 'wp-ai-assistant') ?>
-									</span> / 30 <?php _e('days', 'wp-ai-assistant') ?>
-								</div>
-								
-								<div class="aiassist-rate-info bg">
-									<div><?php _e('Instead of', 'wp-ai-assistant') ?> <i data-usdt="<?php echo $rateMainUsdt = round( @$this->info->rates->subscribe_premium_symbols / 1000 * @$this->info->price_usdt ) ?>$"><?php echo $rateMain = round( @$this->info->rates->subscribe_premium_symbols / 1000 * @$this->info->price ) ?><?php _e('$', 'wp-ai-assistant') ?></i></div>
-									<div><?php _e('Savings of', 'wp-ai-assistant') ?> <span data-usdt="<?php echo $rateMainUsdt - @$this->info->rates->subscribe_premium_rate_usdt ?>$"><?php echo $rateMain - @$this->info->rates->subscribe_premium_rate ?><?php _e('$', 'wp-ai-assistant') ?></span>*</div>
-								</div>
+				<?php if( @$rewrites['start'] ){ ?>
+						<?php echo wp_kses_post( __('The process of rewriting articles is in progress, the information is updated automatically. If this does not happen, refresh the browser page to see the current list of articles that have been rewritten.', 'wp-ai-assistant') ) ?>
+				<?php } elseif( ! @$rewrites['start'] && isset( $rewrites['posts'] ) && @$rewrites['counter'] < count( $rewrites['posts'] ) ){ ?>
+					<?php echo wp_kses_post( __('The process of rewriting articles has been suspended.', 'wp-ai-assistant') ) ?>
+				<?php } elseif( isset( $rewrites['posts'] ) && @$rewrites['counter'] >= count( $rewrites['posts'] ) ){ ?>
+						<?php echo wp_kses_post( __('Articles rewriting is completed.', 'wp-ai-assistant') ) ?>
+				<?php } ?>
 				
-								<div class="aiassist-rate-title">
-									<span><?php echo number_format( @$this->info->rates->subscribe_premium_symbols, 0, ' ', ' ' ) ?></span> <?php _e('credits', 'wp-ai-assistant') ?>
-								</div>
+			<?php } ?>
+		</div>
+		<div class="aiassist-option-item <?php echo ! isset( $rewrites['start'] ) ? 'hidden' : ''?>" id="aiassist-rewrite-progress"><?php echo wp_kses_post( __('Rewriting completed', 'wp-ai-assistant') ) ?> <span id="aiassist-rewrite-count-publish"><?php echo (int) @$rewrites['publish'] ?></span> <?php echo wp_kses_post( __('articles from', 'wp-ai-assistant') ) ?> <?php echo isset( $rewrites['posts'] ) ? (int) count( @$rewrites['posts'] ) : 0 ?></div>
+		
+		<div class="aiassist-rewrites-queue">
+			<?php if( ! empty( $rewrites['posts'] ) ){ $queue = false; ?>
+				<?php foreach( $rewrites['posts'] as $rewrite ){ ?>
+					<div title="<?php echo esc_attr( isset( $rewrite['url'] ) ? $rewrite['url'] : $rewrite['title'] ) ?>">
+						<?php if( isset( $rewrite['post_id'] ) ){ ?>
+							<?php $queue = false; ?>
+							<div class="aiassist-rewrite-queue"><a href="<?php echo get_edit_post_link( $rewrite['post_id'] ) ?>" target="_blank"><?php echo esc_attr( isset( $rewrite['url'] ) ? $rewrite['url'] : $rewrite['title'] ) ?></a> 
 								
-								<div class="aiassist-rate-info">
-									<div><span data-usdt="<?php echo @round( @$this->info->rates->subscribe_premium_rate_usdt / @$this->info->rates->subscribe_premium_symbols * 1000000 ) ?>$"><?php echo @round( @$this->info->rates->subscribe_premium_rate / @$this->info->rates->subscribe_premium_symbols * 1000000 ) ?><?php _e('$', 'wp-ai-assistant') ?></span> - <?php _e('1 million credits', 'wp-ai-assistant') ?></div>
-								</div>
-								
-								<div class="aiassist-buy-button">
-								
-									<?php if( ! @$this->info->recurring ){ ?>
-										<div class="aiassist-recurring-agree <?php echo esc_attr( get_locale() ) ?>">
-											<label>
-												<input type="checkbox" name="recurring" /><?php _e('Auto-renew', 'wp-ai-assistant') ?>
-											</label>
-										</div>
+								<span class="aiassist-queue-status">
+									<?php if( isset( $rewrite['restore'] ) ){ ?>
+										<?php echo wp_kses_post( __('Restored', 'wp-ai-assistant') ) ?>
+									<?php } else { ?>
+										<?php echo wp_kses_post( __('Generated', 'wp-ai-assistant') ) ?>
 									<?php } ?>
-									
-									<?php if( @$this->info->subscribe->type == 'premium' ){ ?>
-										<button type="button" class="aiassist-buy aiassist-subscribe-type" data-type="subscribe_premium"><?php _e('Renew subscription', 'wp-ai-assistant') ?></button>
-									<?php } else {?>
-										<button type="button" class="aiassist-buy" data-type="subscribe_premium"><?php _e('Subscribe', 'wp-ai-assistant') ?></button>
-									<?php } ?>
-								</div>
-								
-								<div class="aiassist-rate-desc">
-									<?php _e('How much content can be generated<br />~50000000 characters (~10000000 words) GPT-5 nano**<br />~25000000 characters (~5000000 words) GPT-5 mini**<br />~6250000 characters (~1250000 words) GPT-5**<br />~12500000 characters (~2500000 words) o3-mini**<br />~ 7 142 images FLUX Schnell<br />~ 1 250 generations Midjourney v7<br />~ 1 428 images Dalle 3<br />~ 1 250 images GPT-image', 'wp-ai-assistant') ?>
-								</div>
-								<div class="aiassist-rate-checklist">
-									<div class="aiassist-rate-check"><?php _e('Neural Networks: GPT-5, GPT-5 mini, GPT-5 nano, o3-mini (reasoning), Midjourney v7, Dalle 3, GPT-image, FLUX.', 'wp-ai-assistant') ?></div>
-									<div class="aiassist-rate-check"><?php _e('Bulk generation and generation articles in the editor', 'wp-ai-assistant') ?></div>
-									<div class="aiassist-rate-check"><?php _e('AI Assist, AI image creator', 'wp-ai-assistant') ?></div>
-									<div class="aiassist-rate-check"><?php _e('Rewrite articles on your site and pages from third-party sites', 'wp-ai-assistant') ?></div>
-									<div class="aiassist-rate-check"><?php _e('Making images unique', 'wp-ai-assistant') ?></div>
-								</div>
-								
-							</div>	
+								</span> 
 							
-						</div>
-						
-						<div class="aiassist-rates-free">
-							<div class="aiassist-rate-title"><?php _e('Free plan', 'wp-ai-assistant') ?></div>
-							<div class="aiassist-rates-items">
-								<div class="aiassist-rates-free-item">
-									<?php _e('Once you register, you will receive 10,000 free credits. You can also buy credits in packages or for any amount you choose. These credits do not expire and remain on your balance until you use them.', 'wp-ai-assistant') ?>
-								</div>
-								<div class="aiassist-rate-checklist aiassist-rates-free-item">
-									<div class="aiassist-rate-check"><?php _e('Bulk generation', 'wp-ai-assistant') ?></div>
-									<div class="aiassist-rate-check"><?php _e('Generation in the editor', 'wp-ai-assistant') ?></div>
-									<div class="aiassist-rate-check"><?php _e('AI Assist', 'wp-ai-assistant') ?></div>
-								</div>
-								<div class="aiassist-rate-checklist aiassist-rates-free-item">
-									<div class="aiassist-rate-check"><?php _e('Neural networks: GPT-5 mini, GPT-5 nano, FLUX', 'wp-ai-assistant') ?></div>
-									<div class="aiassist-rate-check"><?php _e('AI image creator', 'wp-ai-assistant') ?></div>
-								</div>
+								<?php if( isset( $rewrite['revision_id'] ) && ! isset( $rewrite['restore'] ) ){ ?>
+									<span class="aiassist-post-restore aiassist-orange" post_id="<?php echo (int) $rewrite['post_id'] ?>" revision_id="<?php echo (int) $rewrite['revision_id'] ?>"><?php echo wp_kses_post( __('Restore original text', 'wp-ai-assistant') ) ?></span>
+								<?php } ?>
 							</div>
+						
+						<?php } else { ?>
+							<div class="aiassist-rewrite-queue aiassist-queue">
+								<span class="aiassist-queue-rewrite">
+									<?php echo esc_attr( isset( $rewrite['url'] ) ? $rewrite['url'] : $rewrite['title'] ) ?>
+								</span> 
+								<span class="aiassist-queue-status">
+									<?php if( ! $queue ){ ?>
+										<?php if( (int) @$rewrite['check'] < 60 && ( @$this->info->limit > 1 || @$this->info->sLimit > 1 ) ){ ?>
+											<?php echo wp_kses_post( __('Generation in progress', 'wp-ai-assistant') ) ?>
+										<?php } else { ?>
+											
+											<?php echo wp_kses_post( __('Suspended', 'wp-ai-assistant') ) ?>
+										<?php } ?>
+									<?php } else { ?>
+										<?php echo wp_kses_post( __('In queue', 'wp-ai-assistant') ) ?>
+									<?php } ?>
+								</span> 
+							</div>
+						<?php $queue = true; ?>
+						<?php } ?>
+					</div>
+				<?php } ?>
+			<?php } ?>
+		</div>
+	
+	</div>
+	
+	
+	<div class="aiassist-tab-data" data-tab="rates">
+		
+		<div class="pay-methods">
+			<?php if( get_locale() != 'ru_RU' ){ ?>
+				<div class="pay-method active" data-billing="creem" data-custom-disabled="true" >
+					<div class="creem"></div>
+					<div class="pay-method-label"><?php echo wp_kses_post( __('Visa, Mastercard, PayPal', 'wp-ai-assistant') ) ?></div>
+				</div>
+				
+				<div class="pay-method" data-billing="cryptocloud">
+					<div class="cryptocloud"></div>
+					<div class="pay-method-label"><?php echo wp_kses_post( __('USDT, Bitcoin, Ethereum', 'wp-ai-assistant') ) ?></div>
+				</div>
+				
+				<div class="pay-method" data-billing="robokassa" data-recurring="true">
+					<div class="robokassa"></div>
+					<div class="pay-method-label visa"><?php echo wp_kses_post( __('Visa, Mastercard, Мir, YooMoney', 'wp-ai-assistant') ) ?></div>
+				</div>
+			<?php } else { ?>
+				<div class="pay-method active" data-billing="robokassa" data-recurring="true">
+					<div class="robokassa"></div>
+					<div class="pay-method-label visa"><?php echo wp_kses_post( __('Visa, Mastercard, Мir, YooMoney', 'wp-ai-assistant') ) ?></div>
+				</div>
+			
+				<div class="pay-method" data-billing="cryptocloud">
+					<div class="cryptocloud"></div>
+					<div class="pay-method-label"><?php echo wp_kses_post( __('USDT, Bitcoin, Ethereum', 'wp-ai-assistant') ) ?></div>
+				</div>
+			<?php } ?>
+		</div>
+		
+		<?php if( isset( $this->info->rates ) ){ ?>
+		
+			<form method="POST" class="aiassist-promocode">
+				<label>
+					<span><?php echo wp_kses_post( __('Promo code:', 'wp-ai-assistant') ) ?></span>
+					<input name="promocode" value="<?php echo isset( $_POST['promocode'] ) ? esc_attr( sanitize_text_field( $_POST['promocode'] ) ) : '' ?>" />
+					<button id="aiassist-promocode-set"><?php echo wp_kses_post( __('Apply', 'wp-ai-assistant') ) ?></button>
+					
+					<?php if( isset( $_POST['promocode'] ) ){ ?>
+						<div class="aiassist-promocode-status <?php echo ! isset( $this->info->rates->discount ) ? 'error-discount' : '' ?>">
+							<?php if( isset( $this->info->rates->discount ) ){ ?> 
+								<?php echo wp_kses_post( __('Promo code activated!', 'wp-ai-assistant') ) ?>
+							<?php } else { ?>
+								<?php echo wp_kses_post( __('The promo code is incorrect!', 'wp-ai-assistant') ) ?>
+							<?php } ?> 
 						</div>
+					<?php } ?>
+					
+				</label>
+			</form>
+			
+			<div class="aiassist-rates-wrap">
+			
+				<div class="aiassist-rates-tabs">
+					<div class="aiassist-rates-tab active" data-view="subscribe"><?php echo wp_kses_post( __('Subscription plans', 'wp-ai-assistant') ) ?></div>
+					<div class="aiassist-rates-tab" data-view="packages"><?php echo wp_kses_post( __('Buy extra credits', 'wp-ai-assistant') ) ?></div>
+				</div>
+			
+				<div class="aiassist-rates-view active" data-view="subscribe">
+				
+					<div class="aiassist-rates-info"><?php echo wp_kses_post( __('The subscription applies to all sites connected to your API key, and one common credit balance is used for all sites.', 'wp-ai-assistant') ) ?></div>
+					
+					<div class="aiassist-rates-items">
 						
-						
-						<div class="aiassist-rates-note-block">
-							<?php _e('* If you buy, for any amount you choose, the same number of credits you get by subscribing. <br />** Payment is spent only on generating characters or images. No hidden fees! You do not pay for tokens used to send context. You do not pay for sending requests for generation. You do not pay for tokens used to mark up articles. You do not pay for spaces.', 'wp-ai-assistant') ?>
-						</div>
-						
-						<?php if( @$this->info->subscribe->expire ){ ?>
-							<div class="aiassist-rates-custom aiassist-subscribe-block">
-								<div class="aiassist-rate-info"><?php _e('You have an active subscription ', 'wp-ai-assistant') ?> <b><?php echo esc_html( @$this->info->subscribe->type ) ?></b> <?php _e('until', 'wp-ai-assistant') ?> <?php echo date('d.m.Y', (int) @$this->info->subscribe->expire ) ?></div>
-								
+						<div class="aiassist-rates-item">
+							<?php if( @$this->info->rates->subscribe_basic_best ){ ?>
+								<div class="aiassist-popular"><?php echo wp_kses_post( __('Popular', 'wp-ai-assistant') ) ?></div>
+							<?php } ?>
+							
+							<div class="aiassist-rate-title"><?php echo wp_kses_post( __('Basic', 'wp-ai-assistant') ) ?></div>
+							<div class="aiassist-rate-price">
+								<span data-usdt="<?php echo (float) @$this->info->rates->subscribe_basic_rate_usdt ?>$">
+									<?php echo (float) @$this->info->rates->subscribe_basic_rate ?><?php echo wp_kses_post( __('$', 'wp-ai-assistant') ) ?>
+								</span> / 30 <?php echo wp_kses_post( __('days', 'wp-ai-assistant') ) ?>
+							</div>
+							
+							<div class="aiassist-rate-info bg">
+								<div><?php echo wp_kses_post( __('Instead of', 'wp-ai-assistant') ) ?> <i data-usdt="<?php echo $rateMainUsdt = round( @$this->info->rates->subscribe_basic_symbols / 1000 * @$this->info->price_usdt )?>$"><?php echo $rateMain = round( @$this->info->rates->subscribe_basic_symbols / 1000 * @$this->info->price ) ?><?php echo wp_kses_post( __('$', 'wp-ai-assistant') ) ?></i></div>
+								<div><?php echo wp_kses_post( __('Savings of', 'wp-ai-assistant') ) ?> <span data-usdt="<?php echo round( $rateMainUsdt - @$this->info->rates->subscribe_basic_rate_usdt )?>$"><?php echo $rateMain - @$this->info->rates->subscribe_basic_rate ?><?php echo wp_kses_post( __('$', 'wp-ai-assistant') ) ?></span>*</div>	
+							</div>
+							
+							<div class="aiassist-rate-title">
+								<span><?php echo number_format( @$this->info->rates->subscribe_basic_symbols, 0, ' ', ' ' ) ?></span> <?php echo wp_kses_post( __('credits', 'wp-ai-assistant') ) ?>
+							</div>
+							
+							<div class="aiassist-rate-info">
+								<div><span data-usdt="<?php echo @round( @$this->info->rates->subscribe_basic_rate_usdt / @$this->info->rates->subscribe_basic_symbols * 1000000 ) ?>$"><?php echo @round( @$this->info->rates->subscribe_basic_rate / @$this->info->rates->subscribe_basic_symbols * 1000000 ) ?><?php echo wp_kses_post( __('$', 'wp-ai-assistant') ) ?></span> - <?php echo wp_kses_post( __('1 million credits', 'wp-ai-assistant') ) ?></div>
+							</div>
+							
+							<div class="aiassist-buy-button">
+							
 								<?php if( ! @$this->info->recurring ){ ?>
 									<div class="aiassist-recurring-agree <?php echo esc_attr( get_locale() ) ?>">
 										<label>
-											<input type="checkbox" name="recurring" /><?php _e('Auto-renew', 'wp-ai-assistant') ?>
+											<input type="checkbox" name="recurring" /><?php echo wp_kses_post( __('Auto-renew', 'wp-ai-assistant') ) ?>
 										</label>
 									</div>
 								<?php } ?>
-									
-								<button type="button" class="aiassist-buy" data-type="subscribe_<?php echo esc_attr( @$this->info->subscribe->type ) ?>"><?php _e('Renew subscription', 'wp-ai-assistant') ?></button>
 								
-								<div class="aiassist-recurring">
-									<div class="aiassist-recurring-status"><?php _e('Autofill', 'wp-ai-assistant') ?> - <span id="aiassist-recurring-status" class="<?php echo ! @$this->info->recurring ? 'inactive' : '' ?>"><?php @$this->info->recurring ? _e('active', 'wp-ai-assistant') : _e('inactive', 'wp-ai-assistant') ?></span></div>									
-									
-									<?php if( @$this->info->recurring ){ ?>
-										<button class="aiassist-recurring-pause"><?php _e('Pause', 'wp-ai-assistant') ?></button>
-									<?php } else { ?>
-										<button class="aiassist-recurring-activate"><?php _e('Activate', 'wp-ai-assistant') ?></button>
-									<?php } ?>
-								</div>
-							
+								<?php if( @$this->info->subscribe->type == 'basic' ){ ?>
+									<button type="button" class="aiassist-buy aiassist-subscribe-type" data-type="subscribe_basic"><?php echo wp_kses_post( __('Renew subscription', 'wp-ai-assistant') ) ?></button>
+								<?php } else { ?>
+									<button type="button" class="aiassist-buy" data-type="subscribe_basic"><?php echo wp_kses_post( __('Subscribe', 'wp-ai-assistant') ) ?></button>
+								<?php } ?>
 							</div>
-						<?php } ?>
-					
+							
+							<div class="aiassist-rate-desc">
+								<?php echo wp_kses_post( __('How much content can be generated<br />13200000 characters (~2640000 words) GPT-5 nano**<br />4400000 characters (~880000 words) GPT-5 mini**<br />825000 characters (~165000 words) GPT-5**<br />825000 characters (~165000 words) o3 (reasoning)**<br />1320 images FLUX Schnell<br />165 generations Midjourney v7<br />188 images Dalle 3<br />165 images GPT-image 1.5<br />440 images GPT-image 1 mini<br />188 images Nano Banana', 'wp-ai-assistant') ) ?>			
+							</div>
+							<div class="aiassist-rate-checklist">
+								<div class="aiassist-rate-check"><?php echo wp_kses_post( __('Neural Networks: GPT-5, GPT-5 mini, GPT-5 nano, o3 (reasoning), Midjourney v7, Dalle 3, GPT-image 1.5, GPT-image 1 mini, FLUX, Nano Banana.', 'wp-ai-assistant') ) ?></div>
+								<div class="aiassist-rate-check"><?php echo wp_kses_post( __('Bulk article generation and editor-based article creation', 'wp-ai-assistant') ) ?></div>
+								<div class="aiassist-rate-check"><?php echo wp_kses_post( __('AI Assist, AI image creator', 'wp-ai-assistant') ) ?></div>
+								<div class="aiassist-rate-check"><?php echo wp_kses_post( __('Rewrite articles on your site and pages from third-party sites', 'wp-ai-assistant') ) ?></div>
+								<div class="aiassist-rate-check"><?php echo wp_kses_post( __('Making images unique', 'wp-ai-assistant') ) ?></div>
+							</div>
+							
+						</div>
+						
+						
+						<div class="aiassist-rates-item">
+							
+							<?php if( @$this->info->rates->subscribe_pro_best ){ ?>
+								<div class="aiassist-popular"><?php echo wp_kses_post( __('Popular', 'wp-ai-assistant') ) ?></div>
+							<?php } ?>
+							
+							<div class="aiassist-rate-title"><?php echo wp_kses_post( __('Pro', 'wp-ai-assistant') ) ?></div>
+							<div class="aiassist-rate-price">
+								<span data-usdt="<?php echo (float) @$this->info->rates->subscribe_pro_rate_usdt ?>$">
+									<?php echo (float) @$this->info->rates->subscribe_pro_rate ?><?php echo wp_kses_post( __('$', 'wp-ai-assistant') ) ?>
+								</span> / 30 <?php echo wp_kses_post( __('days', 'wp-ai-assistant') ) ?>
+							</div>
+							
+							<div class="aiassist-rate-info bg">
+								<div><?php echo wp_kses_post( __('Instead of', 'wp-ai-assistant') ) ?> <i data-usdt="<?php echo $rateMainUsdt = round( @$this->info->rates->subscribe_pro_symbols / 1000 * @$this->info->price_usdt ) ?>$"><?php echo $rateMain = round( @$this->info->rates->subscribe_pro_symbols / 1000 * @$this->info->price ) ?><?php echo wp_kses_post( __('$', 'wp-ai-assistant') ) ?></i></div>
+								<div><?php echo wp_kses_post( __('Savings of', 'wp-ai-assistant') ) ?> <span data-usdt="<?php echo $rateMainUsdt - @$this->info->rates->subscribe_pro_rate_usdt ?>$"><?php echo $rateMain - @$this->info->rates->subscribe_pro_rate ?><?php echo wp_kses_post( __('$', 'wp-ai-assistant') ) ?></span>*</div>
+							</div>
+							
+							<div class="aiassist-rate-title">
+								<span><?php echo number_format( @$this->info->rates->subscribe_pro_symbols, 0, ' ', ' ' ) ?></span> <?php echo wp_kses_post( __('credits', 'wp-ai-assistant') ) ?>
+							</div>
+							
+							<div class="aiassist-rate-info">
+								<div><span data-usdt="<?php echo @round( @$this->info->rates->subscribe_pro_rate_usdt / @$this->info->rates->subscribe_pro_symbols * 1000000 ) ?>$"><?php echo @round( @$this->info->rates->subscribe_pro_rate / @$this->info->rates->subscribe_pro_symbols * 1000000 ) ?><?php echo wp_kses_post( __('$', 'wp-ai-assistant') ) ?></span> - <?php echo wp_kses_post( __('1 million credits', 'wp-ai-assistant') ) ?></div>
+							</div>
+							
+							<div class="aiassist-buy-button">
+
+								<?php if( ! @$this->info->recurring ){ ?>
+									<div class="aiassist-recurring-agree <?php echo esc_attr( get_locale() ) ?>">
+										<label>
+											<input type="checkbox" name="recurring" /><?php echo wp_kses_post( __('Auto-renew', 'wp-ai-assistant') ) ?>
+										</label>
+									</div>
+								<?php } ?>
+								
+								<?php if( @$this->info->subscribe->type == 'pro' ){ ?>
+									<button type="button" class="aiassist-buy aiassist-subscribe-type" data-type="subscribe_pro"><?php echo wp_kses_post( __('Renew subscription', 'wp-ai-assistant') ) ?></button>
+								<?php } else {?>
+									<button type="button" class="aiassist-buy" data-type="subscribe_pro"><?php echo wp_kses_post( __('Subscribe', 'wp-ai-assistant') ) ?></button>
+								<?php } ?>
+							</div>
+							
+							<div class="aiassist-rate-desc">
+								<?php echo wp_kses_post( __('How much content can be generated<br />41000000 characters (~8200000 words) GPT-5 nano**<br />13666666 characters (~2733333 words) GPT-5 mini**<br />2562000 characters (~512400 words) GPT-5**<br />2562000 characters (~512400 words) o3 (reasoning)**<br />4100 images FLUX Schnell<br />512 generations Midjourney v7<br />585 images Dalle 3<br />512 images GPT-image 1.5<br />1366 images GPT-image 1 mini<br />585 images Nano Banana', 'wp-ai-assistant') ) ?>						
+							</div>
+							<div class="aiassist-rate-checklist">
+								<div class="aiassist-rate-check"><?php echo wp_kses_post( __('Neural Networks: GPT-5, GPT-5 mini, GPT-5 nano, o3 (reasoning), Midjourney v7, Dalle 3, GPT-image 1.5, GPT-image 1 mini, FLUX, Nano Banana.', 'wp-ai-assistant') ) ?></div>
+								<div class="aiassist-rate-check"><?php echo wp_kses_post( __('Bulk article generation and editor-based article creation', 'wp-ai-assistant') ) ?></div>
+								<div class="aiassist-rate-check"><?php echo wp_kses_post( __('AI Assist, AI image creator', 'wp-ai-assistant') ) ?></div>
+								<div class="aiassist-rate-check"><?php echo wp_kses_post( __('Rewrite articles on your site and pages from third-party sites', 'wp-ai-assistant') ) ?></div>
+								<div class="aiassist-rate-check"><?php echo wp_kses_post( __('Making images unique', 'wp-ai-assistant') ) ?></div>
+							</div>
+							
+						</div>
+						
+						
+						<div class="aiassist-rates-item">
+							<?php if( @$this->info->rates->subscribe_premium_best ){ ?>
+								<div class="aiassist-popular"><?php echo wp_kses_post( __('Popular', 'wp-ai-assistant') ) ?></div>
+							<?php } ?>
+							
+							<div class="aiassist-rate-title"><?php echo wp_kses_post( __('Premium', 'wp-ai-assistant') ) ?></div>
+							<div class="aiassist-rate-price">
+								<span data-usdt="<?php echo (float) @$this->info->rates->subscribe_premium_rate_usdt ?>$">
+									<?php echo (float) @$this->info->rates->subscribe_premium_rate ?><?php echo wp_kses_post( __('$', 'wp-ai-assistant') ) ?>
+								</span> / 30 <?php echo wp_kses_post( __('days', 'wp-ai-assistant') ) ?>
+							</div>
+							
+							<div class="aiassist-rate-info bg">
+								<div><?php echo wp_kses_post( __('Instead of', 'wp-ai-assistant') ) ?> <i data-usdt="<?php echo $rateMainUsdt = round( @$this->info->rates->subscribe_premium_symbols / 1000 * @$this->info->price_usdt ) ?>$"><?php echo $rateMain = round( @$this->info->rates->subscribe_premium_symbols / 1000 * @$this->info->price ) ?><?php echo wp_kses_post( __('$', 'wp-ai-assistant') ) ?></i></div>
+								<div><?php echo wp_kses_post( __('Savings of', 'wp-ai-assistant') ) ?> <span data-usdt="<?php echo $rateMainUsdt - @$this->info->rates->subscribe_premium_rate_usdt ?>$"><?php echo $rateMain - @$this->info->rates->subscribe_premium_rate ?><?php echo wp_kses_post( __('$', 'wp-ai-assistant') ) ?></span>*</div>
+							</div>
+			
+							<div class="aiassist-rate-title">
+								<span><?php echo number_format( @$this->info->rates->subscribe_premium_symbols, 0, ' ', ' ' ) ?></span> <?php echo wp_kses_post( __('credits', 'wp-ai-assistant') ) ?>
+							</div>
+							
+							<div class="aiassist-rate-info">
+								<div><span data-usdt="<?php echo @round( @$this->info->rates->subscribe_premium_rate_usdt / @$this->info->rates->subscribe_premium_symbols * 1000000 ) ?>$"><?php echo @round( @$this->info->rates->subscribe_premium_rate / @$this->info->rates->subscribe_premium_symbols * 1000000 ) ?><?php echo wp_kses_post( __('$', 'wp-ai-assistant') ) ?></span> - <?php echo wp_kses_post( __('1 million credits', 'wp-ai-assistant') ) ?></div>
+							</div>
+							
+							<div class="aiassist-buy-button">
+							
+								<?php if( ! @$this->info->recurring ){ ?>
+									<div class="aiassist-recurring-agree <?php echo esc_attr( get_locale() ) ?>">
+										<label>
+											<input type="checkbox" name="recurring" /><?php echo wp_kses_post( __('Auto-renew', 'wp-ai-assistant') ) ?>
+										</label>
+									</div>
+								<?php } ?>
+								
+								<?php if( @$this->info->subscribe->type == 'premium' ){ ?>
+									<button type="button" class="aiassist-buy aiassist-subscribe-type" data-type="subscribe_premium"><?php echo wp_kses_post( __('Renew subscription', 'wp-ai-assistant') ) ?></button>
+								<?php } else {?>
+									<button type="button" class="aiassist-buy" data-type="subscribe_premium"><?php echo wp_kses_post( __('Subscribe', 'wp-ai-assistant') ) ?></button>
+								<?php } ?>
+							</div>
+							
+							<div class="aiassist-rate-desc">
+								<?php echo wp_kses_post( __('How much content can be generated<br />100000000 characters (~20000000 words) GPT-5 nano**<br />33333333 characters (~6666666 words) GPT-5 mini**<br />6250000 characters (~1250000 words) GPT-5**<br />6250000 characters (~1250000 words) o3 (reasoning)**<br />10000 images FLUX Schnell<br />1250 generations Midjourney v7<br />1428 images Dalle 3<br />1 250 images GPT-image 1.5<br />3333 images GPT-image 1 mini<br />1428 images Nano Banana', 'wp-ai-assistant') ) ?>
+							</div>
+							<div class="aiassist-rate-checklist">
+								<div class="aiassist-rate-check"><?php echo wp_kses_post( __('Neural Networks: GPT-5, GPT-5 mini, GPT-5 nano, o3 (reasoning), Midjourney v7, Dalle 3, GPT-image 1.5, GPT-image 1 mini, FLUX, Nano Banana.', 'wp-ai-assistant') ) ?></div>
+								<div class="aiassist-rate-check"><?php echo wp_kses_post( __('Bulk article generation and editor-based article creation', 'wp-ai-assistant') ) ?></div>
+								<div class="aiassist-rate-check"><?php echo wp_kses_post( __('AI Assist, AI image creator', 'wp-ai-assistant') ) ?></div>
+								<div class="aiassist-rate-check"><?php echo wp_kses_post( __('Rewrite articles on your site and pages from third-party sites', 'wp-ai-assistant') ) ?></div>
+								<div class="aiassist-rate-check"><?php echo wp_kses_post( __('Making images unique', 'wp-ai-assistant') ) ?></div>
+							</div>
+							
+						</div>	
+						
 					</div>
 					
-					<div class="aiassist-rates-view" data-view="packages">
-					
-						<div class="aiassist-rate-title"><?php _e('Add extra credits by packages or any amount.', 'wp-ai-assistant') ?></div>
-						<div class="aiassist-rates-note-block center"><?php _e('Credits purchased in packages or for any amount you choose <b>do not expire.</b>', 'wp-ai-assistant') ?></div>
-						
-						
+					<div class="aiassist-rates-free">
+						<div class="aiassist-rate-title"><?php echo wp_kses_post( __('Free plan', 'wp-ai-assistant') ) ?></div>
 						<div class="aiassist-rates-items">
+							<div class="aiassist-rates-free-item">
+								<?php echo wp_kses_post( __('Once you register, you will receive 10,000 free credits. You can also buy credits in packages or for any amount you choose. These credits do not expire and remain on your balance until you use them.', 'wp-ai-assistant') ) ?>
+							</div>
+							<div class="aiassist-rate-checklist aiassist-rates-free-item">
+								<div class="aiassist-rate-check"><?php echo wp_kses_post( __('Bulk generation', 'wp-ai-assistant') ) ?></div>
+								<div class="aiassist-rate-check"><?php echo wp_kses_post( __('Generation in the editor', 'wp-ai-assistant') ) ?></div>
+								<div class="aiassist-rate-check"><?php echo wp_kses_post( __('AI Assist', 'wp-ai-assistant') ) ?></div>
+							</div>
+							<div class="aiassist-rate-checklist aiassist-rates-free-item">
+								<div class="aiassist-rate-check"><?php echo wp_kses_post( __('Neural networks: GPT-5 mini, GPT-5 nano, FLUX, GPT-image 1 mini', 'wp-ai-assistant') ) ?></div>
+								<div class="aiassist-rate-check"><?php echo wp_kses_post( __('AI image creator', 'wp-ai-assistant') ) ?></div>
+							</div>
+						</div>
+					</div>
+					
+					
+					<div class="aiassist-rates-note-block">
+						<?php echo wp_kses_post( __('* If you buy, for any amount you choose, the same number of credits you get by subscribing. <br />** Payment is spent only on generating characters or images. No hidden fees! You do not pay for tokens used to send context. You do not pay for sending requests for generation. You do not pay for tokens used to mark up articles. You do not pay for spaces.', 'wp-ai-assistant') ) ?>
+					</div>
+					
+					<?php if( @$this->info->subscribe->expire ){ ?>
+						<div class="aiassist-rates-custom aiassist-subscribe-block">
+							<div class="aiassist-rate-info"><?php echo wp_kses_post( __('You have an active subscription ', 'wp-ai-assistant') ) ?> <b><?php echo esc_html( @$this->info->subscribe->type ) ?></b> <?php echo wp_kses_post( __('until', 'wp-ai-assistant') ) ?> <?php echo date('d.m.Y', (int) @$this->info->subscribe->expire ) ?></div>
 							
-							<div class="aiassist-rates-package">
-								<?php if( @$this->info->rates->packege_base_best ){ ?>
-									<div class="aiassist-popular"><?php _e('Popular', 'wp-ai-assistant') ?></div>
+							<?php if( ! @$this->info->recurring ){ ?>
+								<div class="aiassist-recurring-agree <?php echo esc_attr( get_locale() ) ?>">
+									<label>
+										<input type="checkbox" name="recurring" /><?php echo wp_kses_post( __('Auto-renew', 'wp-ai-assistant') ) ?>
+									</label>
+								</div>
+							<?php } ?>
+								
+							<button type="button" class="aiassist-buy" data-type="subscribe_<?php echo esc_attr( @$this->info->subscribe->type ) ?>"><?php echo wp_kses_post( __('Renew subscription', 'wp-ai-assistant') ) ?></button>
+							
+							<div class="aiassist-recurring">
+								<div class="aiassist-recurring-status"><?php echo wp_kses_post( __('Autofill', 'wp-ai-assistant') ) ?> - <span id="aiassist-recurring-status" class="<?php echo ! @$this->info->recurring ? 'inactive' : '' ?>"><?php @$this->info->recurring ? wp_kses_post( __('active', 'wp-ai-assistant') ) : wp_kses_post( __('inactive', 'wp-ai-assistant') ) ?></span></div>									
+								
+								<?php if( @$this->info->recurring ){ ?>
+									<button class="aiassist-recurring-pause"><?php echo wp_kses_post( __('Pause', 'wp-ai-assistant') ) ?></button>
+								<?php } else { ?>
+									<button class="aiassist-recurring-activate"><?php echo wp_kses_post( __('Activate', 'wp-ai-assistant') ) ?></button>
 								<?php } ?>
-								<div class="aiassist-rate-title">
-									<div class="aiassist-rate-price" data-usdt="<?php echo (float) @$this->info->rates->packege_base_rate_usdt ?>$"><span><?php echo (float) @$this->info->rates->packege_base_rate ?><?php _e('$', 'wp-ai-assistant') ?></span></div>
-									
-									<div class="aiassist-rate-info bg">
-										<div><?php _e('Instead of', 'wp-ai-assistant') ?> <i data-usdt="<?php echo $rateMainUsdt = round( @$this->info->rates->packege_base_symbols / 1000 * @$this->info->price_usdt ) ?>$"><?php echo $rateMain = round( @$this->info->rates->packege_base_symbols / 1000 * @$this->info->price ) ?><?php _e('$', 'wp-ai-assistant') ?></i></div>
-										<div><?php _e('Savings of', 'wp-ai-assistant') ?> <span data-usdt="<?php echo $rateMainUsdt - @$this->info->rates->packege_base_rate_usdt ?>$"><?php echo $rateMain - @$this->info->rates->packege_base_rate ?><?php _e('$', 'wp-ai-assistant') ?></span></div>	
-									</div>
-									
-									<div><span><?php echo number_format( @$this->info->rates->packege_base_symbols, 0, ' ', ' ' ) ?></span> <?php _e('credits', 'wp-ai-assistant') ?></div>
-								</div>
-								<div class="aiassist-rate-info">
-									<div><span data-usdt="<?php echo @round( @$this->info->rates->packege_base_rate_usdt / @$this->info->rates->packege_base_symbols * 1000000 ) ?>$"><?php echo @round( @$this->info->rates->packege_base_rate / @$this->info->rates->packege_base_symbols * 1000000 ) ?><?php _e('$', 'wp-ai-assistant') ?></span> - <?php _e('1 million credits', 'wp-ai-assistant') ?></div>
-								</div>
-								<button type="button" class="aiassist-buy" data-type="base"><?php _e('Buy a package', 'wp-ai-assistant') ?></button>
 							</div>
 						
-							<div class="aiassist-rates-package">
-								<?php if( @$this->info->rates->packege_pro_best ){ ?>
-									<div class="aiassist-popular"><?php _e('Popular', 'wp-ai-assistant') ?></div>
-								<?php } ?>
-								<div class="aiassist-rate-title">
-									<div class="aiassist-rate-price" data-usdt="<?php echo (float) @$this->info->rates->packege_pro_rate_usdt ?>$"><span><?php echo (float) @$this->info->rates->packege_pro_rate ?><?php _e('$', 'wp-ai-assistant') ?></span></div>
-									
-									<div class="aiassist-rate-info bg">
-										<div><?php _e('Instead of', 'wp-ai-assistant') ?> <i data-usdt="<?php echo $rateMainUsdt = round( @$this->info->rates->packege_pro_symbols / 1000 * @$this->info->price_usdt ) ?>$"><?php echo $rateMain = round( @$this->info->rates->packege_pro_symbols / 1000 * @$this->info->price ) ?><?php _e('$', 'wp-ai-assistant') ?></i></div>
-										<div><?php _e('Savings of', 'wp-ai-assistant') ?> <span data-usdt="<?php echo $rateMainUsdt - @$this->info->rates->packege_pro_rate_usdt ?>$"><?php echo $rateMain - @$this->info->rates->packege_pro_rate ?><?php _e('$', 'wp-ai-assistant') ?></span></div>	
-									</div>
-									
-									<div><span><?php echo number_format( @$this->info->rates->packege_pro_symbols, 0, ' ', ' ' ) ?></span> <?php _e('credits', 'wp-ai-assistant') ?></div>
+						</div>
+					<?php } ?>
+				
+				</div>
+				
+				<div class="aiassist-rates-view" data-view="packages">
+				
+					<div class="aiassist-rate-title"><?php echo wp_kses_post( __('Add extra credits by packages or any amount.', 'wp-ai-assistant') ) ?></div>
+					<div class="aiassist-rates-note-block center"><?php echo wp_kses_post( __('Credits purchased in packages or for any amount you choose <b>do not expire.</b>', 'wp-ai-assistant') ) ?></div>
+					
+					
+					<div class="aiassist-rates-items">
+						
+						<div class="aiassist-rates-package">
+							<?php if( @$this->info->rates->packege_base_best ){ ?>
+								<div class="aiassist-popular"><?php echo wp_kses_post( __('Popular', 'wp-ai-assistant') ) ?></div>
+							<?php } ?>
+							<div class="aiassist-rate-title">
+								<div class="aiassist-rate-price" data-usdt="<?php echo (float) @$this->info->rates->packege_base_rate_usdt ?>$"><span><?php echo (float) @$this->info->rates->packege_base_rate ?><?php echo wp_kses_post( __('$', 'wp-ai-assistant') ) ?></span></div>
+								
+								<div class="aiassist-rate-info bg">
+									<div><?php echo wp_kses_post( __('Instead of', 'wp-ai-assistant') ) ?> <i data-usdt="<?php echo $rateMainUsdt = round( @$this->info->rates->packege_base_symbols / 1000 * @$this->info->price_usdt ) ?>$"><?php echo $rateMain = round( @$this->info->rates->packege_base_symbols / 1000 * @$this->info->price ) ?><?php echo wp_kses_post( __('$', 'wp-ai-assistant') ) ?></i></div>
+									<div><?php echo wp_kses_post( __('Savings of', 'wp-ai-assistant') ) ?> <span data-usdt="<?php echo $rateMainUsdt - @$this->info->rates->packege_base_rate_usdt ?>$"><?php echo $rateMain - @$this->info->rates->packege_base_rate ?><?php echo wp_kses_post( __('$', 'wp-ai-assistant') ) ?></span></div>	
 								</div>
-								<div class="aiassist-rate-info">
-									<div><span data-usdt="<?php echo @round( @$this->info->rates->packege_pro_rate_usdt / @$this->info->rates->packege_pro_symbols * 1000000 ) ?>$"><?php echo @round( @$this->info->rates->packege_pro_rate / @$this->info->rates->packege_pro_symbols * 1000000 ) ?><?php _e('$', 'wp-ai-assistant') ?></span> - <?php _e('1 million credits', 'wp-ai-assistant') ?></div>
-								</div>
-								<button type="button" class="aiassist-buy" data-type="professional"><?php _e('Buy a package', 'wp-ai-assistant') ?></button>
+								
+								<div><span><?php echo number_format( @$this->info->rates->packege_base_symbols, 0, ' ', ' ' ) ?></span> <?php echo wp_kses_post( __('credits', 'wp-ai-assistant') ) ?></div>
 							</div>
+							<div class="aiassist-rate-info">
+								<div><span data-usdt="<?php echo @round( @$this->info->rates->packege_base_rate_usdt / @$this->info->rates->packege_base_symbols * 1000000 ) ?>$"><?php echo @round( @$this->info->rates->packege_base_rate / @$this->info->rates->packege_base_symbols * 1000000 ) ?><?php echo wp_kses_post( __('$', 'wp-ai-assistant') ) ?></span> - <?php echo wp_kses_post( __('1 million credits', 'wp-ai-assistant') ) ?></div>
+							</div>
+							<button type="button" class="aiassist-buy" data-type="base"><?php echo wp_kses_post( __('Buy a package', 'wp-ai-assistant') ) ?></button>
+						</div>
+					
+						<div class="aiassist-rates-package">
+							<?php if( @$this->info->rates->packege_pro_best ){ ?>
+								<div class="aiassist-popular"><?php echo wp_kses_post( __('Popular', 'wp-ai-assistant') ) ?></div>
+							<?php } ?>
+							<div class="aiassist-rate-title">
+								<div class="aiassist-rate-price" data-usdt="<?php echo (float) @$this->info->rates->packege_pro_rate_usdt ?>$"><span><?php echo (float) @$this->info->rates->packege_pro_rate ?><?php echo wp_kses_post( __('$', 'wp-ai-assistant') ) ?></span></div>
+								
+								<div class="aiassist-rate-info bg">
+									<div><?php echo wp_kses_post( __('Instead of', 'wp-ai-assistant') ) ?> <i data-usdt="<?php echo $rateMainUsdt = round( @$this->info->rates->packege_pro_symbols / 1000 * @$this->info->price_usdt ) ?>$"><?php echo $rateMain = round( @$this->info->rates->packege_pro_symbols / 1000 * @$this->info->price ) ?><?php echo wp_kses_post( __('$', 'wp-ai-assistant') ) ?></i></div>
+									<div><?php echo wp_kses_post( __('Savings of', 'wp-ai-assistant') ) ?> <span data-usdt="<?php echo $rateMainUsdt - @$this->info->rates->packege_pro_rate_usdt ?>$"><?php echo $rateMain - @$this->info->rates->packege_pro_rate ?><?php echo wp_kses_post( __('$', 'wp-ai-assistant') ) ?></span></div>	
+								</div>
+								
+								<div><span><?php echo number_format( @$this->info->rates->packege_pro_symbols, 0, ' ', ' ' ) ?></span> <?php echo wp_kses_post( __('credits', 'wp-ai-assistant') ) ?></div>
+							</div>
+							<div class="aiassist-rate-info">
+								<div><span data-usdt="<?php echo @round( @$this->info->rates->packege_pro_rate_usdt / @$this->info->rates->packege_pro_symbols * 1000000 ) ?>$"><?php echo @round( @$this->info->rates->packege_pro_rate / @$this->info->rates->packege_pro_symbols * 1000000 ) ?><?php echo wp_kses_post( __('$', 'wp-ai-assistant') ) ?></span> - <?php echo wp_kses_post( __('1 million credits', 'wp-ai-assistant') ) ?></div>
+							</div>
+							<button type="button" class="aiassist-buy" data-type="professional"><?php echo wp_kses_post( __('Buy a package', 'wp-ai-assistant') ) ?></button>
+						</div>
+						
+						<div class="aiassist-rates-package">
+							<?php if( @$this->info->rates->packege_popular_best ){ ?>
+								<div class="aiassist-popular"><?php echo wp_kses_post( __('Popular', 'wp-ai-assistant') ) ?></div>
+							<?php } ?>
 							
-							<div class="aiassist-rates-package">
-								<?php if( @$this->info->rates->packege_popular_best ){ ?>
-									<div class="aiassist-popular"><?php _e('Popular', 'wp-ai-assistant') ?></div>
+							<div class="aiassist-rate-title">
+								<div class="aiassist-rate-price" data-usdt="<?php echo (float) @$this->info->rates->packege_popular_rate_usdt ?>$"><span><?php echo (float) @$this->info->rates->packege_popular_rate ?><?php echo wp_kses_post( __('$', 'wp-ai-assistant') ) ?></span></div>
+								
+								<div class="aiassist-rate-info bg">
+									<div><?php echo wp_kses_post( __('Instead of', 'wp-ai-assistant') ) ?> <i data-usdt="<?php echo $rateMainUsdt = round( @$this->info->rates->packege_popular_symbols / 1000 * @$this->info->price_usdt ) ?>$"><?php echo $rateMain = round( @$this->info->rates->packege_popular_symbols / 1000 * @$this->info->price ) ?><?php echo wp_kses_post( __('$', 'wp-ai-assistant') ) ?></i></div>
+									<div><?php echo wp_kses_post( __('Savings of', 'wp-ai-assistant') ) ?> <span data-usdt="<?php echo $rateMainUsdt - @$this->info->rates->packege_popular_rate_usdt ?>$"><?php echo $rateMain - @$this->info->rates->packege_popular_rate ?><?php echo wp_kses_post( __('$', 'wp-ai-assistant') ) ?></span></div>	
+								</div>
+								
+								<div><span><?php echo number_format( @$this->info->rates->packege_popular_symbols, 0, ' ', ' ' ) ?></span> <?php echo wp_kses_post( __('credits', 'wp-ai-assistant') ) ?></div>
+							</div>
+							<div class="aiassist-rate-info">
+								<div><span data-usdt="<?php echo @round( @$this->info->rates->packege_popular_rate_usdt / @$this->info->rates->packege_popular_symbols * 1000000 ) ?>$"><?php echo @round( @$this->info->rates->packege_popular_rate / @$this->info->rates->packege_popular_symbols * 1000000 ) ?><?php echo wp_kses_post( __('$', 'wp-ai-assistant') ) ?></span> - <?php echo wp_kses_post( __('1 million credits', 'wp-ai-assistant') ) ?></div>
+							</div>
+							<button type="button" class="aiassist-buy" data-type="popular"><?php echo wp_kses_post( __('Buy a package', 'wp-ai-assistant') ) ?></button>
+						</div>
+						
+						<div class="aiassist-rates-package">
+							<?php if( @$this->info->rates->packege_max_best ){ ?>
+								<div class="aiassist-popular"><?php echo wp_kses_post( __('Popular', 'wp-ai-assistant') ) ?></div>
+							<?php } ?>
+							<div class="aiassist-rate-title">
+								<div class="aiassist-rate-price" data-usdt="<?php echo (float) @$this->info->rates->packege_max_rate_usdt ?>$"><span><?php echo (float) @$this->info->rates->packege_max_rate ?> <?php echo wp_kses_post( __('$', 'wp-ai-assistant') ) ?></span></div>
+								
+								<div class="aiassist-rate-info bg">
+									<div><?php echo wp_kses_post( __('Instead of', 'wp-ai-assistant') ) ?> <i data-usdt="<?php echo $rateMainUsdt = round( @$this->info->rates->packege_max_symbols / 1000 * @$this->info->price_usdt ) ?>$"><?php echo $rateMain = round( @$this->info->rates->packege_max_symbols / 1000 * @$this->info->price ) ?><?php echo wp_kses_post( __('$', 'wp-ai-assistant') ) ?></i></div>
+									<div><?php echo wp_kses_post( __('Savings of', 'wp-ai-assistant') ) ?> <span data-usdt="<?php echo $rateMainUsdt - @$this->info->rates->packege_max_rate_usdt ?>$"><?php echo $rateMain - @$this->info->rates->packege_max_rate ?><?php echo wp_kses_post( __('$', 'wp-ai-assistant') ) ?></span></div>	
+								</div>
+								
+								<div><span><?php echo number_format( @$this->info->rates->packege_max_symbols, 0, ' ', ' ' ) ?></span> <?php echo wp_kses_post( __('credits', 'wp-ai-assistant') ) ?></div>
+							</div>
+							<div class="aiassist-rate-info">
+								<div><span data-usdt="<?php echo @round( @$this->info->rates->packege_max_rate_usdt / @$this->info->rates->packege_max_symbols * 1000000 ) ?>$"><?php echo @round( @$this->info->rates->packege_max_rate / @$this->info->rates->packege_max_symbols * 1000000 ) ?><?php echo wp_kses_post( __('$', 'wp-ai-assistant') ) ?></span> - <?php echo wp_kses_post( __('1 million credits', 'wp-ai-assistant') ) ?></div>
+							</div>
+							<button type="button" class="aiassist-buy" data-type="max"><?php echo wp_kses_post( __('Buy a package', 'wp-ai-assistant') ) ?></button>
+						</div>
+					
+					</div>
+					
+					<div class="aiassist-rates-custom">
+						<div class="aiassist-rate-title"><?php echo wp_kses_post( __('Pay any amount you choose', 'wp-ai-assistant') ) ?></div>
+						<div class="aiassist-rate-info"><?php echo wp_kses_post( __('Enter amount to top up your balance (minimum 5$). Credits do not disappear, you can generate text and images at any time.', 'wp-ai-assistant') ) ?></div>
+						
+						<form id="aiassist-custom-buy" class="aiassist-buy-form">
+							<input type="number" step="1" min="<?php echo (float) @$this->info->rates->min_buy ?>" id="out_summ" placeholder="<?php echo wp_kses_post( __('5 $', 'wp-ai-assistant') ) ?>" data-usdt="5 $" required />
+							<button type="submit" class="aiassist-buy" data-type="custom"><?php echo wp_kses_post( __('Buy', 'wp-ai-assistant') ) ?></button>
+						</form>	
+						
+						<div>
+							<?php echo wp_kses_post( __('Price', 'wp-ai-assistant') ) ?> 
+							<b data-usdt="<?php echo (float) @$this->info->price_usdt ?> $"><?php echo (float) @$this->info->price ?> <?php echo wp_kses_post( __('$', 'wp-ai-assistant') ) ?></b> 
+							<?php echo wp_kses_post( __('for 1000 credits.', 'wp-ai-assistant') ) ?>
+						</div>
+					</div>
+					
+					<div class="aiassist-rate-title"><?php echo wp_kses_post( __('Rates Questions and Answers', 'wp-ai-assistant') ) ?></div>
+					<br /><br />
+					
+					<div class="aiassist-rates-note-wrap">
+						<div class="aiassist-rate-note-title"><?php echo wp_kses_post( __('I already have a subscription. Can I purchase additional credits?', 'wp-ai-assistant') ) ?></div>
+						<div class="aiassist-rates-note-block">
+							<?php echo wp_kses_post( __('Yes, you can. Subscription credits and credits purchased in packages are counted separately. At first, subscription credits are deducted from the balance, and if they run out, the credits purchased in packages will be deducted.', 'wp-ai-assistant') ) ?>
+						</div>
+					</div>
+						
+					<div class="aiassist-rates-note-wrap">
+						<div class="aiassist-rate-note-title"><?php echo wp_kses_post( __('Do purchased credits expire?', 'wp-ai-assistant') ) ?></div>
+						<div class="aiassist-rates-note-block">
+							<?php echo wp_kses_post( __('The credits included in your subscription are renewed every 30 days. Credits purchased in packages or for any amount you choose do not expire and remain on your balance until you use them.', 'wp-ai-assistant') ) ?>
+						</div>
+					</div>
+				
+				</div>
+				
+			</div>
+		<?php } ?>
+		
+	</div>
+	
+		
+	<div class="aiassist-tab-data" data-tab="generations">
+		<h2 class="generations-header"><?php echo wp_kses_post( __('<a href="https://aiwpw.com/docs/bulk-generation/" target="_blank">How to use</a>', 'wp-ai-assistant') ) ?></h2>
+		
+		<div class="aiassist-article-items">
+		
+			<div id="aiassist-selection-box"></div>
+			<div class="aiassist-article-item">
+				<div><?php echo wp_kses_post( __('Add article topics in a list in the left column, each line being a new article. If necessary, add one or more keywords, separated by commas, in the right column.', 'wp-ai-assistant') ) ?></div>
+				
+				<div class="aiassist-multi-items">
+					<div class="aiassist-multi-themes">
+						<label class="aiassist-multi-item-label"><?php echo wp_kses_post( __('Main topic of the article', 'wp-ai-assistant') ) ?></label>
+						<input class="aiassist-multi-item" />
+						<input class="aiassist-multi-item" />
+						<input class="aiassist-multi-item" />
+						<input class="aiassist-multi-item" />
+						<input class="aiassist-multi-item" />
+						<input class="aiassist-multi-item" />
+						<input class="aiassist-multi-item" />
+						<input class="aiassist-multi-item" />
+						<input class="aiassist-multi-item" />
+					</div>
+					
+					<div class="aiassist-multi-keywords">
+						<label class="aiassist-multi-item-label"><?php echo wp_kses_post( __('Key phrases', 'wp-ai-assistant') ) ?></label>
+						<input class="aiassist-multi-item" />
+						<input class="aiassist-multi-item" />
+						<input class="aiassist-multi-item" />
+						<input class="aiassist-multi-item" />
+						<input class="aiassist-multi-item" />
+						<input class="aiassist-multi-item" />
+						<input class="aiassist-multi-item" />
+						<input class="aiassist-multi-item" />
+						<input class="aiassist-multi-item" />
+					</div>
+				</div>
+				
+				
+				<div class="aiassist-cats-item">
+					<?php echo wp_kses_post( __('Select a category for publishing articles', 'wp-ai-assistant') ) ?>
+					
+					<select class="cats-item">
+						<option value="0"><?php echo wp_kses_post( __('Category', 'wp-ai-assistant') ) ?></option>
+						<?php if( $cats ){ ?>
+							<?php foreach( $cats as $cat ){ ?>
+								<option value="<?php echo esc_attr( $cat->term_id )?>"><?php echo esc_html( $cat->name )?></option>
+							<?php } ?>
+						<?php } ?>
+					</select>
+				</div>
+			</div>
+			
+			
+		</div>
+		
+		<div class="aiassist-item-repeater">
+			<button id="aiassist-addItemArticle"><?php echo wp_kses_post( __('Add another list of keys for another category', 'wp-ai-assistant') ) ?></button>
+		</div>
+		
+		
+		<div class="aiassist-option-item"><?php echo wp_kses_post( __('Prompt for generating articles. The {key} variable will be replaced by main topic from the list.', 'wp-ai-assistant') ) ?></div>
+		
+		<br /><br /><br />
+		<div class="relative">
+			<button type="button" class="aiassist-set-default-promts"><?php echo wp_kses_post( __('Restore default prompts', 'wp-ai-assistant') ) ?></button>
+		</div>
+			
+		<?php if( @$this->info->promts->lang ){ $lang_id = $this->getDefaultLangId(); ?>
+			<div class="relative">
+				<div class="aiassist-lang-promts-item">
+					<label><?php echo wp_kses_post( __('Prompts language: ', 'wp-ai-assistant') ) ?></label>
+					<select class="aiassist-lang-promts">
+						<?php foreach( $this->info->promts->lang as $k => $lang ){ ?>
+							<?php
+								if( @$this->steps['promts']['multi_lang'] == $k )
+									$lang_id = (int) $k;
+							?>
+						
+							<option value="<?php echo (int) $k ?>" <?php echo @$this->steps['promts']['multi_lang'] == $k ? 'selected' : '' ?> ><?php echo esc_html( $lang ) ?></option>
+						<?php } ?>
+					</select>
+				</div>
+			</div>
+		<?php } ?>
+
+		<div>
+			<?php $promt = esc_textarea( @$this->steps['promts']['multi'][ $lang_id ] ? trim( $this->steps['promts']['multi'][ $lang_id ] ) : @$this->info->promts->multi[ $lang_id ] ); ?>
+			<textarea class="aiassist-prom" id="aiassist-generation-prom" data-check="{key}"><?php echo $promt ?></textarea>
+			<?php if( strpos( $promt, '{key}') === false ){ ?>
+				<div class="aiassist-check-key"><?php echo wp_kses_post( __('There is no variable {key} (or {header}) in your prompt. Add it in the place where the key word should be. If you generate an article without the variable, the text won’t be relevant to your topic.', 'wp-ai-assistant') ) ?></div>
+			<?php } ?>
+			
+			<?php $promt = esc_textarea( @$this->steps['promts']['multi_keywords'][ $lang_id ] ? trim( $this->steps['promts']['multi_keywords'][ $lang_id ] ) : @$this->info->promts->multi_keywords[ $lang_id ] ); ?>
+			<textarea class="aiassist-prom aiassist-keywords-area" id="aiassist-generation-prom-keywords"><?php echo $promt ?></textarea>
+		</div>
+		
+		<div class="aiassist-option-item">
+			<div>
+				<?php $promt = esc_attr( @$this->steps['promts']['multi_title'][ $lang_id ] ? $this->steps['promts']['multi_title'][ $lang_id ] : @$this->info->promts->multi_title[ $lang_id ] )?>
+				<?php echo wp_kses_post( __('Promt:', 'wp-ai-assistant') ) ?> <input id="aiassist-title-prom-multi" class="aiassist-prom" data-check="{key}" value="<?php echo $promt ?>" />
+				<?php if( strpos( $promt, '{key}') === false ){ ?>
+					<div class="aiassist-check-key"><?php echo wp_kses_post( __('There is no variable {key} (or {header}) in your prompt. Add it in the place where the key word should be. If you generate an article without the variable, the text won’t be relevant to your topic.', 'wp-ai-assistant') ) ?></div>
+				<?php } ?>
+			</div>
+			
+			<div>
+				<?php $promt = esc_attr( @$this->steps['promts']['multi_desc'][ $lang_id ] ? $this->steps['promts']['multi_desc'][ $lang_id ] : @$this->info->promts->multi_desc[ $lang_id ] ); ?>
+				<?php echo wp_kses_post( __('Promt:', 'wp-ai-assistant') ) ?> <input id="aiassist-desc-prom-multi" class="aiassist-prom" data-check="{key}" value="<?php echo $promt ?>" />
+				<?php if( strpos( $promt, '{key}') === false ){ ?>
+					<div class="aiassist-check-key"><?php echo wp_kses_post( __('There is no variable {key} (or {header}) in your prompt. Add it in the place where the key word should be. If you generate an article without the variable, the text won’t be relevant to your topic.', 'wp-ai-assistant') ) ?></div>
+				<?php } ?>
+			</div>
+		</div>
+		
+		<div class="aiassist-option-item">
+			<?php echo wp_kses_post( __('The number of articles to be generated in the specified time period. If the field is left blank, articles according to all preset keys will be generated as soon as possible.<br /> Specify the number of articles:', 'wp-ai-assistant') ) ?>
+			<div>
+				<input type="number" class="aiassist-auto-options" id="publish-article-in-day" value="<?php echo @$autoGen['publishInDay'] ? (int) $autoGen['publishInDay'] : '' ?>" min=0 />
+			</div>
+			
+			<?php echo wp_kses_post( __('How often articles should be generated. (For example, if you specify 2, then the number of articles you specified earlier will be generated every 2 days).<br /> Specify the number of days:', 'wp-ai-assistant') ) ?>
+			<div>
+				<input type="number" class="aiassist-auto-options" id="publish-article-every-day" value="<?php echo @$autoGen['publishEveryDay'] ? (int) $autoGen['publishEveryDay'] : 1 ?>" min=0 />
+			</div>
+		</div>
+		
+		<div class="aiassist-option-item">
+			<?php echo wp_kses_post( __('The images to be generated for the article. If you leave the field blank, the articles will be generated without images.', 'wp-ai-assistant') ) ?>
+			
+			<label class="aiassist-option-item">
+				<select class="aiassist-auto-options" id="aiassist-auto-multi-images">
+					<option value="without" <?php echo esc_attr( @$autoGen['pictures'] == 'without' ? 'selected' : '' ) ?>><?php echo wp_kses_post( __('Generate an article without images', 'wp-ai-assistant') ) ?></option>
+					<option value="all" <?php echo esc_attr( @$autoGen['pictures'] == 'all' ? 'selected' : '' ) ?>><?php echo wp_kses_post( __('Generate pictures for all headlines', 'wp-ai-assistant') ) ?></option>
+					<option value="h2" <?php echo esc_attr( @$autoGen['pictures'] == 'h2' ? 'selected' : '' ) ?>><?php echo wp_kses_post( __('Generate images for h2 headings only', 'wp-ai-assistant') ) ?></option>
+				</select>
+			</label>
+			
+			<label class="aiassist-option-item">
+				<div><?php echo wp_kses_post( __('Maximum number of images to generate', 'wp-ai-assistant') ) ?></div>
+				<input type="number" class="aiassist-auto-options" id="aiassist-max-pictures" value="<?php echo @$autoGen['max_pictures'] ? (int) $autoGen['max_pictures'] : '' ?>" min="0" />
+			</label>
+			
+			<label class="aiassist-option-item">
+				<input type="checkbox" class="aiassist-auto-options" id="aiassist-auto-thumb" <?php echo esc_attr( @$autoGen['thumb'] ? 'checked' : '' ) ?> <?php echo esc_attr( @$autoGen['images'] && ! @$autoGen['thumb'] ? 'disabled' : '' ) ?> /> <?php echo wp_kses_post( __('Generate the thumbnail', 'wp-ai-assistant') ) ?>
+			</label>
+			
+			<label class="aiassist-option-item">
+				<input type="checkbox" class="aiassist-auto-options" id="aiassist-auto-draft" <?php echo esc_attr( @$autoGen['draft'] ? 'checked' : '' ) ?> /> <?php echo wp_kses_post( __('Send the generated articles to draft', 'wp-ai-assistant') ) ?>
+			</label>
+			
+			<div>
+				<div><?php echo wp_kses_post( __('Text generation model', 'wp-ai-assistant') ) ?></div>
+				<div class="aiassist-select-wrap">
+					<?php
+						if( @$this->info->labels->text_model_4_on ){
+							$model = 'gpt_o3_mini';
+							$label = $this->info->labels->text_model_4;
+						}
+						
+						if( @$this->info->labels->text_model_3_on ){
+							$model = 'gpt4_nano';
+							$label = $this->info->labels->text_model_3;
+						}
+						
+						if( @$this->info->labels->text_model_2_on ){
+							$model = 'gpt4';
+							$label = $this->info->labels->text_model_2;
+						}
+						
+						if( @$this->info->labels->text_model_1_on ){
+							$model = 'gpt3';
+							$label = $this->info->labels->text_model_1;
+						}
+					?>
+					<div class="aiassist-select-lable"><?php echo esc_html( $label )?></div>
+					<div class="aiassist-select">	
+						<?php if( @$this->info->labels->text_model_1_on ){ ?>
+							<div class="aiassist-option" data-value="gpt3"><?php echo esc_html( $this->info->labels->text_model_1 )?></div>
+						<?php } ?>
+						<?php if( @$this->info->labels->text_model_2_on ){ ?>
+							<div class="aiassist-option <?php echo ! @$this->info->subscribe->expire ? 'aiassist-lock' : ''?>" data-value="gpt4"><?php echo esc_html( $this->info->labels->text_model_2 )?></div>
+						<?php } ?>
+						<?php if( @$this->info->labels->text_model_3_on ){ ?>
+							<div class="aiassist-option" data-value="gpt4_nano"><?php echo esc_html( $this->info->labels->text_model_3 )?></div>
+						<?php } ?>
+						<?php if( @$this->info->labels->text_model_4_on ){ ?>
+							<div class="aiassist-option <?php echo ! @$this->info->subscribe->expire ? 'aiassist-lock' : ''?>" data-value="gpt_o3_mini"><?php echo esc_html( $this->info->labels->text_model_4 )?></div>
+						<?php } ?>
+						<input type="hidden" name="aiassist-text-model" class="aiassist-auto-options" id="aiassist-change-text-model" value="<?php echo $model ?>" />
+					</div>
+				</div>
+				
+				<a href="<?php echo get_locale() == 'ru_RU' ? 'https://aiwpwriter.com/prices/' : 'https://aiwpw.com/prices/ ' ?>" target="_blank" class="aiassist-small"><?php echo wp_kses_post( __('Prices', 'wp-ai-assistant') ) ?></a>
+			</div>
+			
+			
+			
+			
+			<div>
+				<div><?php echo wp_kses_post( __('Image generation model', 'wp-ai-assistant') ) ?></div>
+				<div class="aiassist-select-wrap">
+					<?php
+						if( @$this->info->labels->img_model_6_on ){
+							$model = 'banana';
+							$label = $this->info->labels->img_model_6;
+						}
+						if( @$this->info->labels->img_model_5_on ){
+							$model = 'gptMini';
+							$label = $this->info->labels->img_model_5;
+						}
+						if( @$this->info->labels->img_model_3_on ){
+							$model = 'gptImage';
+							$label = $this->info->labels->img_model_3;
+						}
+						if( @$this->info->labels->img_model_2_on ){
+							$model = 'dalle';
+							$label = $this->info->labels->img_model_2;
+						}
+						if( @$this->info->labels->img_model_1_on ){
+							$model = 'midjourney';
+							$label = $this->info->labels->img_model_1;
+						}
+						if( @$this->info->labels->img_model_4_on ){
+							$model = 'flux';
+							$label = $this->info->labels->img_model_4;
+						}
+					?>
+					<div class="aiassist-select-lable"><?php echo esc_html( $label )?></div>
+					<div class="aiassist-select aiassist-image-model-auto">	
+						<?php if( @$this->info->labels->img_model_4_on ){ ?>
+							<div class="aiassist-option" data-value="flux"><?php echo esc_html( $this->info->labels->img_model_4 )?></div>
+						<?php } ?>
+						<?php if( @$this->info->labels->img_model_1_on ){ ?>
+							<div class="aiassist-option <?php echo ! @$this->info->subscribe->expire ? 'aiassist-lock' : ''?>" data-value="midjourney"><?php echo esc_html( $this->info->labels->img_model_1 )?></div>
+						<?php } ?>
+						<?php if( @$this->info->labels->img_model_2_on ){ ?>
+							<div class="aiassist-option <?php echo ! @$this->info->subscribe->expire ? 'aiassist-lock' : ''?>" data-value="dalle"><?php echo esc_html( $this->info->labels->img_model_2 )?></div>
+						<?php } ?>
+						<?php if( @$this->info->labels->img_model_5_on ){ ?>
+							<div class="aiassist-option" data-value="gptMini"><?php echo esc_html( $this->info->labels->img_model_5 )?></div>
+						<?php } ?>
+						<?php if( @$this->info->labels->img_model_6_on ){ ?>
+							<div class="aiassist-option <?php echo ! @$this->info->subscribe->expire ? 'aiassist-lock' : ''?>" data-value="banana"><?php echo esc_html( $this->info->labels->img_model_6 )?></div>
+						<?php } ?>
+						<?php if( @$this->info->labels->img_model_3_on ){ ?>
+							<div class="aiassist-option <?php echo ! @$this->info->subscribe->expire ? 'aiassist-lock' : ''?>" data-value="gptImage"><?php echo esc_html( $this->info->labels->img_model_3 )?></div>
+						<?php } ?>
+						<input type="hidden" name="aiassist-image-model" class="aiassist-auto-options"  id="aiassist-image-model" value="<?php echo esc_attr( $model ) ?>" />
+					</div>
+				</div>
+			</div>
+			
+			
+			
+			<br />
+			<div><?php echo wp_kses_post( __('<b>Important!</b> To make generation work faster in the background, the option to send requests from the plugin server to the site must be enabled in the <b>Settings</b> tab.', 'wp-ai-assistant') ) ?></div>
+		</div>
+		
+		<div class="aiassist-option-item">
+			<button id="start-articles-generations" <?php echo @$autoGen['start'] ? 'disabled' : '' ?>><?php echo wp_kses_post( __('Start articles generation', 'wp-ai-assistant') ) ?></button>
+			<button id="stop-articles-generations" <?php echo ! @$autoGen['start'] ? 'disabled' : '' ?>><?php echo wp_kses_post( __('Stop generation', 'wp-ai-assistant') ) ?></button>
+			<button id="clear-articles-generations"><?php echo wp_kses_post( __('Clear the list of key phrases', 'wp-ai-assistant') ) ?></button>
+		</div>
+		
+		
+		<?php if( ! @$this->options->token ){ ?>
+			
+			<span class="aiassist-warning-limits"><?php echo wp_kses_post( __('You have not added the API key! The key is sent to the mail after registration in the plugin. Register and add the key from the email to the special field in the plugin settings and generation will become available.', 'wp-ai-assistant') ) ?></span>
+		
+		<?php } elseif( ( (int) @$this->info->limit + (int) @$this->info->sLimit ) < 1 ){ ?>
+		
+			<span class="aiassist-warning-limits"><?php echo wp_kses_post( __('You have no credits left, top up your balance to continue generating!', 'wp-ai-assistant') ) ?></span>
+		
+		<?php } else { ?>
+		
+			<div id="aiassist-generation-status">
+				<?php if( @$autoGen['start'] ){ ?>
+					
+					<?php echo wp_kses_post( __('Articles generation is in progress, the information is updated automatically. If this does not happen, refresh the browser page to see the current list of generated articles.', 'wp-ai-assistant') ) ?>
+				
+				<?php } elseif( ! @$autoGen['start'] && @$autoGen['count'] && @$autoGen['publish'] <= @$autoGen['count'] ){ ?>
+					
+					<?php echo wp_kses_post( __('Articles generation has been suspended.', 'wp-ai-assistant') ) ?>
+				
+				<?php } elseif( @$autoGen['publish'] >= @$autoGen['count'] ){ ?>
+						<?php echo wp_kses_post( __('Articles generation is completed.', 'wp-ai-assistant') ) ?>
+				<?php } ?>
+			</div>
+		<?php } ?>
+		
+		<div class="aiassist-option-item <?php echo ! isset( $autoGen['start'] ) ? 'hidden' : ''?>" id="aiassist-generation-progress"><?php echo wp_kses_post( __('Generated by', 'wp-ai-assistant') ) ?>  <span id="aiassist-count-publish"><?php echo (int) @$autoGen['publish'] ?></span>  <?php echo wp_kses_post( __('articles from', 'wp-ai-assistant') ) ?> <?php echo (int) @$autoGen['count'] ?></div>
+
+		<div class="aiassist-articles-queue">
+			<?php if( ! empty( $autoGen['articles'] ) ){ $queue = false; ?>
+				<?php foreach( $autoGen['articles'] as $id => $article ){ ?>
+					<?php if( isset( $article['post_id'] ) ){ ?>
+						<?php $queue = false; ?>
+						<div class="aiassist-article-queue"><a href="<?php echo get_edit_post_link( $article['post_id'] ) ?>" target="_blank"><?php echo esc_attr( $article['theme'] ) ?></a> <span class="aiassist-queue-status"><?php echo wp_kses_post( __('Generated by', 'wp-ai-assistant') ) ?></span></div>
+					<?php } else { ?>
+						<div class="aiassist-article-queue aiassist-queue"><div class="aiassist-article-item-close" data-key="<?php echo (int) $id ?>"></div> 
+							<span class="aiassist-queue-keyword"><?php echo esc_attr( $article['theme'] ) ?></span> 
+							<span class="aiassist-queue-status">
+								<?php if( ! $queue ){ ?>
+									
+									<?php if( ( (int) @$article['check'] < 60 && ( @$this->info->limit > 1 || @$this->info->sLimit > 1 ) ) && @$autoGen['start'] && ( ! @$autoGen['counter'][ date('Ymd') ] || ! @$autoGen['publishInDay'] || @$autoGen['counter'][ date('Ymd') ] <= @$autoGen['publishInDay'] ) ){ ?>
+										<?php echo wp_kses_post( __('Generation in progress', 'wp-ai-assistant') ) ?>
+									<?php } else { ?>
+										<?php echo wp_kses_post( __('Suspended', 'wp-ai-assistant') ) ?>
+									<?php } ?>
+								
+								<?php } else { ?>
+										<?php echo wp_kses_post( __('In queue', 'wp-ai-assistant') ) ?>
 								<?php } ?>
 								
-								<div class="aiassist-rate-title">
-									<div class="aiassist-rate-price" data-usdt="<?php echo (float) @$this->info->rates->packege_popular_rate_usdt ?>$"><span><?php echo (float) @$this->info->rates->packege_popular_rate ?><?php _e('$', 'wp-ai-assistant') ?></span></div>
-									
-									<div class="aiassist-rate-info bg">
-										<div><?php _e('Instead of', 'wp-ai-assistant') ?> <i data-usdt="<?php echo $rateMainUsdt = round( @$this->info->rates->packege_popular_symbols / 1000 * @$this->info->price_usdt ) ?>$"><?php echo $rateMain = round( @$this->info->rates->packege_popular_symbols / 1000 * @$this->info->price ) ?><?php _e('$', 'wp-ai-assistant') ?></i></div>
-										<div><?php _e('Savings of', 'wp-ai-assistant') ?> <span data-usdt="<?php echo $rateMainUsdt - @$this->info->rates->packege_popular_rate_usdt ?>$"><?php echo $rateMain - @$this->info->rates->packege_popular_rate ?><?php _e('$', 'wp-ai-assistant') ?></span></div>	
-									</div>
-									
-									<div><span><?php echo number_format( @$this->info->rates->packege_popular_symbols, 0, ' ', ' ' ) ?></span> <?php _e('credits', 'wp-ai-assistant') ?></div>
-								</div>
-								<div class="aiassist-rate-info">
-									<div><span data-usdt="<?php echo @round( @$this->info->rates->packege_popular_rate_usdt / @$this->info->rates->packege_popular_symbols * 1000000 ) ?>$"><?php echo @round( @$this->info->rates->packege_popular_rate / @$this->info->rates->packege_popular_symbols * 1000000 ) ?><?php _e('$', 'wp-ai-assistant') ?></span> - <?php _e('1 million credits', 'wp-ai-assistant') ?></div>
-								</div>
-								<button type="button" class="aiassist-buy" data-type="popular"><?php _e('Buy a package', 'wp-ai-assistant') ?></button>
-							</div>
-							
-							<div class="aiassist-rates-package">
-								<?php if( @$this->info->rates->packege_max_best ){ ?>
-									<div class="aiassist-popular"><?php _e('Popular', 'wp-ai-assistant') ?></div>
-								<?php } ?>
-								<div class="aiassist-rate-title">
-									<div class="aiassist-rate-price" data-usdt="<?php echo (float) @$this->info->rates->packege_max_rate_usdt ?>$"><span><?php echo (float) @$this->info->rates->packege_max_rate ?> <?php _e('$', 'wp-ai-assistant') ?></span></div>
-									
-									<div class="aiassist-rate-info bg">
-										<div><?php _e('Instead of', 'wp-ai-assistant') ?> <i data-usdt="<?php echo $rateMainUsdt = round( @$this->info->rates->packege_max_symbols / 1000 * @$this->info->price_usdt ) ?>$"><?php echo $rateMain = round( @$this->info->rates->packege_max_symbols / 1000 * @$this->info->price ) ?><?php _e('$', 'wp-ai-assistant') ?></i></div>
-										<div><?php _e('Savings of', 'wp-ai-assistant') ?> <span data-usdt="<?php echo $rateMainUsdt - @$this->info->rates->packege_max_rate_usdt ?>$"><?php echo $rateMain - @$this->info->rates->packege_max_rate ?><?php _e('$', 'wp-ai-assistant') ?></span></div>	
-									</div>
-									
-									<div><span><?php echo number_format( @$this->info->rates->packege_max_symbols, 0, ' ', ' ' ) ?></span> <?php _e('credits', 'wp-ai-assistant') ?></div>
-								</div>
-								<div class="aiassist-rate-info">
-									<div><span data-usdt="<?php echo @round( @$this->info->rates->packege_max_rate_usdt / @$this->info->rates->packege_max_symbols * 1000000 ) ?>$"><?php echo @round( @$this->info->rates->packege_max_rate / @$this->info->rates->packege_max_symbols * 1000000 ) ?><?php _e('$', 'wp-ai-assistant') ?></span> - <?php _e('1 million credits', 'wp-ai-assistant') ?></div>
-								</div>
-								<button type="button" class="aiassist-buy" data-type="max"><?php _e('Buy a package', 'wp-ai-assistant') ?></button>
-							</div>
-						
-						</div>
-						
-						<div class="aiassist-rates-custom">
-							<div class="aiassist-rate-title"><?php _e('Pay any amount you choose', 'wp-ai-assistant') ?></div>
-							<div class="aiassist-rate-info"><?php _e('Enter amount to top up your balance (minimum 5$). Credits do not disappear, you can generate text and images at any time.', 'wp-ai-assistant') ?></div>
-							
-							<form id="aiassist-custom-buy" class="aiassist-buy-form">
-								<input type="number" step="1" min="<?php echo (float) @$this->info->rates->min_buy ?>" id="out_summ" placeholder="<?php _e('5 $', 'wp-ai-assistant') ?>" data-usdt="5 $" required />
-								<button type="submit" class="aiassist-buy" data-type="custom"><?php _e('Buy', 'wp-ai-assistant') ?></button>
-							</form>	
-							
-							<div>
-								<?php _e('Price', 'wp-ai-assistant') ?> 
-								<b data-usdt="<?php echo (float) @$this->info->price_usdt ?> $"><?php echo (float) @$this->info->price ?> <?php _e('$', 'wp-ai-assistant') ?></b> 
-								<?php _e('for 1000 credits.', 'wp-ai-assistant') ?>
-							</div>
-						</div>
-						
-						<div class="aiassist-rate-title"><?php _e('Rates Questions and Answers', 'wp-ai-assistant') ?></div>
-						<br /><br />
-						
-						<div class="aiassist-rates-note-wrap">
-							<div class="aiassist-rate-note-title"><?php _e('I already have a subscription. Can I purchase additional credits?', 'wp-ai-assistant') ?></div>
-							<div class="aiassist-rates-note-block">
-								<?php _e('Yes, you can. Subscription credits and credits purchased in packages are counted separately. At first, subscription credits are deducted from the balance, and if they run out, the credits purchased in packages will be deducted.', 'wp-ai-assistant') ?>
-							</div>
-						</div>
-							
-						<div class="aiassist-rates-note-wrap">
-							<div class="aiassist-rate-note-title"><?php _e('Do purchased credits expire?', 'wp-ai-assistant') ?></div>
-							<div class="aiassist-rates-note-block">
-								<?php _e('The credits included in your subscription are renewed every 30 days. Credits purchased in packages or for any amount you choose do not expire and remain on your balance until you use them.', 'wp-ai-assistant') ?>
-							</div>
+							</span>
 						</div>
 					
-					</div>
-					
-				</div>
-			<?php } ?>
-			
-		</div>
-		
-			
-		<div class="aiassist-tab-data" data-tab="generations">
-			<h2 class="generations-header"><?php _e('<a href="https://aiwpw.com/docs/bulk-generation/" target="_blank">How to use</a>', 'wp-ai-assistant') ?></h2>
-			
-			<div class="aiassist-article-items">
-			
-				<div id="aiassist-selection-box"></div>
-				<div class="aiassist-article-item">
-					<div><?php _e('Add article topics in a list in the left column, each line being a new article. If necessary, add one or more keywords, separated by commas, in the right column.', 'wp-ai-assistant') ?></div>
-					
-					<div class="aiassist-multi-items">
-						<div class="aiassist-multi-themes">
-							<label class="aiassist-multi-item-label"><?php _e('Main topic of the article', 'wp-ai-assistant') ?></label>
-							<input class="aiassist-multi-item" />
-							<input class="aiassist-multi-item" />
-							<input class="aiassist-multi-item" />
-							<input class="aiassist-multi-item" />
-							<input class="aiassist-multi-item" />
-							<input class="aiassist-multi-item" />
-							<input class="aiassist-multi-item" />
-							<input class="aiassist-multi-item" />
-							<input class="aiassist-multi-item" />
-						</div>
-						
-						<div class="aiassist-multi-keywords">
-							<label class="aiassist-multi-item-label"><?php _e('Key phrases', 'wp-ai-assistant') ?></label>
-							<input class="aiassist-multi-item" />
-							<input class="aiassist-multi-item" />
-							<input class="aiassist-multi-item" />
-							<input class="aiassist-multi-item" />
-							<input class="aiassist-multi-item" />
-							<input class="aiassist-multi-item" />
-							<input class="aiassist-multi-item" />
-							<input class="aiassist-multi-item" />
-							<input class="aiassist-multi-item" />
-						</div>
-					</div>
-					
-					
-					<div class="aiassist-cats-item">
-						<?php _e('Select a category for publishing articles', 'wp-ai-assistant') ?>
-						
-						<select class="cats-item">
-							<option value="0"><?php _e('Category', 'wp-ai-assistant') ?></option>
-							<?php if( $cats ){ ?>
-								<?php foreach( $cats as $cat ){ ?>
-									<option value="<?php echo esc_attr( $cat->term_id )?>"><?php echo esc_html( $cat->name )?></option>
-								<?php } ?>
-							<?php } ?>
-						</select>
-					</div>
-				</div>
-				
-				
-			</div>
-			
-			<div class="aiassist-item-repeater">
-				<button id="aiassist-addItemArticle"><?php _e('Add another list of keys for another category', 'wp-ai-assistant') ?></button>
-			</div>
-			
-			
-			<div class="aiassist-option-item"><?php _e('Prompt for generating articles. The {key} variable will be replaced by main topic from the list.', 'wp-ai-assistant') ?></div>
-			
-			<br /><br /><br />
-			<div class="relative">
-				<button type="button" class="aiassist-set-default-promts"><?php _e('Restore default prompts', 'wp-ai-assistant') ?></button>
-			</div>
-				
-			<?php if( @$this->info->promts->lang ){ $lang_id = $this->getDefaultLangId(); ?>
-				<div class="relative">
-					<div class="aiassist-lang-promts-item">
-						<label><?php _e('Prompts language: ', 'wp-ai-assistant') ?></label>
-						<select class="aiassist-lang-promts">
-							<?php foreach( $this->info->promts->lang as $k => $lang ){ ?>
-								<?php
-									if( @$this->steps['promts']['multi_lang'] == $k )
-										$lang_id = (int) $k;
-								?>
-							
-								<option value="<?php echo (int) $k ?>" <?php echo @$this->steps['promts']['multi_lang'] == $k ? 'selected' : '' ?> ><?php echo esc_html( $lang ) ?></option>
-							<?php } ?>
-						</select>
-					</div>
-				</div>
-			<?php } ?>
-
-			<div>
-				<?php $promt = esc_textarea( @$this->steps['promts']['multi'][ $lang_id ] ? trim( $this->steps['promts']['multi'][ $lang_id ] ) : @$this->info->promts->multi[ $lang_id ] ); ?>
-				<textarea class="aiassist-prom" id="aiassist-generation-prom" data-check="{key}"><?php echo $promt ?></textarea>
-				<?php if( strpos( $promt, '{key}') === false ){ ?>
-					<div class="aiassist-check-key"><?php _e('There is no variable {key} (or {header}) in your prompt. Add it in the place where the key word should be. If you generate an article without the variable, the text won’t be relevant to your topic.', 'wp-ai-assistant') ?></div>
-				<?php } ?>
-				
-				<?php $promt = esc_textarea( @$this->steps['promts']['multi_keywords'][ $lang_id ] ? trim( $this->steps['promts']['multi_keywords'][ $lang_id ] ) : @$this->info->promts->multi_keywords[ $lang_id ] ); ?>
-				<textarea class="aiassist-prom aiassist-keywords-area" id="aiassist-generation-prom-keywords"><?php echo $promt ?></textarea>
-			</div>
-			
-			<div class="aiassist-option-item">
-				<div>
-					<?php $promt = esc_attr( @$this->steps['promts']['multi_title'][ $lang_id ] ? $this->steps['promts']['multi_title'][ $lang_id ] : @$this->info->promts->multi_title[ $lang_id ] )?>
-					<?php _e('Promt:', 'wp-ai-assistant') ?> <input id="aiassist-title-prom-multi" class="aiassist-prom" data-check="{key}" value="<?php echo $promt ?>" />
-					<?php if( strpos( $promt, '{key}') === false ){ ?>
-						<div class="aiassist-check-key"><?php _e('There is no variable {key} (or {header}) in your prompt. Add it in the place where the key word should be. If you generate an article without the variable, the text won’t be relevant to your topic.', 'wp-ai-assistant') ?></div>
-					<?php } ?>
-				</div>
-				
-				<div>
-					<?php $promt = esc_attr( @$this->steps['promts']['multi_desc'][ $lang_id ] ? $this->steps['promts']['multi_desc'][ $lang_id ] : @$this->info->promts->multi_desc[ $lang_id ] ); ?>
-					<?php _e('Promt:', 'wp-ai-assistant') ?> <input id="aiassist-desc-prom-multi" class="aiassist-prom" data-check="{key}" value="<?php echo $promt ?>" />
-					<?php if( strpos( $promt, '{key}') === false ){ ?>
-						<div class="aiassist-check-key"><?php _e('There is no variable {key} (or {header}) in your prompt. Add it in the place where the key word should be. If you generate an article without the variable, the text won’t be relevant to your topic.', 'wp-ai-assistant') ?></div>
-					<?php } ?>
-				</div>
-			</div>
-			
-			<div class="aiassist-option-item">
-				<?php _e('The number of articles to be generated in the specified time period. If the field is left blank, articles according to all preset keys will be generated as soon as possible.<br /> Specify the number of articles:', 'wp-ai-assistant') ?>
-				<div>
-					<input type="number" class="aiassist-auto-options" id="publish-article-in-day" value="<?php echo @$autoGen['publishInDay'] ? (int) $autoGen['publishInDay'] : '' ?>" min=0 />
-				</div>
-				
-				<?php _e('How often articles should be generated. (For example, if you specify 2, then the number of articles you specified earlier will be generated every 2 days).<br /> Specify the number of days:', 'wp-ai-assistant') ?>
-				<div>
-					<input type="number" class="aiassist-auto-options" id="publish-article-every-day" value="<?php echo @$autoGen['publishEveryDay'] ? (int) $autoGen['publishEveryDay'] : 1 ?>" min=0 />
-				</div>
-			</div>
-			
-			<div class="aiassist-option-item">
-				<?php _e('The images to be generated for the article. If you leave the field blank, the articles will be generated without images.', 'wp-ai-assistant') ?>
-				
-				<label class="aiassist-option-item">
-					<select class="aiassist-auto-options" id="aiassist-auto-multi-images">
-						<option value="without" <?php echo esc_attr( @$autoGen['pictures'] == 'without' ? 'selected' : '' ) ?>><?php echo _e('Generate an article without images', 'wp-ai-assistant') ?></option>
-						<option value="all" <?php echo esc_attr( @$autoGen['pictures'] == 'all' ? 'selected' : '' ) ?>><?php echo _e('Generate pictures for all headlines', 'wp-ai-assistant') ?></option>
-						<option value="h2" <?php echo esc_attr( @$autoGen['pictures'] == 'h2' ? 'selected' : '' ) ?>><?php echo _e('Generate images for h2 headings only', 'wp-ai-assistant') ?></option>
-					</select>
-				</label>
-				
-				<label class="aiassist-option-item">
-					<div><?php echo _e('Maximum number of images to generate', 'wp-ai-assistant') ?></div>
-					<input type="number" class="aiassist-auto-options" id="aiassist-max-pictures" value="<?php echo @$autoGen['max_pictures'] ? (int) $autoGen['max_pictures'] : '' ?>" min="0" />
-				</label>
-				
-				<label class="aiassist-option-item">
-					<input type="checkbox" class="aiassist-auto-options" id="aiassist-auto-thumb" <?php echo esc_attr( @$autoGen['thumb'] ? 'checked' : '' ) ?> <?php echo esc_attr( @$autoGen['images'] && ! @$autoGen['thumb'] ? 'disabled' : '' ) ?> /> <?php _e('Generate the thumbnail', 'wp-ai-assistant') ?>
-				</label>
-				
-				<label class="aiassist-option-item">
-					<input type="checkbox" class="aiassist-auto-options" id="aiassist-auto-draft" <?php echo esc_attr( @$autoGen['draft'] ? 'checked' : '' ) ?> /> <?php _e('Send the generated articles to draft', 'wp-ai-assistant') ?>
-				</label>
-				
-				<div>
-					<div><?php _e('Text generation model', 'wp-ai-assistant') ?></div>
-					<div class="aiassist-select-wrap">
-						<?php
-							if( @$this->info->labels->text_model_4_on ){
-								$model = 'gpt_o3_mini';
-								$label = $this->info->labels->text_model_4;
-							}
-							
-							if( @$this->info->labels->text_model_3_on ){
-								$model = 'gpt4';
-								$label = $this->info->labels->text_model_3;
-							}
-							
-							if( @$this->info->labels->text_model_2_on ){
-								$model = 'gpt4_nano';
-								$label = $this->info->labels->text_model_2;
-							}
-							
-							if( @$this->info->labels->text_model_1_on ){
-								$model = 'gpt3';
-								$label = $this->info->labels->text_model_1;
-							}
-						?>
-						<div class="aiassist-select-lable"><?php echo esc_html( $label )?></div>
-						<div class="aiassist-select">	
-							<?php if( @$this->info->labels->text_model_1_on ){ ?>
-								<div class="aiassist-option" data-value="gpt3"><?php echo esc_html( $this->info->labels->text_model_1 )?></div>
-							<?php } ?>
-							<?php if( @$this->info->labels->text_model_2_on ){ ?>
-								<div class="aiassist-option" data-value="gpt4_nano"><?php echo esc_html( $this->info->labels->text_model_2 )?></div>
-							<?php } ?>
-							<?php if( @$this->info->labels->text_model_3_on ){ ?>
-								<div class="aiassist-option <?php echo ! @$this->info->subscribe->expire ? 'aiassist-lock' : ''?>" data-value="gpt4"><?php echo esc_html( $this->info->labels->text_model_3 )?></div>
-							<?php } ?>
-							<?php if( @$this->info->labels->text_model_4_on ){ ?>
-								<div class="aiassist-option <?php echo ! @$this->info->subscribe->expire ? 'aiassist-lock' : ''?>" data-value="gpt_o3_mini"><?php echo esc_html( $this->info->labels->text_model_4 )?></div>
-							<?php } ?>
-							<input type="hidden" name="aiassist-text-model" class="aiassist-auto-options" id="aiassist-change-text-model" value="<?php echo $model ?>" />
-						</div>
-					</div>
-					
-					<a href="<?php echo get_locale() == 'ru_RU' ? 'https://aiwpwriter.com/prices/' : 'https://aiwpw.com/prices/ ' ?>" target="_blank" class="aiassist-small"><?php _e('Prices', 'wp-ai-assistant') ?></a>
-				</div>
-				
-				
-				
-				
-				<div>
-					<div><?php _e('Image generation model', 'wp-ai-assistant') ?></div>
-					<div class="aiassist-select-wrap">
-						<?php
-							if( @$this->info->labels->img_model_3_on ){
-								$model = 'gptImage';
-								$label = $this->info->labels->img_model_3;
-							}
-							if( @$this->info->labels->img_model_2_on ){
-								$model = 'dalle';
-								$label = $this->info->labels->img_model_2;
-							}
-							if( @$this->info->labels->img_model_1_on ){
-								$model = 'midjourney';
-								$label = $this->info->labels->img_model_1;
-							}
-							if( @$this->info->labels->img_model_4_on ){
-								$model = 'flux';
-								$label = $this->info->labels->img_model_4;
-							}
-						?>
-						<div class="aiassist-select-lable"><?php echo esc_html( $label )?></div>
-						<div class="aiassist-select aiassist-image-model-auto">	
-							<?php if( @$this->info->labels->img_model_4_on ){ ?>
-								<div class="aiassist-option" data-value="flux"><?php echo esc_html( $this->info->labels->img_model_4 )?></div>
-							<?php } ?>
-							<?php if( @$this->info->labels->img_model_1_on ){ ?>
-								<div class="aiassist-option <?php echo ! @$this->info->subscribe->expire ? 'aiassist-lock' : ''?>" data-value="midjourney"><?php echo esc_html( $this->info->labels->img_model_1 )?></div>
-							<?php } ?>
-							<?php if( @$this->info->labels->img_model_2_on ){ ?>
-								<div class="aiassist-option <?php echo ! @$this->info->subscribe->expire ? 'aiassist-lock' : ''?>" data-value="dalle"><?php echo esc_html( $this->info->labels->img_model_2 )?></div>
-							<?php } ?>
-							<?php if( @$this->info->labels->img_model_3_on ){ ?>
-								<div class="aiassist-option <?php echo ! @$this->info->subscribe->expire ? 'aiassist-lock' : ''?>" data-value="gptImage"><?php echo esc_html( $this->info->labels->img_model_3 )?></div>
-							<?php } ?>
-							<input type="hidden" name="aiassist-image-model" class="aiassist-auto-options"  id="aiassist-image-model" value="<?php echo esc_attr( $model ) ?>" />
-						</div>
-					</div>
-				</div>
-				
-				
-				
-				<br />
-				<div><?php echo _e('<b>Important!</b> To make generation work faster in the background, the option to send requests from the plugin server to the site must be enabled in the <b>Settings</b> tab.', 'wp-ai-assistant') ?></div>
-			</div>
-			
-			<div class="aiassist-option-item">
-				<button id="start-articles-generations" <?php echo @$autoGen['start'] ? 'disabled' : '' ?>><?php _e('Start articles generation', 'wp-ai-assistant') ?></button>
-				<button id="stop-articles-generations" <?php echo ! @$autoGen['start'] ? 'disabled' : '' ?>><?php _e('Stop generation', 'wp-ai-assistant') ?></button>
-				<button id="clear-articles-generations"><?php _e('Clear the list of key phrases', 'wp-ai-assistant') ?></button>
-			</div>
-			
-			
-			<?php if( ! @$this->options->token ){ ?>
-				
-				<span class="aiassist-warning-limits"><?php _e('You have not added the API key! The key is sent to the mail after registration in the plugin. Register and add the key from the email to the special field in the plugin settings and generation will become available.', 'wp-ai-assistant') ?></span>
-			
-			<?php } elseif( ( (int) @$this->info->limit + (int) @$this->info->sLimit ) < 1 ){ ?>
-			
-				<span class="aiassist-warning-limits"><?php _e('You have no credits left, top up your balance to continue generating!', 'wp-ai-assistant') ?></span>
-			
-			<?php } else { ?>
-			
-				<div id="aiassist-generation-status">
-					<?php if( @$autoGen['start'] ){ ?>
-						
-						<?php _e('Articles generation is in progress, the information is updated automatically. If this does not happen, refresh the browser page to see the current list of generated articles.', 'wp-ai-assistant') ?>
-					
-					<?php } elseif( ! @$autoGen['start'] && @$autoGen['count'] && @$autoGen['publish'] <= @$autoGen['count'] ){ ?>
-						
-						<?php _e('Articles generation has been suspended.', 'wp-ai-assistant') ?>
-					
-					<?php } elseif( @$autoGen['publish'] >= @$autoGen['count'] ){ ?>
-							<?php _e('Articles generation is completed.', 'wp-ai-assistant') ?>
-					<?php } ?>
-				</div>
-			<?php } ?>
-			
-			<div class="aiassist-option-item <?php echo ! isset( $autoGen['start'] ) ? 'hidden' : ''?>" id="aiassist-generation-progress"><?php _e('Generated by', 'wp-ai-assistant') ?>  <span id="aiassist-count-publish"><?php echo (int) @$autoGen['publish'] ?></span>  <?php _e('articles from', 'wp-ai-assistant') ?> <?php echo (int) @$autoGen['count'] ?></div>
-
-			<div class="aiassist-articles-queue">
-				<?php if( ! empty( $autoGen['articles'] ) ){ $queue = false; ?>
-					<?php foreach( $autoGen['articles'] as $id => $article ){ ?>
-						<?php if( isset( $article['post_id'] ) ){ ?>
-							<?php $queue = false; ?>
-							<div class="aiassist-article-queue"><a href="<?php echo get_edit_post_link( $article['post_id'] ) ?>" target="_blank"><?php echo esc_attr( $article['theme'] ) ?></a> <span class="aiassist-queue-status"><?php _e('Generated by', 'wp-ai-assistant') ?></span></div>
-						<?php } else { ?>
-						
-							<div class="aiassist-article-queue aiassist-queue"><div class="aiassist-article-item-close" data-key="<?php echo (int) $id ?>"></div> 
-								<span class="aiassist-queue-keyword"><?php echo esc_attr( $article['theme'] ) ?></span> 
-								<span class="aiassist-queue-status">
-									<?php if( ! $queue ){ ?>
-										
-										<?php if( ( (int) @$article['check'] < 60 && ( @$this->info->limit > 1 || @$this->info->sLimit > 1 ) ) && @$autoGen['start'] && ( ! @$autoGen['counter'][ date('Ymd') ] || ! @$autoGen['publishInDay'] || @$autoGen['counter'][ date('Ymd') ] < @$autoGen['publishInDay'] ) ){ ?>
-											<?php _e('Generation in progress', 'wp-ai-assistant') ?>
-										<?php } else { ?>
-											<?php _e('Suspended', 'wp-ai-assistant') ?>
-										<?php } ?>
-									
-									<?php } else { ?>
-											<?php _e('In queue', 'wp-ai-assistant') ?>
-									<?php } ?>
-									
-								</span>
-							</div>
-						
-						<?php $queue = true; ?>
-						<?php } ?>
+					<?php $queue = true; ?>
 					<?php } ?>
 				<?php } ?>
-			</div>
-			
+			<?php } ?>
 		</div>
 		
-	<?php } ?>
+	</div>
+	
 	
 </div>

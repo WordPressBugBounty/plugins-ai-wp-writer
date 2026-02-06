@@ -383,7 +383,7 @@ msgstr "Язык промптов: "
 
 #: tpl/options.php:569
 msgid "The number of articles to be generated in the specified time period. If the field is left blank, articles according to all preset keys will be generated as soon as possible.<br /> Specify the number of articles:"
-msgstr "Сколько сколько статей нужно генерировать в указанный период времени. Если оставить поле пустым, то будут сгенерированы статьи по всем заданным ключам в кратчайшие сроки.<br /> Укажите количество статей:"
+msgstr "Сколько статей нужно генерировать в указанный период времени. Если оставить поле пустым, то будут сгенерированы статьи по всем заданным ключам в кратчайшие сроки.<br /> Укажите количество статей:"
 
 #: tpl/options.php:574
 msgid "The images to be generated for the article. If you leave the field blank, the articles will be generated without images."
@@ -735,23 +735,23 @@ msgid "1 million credits"
 msgstr "1 млн лимитов"
 
 #: tpl/options.php
-msgid "How much content can be generated<br />~6600000 characters (~1320000 words) GPT-5 nano**<br />~3300000 characters (~660000 words) GPT-5 mini**<br />~825000 characters (~165000 words) GPT-5**<br />~1650000 characters (~330000 words) o3-mini**<br />~ 942 images FLUX Schnell<br />~ 165 generations Midjourney v7<br />~ 188 images Dalle 3<br />~ 165 images GPT-image"
-msgstr "Сколько можно сгенерировать<br />~6600000 символов GPT-5 nano**<br />~3300000 символов GPT-5 mini**<br />~825000 символов GPT-5**<br />~1650000 символов o3-mini**<br />~ 942 изображения FLUX Schnell<br />~ 165 изображений Midjourney v7<br />~ 188 изображений Dalle 3<br />~ 165 изображений GPT-image"
+msgid "How much content can be generated<br />13200000 characters (~2640000 words) GPT-5 nano**<br />4400000 characters (~880000 words) GPT-5 mini**<br />825000 characters (~165000 words) GPT-5**<br />825000 characters (~165000 words) o3 (reasoning)**<br />1320 images FLUX Schnell<br />165 generations Midjourney v7<br />188 images Dalle 3<br />165 images GPT-image 1.5<br />440 images GPT-image 1 mini<br />188 images Nano Banana"
+msgstr "Сколько можно сгенерировать<br />13200000 символов GPT-5 nano**<br />4400000 символов GPT-5 mini**<br />825000 символов GPT-5**<br />825000 символов o3 (рассуждающая)**<br />1320 изображения FLUX Schnell<br />165 генераций Midjourney v7<br />188 изображений Dalle 3<br />165 изображений GPT-image 1.5<br />440 изображений GPT-image 1 mini<br />188 изображений Nano Banana"
 
 #: tpl/options.php
-msgid "How much content can be generated<br />~20500000 characters (~4100000 words) GPT-5 nano**<br />~10250000 characters (~2050000 words) GPT-5 mini**<br />~2562000 characters (~512400 words) GPT-5**<br />~5125000 characters (~1025000 words) o3-mini**<br />~ 2 928 images FLUX Schnell<br />~ 512 generations Midjourney v7<br />~ 585 images Dalle 3<br />~ 512 images GPT-image"
-msgstr "Сколько можно сгенерировать<br />~20500000 символов GPT-5 nano**<br />~10250000 символов GPT-5 mini**<br />~2562000 символов GPT-5**<br />~5125000 символов o3-mini**<br />~ 2 928 изображений FLUX Schnell<br />~ 512 изображений Midjourney v7<br />~ 585 изображения Dalle 3<br />~ 512 изображений GPT-image"
+msgid "How much content can be generated<br />41000000 characters (~8200000 words) GPT-5 nano**<br />13666666 characters (~2733333 words) GPT-5 mini**<br />2562000 characters (~512400 words) GPT-5**<br />2562000 characters (~512400 words) o3 (reasoning)**<br />4100 images FLUX Schnell<br />512 generations Midjourney v7<br />585 images Dalle 3<br />512 images GPT-image 1.5<br />1366 images GPT-image 1 mini<br />585 images Nano Banana"
+msgstr "Сколько можно сгенерировать<br />41000000 символов GPT-5 nano**<br />13666666 символов GPT-5 mini**<br />2562000 символов GPT-5**<br />2562000 символов o3 (рассуждающая)**<br />4100 изображений FLUX Schnell<br />512 генераций Midjourney v7<br />585 изображений Dalle 3<br />512 изображений GPT-image 1.5<br />1366 изображений GPT-image 1 mini<br />585 изображений Nano Banana"
 
 #: tpl/options.php
-msgid "How much content can be generated<br />~50000000 characters (~10000000 words) GPT-5 nano**<br />~25000000 characters (~5000000 words) GPT-5 mini**<br />~6250000 characters (~1250000 words) GPT-5**<br />~12500000 characters (~2500000 words) o3-mini**<br />~ 7 142 images FLUX Schnell<br />~ 1 250 generations Midjourney v7<br />~ 1 428 images Dalle 3<br />~ 1 250 images GPT-image"
-msgstr "Сколько можно сгенерировать<br />~50000000 символов GPT-5 nano**<br />~25000000 символов GPT-5 mini**<br />~6250000 символов GPT-5**<br />~12500000 символов o3-mini**<br />~ 7 142 изображения FLUX Schnell<br />~ 1 250 изображений Midjourney v7<br />~ 1 428 изображений Dalle 3<br />~ 1 250 изображений GPT-image"
+msgid "How much content can be generated<br />100000000 characters (~20000000 words) GPT-5 nano**<br />33333333 characters (~6666666 words) GPT-5 mini**<br />6250000 characters (~1250000 words) GPT-5**<br />6250000 characters (~1250000 words) o3 (reasoning)**<br />10000 images FLUX Schnell<br />1250 generations Midjourney v7<br />1428 images Dalle 3<br />1 250 images GPT-image 1.5<br />3333 images GPT-image 1 mini<br />1428 images Nano Banana"
+msgstr "Сколько можно сгенерировать<br />100000000 символов GPT-5 nano**<br />33333333 символов GPT-5 mini**<br />6250000 символов GPT-5**<br />6250000 символов o3 (рассуждающая)**<br />10000 изображения FLUX Schnell<br />1250 генераций Midjourney v7<br />1428 изображений Dalle 3<br />1250 изображений GPT-image 1.5<br />3333 изображений GPT-image 1 mini<br />1428 изображений Nano Banana"
 
 #: tpl/options.php
-msgid "Neural Networks: GPT-5, GPT-5 mini, GPT-5 nano, o3-mini (reasoning), Midjourney v7, Dalle 3, GPT-image, FLUX."
-msgstr "Нейросети: GPT-5, GPT-5 mini, GPT-5 nano, o3-mini (рассуждающая), Midjourney v7, Dalle 3, GPT-image, FLUX."
+msgid "Neural Networks: GPT-5, GPT-5 mini, GPT-5 nano, o3 (reasoning), Midjourney v7, Dalle 3, GPT-image 1.5, GPT-image 1 mini, FLUX, Nano Banana."
+msgstr "Нейросети: GPT-5, GPT-5 mini, GPT-5 nano, o3 (рассуждающая), Midjourney v7, Dalle 3, GPT-image 1.5, GPT-image 1 mini, FLUX, Nano Banana."
 
 #: tpl/options.php
-msgid "Bulk generation and generation of articles in the editor"
+msgid "Bulk article generation and editor-based article creation"
 msgstr "Массовая генерация и генерация статей в редакторе"
 
 #: tpl/options.php
@@ -779,8 +779,8 @@ msgid "AI Assist"
 msgstr "AI Assist"
 
 #: tpl/options.php
-msgid "Neural networks: GPT-5 mini, GPT-5 nano, FLUX"
-msgstr "Нейросети: GPT-5 mini, GPT-5 nano, FLUX"
+msgid "Neural networks: GPT-5 mini, GPT-5 nano, FLUX, GPT-image 1 mini"
+msgstr "Нейросети: GPT-5 mini, GPT-5 nano, FLUX, GPT-image 1 mini"
 
 #: tpl/options.php
 msgid "* If you buy, for any amount you choose, the same number of credits you get by subscribing. <br />** Payment is spent only on generating characters or images. No hidden fees! You do not pay for tokens used to send context. You do not pay for sending requests for generation. You do not pay for tokens used to mark up articles. You do not pay for spaces."

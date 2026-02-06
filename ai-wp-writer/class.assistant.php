@@ -8,9 +8,9 @@ class AIASIST{
 	
 	private $options;
 
-	private $api = 'https://aipost.ru';
+	private $api = 'https://aiwpapi.com';
 	
-	private $api2 = 'https://api.aipost.ru';
+	private $api2 = 'https://api.aiwpapi.com';
 	
 	function __construct(){
 		$this->options = get_option('_ai_assistant');
@@ -21,7 +21,6 @@ class AIASIST{
 		}
 	
 		add_filter('https_ssl_verify',					'__return_false');
-		add_action('admin_init',						[$this, 'setInfo']);
 		add_action('plugins_loaded',					[$this, 'langs']);
 		add_action('admin_menu',						[$this, 'menu']);
 		add_action('wp_footer', 						[$this, 'front'] );
@@ -161,19 +160,17 @@ class AIASIST{
 			$this->options = new stdClass();
 			$this->options->cron = isset( $_POST['cron'] );
 			
-			if( @$_POST['token'] != '' )
-				$this->activation( sanitize_text_field( $_POST['token'] ), $this->options->cron );
+			if( ! $options = get_option('_ai_assistant') )
+				$options = (object) [];
 			
-			if( @$_POST['token'] != '' && preg_match('/^[A-Za-z0-9]{64}$/i', $_POST['token']) ){
+			$this->options->token = @$options->token;
+			
+			if( @$_POST['token'] != '' && preg_match('/^[A-Za-z0-9]{64}$/i', $_POST['token']) )
 				$this->options->token = sanitize_text_field( $_POST['token'] );
-				$this->setInfo();
-			}
 			
-			if( ! isset( $this->options->token ) ){
-				if( ! $options = get_option('_ai_assistant') )
-					$options = (object) [];
-				
-				$this->options->token = @$options->token;
+			if( @$_POST['token'] != '' ){				
+				$this->activation( sanitize_text_field( $this->options->token ), $this->options->cron );
+				$this->setInfo();
 			}
 			
 			if( @$_POST['token'] == '' )
@@ -370,7 +367,12 @@ class AIASIST{
 			}
 			
 			if( ! isset( $attach['task_id'] ) ){
-				$task = json_decode( $this->wpCurl( [ 'url' => $attach['url'], 'model' => $data['imageModel'], 'action' => 'replaceImage', 'token' => $this->options->token ] ) );
+				$attach_url = $attach['url'];
+				
+				if( stripos('http', $attach_url ) === false )
+					$attach_url = $this->getHost() . $attach_url;
+				
+				$task = json_decode( $this->wpCurl( [ 'url' => $attach_url, 'model' => $data['imageModel'], 'action' => 'replaceImage', 'token' => $this->options->token ] ) );
 					
 				if( $task->task_id )
 					$data['attachments'][ $k ]['task_id'] = $attach['task_id'] = (int) $task->task_id;
@@ -516,7 +518,7 @@ class AIASIST{
 		if( isset( $_POST['promocode'] ) )
 			$args['promocode'] = sanitize_text_field( $_POST['promocode'] );
 	
-		if( $info = json_decode( $this->wpcurl( $args ) ) )
+		if( $info = json_decode( $this->wpcurl( $args, [], 3 ) ) )
 			return $info;
 		
 		return false;
@@ -546,7 +548,7 @@ class AIASIST{
 		return $host;
 	}
 
-	private function aiArticlesAutoGen(){	
+	private function aiArticlesAutoGen(){
 		if( $data = get_option('aiArticlesAutoGenData') ){
 			
 			if( ! @$data['start'] || ! @$data['articles'] )
@@ -580,6 +582,8 @@ class AIASIST{
 			$lang_id = 0;
 			$break = false;
 			$data['publish'] = 0;
+			
+			$this->setInfo();
 			
 			if( isset( $this->steps['promts']['multi_lang'] ) )
 				$lang_id = (int) $this->steps['promts']['multi_lang'];
@@ -844,6 +848,7 @@ class AIASIST{
 				$data['counter'] = 0;
 				
 				$lang_id = 0;
+				$this->setInfo();
 				
 				if( isset( $this->steps['promts']['rewrite_lang'] ) )
 					$lang_id = (int) $this->steps['promts']['rewrite_lang'];
@@ -1221,6 +1226,8 @@ class AIASIST{
 			return;
 		
 		if( isset( $_POST['promts'] ) ){
+			$this->setInfo();
+			
 			if( ! ( $data = $this->steps ) )
 				$data = [];
 			
@@ -1248,6 +1255,8 @@ class AIASIST{
 			
 			$act = sanitize_text_field( $_POST['act'] );
 			
+			$this->setInfo();
+			
 			if( ! ( $data = $this->steps ) )
 				$data = [];
 				
@@ -1260,6 +1269,7 @@ class AIASIST{
 	}
 
 	public function resetStep(){
+		$this->setInfo();
 		update_option('_aiassist_generator', [ 'promts' => ( @$this->steps['promts'] ? $this->steps['promts'] : $this->info->promts ) ] );
 	}
 
@@ -1337,20 +1347,25 @@ class AIASIST{
 		return preg_replace('/^\d+[\.\-\)\s]*\s*/u', '', $title);
 	}
 	
-	private function loadFile( $url, $post_id ){
-		$tmp = download_url( $url, 300 );
+	private function loadFile( $image, $post_id ){
+		if( preg_match('/image=([^\.]+)\.(png|jpg)/i', $image, $match ) )
+			$image = $match[1] .'.'. $match[2];
 		
-		if( preg_match('/image=([^\.]+).(png|jpg)/i', $url, $matches ) ){
-			$file = [ 'name' => $matches[1] .'.'. $matches[2], 'tmp_name' => $tmp ];
-			$id = media_handle_sideload( $file, $post_id );
+		if( $data = $this->wpCurl( [ 'action' => 'getImage', 'image' => $image ], [], 3 ) ){
+			$tmp = wp_tempnam();
 			
-			if( is_wp_error( $id ) ){
-				@unlink($file['tmp_name']);
-				return false;
+			if( file_put_contents( $tmp, $data ) ){
+				$file = [ 'name' => $image, 'tmp_name' => $tmp ];
+				$id = media_handle_sideload( $file, $post_id );
+				
+				if( is_wp_error( $id ) ){
+					@unlink($file['tmp_name']);
+					return false;
+				}
+				@unlink( $file['tmp_name'] );
+			
+				return $id;
 			}
-			@unlink( $file['tmp_name'] );
-		
-			return $id;
 		}
 		return false;
 	}
@@ -1379,6 +1394,8 @@ class AIASIST{
 	}
 	
 	public function scripts(){
+		$this->setInfo();
+		
 		wp_enqueue_style('aiassist', plugin_dir_url( __FILE__ ) .'assets/css/style.css?t='. time(), false, '1.0', 'all');
 		
 		wp_enqueue_script('google-charts', plugin_dir_url( __FILE__ ) .'assets/libs/charts.js', [ 'jquery' ], false, false );
@@ -1395,78 +1412,78 @@ class AIASIST{
 			'info'		=> $this->info,
 			'promts'	=> @$this->steps['promts'],
 			'locale'	=> [
-				'Need help?'	=> __('Need help?', 'wp-ai-assistant'),
-				'Are you sure you want to clear all fields from generated text?'	=> __('Are you sure you want to clear all fields from the generated text?', 'wp-ai-assistant'),
-				'Limits are over'	=> __('You have no credits left. Do not close the page, top up your balance and click "Generate" again. <a href="/wp-admin/admin.php?page=wpai-assistant" target="_blank">Top up balance</a>', 'wp-ai-assistant'),
-				'Prompt was censored'	=> __('The prompt was censored, one or more words prevent image generation. Try changing the prompt!', 'wp-ai-assistant'),
-				'photo'	=> __('photo', 'wp-ai-assistant'),
-				'The limits have been reached'	=> __('You have no credits left, please top up your balance to continue generating!', 'wp-ai-assistant'),
-				'Generated'	=> __('Generated', 'wp-ai-assistant'),
-				'Suspended'	=> __('Suspended', 'wp-ai-assistant'),
-				'Generation in progress'	=> __('Generation in progress', 'wp-ai-assistant'),
-				'The limits have been reached, to continue generation (rewriting) please top up your balance!'	=> __('You have no credits left, please top up your balance to continue generating (rewriting)!', 'wp-ai-assistant'),
-				'The process of rewriting articles is complete.'	=> __('Articles rewriting is completed.', 'wp-ai-assistant'),
-				'Are you sure?'	=> __('Are you sure?', 'wp-ai-assistant'),
-				'Payment request sent'	=> __('Payout request sent', 'wp-ai-assistant'),
-				'Recovery...'	=> __('Restoring...', 'wp-ai-assistant'),
-				'These neural networks are only available by subscription only'	=> __('This option is only available with a subscription, check the "Payment & Pricing" section', 'wp-ai-assistant'),
-				'Restored'	=> __('Restored', 'wp-ai-assistant'),
-				'The article generation process has been suspended.'	=> __('Articles generation has been suspended.', 'wp-ai-assistant'),
-				'The process of generating'	=> __('Articles generation is in progress, the information is updated automatically. If this does not happen, refresh the browser page to see the current list of generated articles.', 'wp-ai-assistant'),
-				'Generated by'	=> __('Generated by', 'wp-ai-assistant'),
-				'articles from'	=> __('articles from', 'wp-ai-assistant'),
-				'In line'	=> __('In queue', 'wp-ai-assistant'),
-				'The article rewriting process is in progress'	=> __('Articles rewriting is in progress, the information is updated automatically. If this does not happen, refresh the browser page to see the current list of articles that have been rewritten.', 'wp-ai-assistant'),
-				'Translation of prompts for images'	=> __('Translation of prompts for images', 'wp-ai-assistant'),
-				'5 $'	=> __('5 $', 'wp-ai-assistant'),
-				'Registration was successful, you have been sent an email with a key.'	=> __('Registration was successful, you have been sent an email with a key.', 'wp-ai-assistant'),
-				'Saving content'	=> __('Saving content', 'wp-ai-assistant'),
-				'Loading image'	=> __('Loading image: ', 'wp-ai-assistant'),
-				'Header generation'	=> __('Header generation', 'wp-ai-assistant'),
-				'Completion...'	=> __('Completion...', 'wp-ai-assistant'),
-				'Generating structure'	=> __('Structure generation', 'wp-ai-assistant'),
-				'Text generation'	=> __('Text generation', 'wp-ai-assistant'),
-				'Featured image'	=> __('Featured image', 'wp-ai-assistant'),
-				'Promt:'	=> __('Promt:', 'wp-ai-assistant'),
-				'Generate'	=> __('Generate', 'wp-ai-assistant'),
-				'Generating an introduction'	=> __('Introduction generation', 'wp-ai-assistant'),
-				'Generate meta title'	=> __('Meta title generation', 'wp-ai-assistant'),
-				'Generating meta description'	=> __('Meta description generation', 'wp-ai-assistant'),
-				'Cancel'	=> __('Cancel', 'wp-ai-assistant'),
-				'You have not added the API key'	=> __('You have not added the API key! The key is sent to the mail after registration in the plugin. Register and add the key from the email to the special field in the plugin settings and generation will become available.', 'wp-ai-assistant'),
-				'Item generation:'	=> __('Item generation:', 'wp-ai-assistant'),
-				'The image is generated at the location of the cursor.'	=> __('The image is generated where the cursor is positioned.', 'wp-ai-assistant'),
-				'AI image creator'	=> __('AI image creator', 'wp-ai-assistant'),
-				'To regenerate a piece of text'	=> __('To regenerate a text fragment, highlight it and click Generate. To generate a new text fragment, place the cursor where you want to add text, enter a prompt and click Generate.', 'wp-ai-assistant'),
-				'To get started'	=> __('First of all, sign up and save the API key that will come to your e-mail.', 'wp-ai-assistant'),
-				'There is no variable'	=> __('There is no variable {key} (or {header} - only when generating a large article according to outline) in your prompt. Add it in the place where the key phrase should be. If you generate a text without the variable, it won’t be relevant to your topic.', 'wp-ai-assistant'),
-				'The article generation process is complete.'	=> __('Articles generation is completed.', 'wp-ai-assistant'),
-				'Restore original text'	=> __('Restore original text', 'wp-ai-assistant'),
-				'No data found!'	=> __('No data found!', 'wp-ai-assistant'),
-				'Credits'	=> __('Credits', 'wp-ai-assistant'),
-				'The regeneration process has been stopped.'	=> __('Regeneration has been stopped.', 'wp-ai-assistant'),
-				'The process of regeneration is underway...'	=> __('Regeneration in progress...', 'wp-ai-assistant'),
-				'The regeneration process is complete.'	=> __('Regeneration is completed.', 'wp-ai-assistant'),
-				'Original images installed and generated ones removed'	=> __('Original images installed and generated ones removed', 'wp-ai-assistant'),
-				'Removing...'	=> __('Removing...', 'wp-ai-assistant'),
-				'Removeds'	=> __('Removeds', 'wp-ai-assistant'),
-				'Original images removed'	=> __('Original images removed', 'wp-ai-assistant'),
-				'Date'	=> __('Date', 'wp-ai-assistant'),
-				'Pause'	=> __('Pause', 'wp-ai-assistant'),
-				'Activate'	=> __('Activate', 'wp-ai-assistant'),
-				'active'	=> __('active', 'wp-ai-assistant'),
-				'inactive'	=> __('inactive', 'wp-ai-assistant'),
-				'Generations'	=> __('Generations', 'wp-ai-assistant'),
-				'Regenerate images'	=> __('Regenerate images', 'wp-ai-assistant'),
-				'Restore original / removing generated images'	=> __('Restore original / removing generated images', 'wp-ai-assistant'),
-				'Remove original images'	=> __('Remove original images', 'wp-ai-assistant'),
-				'Start articles generation'	=> __('Start articles generation', 'wp-ai-assistant'),
+				'Need help?'	=> wp_kses_post( __('Need help?', 'wp-ai-assistant') ),
+				'Are you sure you want to clear all fields from generated text?'	=> wp_kses_post( __('Are you sure you want to clear all fields from the generated text?', 'wp-ai-assistant') ),
+				'Limits are over'	=> wp_kses_post( __('You have no credits left. Do not close the page, top up your balance and click "Generate" again. <a href="/wp-admin/admin.php?page=wpai-assistant" target="_blank">Top up balance</a>', 'wp-ai-assistant') ),
+				'Prompt was censored'	=> wp_kses_post( __('The prompt was censored, one or more words prevent image generation. Try changing the prompt!', 'wp-ai-assistant') ),
+				'photo'	=> wp_kses_post( __('photo', 'wp-ai-assistant') ),
+				'The limits have been reached'	=> wp_kses_post( __('You have no credits left, please top up your balance to continue generating!', 'wp-ai-assistant') ),
+				'Generated'	=> wp_kses_post( __('Generated', 'wp-ai-assistant') ),
+				'Suspended'	=> wp_kses_post( __('Suspended', 'wp-ai-assistant') ),
+				'Generation in progress'	=> wp_kses_post( __('Generation in progress', 'wp-ai-assistant') ),
+				'The limits have been reached, to continue generation (rewriting) please top up your balance!'	=> wp_kses_post( __('You have no credits left, please top up your balance to continue generating (rewriting)!', 'wp-ai-assistant') ),
+				'The process of rewriting articles is complete.'	=> wp_kses_post( __('Articles rewriting is completed.', 'wp-ai-assistant') ),
+				'Are you sure?'	=> wp_kses_post( __('Are you sure?', 'wp-ai-assistant') ),
+				'Payment request sent'	=> wp_kses_post( __('Payout request sent', 'wp-ai-assistant') ),
+				'Recovery...'	=> wp_kses_post( __('Restoring...', 'wp-ai-assistant') ),
+				'These neural networks are only available by subscription only'	=> wp_kses_post( __('This option is only available with a subscription, check the "Payment & Pricing" section', 'wp-ai-assistant') ),
+				'Restored'	=> wp_kses_post( __('Restored', 'wp-ai-assistant') ),
+				'The article generation process has been suspended.'	=> wp_kses_post( __('Articles generation has been suspended.', 'wp-ai-assistant') ),
+				'The process of generating'	=> wp_kses_post( __('Articles generation is in progress, the information is updated automatically. If this does not happen, refresh the browser page to see the current list of generated articles.', 'wp-ai-assistant') ),
+				'Generated by'	=> wp_kses_post( __('Generated by', 'wp-ai-assistant') ),
+				'articles from'	=> wp_kses_post( __('articles from', 'wp-ai-assistant') ),
+				'In line'	=> wp_kses_post( __('In queue', 'wp-ai-assistant') ),
+				'The article rewriting process is in progress'	=> wp_kses_post( __('Articles rewriting is in progress, the information is updated automatically. If this does not happen, refresh the browser page to see the current list of articles that have been rewritten.', 'wp-ai-assistant') ),
+				'Translation of prompts for images'	=> wp_kses_post( __('Translation of prompts for images', 'wp-ai-assistant') ),
+				'5 $'	=> wp_kses_post( __('5 $', 'wp-ai-assistant') ),
+				'Registration was successful, you have been sent an email with a key.'	=> wp_kses_post( __('Registration was successful, you have been sent an email with a key.', 'wp-ai-assistant') ),
+				'Saving content'	=> wp_kses_post( __('Saving content', 'wp-ai-assistant') ),
+				'Loading image'	=> wp_kses_post( __('Loading image: ', 'wp-ai-assistant') ),
+				'Header generation'	=> wp_kses_post( __('Header generation', 'wp-ai-assistant') ),
+				'Completion...'	=> wp_kses_post( __('Completion...', 'wp-ai-assistant') ),
+				'Structure generation'	=> wp_kses_post( __('Structure generation', 'wp-ai-assistant') ),
+				'Text generation'	=> wp_kses_post( __('Text generation', 'wp-ai-assistant') ),
+				'Featured image'	=> wp_kses_post( __('Featured image', 'wp-ai-assistant') ),
+				'Promt:'	=> wp_kses_post( __('Promt:', 'wp-ai-assistant') ),
+				'Generate'	=> wp_kses_post( __('Generate', 'wp-ai-assistant') ),
+				'Introduction generation'	=> wp_kses_post( __('Introduction generation', 'wp-ai-assistant') ),
+				'Generate meta title'	=> wp_kses_post( __('Meta title generation', 'wp-ai-assistant') ),
+				'Generating meta description'	=> wp_kses_post( __('Meta description generation', 'wp-ai-assistant') ),
+				'Cancel'	=> wp_kses_post( __('Cancel', 'wp-ai-assistant') ),
+				'You have not added the API key'	=> wp_kses_post( __('You have not added the API key! The key is sent to the mail after registration in the plugin. Register and add the key from the email to the special field in the plugin settings and generation will become available.', 'wp-ai-assistant') ),
+				'Item generation:'	=> wp_kses_post( __('Item generation:', 'wp-ai-assistant') ),
+				'The image is generated at the location of the cursor.'	=> wp_kses_post( __('The image is generated where the cursor is positioned.', 'wp-ai-assistant') ),
+				'AI image creator'	=> wp_kses_post( __('AI image creator', 'wp-ai-assistant') ),
+				'To regenerate a piece of text'	=> wp_kses_post( __('To regenerate a text fragment, highlight it and click Generate. To generate a new text fragment, place the cursor where you want to add text, enter a prompt and click Generate.', 'wp-ai-assistant') ),
+				'To get started'	=> wp_kses_post( __('First of all, sign up and save the API key that will come to your e-mail.', 'wp-ai-assistant') ),
+				'There is no variable'	=> wp_kses_post( __('There is no variable {key} (or {header} - only when generating a large article according to outline) in your prompt. Add it in the place where the key phrase should be. If you generate a text without the variable, it won’t be relevant to your topic.', 'wp-ai-assistant') ),
+				'The article generation process is complete.'	=> wp_kses_post( __('Articles generation is completed.', 'wp-ai-assistant') ),
+				'Restore original text'	=> wp_kses_post( __('Restore original text', 'wp-ai-assistant') ),
+				'No data found!'	=> wp_kses_post( __('No data found!', 'wp-ai-assistant') ),
+				'Credits'	=> wp_kses_post( __('Credits', 'wp-ai-assistant') ),
+				'The regeneration process has been stopped.'	=> wp_kses_post( __('Regeneration has been stopped.', 'wp-ai-assistant') ),
+				'The process of regeneration is underway...'	=> wp_kses_post( __('Regeneration in progress...', 'wp-ai-assistant') ),
+				'The regeneration process is complete.'	=> wp_kses_post( __('Regeneration is completed.', 'wp-ai-assistant') ),
+				'Original images installed and generated ones removed'	=> wp_kses_post( __('Original images installed and generated ones removed', 'wp-ai-assistant') ),
+				'Removing...'	=> wp_kses_post( __('Removing...', 'wp-ai-assistant') ),
+				'Removeds'	=> wp_kses_post( __('Removeds', 'wp-ai-assistant') ),
+				'Original images removed'	=> wp_kses_post( __('Original images removed', 'wp-ai-assistant') ),
+				'Date'	=> wp_kses_post( __('Date', 'wp-ai-assistant') ),
+				'Pause'	=> wp_kses_post( __('Pause', 'wp-ai-assistant') ),
+				'Activate'	=> wp_kses_post( __('Activate', 'wp-ai-assistant') ),
+				'active'	=> wp_kses_post( __('active', 'wp-ai-assistant') ),
+				'inactive'	=> wp_kses_post( __('inactive', 'wp-ai-assistant') ),
+				'Generations'	=> wp_kses_post( __('Generations', 'wp-ai-assistant') ),
+				'Regenerate images'	=> wp_kses_post( __('Regenerate images', 'wp-ai-assistant') ),
+				'Restore original / removing generated images'	=> wp_kses_post( __('Restore original / removing generated images', 'wp-ai-assistant') ),
+				'Remove original images'	=> wp_kses_post( __('Remove original images', 'wp-ai-assistant') ),
+				'Start articles generation'	=> wp_kses_post( __('Start articles generation', 'wp-ai-assistant') ),
 			],
 		] );
 	}
 	
 	private function checkNonce(){
-		return wp_verify_nonce( $_POST['nonce'], 'aiassist' );
+		return wp_verify_nonce( sanitize_text_field( wp_unslash ( $_POST['nonce'] ) ), 'aiassist' );
 	}
 	
 	public function button_init( $buttons ){
@@ -1521,9 +1538,9 @@ class AIASIST{
 		return (object) [ 'args' => $args .= "--$boundary--\r\n", 'boundary' => $boundary ];
 	}
 	
-	private function wpCurl( $args = [], $headers = [] ){
+	private function wpCurl( $args = [], $headers = [], $timeout = 300 ){
 		if( ! empty( $args ) )
-			$args = [ 'body' => $args, 'timeout' => 300, 'method' => 'POST', 'headers' => $headers ];
+			$args = [ 'body' => $args, 'timeout' => $timeout, 'method' => 'POST', 'headers' => $headers ];
 		
 		$data = (array) wp_remote_request( $this->api, $args );
 		

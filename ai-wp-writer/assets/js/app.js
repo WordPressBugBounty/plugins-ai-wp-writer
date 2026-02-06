@@ -44,25 +44,28 @@ jQuery( document ).ready(function($){
 			$(document).on('click', '#clear-rewrite-generations', app.clearRewritesGeneration);
 			$(document).on('click', '#stop-rewrite-generations', app.stopRewriteGeneration);
 			
-			$(document).on('tinymce-editor-setup', function(event, editor){
-				if( editor.id != 'AIASSIST' )
-					return;
-				
-				app.editor = tinymce.get( editor.id );
-				$(document).on('click', '#aiassist-step-stop', app.stepStop);
-				$(document).on('click', '#aiassist-theme-generate', app.generateHeader);
-				$(document).on('click', '#aiassist-structure-generate', app.generateStructure);
-				$(document).on('click', '#aiassist-content-generate', app.generateContent);
-				$(document).on('click', '#aiassist-standart-generate', app.standartGenerateContent);
-				$(document).on('click', '#aiassist-meta-generate', app.generateMeta);
-				$(document).on('click', '#aiassist-save-content', app.saveContent);
-				$(document).on('click', '#aiassist-images-generator-all-headers', app.checkAllHeaders);
-				$(document).on('click', '.image-generate-item', app.imageGenerator);
-				$(document).on('click', '#aiassist-images-generator-start', app.imagesGenerator);
-				$(document).on('click', '.aiassist-images .aiassist-image', app.selectImage);
-				$(document).on('change', '#aiassist-change-image-model', app.translatePromtsToImages);
-			
-			});
+			if( window.tinymce ){
+				interval = setInterval( () => {
+					app.editor = tinymce.get('AIASSIST');
+					
+					if( ! app.editor )
+						return;
+					
+					clearInterval( interval );
+					$(document).on('click', '#aiassist-step-stop', app.stepStop);
+					$(document).on('click', '#aiassist-theme-generate', app.generateHeader);
+					$(document).on('click', '#aiassist-structure-generate', app.generateStructure);
+					$(document).on('click', '#aiassist-content-generate', app.generateContent);
+					$(document).on('click', '#aiassist-standart-generate', app.standartGenerateContent);
+					$(document).on('click', '#aiassist-meta-generate', app.generateMeta);
+					$(document).on('click', '#aiassist-save-content', app.saveContent);
+					$(document).on('click', '#aiassist-images-generator-all-headers', app.checkAllHeaders);
+					$(document).on('click', '.image-generate-item', app.imageGenerator);
+					$(document).on('click', '#aiassist-images-generator-start', app.imagesGenerator);
+					$(document).on('click', '.aiassist-images .aiassist-image', app.selectImage);
+					$(document).on('change', '#aiassist-change-image-model', app.translatePromtsToImages);
+				}, 250)
+			}
 			
 			$(document).on('input', '#aiassist-gpt-key', app.saveKey);
 			$(document).on('change', '#aiassist-change-text-model', app.setTextModel);
@@ -455,7 +458,8 @@ jQuery( document ).ready(function($){
 			e.addClass('active');
 			
 			let billing = e.data('billing');
-			$('.aiassist-recurring-agree label')[ ( billing == 'robokassa' ? 'show' : 'hide' ) ]();
+			$('.aiassist-recurring-agree label')[ ( e.data('recurring') ? 'show' : 'hide' ) ]();
+			$('.aiassist-rates-custom')[ ( $('.pay-method.active').data('custom-disabled') ? 'hide' : 'show' ) ]();
 			
 			if( $('[data-usdt]').length ){
 				$('[data-usdt]').each(function(){
@@ -1435,21 +1439,25 @@ jQuery( document ).ready(function($){
 		
 		translatePromtsToImages: async () => {
 			if( $('.aiassist-headers .aiassist-header-item').length ){
+				let h1 = '';
 				let model = $('#aiassist-change-image-model').val();
 				
-				if( [ 'dalle', 'gptImage' ].indexOf( model ) != -1 ){
-					
-					if( $('.aiassist-header-item').length ){
-						let h1 = $('.aiassist-main-header label input').val();
+				if( [ 'dalle', 'gptImage', 'gptMini', 'banana' ].indexOf( model ) != -1 ){
+					if( $('.aiassist-main-header label input').length ){
+						h1 = $('.aiassist-main-header label input').val();
 						$('.aiassist-main-header .aiassist-translate-promt-image input').val( h1 );
-						
-						$('.aiassist-header-item:not(.aiassist-main-header)').each(function(){
-							let e = $(this);
-							let header = h1 +'. '+ e.find('label input').val();
-							
-							e.find('.aiassist-translate-promt-image input').val( header );
-						})
 					}
+					
+					$('.aiassist-header-item:not(.aiassist-main-header)').each(function(){
+						let e = $(this);
+						
+						let header = '';
+						if( h1.length )
+							header += h1 +'. ';
+						header += e.find('label input').val();
+						
+						e.find('.aiassist-translate-promt-image input').val( header );
+					})
 					app.loader();
 					return;
 				}
@@ -1470,7 +1478,7 @@ jQuery( document ).ready(function($){
 					let header = $( e ).find('label input[type="checkbox"]').val();
 					let text = header;
 					
-					if( ! $( e ).find('#aiassist-main').length )
+					if( ! $( e ).find('#aiassist-main').length && $('#aiassist-main').length )
 						text = $('#aiassist-main').val() +' '+ header;
 					
 					if( $('.aiassist-lang-promts:visible:first option:selected').val() == 1 ){
@@ -1511,7 +1519,7 @@ jQuery( document ).ready(function($){
 				promt = translate.content;
 				
 				block.find('.aiassist-translate-promt-image input').val( promt );
-				await app.request( { val: promt, act: header, action: 'saveStep', nonce: aiassist.nonce } );
+				app.request( { val: promt, act: header, action: 'saveStep', nonce: aiassist.nonce } );
 			}
 			
 			let task = await app.request( { token: aiassist.token, model: model, action: 'image_generator', header: promt, format: 'jpg' }, aiassist.api );
@@ -1727,6 +1735,7 @@ jQuery( document ).ready(function($){
 			let e = $(this);
 			$('.aiassist-rates-tab, .aiassist-rates-view').removeClass('active');
 			$('.aiassist-rates-view[data-view="'+ e.data('view') +'"]').addClass('active');
+			$('.aiassist-rates-custom')[ ( $('.pay-method.active').data('custom-disabled') ? 'hide' : 'show' ) ]();
 			e.addClass('active');
 		},
 		
@@ -1818,7 +1827,7 @@ jQuery( document ).ready(function($){
 			
 			if( data.content ){
 				$('#aiassist-header').val( data.content );
-				await app.request( { val: data.content, act: 'header', action: 'saveStep', nonce: aiassist.nonce } );
+				app.request( { val: data.content, act: 'header', action: 'saveStep', nonce: aiassist.nonce } );
 			} else
 				app.errorLog('End limits!');
 		
@@ -1841,7 +1850,7 @@ jQuery( document ).ready(function($){
 			
 			if( data.content ){
 				$('#aiassist-structure').val( data.content ).removeClass('disabled');
-				await app.request( { val: data.content, act: 'structure', action: 'saveStep', nonce: aiassist.nonce } );
+				app.request( { val: data.content, act: 'structure', action: 'saveStep', nonce: aiassist.nonce } );
 			} else
 				app.errorLog('End limits!');
 		
@@ -1880,7 +1889,7 @@ jQuery( document ).ready(function($){
 				$('#step6').show();
 				
 				app.editor.setContent( data.content );
-				await app.request( { val: data.content, act: 'content', action: 'saveStep', nonce: aiassist.nonce } );
+				app.request( { val: data.content, act: 'content', action: 'saveStep', nonce: aiassist.nonce } );
 			} else {
 				app.loader();
 				app.errorLog('End limits!');
@@ -1900,7 +1909,7 @@ jQuery( document ).ready(function($){
 			if( $('.aiassist-headers .aiassist-header-item').length )
 				$('.aiassist-headers .aiassist-header-item').remove();
 			
-			await app.request( { val: structure, act: 'structure', action: 'saveStep', nonce: aiassist.nonce } );
+			app.request( { val: structure, act: 'structure', action: 'saveStep', nonce: aiassist.nonce } );
 			
 			structure = structure.split("\n");
 			structure = structure.filter( e => e );
@@ -1943,7 +1952,7 @@ jQuery( document ).ready(function($){
 						app.errorLog('End limits!');
 				}
 				
-				await app.request( { val: app.editor.getContent(), act: 'content', action: 'saveStep', nonce: aiassist.nonce } );
+				app.request( { val: app.editor.getContent(), act: 'content', action: 'saveStep', nonce: aiassist.nonce } );
 				$('#aiassist-content').removeClass('disabled');
 			}
 			app.translatePromtsToImages();
@@ -1966,7 +1975,7 @@ jQuery( document ).ready(function($){
 			
 			if( data.content ){
 				$('#aiassist-title').val( data.content );
-				await app.request( { val: data.content, act: 'title', action: 'saveStep', nonce: aiassist.nonce } );
+				app.request( { val: data.content, act: 'title', action: 'saveStep', nonce: aiassist.nonce } );
 			}
 			
 			$('#aiassist-loader-info').text( aiassist.locale['Meta description generation'] );
@@ -1975,7 +1984,7 @@ jQuery( document ).ready(function($){
 			
 			if( data.content ){
 				$('#aiassist-desc').val( data.content );
-				await app.request( { val: data.content, act: 'desc', action: 'saveStep', nonce: aiassist.nonce } );
+				app.request( { val: data.content, act: 'desc', action: 'saveStep', nonce: aiassist.nonce } );
 			}
 			
 			app.loader();
@@ -2132,6 +2141,19 @@ jQuery( document ).ready(function($){
 		},
 		
 		request: ( args = {}, url = false, timeout = 120000 ) => {
+			return new Promise( async resolve => {
+				let xhr = await app.xhr( args, url, timeout );
+				
+				if( xhr === true ){
+					aiassist.api = ( aiassist.api == aiassist.apiurl ) ? aiassist.apiurl2 : aiassist.apiurl;
+					xhr = await app.xhr( args, url, timeout );
+				}
+				
+				resolve( xhr );
+			} )
+		},
+		
+		xhr: ( args = {}, url = false, timeout = 120000 ) => {
 			return new Promise( resolve =>  $.ajax({ url: url || aiassist.ajaxurl, type: 'POST', data: args, timeout: timeout, dataType: 'json', success: data => resolve( data ), error: error => resolve( true ) }) )
 		}
 

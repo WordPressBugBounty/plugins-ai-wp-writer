@@ -810,11 +810,14 @@ button[name="save"]{
 	}
 	
 	.aiassist-images.nsfw,
-	.aiassist-images.flux{
+	.aiassist-images.flux,
+	.aiassist-images.banana{
 		background: none;
 	}
 	
 	.aiassist-images.dalle,
+	.aiassist-images.banana,
+	.aiassist-images.gptMini,
 	.aiassist-images.gptImage{
 		display: flex;
 		background: none;
@@ -823,6 +826,8 @@ button[name="save"]{
 	.aiassist-images.nsfw img,
 	.aiassist-images.flux img,
 	.aiassist-images.dalle img,
+	.aiassist-images.banana img,
+	.aiassist-images.gptMini img,
 	.aiassist-images.gptImage img{
 		margin: auto;
 	}
@@ -1504,7 +1509,7 @@ button[name="save"]{
 	}
 
 	.aiassist-image-block .aiassist-select-lable{
-		height: 32px;
+		height: 31px;
 		border: solid 1px #ccc;
 	}
 
@@ -1577,6 +1582,7 @@ button[name="save"]{
 		cursor: pointer;
 		transition: .5s;
 		margin: -2px 1px;
+		pointer-events: auto !important;
 	}
 	
 /* images block generator end */
@@ -1600,7 +1606,7 @@ button[name="save"]{
 	#aiassist-tiny-image-generate,
 	#aiassist-tiny-image-translate,
 	#aiassist-generate-image .aiassist-select-lable{
-		width: 115px;
+		width: 100px;
 		height: 33px;
 		border-radius: 0;
 		background: none;
@@ -1608,34 +1614,33 @@ button[name="save"]{
 		text-align: center;
 		border: solid 1px #ccc;
 	}
+	
+	.aiassist-image-tiny-wrap{
+		display: flex;
+	}
 
 	#aiassist-generate-image .aiassist-select-wrap{
 		display: inline-block;
 	}
 	
 	#aiassist-generate-image .aiassist-select-lable{
+		width: 144px;
 		padding: 0px;
 		position: relative;
-		top: -2px;
-		height: 30px;
+		height: 31px;
 	}
 
 	#aiassist-tiny-image-translate{
-		top: 3px;
-		left: -16px;
 		position: relative;
 	}
 
 	#aiassist-tiny-image-generate{
-		top: 3px;
-		left: -12px;
 		position: relative;
 	}
 
 	#aiassist-tiny-image-promt{
 		width: 299px;
 		height: 33px;
-		left: -7px;
 		border-radius: 0;
 		background: none;
 		position: relative;
@@ -1669,6 +1674,10 @@ button[name="save"]{
 		margin-top: 10px;
 		background: none;
 		max-height: 350px;
+	}
+	
+	.aiassist-image-tiny-item.aiassist-images{
+		text-align: center;
 	}
 	
 	.aiassist-image-tiny-item .aiassist-progressImageUrl{
@@ -1901,6 +1910,16 @@ button[name="save"]{
 		position: relative;
 		background: url(../images/stripe.png) no-repeat;
 		background-size: 100%;
+	}
+
+	.creem{
+		width: 208px;
+		height: 52px;
+		margin: auto;
+		top: 0px;
+		position: relative;
+		background: url(../images/creem.png) no-repeat;
+		right: 0px;
 	}
 
 
@@ -2188,10 +2207,11 @@ button[name="save"]{
 .aiassist-select.open{
 	width: auto;
 	height: auto;
-	min-width: 105px;
+	min-width: 130px;
 	position: absolute;
 	z-index: 9999;
 	display: block;
+	text-align: left;
 }
 
 .aiassist-option{
