@@ -82,6 +82,9 @@ class AIASIST{
 		if( $this->info->promts->code && is_numeric( $lang_id = array_search( $lang, $this->info->promts->code ) ) )
 			return $lang_id;
 		
+		if( $lang != 'ru' )
+			return 1;
+		
 		return 0;
 	}
 	
@@ -190,6 +193,9 @@ class AIASIST{
 		
 		if( ! $cats = get_categories( [ 'hide_empty' => 0 ] ) )
 			$cats = [];
+		
+		if( ! $users = get_users() )
+			$users = [];
 		
 		include dirname(__FILE__) . '/tpl/options.php';
 	}
@@ -388,6 +394,9 @@ class AIASIST{
 					if( $attach['attach_id'] ){
 						$path = get_attached_file( $attach['attach_id'] );
 						
+						if( $path[0] == '/' )
+							$path = ABSPATH . $path;
+						
 						if( file_exists( $path ) ){
 							$args = [
 								'url'		=> $attach['url'],  
@@ -408,7 +417,7 @@ class AIASIST{
 		
 				
 				if( isset( $task->image ) ){
-					if( $replace_id = (int) $this->loadFile( $this->api .'/?action=getImage&image='. $task->image, (int) $attach['post_id'] ) ){
+					if( $replace_id = (int) $this->loadFile( $task->image, (int) $attach['post_id'] ) ){
 						$data['attachments'][ $k ]['replace_id'] = (int) $replace_id;
 						
 						if( isset( $attach['thumbnail'] ) ){
@@ -596,11 +605,16 @@ class AIASIST{
 				if( $break )
 					continue;
 			
-				if( ! isset( $article['task_id'] ) && $data['publishInDay'] > $data['counter'][ $key ] ){
+				if( 
+						( ! isset( $article['task_id'] ) && $data['publishInDay'] > $data['counter'][ $key ] )
+					||
+						( isset( $article['task_id'] ) && isset( $article['revision_id'] ) && ! isset( $article['post_id'] )  && ! get_post( $article['revision_id'] ) )
+				){
 					$break = true;
 					
 					$args = [
 								'imageFormat'	=> 'jpg', 
+								'author'		=> (int) $data['author'], 
 								'thumb'			=> (bool) $data['thumb'], 
 								'textModel'		=> $data['textModel'], 
 								'imageModel'	=> $data['imageModel'], 
@@ -621,7 +635,7 @@ class AIASIST{
 					
 					if( $task->task_id ){
 						
-						if( $revision_id = wp_insert_post( [ 'post_type' => 'wpai', 'post_title' => $this->validText( $article['keywords'] ) ] ) ){
+						if( $revision_id = wp_insert_post( [ 'post_type' => 'wpai', 'post_title' => $this->validText( $article['keywords'] ), 'post_author' => (int) $data['author'] ] ) ){
 							$data['counter'][ $key ]++;
 							$data['everyDayCounter'] = [ $key => 0 ];
 							$data['articles'][ $k ]['task_id'] = $task->task_id;
@@ -635,7 +649,7 @@ class AIASIST{
 				if( isset( $article['task_id'] ) && isset( $article['revision_id'] ) && ! isset( $article['post_id'] ) ){
 					$task = json_decode( $this->wpCurl( [ 'action' => 'getTask', 'id' => $article['task_id'], 'host' => $this->getHost(), 'token' => $this->options->token ] ) );
 					
-					if( ! @$data['articles'][ $k ]['check'] )
+					if( ! @$data['articles'][ $k ]['check'] || isset( $task->content ) )
 						$data['articles'][ $k ]['check'] = 0;
 					
 					if( ! isset( $task->content ) )
@@ -667,7 +681,7 @@ class AIASIST{
 							$this->updatePostMeta( $post_id, $task->title, $task->description );
 						
 							if( $task->thumb ){
-								if( $thumb_id = (int) $this->loadFile( $this->api .'/?action=getImage&image='. $task->thumb, $post_id ) ){
+								if( $thumb_id = (int) $this->loadFile( $task->thumb, $post_id ) ){
 									set_post_thumbnail( $post_id, $thumb_id );
 									wp_update_post( [ 'ID' => $thumb_id, 'post_title' => $this->validText( $task->header ) ] );
 									update_post_meta( $thumb_id, '_wp_attachment_image_alt', $this->validText( $task->header ) );
@@ -682,7 +696,7 @@ class AIASIST{
 									if( strpos($task->content, $src) === false )
 										continue;
 								
-									if( $img_id = (int) $this->loadFile( $this->api .'/?action=getImage&image='. $src, $post_id ) ){
+									if( $img_id = (int) $this->loadFile( $src, $post_id ) ){
 										$image = wp_get_attachment_image( $img_id, 'full', false, [ 'class' => 'size-full wp-image-'. $img_id .' aligncenter', 'alt' => $this->clearTitle( $task->alts[ $k ] ), 'title' => $this->clearTitle( $task->alts[ $k ] ) ] );		
 										$task->content = str_replace($src, $image, $task->content);
 									}
@@ -708,6 +722,7 @@ class AIASIST{
 			return;
 			
 		$data = get_option('aiArticlesAutoGenData');
+		$data['author'] = (int) $_POST['author'];
 		$data['draft'] = (bool) $_POST['draft'];
 		$data['thumb'] = (bool) $_POST['thumb'];
 		$data['publishInDay'] = (int) $_POST['publishInDay'];
@@ -750,6 +765,9 @@ class AIASIST{
 		if( isset( $args['publishEveryDay'] ) )
 			$data['publishEveryDay'] = (int) $args['publishEveryDay'];
 			
+		if( isset( $args['author'] ) )
+			$data['author'] = (int) $args['author'];
+			
 		if( isset( $args['draft'] ) )
 			$data['draft'] = (bool) $args['draft'];
 			
@@ -781,6 +799,9 @@ class AIASIST{
 				
 			if( isset( $args['publishInDay'] ) )
 				$data['publishInDay'] = (int) $args['publishInDay'];
+				
+			if( isset( $args['author'] ) )
+				$data['author'] = (int) $args['author'];
 				
 			if( isset( $args['draft'] ) )
 				$data['draft'] = (int) $args['draft'];
@@ -825,6 +846,7 @@ class AIASIST{
 		$data = get_option('aiRewritesData');
 		$data['thumb']			= (bool) $_POST['thumb'];
 		$data['split']			= (int) $_POST['split'];
+		$data['author']			= (int) $_POST['author'];
 		$data['draft'] 			= (bool) $_POST['draft'];
 		$data['pictures'] 		= sanitize_text_field( $_POST['pictures'] );
 		$data['excude_h1']		= (bool) $_POST['excude_h1'];
@@ -865,20 +887,24 @@ class AIASIST{
 						$break = true;
 						
 						$args = [
-									'imageFormat'		=> 'jpg', 
-									'split'				=> $data['split'], 
-									'thumb'				=> (bool) $data['thumb'], 
-									'excude_h1'			=> (bool) $data['excude_h1'], 
-									'excude_title'		=> (bool) $data['excude_title'], 
-									'excude_desc'		=> (bool) $data['excude_desc'], 
-									'textModel'			=> $data['textModel'], 
-									'imageModel'		=> $data['imageModel'], 
-									'pictures'			=> $data['pictures'], 
-									'max_pictures'		=> (int) $data['max_pictures'], 
-									'lang_id'			=> $lang_id,
-									'promt'				=> isset( $this->steps['promts']['rewrite'][ $lang_id ] ) ? $this->steps['promts']['rewrite'][ $lang_id ] : $this->info->promts->rewrite[ $lang_id ],
-									'action'			=> 'addRewrite', 
-									'token'				=> $this->options->token, 
+									'imageFormat'	=> 'jpg', 
+									'split'			=> $data['split'], 
+									'author'		=> (int) $data['author'], 
+									'thumb'			=> (bool) $data['thumb'], 
+									'excude_h1'		=> (bool) $data['excude_h1'], 
+									'excude_title'	=> (bool) $data['excude_title'], 
+									'excude_desc'	=> (bool) $data['excude_desc'], 
+									'textModel'		=> $data['textModel'], 
+									'imageModel'	=> $data['imageModel'], 
+									'pictures'		=> $data['pictures'], 
+									'max_pictures'	=> (int) $data['max_pictures'], 
+									'lang_id'		=> $lang_id,
+									'promt'			=> isset( $this->steps['promts']['rewrite'][ $lang_id ] ) ? $this->steps['promts']['rewrite'][ $lang_id ] : $this->info->promts->rewrite[ $lang_id ],
+									'promt_header'	=> isset( $this->steps['promts']['rewrite_header'][ $lang_id ] ) ? $this->steps['promts']['rewrite_header'][ $lang_id ] : $this->info->promts->rewrite_header[ $lang_id ],
+									'promt_title'	=> isset( $this->steps['promts']['rewrite_title'][ $lang_id ] ) ? $this->steps['promts']['rewrite_title'][ $lang_id ] : $this->info->promts->rewrite_title[ $lang_id ],
+									'promt_desc'	=> isset( $this->steps['promts']['rewrite_desc'][ $lang_id ] ) ? $this->steps['promts']['rewrite_desc'][ $lang_id ] : $this->info->promts->rewrite_desc[ $lang_id ],
+									'action'				=> 'addRewrite', 
+									'token'					=> $this->options->token, 
 								]; 
 						
 						if( (int) $item['id'] ){
@@ -910,7 +936,7 @@ class AIASIST{
 					if( isset( $item['task_id'] ) && ! isset( $item['post_id'] ) ){
 						$task = json_decode( $this->wpCurl( [ 'action' => 'getTask', 'id' => $item['task_id'], 'host' => $this->getHost(), 'token' => $this->options->token ] ) );
 						
-						if( ! @$data['posts'][ $k ]['check'] )
+						if( ! @$data['posts'][ $k ]['check'] || isset( $task->content ) )
 							$data['posts'][ $k ]['check'] = 0;
 						
 						if( ! isset( $task->content ) )
@@ -936,6 +962,7 @@ class AIASIST{
 									'post_status'   => 'inherit',
 									'post_type'     => 'revision',
 									'post_parent'   => $post_id,
+									'post_author'   => (int) $data['author'],
 								];
 
 								$revision_id = wp_insert_post( $args );
@@ -952,7 +979,7 @@ class AIASIST{
 								if( $thumbnail_id = get_post_thumbnail_id( $post_id ) )
 									update_post_meta( $post_id, '_aiassist_revision_thumbnail_id', $thumbnail_id );
 								
-								wp_update_post( [ 'ID' => $post_id, 'post_title' => $this->validText( $task->post_title ), 'post_content' => $this->validText( $task->content, 'content' ) ] );
+								wp_update_post( [ 'ID' => $post_id, 'post_title' => $this->validText( $task->post_title ), 'post_content' => $this->validText( $task->content, 'content' ), 'post_author' => (int) $data['author'] ] );
 								
 							} elseif( (int) $item['revision_id'] ){
 								
@@ -963,6 +990,7 @@ class AIASIST{
 									'post_title'	=> $this->validText( $task->post_title ), 
 									'post_content'	=> $this->validText( $task->content, 'content' ),
 									'post_category'	=> [ (int) $item['cat_id'] ],
+									'post_author'   => (int) $data['author'],
 								];
 								
 								$post_id = wp_update_post( $args );
@@ -974,6 +1002,7 @@ class AIASIST{
 									'post_title'	=> $this->validText( $task->post_title ), 
 									'post_content'	=> $this->validText( $task->content, 'content'),
 									'post_category'	=> [ (int) $item['cat_id'] ],
+									'post_author'   => (int) $data['author'],
 								];
 								
 								$post_id = wp_insert_post( $args );
@@ -986,7 +1015,7 @@ class AIASIST{
 								$this->updatePostMeta( $post_id, $task->meta_title, $task->meta_description );
 								
 								if( $task->thumb ){
-									if( $thumb_id = (int) $this->loadFile( $this->api .'/?action=getImage&image='. $task->thumb, $post_id ) ){
+									if( $thumb_id = (int) $this->loadFile( $task->thumb, $post_id ) ){
 										set_post_thumbnail( $post_id, $thumb_id );
 										wp_update_post( [ 'ID' => $thumb_id, 'post_title' => $this->validText( $task->post_title ) ] );
 										update_post_meta( $thumb_id, '_wp_attachment_image_alt', $this->validText( $task->post_title ) );
@@ -1001,7 +1030,7 @@ class AIASIST{
 										if( strpos($task->content, $src) === false )
 											continue;
 									
-										if( $img_id = (int) $this->loadFile( $this->api .'/?action=getImage&image='. $src, $post_id ) ){
+										if( $img_id = (int) $this->loadFile( $src, $post_id ) ){
 											$image = wp_get_attachment_image( $img_id, 'full', false, [ 'class' => 'size-full wp-image-'. $img_id .' aligncenter', 'alt' => $this->clearTitle( $task->alts[ $k ] ) .' фото', 'title' => $this->clearTitle( $task->alts[ $k ] ) ] );		
 											$task->content = str_replace($src, $image, $task->content);
 										}
@@ -1029,7 +1058,19 @@ class AIASIST{
 			
 		$args = get_option('aiRewritesData');
 		
-		$args['start'] = true;
+		$args['start'] 			= true;
+		$data['thumb']			= (bool) $_POST['thumb'];
+		$data['split']			= (int) $_POST['split'];
+		$data['author']			= (int) $_POST['author'];
+		$data['author']			= (int) $_POST['author'];
+		$data['draft'] 			= (bool) $_POST['draft'];
+		$data['pictures'] 		= sanitize_text_field( $_POST['pictures'] );
+		$data['excude_h1']		= (bool) $_POST['excude_h1'];
+		$data['excude_title']	= (bool) $_POST['excude_title'];
+		$data['excude_desc']	= (bool) $_POST['excude_desc'];
+		$data['max_pictures']	= (int) $_POST['max_pictures'];
+		$data['imageModel']		= sanitize_text_field( $_POST['imageModel'] );
+		$data['textModel']		= sanitize_text_field( $_POST['textModel'] );
 		
 		if( $_POST['cats'] ){
 			$sql = 'SELECT 
@@ -1081,7 +1122,7 @@ class AIASIST{
 							$posts_ids[] = $id;
 					} else {
 						
-						$args['posts'][] = [ 'url' => $link, 'cat_id' => $cat_id, 'revision_id' => wp_insert_post( [ 'post_type' => 'wpai', 'post_title' => sanitize_url( $link ) ] ) ];
+						$args['posts'][] = [ 'url' => $link, 'cat_id' => $cat_id, 'revision_id' => wp_insert_post( [ 'post_type' => 'wpai', 'post_title' => sanitize_url( $link ), 'post_author' => (int) $args['author'] ] ) ];
 						
 					}
 				}
@@ -1155,6 +1196,9 @@ class AIASIST{
 			
 		if( isset( $args['split'] ) )
 			$data['split'] = (int) $args['split'];
+			
+		if( isset( $args['author'] ) )
+			$data['author'] = (int) $args['author'];
 			
 		if( isset( $args['thumb'] ) )
 			$data['thumb'] = (bool) $args['thumb'];
@@ -1538,7 +1582,7 @@ class AIASIST{
 		return (object) [ 'args' => $args .= "--$boundary--\r\n", 'boundary' => $boundary ];
 	}
 	
-	private function wpCurl( $args = [], $headers = [], $timeout = 300 ){
+	private function wpCurl( $args = [], $headers = [], $timeout = 10 ){
 		if( ! empty( $args ) )
 			$args = [ 'body' => $args, 'timeout' => $timeout, 'method' => 'POST', 'headers' => $headers ];
 		

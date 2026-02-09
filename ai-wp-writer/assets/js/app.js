@@ -4,7 +4,6 @@ jQuery( document ).ready(function($){
 		
 		init: () => {
 			
-			app.ping();
 			app.cron();
 			app.events();
 			
@@ -84,7 +83,7 @@ jQuery( document ).ready(function($){
 			$(document).on('click', '#restore-rewrite-generations', app.postsRestores);
 			$(document).on('change', '#rewrite_all', app.rewriteAllSiteChecked);
 			$(document).on('change', 'input[name*="rewrite_type"]', app.rewriteInputsChecked);
-			$(document).on('change', 'select.cat-rewrite', app.disabledRewriteUrlArea);
+			$(document).on('change', '.cat-rewrite-option input[type="checkbox"]', app.disabledRewriteUrlArea);
 			$(document).on('input', '.aiassist-prom', app.savePromt);
 			$(document).on('input', '.aiassist-keywords-input input, .aiassist-multi-keywords .aiassist-multi-item', app.showKeywordsArea);
 			$(document).on('paste', '.aiassist-keywords-input input, .aiassist-multi-keywords .aiassist-multi-item', app.showKeywordsArea);
@@ -538,6 +537,16 @@ jQuery( document ).ready(function($){
 				case 'aiassist-rewrite-prom':
 					aiassist.promts['rewrite'][ lang_id ] = promt;
 				break;
+				case 'aiassist-header-prom-rewrite':
+					aiassist.promts['rewrite_header'][ lang_id ] = promt;
+				break;
+				case 'aiassist-title-prom-rewrite':
+					aiassist.promts['rewrite_title'][ lang_id ] = promt;
+				break;
+				case 'aiassist-desc-prom-rewrite':
+					aiassist.promts['rewrite_desc'][ lang_id ] = promt;
+				break;
+				
 				case 'aiassist-generation-prom':
 					aiassist.promts['multi'][ lang_id ] = promt;
 				break;
@@ -663,10 +672,17 @@ jQuery( document ).ready(function($){
 			if( typeof aiassist.promts.rewrite[ lang ] !== 'undefined' && $('#aiassist-rewrite-prom').is(':visible') ){
 				aiassist.promts['rewrite_lang'] = lang;
 				
-				if( def )
+				if( def ){
 					aiassist.promts.rewrite[ lang ] = aiassist.info.promts.rewrite[ lang ];
+					aiassist.promts.rewrite_header[ lang ] = aiassist.info.promts.rewrite_header[ lang ];
+					aiassist.promts.rewrite_title[ lang ] = aiassist.info.promts.rewrite_title[ lang ];
+					aiassist.promts.rewrite_desc[ lang ] = aiassist.info.promts.rewrite_desc[ lang ];
+				}
 				
-				$('#aiassist-rewrite-prom').val( aiassist.promts.rewrite[ lang ] )
+				$('#aiassist-rewrite-prom').val( aiassist.promts.rewrite[ lang ] );
+				$('#aiassist-header-prom-rewrite').val( aiassist.promts.rewrite_header[ lang ] );
+				$('#aiassist-title-prom-rewrite').val( aiassist.promts.rewrite_title[ lang ] );
+				$('#aiassist-desc-prom-rewrite').val( aiassist.promts.rewrite_desc[ lang ] );
 			}
 			
 			if( typeof aiassist.promts.short[ lang ] !== 'undefined' && $('#aiassist-article-prom').is(':visible') ){
@@ -729,11 +745,7 @@ jQuery( document ).ready(function($){
 		disabledRewriteUrlArea: function(){
 			let e = $(this);
 			let area = $('.aiassist-rewrite-item, .aiassist-cats-item, #aiassist-addItemRewrite, .rewrite-block-type');
-			
-			if( e.val() > 0 )
-				area.addClass('disabled');
-			else
-				area.removeClass('disabled');
+			area[ ( $('#cat-rewrite input[type="checkbox"]:checked').length > 0 ? 'addClass' : 'removeClass' ) ]('disabled');
 		},
 		
 		postsRestores: async () => {
@@ -943,7 +955,7 @@ jQuery( document ).ready(function($){
 		},
 		
 		cron: async () => {
-			await app.ping(3000);
+			app.checkPing = await app.ping( app.checkPing == undefined ? 1500 : 3000 );
 			
 			let args = await app.request( { action: 'assistcron', nonce: aiassist.nonce } );
 			let limit = await app.request( { action: 'getLimit', token: aiassist.token }, aiassist.api );
@@ -1109,6 +1121,7 @@ jQuery( document ).ready(function($){
 			let args = {
 				nonce: aiassist.nonce,
 				action: 'autoGenOptions',
+				author: $('#aiassist_multi_author').val(),
 				pictures: $('#aiassist-auto-multi-images').val(),
 				max_pictures: $('#aiassist-max-pictures').val(),
 				draft: $('#aiassist-auto-draft').prop('checked') ? 1 : 0,
@@ -1254,6 +1267,7 @@ jQuery( document ).ready(function($){
 				action: 'rewriteOptions',
 				pictures: $('#aiassist-rewrite-multi-images').val(),
 				max_pictures: $('#aiassist-rewrite-max-pictures').val(),
+				author: $('#aiassist_rewrite_author').val(),
 				split: $('#aiassist-rewrite-split').val(),
 				excude_h1: $('#aiassist-rewrite-excude-h1').prop('checked') ? 1 : 0,
 				excude_title: $('#aiassist-rewrite-excude-title').prop('checked') ? 1 : 0,
@@ -1285,7 +1299,15 @@ jQuery( document ).ready(function($){
 				cats: [],
 				types: [],
 				links: {},
+				pictures: $('#aiassist-rewrite-multi-images').val(),
+				max_pictures: $('#aiassist-rewrite-max-pictures').val(),
+				author: $('#aiassist_rewrite_author').val(),
 				split: $('#aiassist-rewrite-split').val(),
+				excude_h1: $('#aiassist-rewrite-excude-h1').prop('checked') ? 1 : 0,
+				excude_title: $('#aiassist-rewrite-excude-title').prop('checked') ? 1 : 0,
+				excude_desc: $('#aiassist-rewrite-excude-desc').prop('checked') ? 1 : 0,
+				thumb: $('#aiassist-rewrite-thumb').prop('checked') ? 1 : 0,
+				draft: $('#aiassist-rewrite-draft').prop('checked') ? 1 : 0,
 				promt: $('#aiassist-rewrite-prom').val(),
 				textModel: $('#aiassist-rewrite-text-model').val(),
 				imageModel: $('#aiassist-image-model').val(),
@@ -1299,10 +1321,10 @@ jQuery( document ).ready(function($){
 				})
 			}
 			
-			if( $('.cat-rewrite').length ){
-				$('.cat-rewrite').each(function(){
-					args.cats.push( $(this).val() )
-				})
+			if( $('#cat-rewrite input[type="checkbox"]:checked').length ){
+				args.cats = $('#cat-rewrite input[type="checkbox"]:checked').map(function(){
+								return this.value;
+							}).get();
 			}
 			
 			if( items.length ){
@@ -1706,12 +1728,9 @@ jQuery( document ).ready(function($){
 				$('#wpai-errors-messages').html( auth.message );
 			
 			if( auth.auth ){
+				$('input[name="email"]').attr('disabled', true).addClass('disabled');
 				$('#wpai-errors-messages').addClass('success').text( aiassist.locale['Registration was successful, you have been sent an email with a key.'] );
 				document.cookie = 'auth=true';
-				
-				setTimeout( () => {
-					location.reload();
-				}, 2000 );
 			}
 			return false;
 		},

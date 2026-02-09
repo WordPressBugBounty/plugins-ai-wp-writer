@@ -85,11 +85,11 @@
 						<select class="aiassist-lang-promts">
 							<?php foreach( $this->info->promts->lang as $k => $lang ){ ?>
 								<?php
-									if( @$this->steps['promts']['short_lang'] == $k )
+									if( isset( $this->steps['promts']['short_lang'] ) && (int) $this->steps['promts']['short_lang'] === $k )
 										$lang_id = (int) $k;
 								?>
 							
-								<option value="<?php echo (int) $k ?>" <?php echo @$this->steps['promts']['short_lang'] == $k ? 'selected' : '' ?> ><?php echo esc_html( $lang ) ?></option>
+								<option value="<?php echo (int) $k ?>" <?php echo @$lang_id === $k ? 'selected' : '' ?> ><?php echo esc_html( $lang ) ?></option>
 							<?php } ?>
 						</select>
 					</div>
@@ -125,11 +125,11 @@
 						<select class="aiassist-lang-promts">
 							<?php foreach( $this->info->promts->lang as $k => $lang ){ ?>
 								<?php
-									if( @$this->steps['promts']['long_lang'] == $k )
+									if( isset( $this->steps['promts']['long_lang'] ) && (int) $this->steps['promts']['long_lang'] === $k )
 										$lang_id = (int) $k;
 								?>
 							
-								<option value="<?php echo (int) $k ?>" <?php echo @$this->steps['promts']['long_lang'] == $k ? 'selected' : '' ?> ><?php echo esc_html( $lang ) ?></option>
+								<option value="<?php echo (int) $k ?>" <?php echo @$lang_id === $k ? 'selected' : '' ?> ><?php echo esc_html( $lang ) ?></option>
 							<?php } ?>
 						</select>
 					</div>
@@ -343,7 +343,7 @@
 			<select class="aiassist-lang-promts-regenerate">
 				<?php foreach( $this->info->promts->lang as $k => $lang ){ ?>
 					<?php
-						if( @$this->steps['promts']['regenerate_lang'] == $k )
+						if( isset( $this->steps['promts']['regenerate_lang'] ) && (int) $this->steps['promts']['regenerate_lang'] == $k )
 							$lang_id = (int) $k;
 					?>
 				

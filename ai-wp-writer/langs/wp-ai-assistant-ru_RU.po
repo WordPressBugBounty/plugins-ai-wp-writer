@@ -184,10 +184,6 @@ msgstr "Категория"
 msgid "Add another list of URLs for another category"
 msgstr "Добавить еще один список URL для еще одной категории"
 
-#: tpl/options.php:180
-msgid "Prompt for article rewriting. This prompt will be used to rewrite headings, paragraphs, meta title and meta description."
-msgstr "Промт для рерайта статей. По этому промту будет сделан рерайт подзаголовков, абзацев, meta title и meta description."
-
 #: tpl/options.php:184
 msgid "Restore the default prompt."
 msgstr "Восстановить промпт по умолчанию."
@@ -647,6 +643,30 @@ msgid "Promt:"
 msgstr "Промпт:"
 
 #: tpl/options.php
+msgid "Prompt for generating the meta title:"
+msgstr "Промпт для генерации meta title:"
+
+#: tpl/options.php
+msgid "Prompt for generating the meta description:"
+msgstr "Промпт для генерации meta description:"
+
+#: tpl/options.php
+msgid "Prompt for rewriting the main text:"
+msgstr "Промпт для рерайта основного текста:"
+
+#: tpl/options.php
+msgid "Prompt for rewriting the H1 heading:"
+msgstr "Промпт для рерайта заголовка H1:"
+
+#: tpl/options.php
+msgid "Prompt for rewriting a meta title:"
+msgstr "Промпт для рерайта meta title:"
+
+#: tpl/options.php
+msgid "Prompt for rewriting the meta description:"
+msgstr "Промпт для рерайта meta description:"
+
+#: tpl/options.php
 msgid "Articles generation is in progress, the information is updated automatically. If this does not happen, refresh the browser page to see the current list of generated articles."
 msgstr "Идет процесс генерации статей, информация обновляется автоматически. Если этого не происходит, обновите страницу браузера, чтобы увидеть актуальный список сгенерированных статей."
 
@@ -967,7 +987,7 @@ msgid "Buy extra credits"
 msgstr "Купить лимиты пакетами"
 
 #: tpl/options.php
-msgid "Autofill"
+msgid "Auto-renewal"
 msgstr "Автопополнение"
 
 #: tpl/options.php
@@ -985,6 +1005,22 @@ msgstr "Активировать"
 #: tpl/options.php
 msgid "Pause"
 msgstr "Приостановить"
+
+#: tpl/options.php
+msgid "The author under whose name articles will be published"
+msgstr "Автор от которого будут публиковаться статьи"
+
+#: tpl/options.php
+msgid "No author"
+msgstr "Без автора"
+
+#: tpl/options.php
+msgid "or by e-mail: support@aiwpw.com"
+msgstr "или на e-mail: info@aiwpwriter.com"
+
+#: tpl/options.php
+msgid "support@aiwpw.com"
+msgstr "info@aiwpwriter.com"
 
 #: tpl/worckspace.php
 msgid "Enter a topic..."

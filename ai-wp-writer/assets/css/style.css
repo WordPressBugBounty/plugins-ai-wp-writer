@@ -88,8 +88,6 @@ input.aiassist-error{
 
 #aiassist-desc-prom,
 #aiassist-title-prom,
-#aiassist-title-prom-multi,
-#aiassist-desc-prom-multi,
 #aiassist-content-prom,
 #aiassist-structure-prom,
 #aiassist-article-prom-long-keywords{
@@ -101,6 +99,25 @@ input.aiassist-error{
 	outline: none;
 	text-align: center;
 	border-bottom: solid 1px #ccc;
+}
+
+#aiassist-desc-prom-multi,
+#aiassist-title-prom-multi,
+#aiassist-desc-prom-rewrite,
+#aiassist-title-prom-rewrite,
+#aiassist-header-prom-rewrite{
+	width: 100%;
+	margin: auto;
+	height: 35px;
+	border: none;
+	outline: none;
+	padding: 0 6px;
+	border-bottom: solid 1px #ccc;
+}
+
+.aiassist-tab-data[data-tab="rewrite"] .aiassist-option-item,
+.aiassist-tab-data[data-tab="generations"] .aiassist-option-item{
+	margin: 20px 20px 20px 0px;
 }
 
 #aiassist-article-prom-long-keywords{
@@ -358,7 +375,7 @@ input.aiassist-error{
 }
 
 .wpai-telegram{
-	width: 355px;
+	width: 420px;
 	height: 120px;
 	border-radius: 3px;
 	position: relative;
@@ -414,6 +431,11 @@ input.aiassist-error{
 	bottom: 44px;
 	text-align: center;
 	position: relative;
+}
+
+.help-block a{
+	color: #42b3d5;
+	font-size: 18px;
 }
 
 .wpai-form{
@@ -1796,10 +1818,6 @@ button[name="save"]{
 	.mb-15{
 		margin-bottom: 15px;
 	}
-	
-	.cat-rewrite{
-		width: 313px;
-	}
 
 	.aiassist-images-type-label,
 	.aiassist-rewrite-type-label{
@@ -1920,6 +1938,26 @@ button[name="save"]{
 		position: relative;
 		background: url(../images/creem.png) no-repeat;
 		right: 0px;
+	}
+
+
+	#cat-rewrite{
+		width: 350px;
+		background: #fff;
+		padding: 10px 0;
+		max-height: 100px;
+		overflow: auto;
+		border: solid 1px #8c8f94;
+	}
+	
+	.cat-rewrite-option{
+		display: block;
+		padding: 4px 15px;
+	}
+	
+	.cat-rewrite-option:hover{
+		cursor: pointer;
+		background: #f7f7f7;
 	}
 
 
@@ -2135,6 +2173,17 @@ button[name="save"]{
 
 .aiassist-multi-item.selected{
 	box-shadow: 0px 0px 1px 1px rgba(66, 179, 213, 0.9);
+}
+
+.aiassist-multi-author-wrap{	
+	position: relative;
+	margin: 30px 0px 10px 0px;
+}
+
+.aiassist-multi-author{
+	top: -20px;
+	left: 2px;
+	position: absolute;
 }
 
 /* selection box end */

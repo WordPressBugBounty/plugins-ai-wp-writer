@@ -26,6 +26,7 @@
 				<div class="help-block">
 					<div id="wpai-title"><?php echo wp_kses_post( __('Need help?', 'wp-ai-assistant') ) ?></div>
 					<div onclick="window.open('https://t.me/wpwriter', '_blank')" id="telegram"><?php echo wp_kses_post( __('Our support on Telegram', 'wp-ai-assistant') ) ?></div>
+					<a href="mailto:<?php echo esc_attr( __('support@aiwpw.com', 'wp-ai-assistant') )?>"><?php echo wp_kses_post( __('or by e-mail: support@aiwpw.com', 'wp-ai-assistant') ) ?></a>
 				</div>
 			</div>
 		</div>
@@ -35,8 +36,8 @@
 		<div class="aiassist-tab active" data-tab="settings"><?php echo wp_kses_post( __('Settings', 'wp-ai-assistant') ) ?></div>
 		<div class="aiassist-tab <?php echo ! esc_attr( @$this->options->token ) ? 'aiassist-tab-inactive' : ''?>" data-tab="rates"><?php echo wp_kses_post( __('Payment & Pricing', 'wp-ai-assistant') ) ?></div>
 		<div class="aiassist-tab <?php echo ! esc_attr( @$this->options->token ) ? 'aiassist-tab-inactive' : ''?>" data-tab="generations"><?php echo wp_kses_post( __('Bulk generation', 'wp-ai-assistant') ) ?></div>
-		<div class="aiassist-tab <?php echo ! esc_attr( @$this->options->token ) ? 'aiassist-tab-inactive' : ''?> <?php echo ! @$this->info->subscribe->expire ? 'aiassist-lock' : ''?>" data-tab="rewrite"><?php echo wp_kses_post( __('Rewrite and translation', 'wp-ai-assistant') ) ?></div>
-		<div class="aiassist-tab <?php echo ! esc_attr( @$this->options->token ) ? 'aiassist-tab-inactive' : ''?> <?php echo ! @$this->info->subscribe->expire ? 'aiassist-lock' : ''?>" data-tab="images"><?php echo wp_kses_post( __('Making images unique', 'wp-ai-assistant') ) ?></div>
+		<div class="aiassist-tab <?php echo ! esc_attr( @$this->options->token ) ? 'aiassist-tab-inactive' : ''?> <?php echo ! @$this->info->subscribe->expire && ! $this->info->trial ? 'aiassist-lock' : ''?>" data-tab="rewrite"><?php echo wp_kses_post( __('Rewrite and translation', 'wp-ai-assistant') ) ?></div>
+		<div class="aiassist-tab <?php echo ! esc_attr( @$this->options->token ) ? 'aiassist-tab-inactive' : ''?> <?php echo ! @$this->info->subscribe->expire && ! $this->info->trial ? 'aiassist-lock' : ''?>" data-tab="images"><?php echo wp_kses_post( __('Making images unique', 'wp-ai-assistant') ) ?></div>
 		<div class="aiassist-tab <?php echo ! esc_attr( @$this->options->token ) ? 'aiassist-tab-inactive' : ''?>" data-tab="guide"><?php echo wp_kses_post( __('Generation in editor', 'wp-ai-assistant') ) ?></div>
 		<div class="aiassist-tab <?php echo ! esc_attr( @$this->options->token ) ? 'aiassist-tab-inactive' : ''?>" data-tab="referrals"><?php echo wp_kses_post( __('Affiliate Program', 'wp-ai-assistant') ) ?></div>
 	</div>
@@ -173,26 +174,56 @@
 		
 		<div>
 			<div><?php echo wp_kses_post( __('Image generation model', 'wp-ai-assistant') ) ?></div>
-			<select name="aiassist-image-model" class="aiassist-images-options" id="aiassist-images-model">
-				<?php if( @$this->info->labels->img_model_4_on ){ ?>
-					<option value="flux" <?php echo @$images['imageModel'] == 'flux' ? 'selected' : '' ?>><?php echo esc_html( $this->info->labels->img_model_4 )?></option>
-				<?php } ?>
-				<?php if( @$this->info->labels->img_model_2_on ){ ?>
-					<option value="dalle" <?php echo @$images['imageModel'] == 'dalle' ? 'selected' : '' ?>><?php echo esc_html( $this->info->labels->img_model_2 )?></option>
-				<?php } ?>
-				<?php if( @$this->info->labels->img_model_3_on ){ ?>
-					<option value="gptImage" <?php echo @$images['imageModel'] == 'gptImage' ? 'selected' : '' ?>><?php echo esc_html( $this->info->labels->img_model_3)?></option>
-				<?php } ?>
-				<?php if( @$this->info->labels->img_model_5_on ){ ?>
-					<option value="gptMini" <?php echo @$images['imageModel'] == 'gptMini' ? 'selected' : '' ?>><?php echo esc_html( $this->info->labels->img_model_5 )?></option>
-				<?php } ?>
-				<?php if( @$this->info->labels->img_model_6_on ){ ?>
-					<option value="banana" <?php echo @$images['imageModel'] == 'banana' ? 'selected' : '' ?>><?php echo esc_html( $this->info->labels->img_model_6 )?></option>
-				<?php } ?>
-				<?php if( @$this->info->labels->img_model_1_on ){ ?>
-					<option value="midjourney" <?php echo @$images['imageModel'] == 'midjourney' ? 'selected' : '' ?>><?php echo esc_html( $this->info->labels->img_model_1 )?></option>
-				<?php } ?>
-			</select>
+			<div class="aiassist-select-wrap">
+				<?php
+					if( @$this->info->labels->img_model_6_on ){
+						$model = 'banana';
+						$label = $this->info->labels->img_model_6;
+					}
+					if( @$this->info->labels->img_model_5_on ){
+						$model = 'gptMini';
+						$label = $this->info->labels->img_model_5;
+					}
+					if( @$this->info->labels->img_model_3_on ){
+						$model = 'gptImage';
+						$label = $this->info->labels->img_model_3;
+					}
+					if( @$this->info->labels->img_model_2_on ){
+						$model = 'dalle';
+						$label = $this->info->labels->img_model_2;
+					}
+					if( @$this->info->labels->img_model_1_on ){
+						$model = 'midjourney';
+						$label = $this->info->labels->img_model_1;
+					}
+					if( @$this->info->labels->img_model_4_on ){
+						$model = 'flux';
+						$label = $this->info->labels->img_model_4;
+					}
+				?>
+				<div class="aiassist-select-lable"><?php echo esc_html( $label )?></div>
+				<div class="aiassist-select aiassist-image-model-auto">	
+					<?php if( @$this->info->labels->img_model_4_on ){ ?>
+						<div class="aiassist-option" data-value="flux"><?php echo esc_html( $this->info->labels->img_model_4 )?></div>
+					<?php } ?>
+					<?php if( @$this->info->labels->img_model_1_on ){ ?>
+						<div class="aiassist-option <?php echo ! @$this->info->subscribe->expire ? 'aiassist-lock' : ''?>" data-value="midjourney"><?php echo esc_html( $this->info->labels->img_model_1 )?></div>
+					<?php } ?>
+					<?php if( @$this->info->labels->img_model_2_on ){ ?>
+						<div class="aiassist-option <?php echo ! @$this->info->subscribe->expire ? 'aiassist-lock' : ''?>" data-value="dalle"><?php echo esc_html( $this->info->labels->img_model_2 )?></div>
+					<?php } ?>
+					<?php if( @$this->info->labels->img_model_5_on ){ ?>
+						<div class="aiassist-option" data-value="gptMini"><?php echo esc_html( $this->info->labels->img_model_5 )?></div>
+					<?php } ?>
+					<?php if( @$this->info->labels->img_model_6_on ){ ?>
+						<div class="aiassist-option <?php echo ! @$this->info->subscribe->expire ? 'aiassist-lock' : ''?>" data-value="banana"><?php echo esc_html( $this->info->labels->img_model_6 )?></div>
+					<?php } ?>
+					<?php if( @$this->info->labels->img_model_3_on ){ ?>
+						<div class="aiassist-option <?php echo ! @$this->info->subscribe->expire ? 'aiassist-lock' : ''?>" data-value="gptImage"><?php echo esc_html( $this->info->labels->img_model_3 )?></div>
+					<?php } ?>
+					<input type="hidden" name="aiassist-image-model" class="aiassist-images-options" id="aiassist-images-model" value="<?php echo esc_attr( $model ) ?>" />
+				</div>
+			</div>
 		</div>
 		
 		<br />
@@ -315,6 +346,7 @@
 		
 			<div class="center"><?php echo wp_kses_post( __('You can rewrite your entire site, individual pages, categories. You can also rewrite pages of third-party sites using URL. We try to maintain the highest quality of rewritten third-party sites. Please note that third-party sites have different markup, layout and structure, that’s why unwanted elements can occur in a rewritten article. We recommend you to rewrite a few pages first, for testing. If you find unwanted elements in your articles, feel free to contact our support team. For Active Users of the plugin, we are ready to customize it for rewriting specific third-party sites.', 'wp-ai-assistant') ) ?><br /></div>
 			
+			
 			<div><?php echo wp_kses_post( __('Rewrite mode', 'wp-ai-assistant') ) ?></div>
 			<select name="rewrite-split" id="aiassist-rewrite-split" class="aiassist-rewrite-options">
 				<option value="3" <?php echo esc_attr( @$rewrites['split'] == 3 ? 'selected' : '' )?>><?php echo wp_kses_post( __('Rewrite the entire text', 'wp-ai-assistant') ) ?></option>
@@ -326,15 +358,15 @@
 			
 			<div>
 				<div><?php echo wp_kses_post( __('Rewriting category', 'wp-ai-assistant') ) ?></div>
-				<select class="cat-rewrite">
-					<option value="0"><?php echo wp_kses_post( __('Category', 'wp-ai-assistant') ) ?></option>
+				<div id="cat-rewrite">
 					<?php if( $cats ){ ?>
 						<?php foreach( $cats as $cat ){ ?>
-							<option value="<?php echo esc_attr( $cat->term_id )?>"><?php echo esc_html( $cat->name )?></option>
+							<label class="cat-rewrite-option"><input type="checkbox" value="<?php echo esc_attr( $cat->term_id )?>" /><?php echo esc_html( $cat->name )?></label>
 						<?php } ?>
 					<?php } ?>
-				</select>
+				</div>
 			</div>
+			
 			
 			<div class="aiassist-rewrite-type-label"><?php echo wp_kses_post( __('Specify the types of posts that need to be rewritten:', 'wp-ai-assistant') ) ?></div>
 			
@@ -374,8 +406,6 @@
 			<button id="aiassist-addItemRewrite"><?php echo wp_kses_post( __('Add another list of URLs for another category', 'wp-ai-assistant') ) ?></button>
 		</div>
 		
-		<div class="aiassist-option-item"><?php echo wp_kses_post( __('Prompt for article rewriting. This prompt will be used to rewrite headings, paragraphs, meta title and meta description.', 'wp-ai-assistant') ) ?></div>
-		
 		<br /><br /><br />
 		<div class="relative">
 			<button type="button" class="aiassist-set-default-promts"><?php echo wp_kses_post( __('Restore the default prompt.', 'wp-ai-assistant') ) ?></button>
@@ -389,19 +419,39 @@
 					<select class="aiassist-lang-promts">
 						<?php foreach( $this->info->promts->lang as $k => $lang ){ ?>
 							<?php
-								if( @$this->steps['promts']['rewrite_lang'] == $k )
+								if( isset( $this->steps['promts']['rewrite_lang'] ) && (int) $this->steps['promts']['rewrite_lang'] === $k )
 									$lang_id = (int) $k;
 							?>
 						
-							<option value="<?php echo (int) $k ?>" <?php echo @$this->steps['promts']['rewrite_lang'] == $k ? 'selected' : '' ?> ><?php echo esc_html( $lang ) ?></option>
+							<option value="<?php echo (int) $k ?>" <?php echo @$lang_id === $k ? 'selected' : '' ?> ><?php echo esc_html( $lang ) ?></option>
 						<?php } ?>
 					</select>
 				</div>
 			</div>
 		<?php } ?>
 		
-		<textarea class="aiassist-prom" id="aiassist-rewrite-prom"><?php echo esc_textarea( isset( $this->steps['promts']['rewrite'][ $lang_id ] ) ? trim( $this->steps['promts']['rewrite'][ $lang_id ] ) : @$this->info->promts->rewrite[ $lang_id ] )?></textarea>
-		
+		<div>
+			<?php echo wp_kses_post( __('Prompt for rewriting the H1 heading:', 'wp-ai-assistant') ) ?> 			
+			<div>
+				<input id="aiassist-header-prom-rewrite" class="aiassist-prom" value="<?php echo esc_attr( @$this->steps['promts']['rewrite_header'][ $lang_id ] ? $this->steps['promts']['rewrite_header'][ $lang_id ] : @$this->info->promts->rewrite_header[ $lang_id ] ) ?>" />
+			</div><br />
+			
+			<?php echo wp_kses_post( __('Prompt for rewriting the main text:', 'wp-ai-assistant') ) ?> 
+			<textarea class="aiassist-prom" id="aiassist-rewrite-prom"><?php echo esc_textarea( isset( $this->steps['promts']['rewrite'][ $lang_id ] ) ? trim( $this->steps['promts']['rewrite'][ $lang_id ] ) : @$this->info->promts->rewrite[ $lang_id ] )?></textarea>
+			<br /><br />
+			
+			<div>
+				<?php echo wp_kses_post( __('Prompt for rewriting a meta title:', 'wp-ai-assistant') ) ?> 
+				<div>
+					<input id="aiassist-title-prom-rewrite" class="aiassist-prom" value="<?php echo esc_attr( @$this->steps['promts']['rewrite_title'][ $lang_id ] ? $this->steps['promts']['rewrite_title'][ $lang_id ] : @$this->info->promts->rewrite_title[ $lang_id ] ) ?>" />
+				</div><br />
+				
+				<?php echo wp_kses_post( __('Prompt for rewriting the meta description:', 'wp-ai-assistant') ) ?> 
+				<div>
+					<input id="aiassist-desc-prom-rewrite" class="aiassist-prom" value="<?php echo esc_attr( @$this->steps['promts']['rewrite_desc'][ $lang_id ] ? $this->steps['promts']['rewrite_desc'][ $lang_id ] : @$this->info->promts->rewrite_desc[ $lang_id ] ); ?>" />
+				</div><br />
+			</div>
+		</div>
 		
 		<div class="aiassist-option-item">
 			<label class="aiassist-option-item">
@@ -449,46 +499,115 @@
 			
 			<div>
 				<div><?php echo wp_kses_post( __('Text generation model', 'wp-ai-assistant') ) ?></div>
-				<select name="aiassist-text-model" class="aiassist-rewrite-options" id="aiassist-rewrite-text-model">
-					<?php if( @$this->info->labels->text_model_1_on ){ ?>
-						<option value="gpt3" <?php echo @$rewrites['textModel'] == 'gpt3' ? 'selected' : '' ?>><?php echo esc_html( @$this->info->labels->text_model_1 )?></option>
-					<?php } ?>
-					<?php if( @$this->info->labels->text_model_2_on ){ ?>
-						<option value="gpt4" <?php echo @$rewrites['textModel'] == 'gpt4' ? 'selected' : '' ?>><?php echo esc_html( @$this->info->labels->text_model_2 )?></option>
-					<?php } ?>
-					<?php if( @$this->info->labels->text_model_3_on ){ ?>
-						<option value="gpt4_nano" <?php echo @$rewrites['textModel'] == 'gpt4_nano' ? 'selected' : '' ?>><?php echo esc_html( @$this->info->labels->text_model_3 )?></option>
-					<?php } ?>
-					<?php if( @$this->info->labels->text_model_4_on ){ ?>
-						<option value="gpt_o3_mini" <?php echo @$rewrites['textModel'] == 'gpt_o3_mini' ? 'selected' : '' ?>><?php echo esc_html( @$this->info->labels->text_model_4 )?></option>
-					<?php } ?>
-				</select>
-				<a href="<?php echo get_locale() == 'ru_RU' ? 'https://aiwpwriter.com/prices/' : 'https://aiwpw.com/prices/ ' ?>" target="_blank" class="aiassist-small"><?php echo wp_kses_post( __('View rates', 'wp-ai-assistant') ) ?></a>
+				<div class="aiassist-select-wrap">
+					<?php
+						if( @$this->info->labels->text_model_4_on ){
+							$model = 'gpt_o3_mini';
+							$label = $this->info->labels->text_model_4;
+						}
+						
+						if( @$this->info->labels->text_model_3_on ){
+							$model = 'gpt4_nano';
+							$label = $this->info->labels->text_model_3;
+						}
+						
+						if( @$this->info->labels->text_model_2_on ){
+							$model = 'gpt4';
+							$label = $this->info->labels->text_model_2;
+						}
+						
+						if( @$this->info->labels->text_model_1_on ){
+							$model = 'gpt3';
+							$label = $this->info->labels->text_model_1;
+						}
+					?>
+					<div class="aiassist-select-lable"><?php echo esc_html( $label )?></div>
+					<div class="aiassist-select">	
+						<?php if( @$this->info->labels->text_model_1_on ){ ?>
+							<div class="aiassist-option" data-value="gpt3"><?php echo esc_html( $this->info->labels->text_model_1 )?></div>
+						<?php } ?>
+						<?php if( @$this->info->labels->text_model_2_on ){ ?>
+							<div class="aiassist-option <?php echo ! @$this->info->subscribe->expire ? 'aiassist-lock' : ''?>" data-value="gpt4"><?php echo esc_html( $this->info->labels->text_model_2 )?></div>
+						<?php } ?>
+						<?php if( @$this->info->labels->text_model_3_on ){ ?>
+							<div class="aiassist-option" data-value="gpt4_nano"><?php echo esc_html( $this->info->labels->text_model_3 )?></div>
+						<?php } ?>
+						<?php if( @$this->info->labels->text_model_4_on ){ ?>
+							<div class="aiassist-option <?php echo ! @$this->info->subscribe->expire ? 'aiassist-lock' : ''?>" data-value="gpt_o3_mini"><?php echo esc_html( $this->info->labels->text_model_4 )?></div>
+						<?php } ?>
+						<input type="hidden" name="aiassist-text-model" class="aiassist-rewrite-options" id="aiassist-rewrite-text-model" value="<?php echo $model ?>" />
+					</div>
+				</div>
+				
+				<a href="<?php echo get_locale() == 'ru_RU' ? 'https://aiwpwriter.com/prices/' : 'https://aiwpw.com/prices/ ' ?>" target="_blank" class="aiassist-small"><?php echo wp_kses_post( __('Prices', 'wp-ai-assistant') ) ?></a>
 			</div>
 			
 			<div>
 				<div><?php echo wp_kses_post( __('Image generation model', 'wp-ai-assistant') ) ?></div>
-				<select name="aiassist-image-model" class="aiassist-rewrite-options" id="aiassist-rewrite-image-model">
-					<?php if( @$this->info->labels->img_model_4_on ){ ?>
-						<option value="flux" <?php echo @$rewrites['imageModel'] == 'flux' ? 'selected' : '' ?>><?php echo esc_html( @$this->info->labels->img_model_4 )?></option>
-					<?php } ?>
-					<?php if( @$this->info->labels->img_model_2_on ){ ?>
-						<option value="dalle" <?php echo @$rewrites['imageModel'] == 'dalle' ? 'selected' : '' ?>><?php echo esc_html( @$this->info->labels->img_model_2 )?></option>
-					<?php } ?>
-					<?php if( @$this->info->labels->img_model_3_on ){ ?>
-						<option value="gptImage" <?php echo @$rewrites['imageModel'] == 'gptImage' ? 'selected' : '' ?>><?php echo esc_html( @$this->info->labels->img_model_3 )?></option>
-					<?php } ?>
-					<?php if( @$this->info->labels->img_model_5_on ){ ?>
-						<option value="gptMini" <?php echo @$rewrites['imageModel'] == 'gptMini' ? 'selected' : '' ?>><?php echo esc_html( @$this->info->labels->img_model_5 )?></option>
-					<?php } ?>
-					<?php if( @$this->info->labels->img_model_6_on ){ ?>
-						<option value="banana" <?php echo @$rewrites['imageModel'] == 'banana' ? 'selected' : '' ?>><?php echo esc_html( @$this->info->labels->img_model_6 )?></option>
-					<?php } ?>
-					<?php if( @$this->info->labels->img_model_1_on ){ ?>
-						<option value="midjourney" <?php echo @$rewrites['imageModel'] == 'midjourney' ? 'selected' : '' ?>><?php echo esc_html( @$this->info->labels->img_model_1 )?></option>
-					<?php } ?>
-				</select>
+				<div class="aiassist-select-wrap">
+					<?php
+						if( @$this->info->labels->img_model_6_on ){
+							$model = 'banana';
+							$label = $this->info->labels->img_model_6;
+						}
+						if( @$this->info->labels->img_model_5_on ){
+							$model = 'gptMini';
+							$label = $this->info->labels->img_model_5;
+						}
+						if( @$this->info->labels->img_model_3_on ){
+							$model = 'gptImage';
+							$label = $this->info->labels->img_model_3;
+						}
+						if( @$this->info->labels->img_model_2_on ){
+							$model = 'dalle';
+							$label = $this->info->labels->img_model_2;
+						}
+						if( @$this->info->labels->img_model_1_on ){
+							$model = 'midjourney';
+							$label = $this->info->labels->img_model_1;
+						}
+						if( @$this->info->labels->img_model_4_on ){
+							$model = 'flux';
+							$label = $this->info->labels->img_model_4;
+						}
+					?>
+					<div class="aiassist-select-lable"><?php echo esc_html( $label )?></div>
+					<div class="aiassist-select aiassist-image-model-auto">	
+						<?php if( @$this->info->labels->img_model_4_on ){ ?>
+							<div class="aiassist-option" data-value="flux"><?php echo esc_html( $this->info->labels->img_model_4 )?></div>
+						<?php } ?>
+						<?php if( @$this->info->labels->img_model_1_on ){ ?>
+							<div class="aiassist-option <?php echo ! @$this->info->subscribe->expire ? 'aiassist-lock' : ''?>" data-value="midjourney"><?php echo esc_html( $this->info->labels->img_model_1 )?></div>
+						<?php } ?>
+						<?php if( @$this->info->labels->img_model_2_on ){ ?>
+							<div class="aiassist-option <?php echo ! @$this->info->subscribe->expire ? 'aiassist-lock' : ''?>" data-value="dalle"><?php echo esc_html( $this->info->labels->img_model_2 )?></div>
+						<?php } ?>
+						<?php if( @$this->info->labels->img_model_5_on ){ ?>
+							<div class="aiassist-option" data-value="gptMini"><?php echo esc_html( $this->info->labels->img_model_5 )?></div>
+						<?php } ?>
+						<?php if( @$this->info->labels->img_model_6_on ){ ?>
+							<div class="aiassist-option <?php echo ! @$this->info->subscribe->expire ? 'aiassist-lock' : ''?>" data-value="banana"><?php echo esc_html( $this->info->labels->img_model_6 )?></div>
+						<?php } ?>
+						<?php if( @$this->info->labels->img_model_3_on ){ ?>
+							<div class="aiassist-option <?php echo ! @$this->info->subscribe->expire ? 'aiassist-lock' : ''?>" data-value="gptImage"><?php echo esc_html( $this->info->labels->img_model_3 )?></div>
+						<?php } ?>
+						<input type="hidden" name="aiassist-image-model" class="aiassist-rewrite-options" id="aiassist-rewrite-image-model" value="<?php echo esc_attr( $model ) ?>" />
+					</div>
+				</div>
 			</div>
+			
+			
+			<br />
+			<div><?php echo wp_kses_post( __('The author under whose name articles will be published', 'wp-ai-assistant') ) ?></div>
+			<select name="rewrite_author" id="aiassist_rewrite_author" class="aiassist-rewrite-options">
+				<option value="0"><?php echo wp_kses_post( __('No author', 'wp-ai-assistant') ) ?></option>
+				<?php if( $users ){ ?>
+					<?php foreach ( $users as $user ) { ?>
+						<?php printf( '<option value="%d" %s>%s (%s)</option>', $user->ID, ( $user->ID == $rewrites['author'] ? 'selected' : '' ), esc_html( $user->display_name ), esc_html( $user->user_email ) ); ?>
+					<?php } ?>
+				<?php } ?>
+			</select>
+			
 			
 		</div>
 		
@@ -846,7 +965,7 @@
 							<button type="button" class="aiassist-buy" data-type="subscribe_<?php echo esc_attr( @$this->info->subscribe->type ) ?>"><?php echo wp_kses_post( __('Renew subscription', 'wp-ai-assistant') ) ?></button>
 							
 							<div class="aiassist-recurring">
-								<div class="aiassist-recurring-status"><?php echo wp_kses_post( __('Autofill', 'wp-ai-assistant') ) ?> - <span id="aiassist-recurring-status" class="<?php echo ! @$this->info->recurring ? 'inactive' : '' ?>"><?php @$this->info->recurring ? wp_kses_post( __('active', 'wp-ai-assistant') ) : wp_kses_post( __('inactive', 'wp-ai-assistant') ) ?></span></div>									
+								<div class="aiassist-recurring-status"><?php echo wp_kses_post( __('Auto-renewall', 'wp-ai-assistant') ) ?> - <span id="aiassist-recurring-status" class="<?php echo ! @$this->info->recurring ? 'inactive' : '' ?>"><?php @$this->info->recurring ? wp_kses_post( __('active', 'wp-ai-assistant') ) : wp_kses_post( __('inactive', 'wp-ai-assistant') ) ?></span></div>									
 								
 								<?php if( @$this->info->recurring ){ ?>
 									<button class="aiassist-recurring-pause"><?php echo wp_kses_post( __('Pause', 'wp-ai-assistant') ) ?></button>
@@ -1066,11 +1185,11 @@
 					<select class="aiassist-lang-promts">
 						<?php foreach( $this->info->promts->lang as $k => $lang ){ ?>
 							<?php
-								if( @$this->steps['promts']['multi_lang'] == $k )
+								if( isset( $this->steps['promts']['multi_lang'] ) && (int) $this->steps['promts']['multi_lang'] === $k )
 									$lang_id = (int) $k;
 							?>
 						
-							<option value="<?php echo (int) $k ?>" <?php echo @$this->steps['promts']['multi_lang'] == $k ? 'selected' : '' ?> ><?php echo esc_html( $lang ) ?></option>
+							<option value="<?php echo (int) $k ?>" <?php echo @$lang_id === $k ? 'selected' : '' ?> ><?php echo esc_html( $lang ) ?></option>
 						<?php } ?>
 					</select>
 				</div>
@@ -1088,22 +1207,26 @@
 			<textarea class="aiassist-prom aiassist-keywords-area" id="aiassist-generation-prom-keywords"><?php echo $promt ?></textarea>
 		</div>
 		
-		<div class="aiassist-option-item">
-			<div>
-				<?php $promt = esc_attr( @$this->steps['promts']['multi_title'][ $lang_id ] ? $this->steps['promts']['multi_title'][ $lang_id ] : @$this->info->promts->multi_title[ $lang_id ] )?>
-				<?php echo wp_kses_post( __('Promt:', 'wp-ai-assistant') ) ?> <input id="aiassist-title-prom-multi" class="aiassist-prom" data-check="{key}" value="<?php echo $promt ?>" />
-				<?php if( strpos( $promt, '{key}') === false ){ ?>
-					<div class="aiassist-check-key"><?php echo wp_kses_post( __('There is no variable {key} (or {header}) in your prompt. Add it in the place where the key word should be. If you generate an article without the variable, the text won’t be relevant to your topic.', 'wp-ai-assistant') ) ?></div>
-				<?php } ?>
-			</div>
-			
-			<div>
-				<?php $promt = esc_attr( @$this->steps['promts']['multi_desc'][ $lang_id ] ? $this->steps['promts']['multi_desc'][ $lang_id ] : @$this->info->promts->multi_desc[ $lang_id ] ); ?>
-				<?php echo wp_kses_post( __('Promt:', 'wp-ai-assistant') ) ?> <input id="aiassist-desc-prom-multi" class="aiassist-prom" data-check="{key}" value="<?php echo $promt ?>" />
-				<?php if( strpos( $promt, '{key}') === false ){ ?>
-					<div class="aiassist-check-key"><?php echo wp_kses_post( __('There is no variable {key} (or {header}) in your prompt. Add it in the place where the key word should be. If you generate an article without the variable, the text won’t be relevant to your topic.', 'wp-ai-assistant') ) ?></div>
-				<?php } ?>
-			</div>
+		<div>
+			<br />
+				<div>
+					<?php $promt = esc_attr( @$this->steps['promts']['multi_title'][ $lang_id ] ? $this->steps['promts']['multi_title'][ $lang_id ] : @$this->info->promts->multi_title[ $lang_id ] )?>
+					<div><?php echo wp_kses_post( __('Prompt for generating the meta title:', 'wp-ai-assistant') ) ?></div>
+					<div><input id="aiassist-title-prom-multi" class="aiassist-prom" data-check="{key}" value="<?php echo $promt ?>" /></div>
+					<?php if( strpos( $promt, '{key}') === false ){ ?>
+						<div class="aiassist-check-key"><?php echo wp_kses_post( __('There is no variable {key} (or {header}) in your prompt. Add it in the place where the key word should be. If you generate an article without the variable, the text won’t be relevant to your topic.', 'wp-ai-assistant') ) ?></div>
+					<?php } ?>
+				</div>
+			<br />
+				<div>
+					<?php $promt = esc_attr( @$this->steps['promts']['multi_desc'][ $lang_id ] ? $this->steps['promts']['multi_desc'][ $lang_id ] : @$this->info->promts->multi_desc[ $lang_id ] ); ?>
+					<div><?php echo wp_kses_post( __('Prompt for generating the meta description:', 'wp-ai-assistant') ) ?></div>
+					<div><input id="aiassist-desc-prom-multi" class="aiassist-prom" data-check="{key}" value="<?php echo $promt ?>" /></div>
+					<?php if( strpos( $promt, '{key}') === false ){ ?>
+						<div class="aiassist-check-key"><?php echo wp_kses_post( __('There is no variable {key} (or {header}) in your prompt. Add it in the place where the key word should be. If you generate an article without the variable, the text won’t be relevant to your topic.', 'wp-ai-assistant') ) ?></div>
+					<?php } ?>
+				</div>
+			<br />
 		</div>
 		
 		<div class="aiassist-option-item">
@@ -1244,7 +1367,17 @@
 				</div>
 			</div>
 			
-			
+			<div class="aiassist-multi-author-wrap">
+				<div class="aiassist-multi-author"><?php echo wp_kses_post( __('The author under whose name articles will be published', 'wp-ai-assistant') ) ?></div>
+				<select name="multi_author" id="aiassist_multi_author" class="aiassist-auto-options">
+					<option value="0"><?php echo wp_kses_post( __('No author', 'wp-ai-assistant') ) ?></option>
+					<?php if( $users ){ ?>
+						<?php foreach ( $users as $user ) { ?>
+							<?php printf( '<option value="%d" %s>%s (%s)</option>', $user->ID, ( $user->ID == $autoGen['author'] ? 'selected' : '' ), esc_html( $user->display_name ), esc_html( $user->user_email ) ); ?>
+						<?php } ?>
+					<?php } ?>
+				</select>
+			</div>
 			
 			<br />
 			<div><?php echo wp_kses_post( __('<b>Important!</b> To make generation work faster in the background, the option to send requests from the plugin server to the site must be enabled in the <b>Settings</b> tab.', 'wp-ai-assistant') ) ?></div>
