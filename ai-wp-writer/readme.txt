@@ -1,10 +1,10 @@
 === AI WP Writer – AI content generation, SEO-articles, rewriting ===
-Contributors: AIpost
+Contributors: aipost
 Tags: AI, generator, articles, content, image
 Requires at least: 6.0
 Tested up to: 6.9
 Requires PHP: 5.6.0
-Stable tag: 4.3.8.4
+Stable tag: 4.3.8.6
 License: GPLv3
 License URI: https://www.gnu.org/licenses/gpl-3.0.html
 

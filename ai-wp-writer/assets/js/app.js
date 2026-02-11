@@ -2173,7 +2173,7 @@ jQuery( document ).ready(function($){
 		},
 		
 		xhr: ( args = {}, url = false, timeout = 120000 ) => {
-			return new Promise( resolve =>  $.ajax({ url: url || aiassist.ajaxurl, type: 'POST', data: args, timeout: timeout, dataType: 'json', success: data => resolve( data ), error: error => resolve( true ) }) )
+			return new Promise( resolve =>  $.ajax({ url: ( url || aiassist.ajaxurl ) +'?_='+ Date.now(), type: 'POST', data: args, timeout: timeout, dataType: 'json', cache: false, success: data => resolve( data ), error: error => resolve( true ) }) )
 		}
 
 	}

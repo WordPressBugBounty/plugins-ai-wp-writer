@@ -588,7 +588,7 @@ class AIASIST{
 			if( $data['counter'][ $key ] > $data['publishInDay'] )
 				return $data;
 			
-			$lang_id = 0;
+			$lang_id = $this->getDefaultLangId();
 			$break = false;
 			$data['publish'] = 0;
 			
@@ -732,6 +732,8 @@ class AIASIST{
 		$data['imageModel'] = sanitize_text_field( $_POST['imageModel'] );
 		$data['textModel'] = sanitize_text_field( $_POST['textModel'] );
 		update_option('aiArticlesAutoGenData', $data);
+		
+		wp_die( json_encode( $data ) );
 	}
 	
 	public function stopArticlesGen(){	
@@ -741,6 +743,8 @@ class AIASIST{
 		$data = get_option('aiArticlesAutoGenData');
 		$data['start'] = false;
 		update_option('aiArticlesAutoGenData', $data);
+		
+		wp_die( json_encode( $data ) );
 	}
 	
 	public function startArticlesGen(){
@@ -750,6 +754,8 @@ class AIASIST{
 		$data = get_option('aiArticlesAutoGenData');
 		$data['start'] = true;
 		update_option('aiArticlesAutoGenData', $data);
+		
+		wp_die( json_encode( $data ) );
 	}
 	
 	public function clearArticlesGen(){
@@ -787,6 +793,8 @@ class AIASIST{
 			$data['textModel'] = sanitize_text_field( $args['textModel'] );
 		
 		update_option('aiArticlesAutoGenData', $data);
+		
+		wp_die( json_encode( $data ) );
 	}
 	
 	public function initArticlesGen(){
@@ -856,6 +864,8 @@ class AIASIST{
 		$data['imageModel']		= sanitize_text_field( $_POST['imageModel'] );
 		$data['textModel']		= sanitize_text_field( $_POST['textModel'] );
 		update_option('aiRewritesData', $data);
+		
+		wp_die( json_encode( $data ) );
 	}
 
 	private function aiRewrite(){
@@ -869,7 +879,7 @@ class AIASIST{
 			if( $data['posts'] ){
 				$data['counter'] = 0;
 				
-				$lang_id = 0;
+				$lang_id = $this->getDefaultLangId();
 				$this->setInfo();
 				
 				if( isset( $this->steps['promts']['rewrite_lang'] ) )
@@ -1176,6 +1186,8 @@ class AIASIST{
 		$data = get_option('aiRewritesData');
 		$data['start'] = true;
 		update_option('aiRewritesData', $data);
+		
+		wp_die( json_encode( $data ) );
 	}
 	
 	public function stopRewrite(){	
@@ -1185,6 +1197,8 @@ class AIASIST{
 		$data = get_option('aiRewritesData');
 		$data['start'] = false;
 		update_option('aiRewritesData', $data);
+		
+		wp_die( json_encode( $data ) );
 	}
 	
 	public function clearRewrite(){
@@ -1228,6 +1242,8 @@ class AIASIST{
 			$data['textModel'] = sanitize_text_field( $args['textModel'] );
 		
 		update_option('aiRewritesData', $data);
+		
+		wp_die( json_encode( $data ) );
 	}
 	
 	private function updatePostMeta( $post_id, $title, $description ){
