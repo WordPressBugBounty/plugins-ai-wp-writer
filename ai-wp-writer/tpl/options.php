@@ -202,7 +202,7 @@
 					}
 				?>
 				<div class="aiassist-select-lable"><?php echo esc_html( $label )?></div>
-				<div class="aiassist-select aiassist-image-model-auto">	
+				<div class="aiassist-select aiassist-image-model-replace">	
 					<?php if( @$this->info->labels->img_model_4_on ){ ?>
 						<div class="aiassist-option" data-value="flux"><?php echo esc_html( $this->info->labels->img_model_4 )?></div>
 					<?php } ?>
@@ -224,6 +224,11 @@
 					<input type="hidden" name="aiassist-image-model" class="aiassist-images-options" id="aiassist-images-model" value="<?php echo esc_attr( $model ) ?>" />
 				</div>
 			</div>
+		</div>
+		
+		<div class="image-prompt-wrap">
+			<div class="aiassist-lable"><?php echo wp_kses_post( __("Additional prompt section for image generation. Here you can set the image style and other rules (in English). It's not required to enter anything; you can leave it at the default value.", 'wp-ai-assistant') ) ?></div>
+			<input type="text" class="aiassist-prom" id="aiassist-system-image-prompt-replace" value="<?php echo esc_attr( isset( $this->steps['promts']['img_replace'][ $this->getImageModelIndex( $model ) ] ) ? trim( $this->steps['promts']['img_replace'][ $this->getImageModelIndex( $model ) ] ) : @$this->info->promts->img_replace[ $this->getImageModelIndex( $model ) ] ) ?>" />
 		</div>
 		
 		<br />
@@ -540,7 +545,7 @@
 				</div>
 				
 				<a href="<?php echo get_locale() == 'ru_RU' ? 'https://aiwpwriter.com/prices/' : 'https://aiwpw.com/prices/ ' ?>" target="_blank" class="aiassist-small"><?php echo wp_kses_post( __('Prices', 'wp-ai-assistant') ) ?></a>
-			</div>
+			</div>	
 			
 			<div>
 				<div><?php echo wp_kses_post( __('Image generation model', 'wp-ai-assistant') ) ?></div>
@@ -572,7 +577,7 @@
 						}
 					?>
 					<div class="aiassist-select-lable"><?php echo esc_html( $label )?></div>
-					<div class="aiassist-select aiassist-image-model-auto">	
+					<div class="aiassist-select aiassist-image-model-rewrite">	
 						<?php if( @$this->info->labels->img_model_4_on ){ ?>
 							<div class="aiassist-option" data-value="flux"><?php echo esc_html( $this->info->labels->img_model_4 )?></div>
 						<?php } ?>
@@ -596,6 +601,10 @@
 				</div>
 			</div>
 			
+			<div class="image-prompt-wrap">
+				<div class="aiassist-lable"><?php echo wp_kses_post( __("Additional prompt section for image generation. Here you can set the image style and other rules (in English). It's not required to enter anything; you can leave it at the default value.", 'wp-ai-assistant') ) ?></div>
+				<input type="text" class="aiassist-prom" id="aiassist-system-image-prompt-rewrite" value="<?php echo esc_attr( isset( $this->steps['promts']['img_rewrite'][ $this->getImageModelIndex( $model ) ] ) ? trim( $this->steps['promts']['img_rewrite'][ $this->getImageModelIndex( $model ) ] ) : @$this->info->promts->img_rewrite[ $this->getImageModelIndex( $model ) ] ) ?>" />
+			</div>
 			
 			<br />
 			<div><?php echo wp_kses_post( __('The author under whose name articles will be published', 'wp-ai-assistant') ) ?></div>
@@ -766,7 +775,7 @@
 							<div class="aiassist-rate-price">
 								<span data-usdt="<?php echo (float) @$this->info->rates->subscribe_basic_rate_usdt ?>$">
 									<?php echo (float) @$this->info->rates->subscribe_basic_rate ?><?php echo wp_kses_post( __('$', 'wp-ai-assistant') ) ?>
-								</span> / 30 <?php echo wp_kses_post( __('days', 'wp-ai-assistant') ) ?>
+								</span> / <?php echo wp_kses_post( __('month', 'wp-ai-assistant') ) ?>
 							</div>
 							
 							<div class="aiassist-rate-info bg">
@@ -823,7 +832,7 @@
 							<div class="aiassist-rate-price">
 								<span data-usdt="<?php echo (float) @$this->info->rates->subscribe_pro_rate_usdt ?>$">
 									<?php echo (float) @$this->info->rates->subscribe_pro_rate ?><?php echo wp_kses_post( __('$', 'wp-ai-assistant') ) ?>
-								</span> / 30 <?php echo wp_kses_post( __('days', 'wp-ai-assistant') ) ?>
+								</span> / <?php echo wp_kses_post( __('month', 'wp-ai-assistant') ) ?>
 							</div>
 							
 							<div class="aiassist-rate-info bg">
@@ -879,7 +888,7 @@
 							<div class="aiassist-rate-price">
 								<span data-usdt="<?php echo (float) @$this->info->rates->subscribe_premium_rate_usdt ?>$">
 									<?php echo (float) @$this->info->rates->subscribe_premium_rate ?><?php echo wp_kses_post( __('$', 'wp-ai-assistant') ) ?>
-								</span> / 30 <?php echo wp_kses_post( __('days', 'wp-ai-assistant') ) ?>
+								</span> / <?php echo wp_kses_post( __('month', 'wp-ai-assistant') ) ?>
 							</div>
 							
 							<div class="aiassist-rate-info bg">
@@ -1099,7 +1108,7 @@
 					<div class="aiassist-rates-note-wrap">
 						<div class="aiassist-rate-note-title"><?php echo wp_kses_post( __('Do purchased credits expire?', 'wp-ai-assistant') ) ?></div>
 						<div class="aiassist-rates-note-block">
-							<?php echo wp_kses_post( __('The credits included in your subscription are renewed every 30 days. Credits purchased in packages or for any amount you choose do not expire and remain on your balance until you use them.', 'wp-ai-assistant') ) ?>
+							<?php echo wp_kses_post( __('Credits included in your subscription are valid for the calendar month and must be used before your current subscription period ends. Credits purchased in packages or for a custom amount do not expire and will remain on your balance until you use them.', 'wp-ai-assistant') ) ?>
 						</div>
 					</div>
 				
@@ -1365,6 +1374,11 @@
 						<input type="hidden" name="aiassist-image-model" class="aiassist-auto-options"  id="aiassist-image-model" value="<?php echo esc_attr( $model ) ?>" />
 					</div>
 				</div>
+			</div>
+			
+			<div class="image-prompt-wrap">
+				<div class="aiassist-lable"><?php echo wp_kses_post( __("Additional prompt section for image generation. Here you can set the image style and other rules (in English). It's not required to enter anything; you can leave it at the default value.", 'wp-ai-assistant') ) ?></div>
+				<input type="text" class="aiassist-prom" id="aiassist-system-image-prompt-auto" value="<?php echo esc_attr( isset( $this->steps['promts']['img_auto'][ $this->getImageModelIndex( $model ) ] ) ? trim( $this->steps['promts']['img_auto'][ $this->getImageModelIndex( $model ) ] ) : @$this->info->promts->img_auto[ $this->getImageModelIndex( $model ) ] ) ?>" />
 			</div>
 			
 			<div class="aiassist-multi-author-wrap">

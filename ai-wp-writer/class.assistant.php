@@ -194,7 +194,7 @@ class AIASIST{
 		if( ! $cats = get_categories( [ 'hide_empty' => 0 ] ) )
 			$cats = [];
 		
-		if( ! $users = get_users() )
+		if( ! $users = get_users( [ 'fields' => [ 'ID', 'user_email', 'display_name' ] ] ) )
 			$users = [];
 		
 		include dirname(__FILE__) . '/tpl/options.php';
@@ -365,6 +365,8 @@ class AIASIST{
 		
 		$break = false;
 		$compleat = 0;
+		$this->setInfo();
+		
 		foreach( $data['attachments'] as $k => $attach ){
 			
 			if( ! isset( $attach['attach_id'] ) ){
@@ -375,10 +377,18 @@ class AIASIST{
 			if( ! isset( $attach['task_id'] ) ){
 				$attach_url = $attach['url'];
 				
-				if( stripos('http', $attach_url ) === false )
+				if( stripos( $attach_url, 'http' ) === false )
 					$attach_url = $this->getHost() . $attach_url;
 				
-				$task = json_decode( $this->wpCurl( [ 'url' => $attach_url, 'model' => $data['imageModel'], 'action' => 'replaceImage', 'token' => $this->options->token ] ) );
+				$args = [ 
+							'url'		=> $attach_url, 
+							'model'		=> $data['imageModel'], 
+							'img_promt'	=> isset( $this->steps['promts']['img_replace'][ $this->getImageModelIndex( $data['imageModel'] ) ] ) ? $this->steps['promts']['img_replace'][ $this->getImageModelIndex( $data['imageModel'] ) ] : $this->info->promts->img_replace[ $this->getImageModelIndex( $data['imageModel'] ) ], 
+							'action'	=> 'replaceImage', 
+							'token'		=> $this->options->token 
+						];
+				
+				$task = json_decode( $this->wpCurl( $args ) );
 					
 				if( $task->task_id )
 					$data['attachments'][ $k ]['task_id'] = $attach['task_id'] = (int) $task->task_id;
@@ -400,7 +410,8 @@ class AIASIST{
 						if( file_exists( $path ) ){
 							$args = [
 								'url'		=> $attach['url'],  
-								'model'		=> $data['imageModel'], 
+								'model'		=> $data['imageModel'],
+								'img_promt'	=> isset( $this->steps['promts']['img_replace'][ $this->getImageModelIndex( $data['imageModel'] ) ] ) ? $this->steps['promts']['img_replace'][ $this->getImageModelIndex( $data['imageModel'] ) ] : $this->info->promts->img_replace[ $this->getImageModelIndex( $data['imageModel'] ) ], 
 								'action'	=> 'replaceImage', 
 								'token'		=> $this->options->token, 
 								'file'		=> file_get_contents( $path )
@@ -622,6 +633,7 @@ class AIASIST{
 								'max_pictures'	=> (int) $data['max_pictures'], 
 								'lang_id'		=> $lang_id, 
 								'promt'			=> isset( $this->steps['promts']['multi'][ $lang_id ] ) ? $this->steps['promts']['multi'][ $lang_id ] : $this->info->promts->multi[ $lang_id ],
+								'img_promt'		=> isset( $this->steps['promts']['img_auto'][ $this->getImageModelIndex( $data['imageModel'] ) ] ) ? $this->steps['promts']['img_auto'][ $this->getImageModelIndex( $data['imageModel'] ) ] : $this->info->promts->img_auto[ $this->getImageModelIndex( $data['imageModel'] ) ],
 								'kwd_promt'		=> isset( $this->steps['promts']['multi_keywords'][ $lang_id ] ) ? $this->steps['promts']['multi_keywords'][ $lang_id ] : $this->info->promts->multi_keywords[ $lang_id ],
 								'title'			=> isset( $this->steps['promts']['multi_title'][ $lang_id ] ) ? $this->steps['promts']['multi_title'][ $lang_id ] : $this->info->promts->multi_title[ $lang_id ],
 								'description'	=> isset( $this->steps['promts']['multi_desc'][ $lang_id ] ) ? $this->steps['promts']['multi_desc'][ $lang_id ] : $this->info->promts->multi_desc[ $lang_id ],
@@ -910,6 +922,7 @@ class AIASIST{
 									'max_pictures'	=> (int) $data['max_pictures'], 
 									'lang_id'		=> $lang_id,
 									'promt'			=> isset( $this->steps['promts']['rewrite'][ $lang_id ] ) ? $this->steps['promts']['rewrite'][ $lang_id ] : $this->info->promts->rewrite[ $lang_id ],
+									'img_promt'		=> isset( $this->steps['promts']['img_rewrite'][ $this->getImageModelIndex( $data['imageModel'] ) ] ) ? $this->steps['promts']['img_rewrite'][ $this->getImageModelIndex( $data['imageModel'] ) ] : $this->info->promts->img_rewrite[ $this->getImageModelIndex( $data['imageModel'] ) ],
 									'promt_header'	=> isset( $this->steps['promts']['rewrite_header'][ $lang_id ] ) ? $this->steps['promts']['rewrite_header'][ $lang_id ] : $this->info->promts->rewrite_header[ $lang_id ],
 									'promt_title'	=> isset( $this->steps['promts']['rewrite_title'][ $lang_id ] ) ? $this->steps['promts']['rewrite_title'][ $lang_id ] : $this->info->promts->rewrite_title[ $lang_id ],
 									'promt_desc'	=> isset( $this->steps['promts']['rewrite_desc'][ $lang_id ] ) ? $this->steps['promts']['rewrite_desc'][ $lang_id ] : $this->info->promts->rewrite_desc[ $lang_id ],
@@ -1071,7 +1084,6 @@ class AIASIST{
 		$args['start'] 			= true;
 		$data['thumb']			= (bool) $_POST['thumb'];
 		$data['split']			= (int) $_POST['split'];
-		$data['author']			= (int) $_POST['author'];
 		$data['author']			= (int) $_POST['author'];
 		$data['draft'] 			= (bool) $_POST['draft'];
 		$data['pictures'] 		= sanitize_text_field( $_POST['pictures'] );
@@ -1434,11 +1446,23 @@ class AIASIST{
 		?><script>fetch('<?php echo admin_url('admin-ajax.php') ?>?action=assistcron&nonce=<?php echo wp_create_nonce('aiassist') ?>')</script><?php
 	}
 	
+	private function getImageModelIndex( $model ){
+		switch( $model ){
+			case 'flux':		return 0; break;
+			case 'gptMini':		return 1; break;
+			case 'dalle':		return 2; break;
+			case 'gptImage':	return 3; break;
+			case 'banana':		return 4; break;
+			case 'midjourney':	return 5; break;
+			default:			return null;
+		}
+	}
+	
 	public function setInfo(){
 		$this->info = $this->getInfo();
 		$this->steps = get_option('_aiassist_generator');
 		
-		if( isset( $this->info->promts ) && ! is_array( $this->steps['promts'] ?? null ) )
+		if( isset( $this->info->promts ) && ( ! isset( $this->steps['promts'] ) || ! is_array( $this->steps['promts'] ) ) )
 			$this->steps['promts'] = (array) $this->info->promts;
 	
 		if( @$this->info->promts ){

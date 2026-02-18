@@ -736,7 +736,7 @@ msgstr "дней"
 
 #: tpl/options.php
 msgid "month"
-msgstr "мес"
+msgstr "месяц"
 
 #: tpl/options.php
 msgid "$"
@@ -1022,6 +1022,10 @@ msgstr "или на e-mail: info@aiwpwriter.com"
 msgid "support@aiwpw.com"
 msgstr "info@aiwpwriter.com"
 
+#: tpl/options.php
+msgid "Additional prompt section for image generation. Here you can set the image style and other rules (in English). It's not required to enter anything; you can leave it at the default value."
+msgstr "Дополнительная часть промпта для генерации изображений. Здесь можете указать стиль изображений и другие правила (на английском языке). Что либо прописывать не обязательно, можете оставить значение по умолчанию."
+
 #: tpl/worckspace.php
 msgid "Enter a topic..."
 msgstr "Введите тему..."
@@ -1181,8 +1185,8 @@ msgid "This option is only available with a subscription, check the \"Payment & 
 msgstr "Эта опция доступна только по подписке, перейдите в \"Тарифы и оплата\"."
 
 #: tpl/options.php
-msgid "The credits included in your subscription are renewed every 30 days. Credits purchased in packages or for any amount you choose do not expire and remain on your balance until you use them."
-msgstr "Лимиты которые входят в подписку обновляются каждые 30 дней. Лимиты купленные пакетами или на произвольную сумму не сгорают и будут на баланса до тех пор, пока их не используете."
+msgid "Credits included in your subscription are valid for the calendar month and must be used before your current subscription period ends. Credits purchased in packages or for a custom amount do not expire and will remain on your balance until you use them."
+msgstr "Лимиты которые входят в подписку действую в течение календарного месяца, их нужно использовать до того момента как закончится период действия подписки. Лимиты купленные пакетами или на произвольную сумму не сгорают и будут на баланса до тех пор, пока их не используете."
 
 #: tpl/options.php
 msgid "Activate sending requests from the plugin server to the website in order to enable bulk generation, rewriting or ensuring image uniqueness in background mode. This allows you to generate content when there is no traffic on the website and the admin panel is closed."

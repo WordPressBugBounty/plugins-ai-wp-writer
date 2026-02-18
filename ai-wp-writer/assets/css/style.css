@@ -1534,6 +1534,15 @@ button[name="save"]{
 		height: 31px;
 		border: solid 1px #ccc;
 	}
+	
+	.image-prompt-wrap input{
+		width: 40%;
+	}
+	
+	#aiassist-system-image-prompt-auto,
+	#aiassist-system-image-prompt-rewrite{
+		bottom: 0;
+	}
 
 	.aiassist-image-block .aiassist-image-promt{
 		width: 60%;

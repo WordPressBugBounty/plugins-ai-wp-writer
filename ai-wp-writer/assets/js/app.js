@@ -71,6 +71,8 @@ jQuery( document ).ready(function($){
 			$(document).on('change', '#aiassist-change-text-model-editor', app.setTextModelEditor);
 			$(document).on('change', '#aiassist-change-image-model', app.setImageModel);
 			$(document).on('change', '#aiassist-image-model', app.setAutoImageModel);
+			$(document).on('change', '#aiassist-images-model', app.setReplaceImageModel);
+			$(document).on('change', '#aiassist-rewrite-image-model', app.setRewriteImageModel);
 			$(document).on('click', '#aiassist-tiny-image-save', app.tinyMceImageSave);
 			$(document).on('click', '#aiassist-generate-image-close', app.tonyMcePopUpHide );
 			$(document).on('click', '#aiassist-tiny-image-translate', app.tinyMceTranslate );
@@ -121,6 +123,12 @@ jQuery( document ).ready(function($){
 			
 			if( imgModelAuto = app.getCookie('image-model-auto') )
 				$('.aiassist-image-model-auto .aiassist-option[data-value="'+ imgModelAuto +'"]').click();
+			
+			if( imgModelReplace = app.getCookie('image-model-replace') )
+				$('.aiassist-image-model-replace .aiassist-option[data-value="'+ imgModelReplace +'"]').click();
+			
+			if( imgModelRewrite = app.getCookie('image-model-rewrite') )
+				$('.aiassist-image-model-rewrite .aiassist-option[data-value="'+ imgModelRewrite +'"]').click();
 			
 			if( aiassist.token ){
 				if( ( tab = app.getCookie('activeTab') ) || $('.aiassist-empty-limit').length < 2 )
@@ -215,7 +223,7 @@ jQuery( document ).ready(function($){
 				all: $('#replace-images-all').prop('checked'),
 				links: $('#aiassist-images-item').val().split("\n"),
 				no_attach: $('#no-attach').prop('checked'),
-				imageModel: $('#aiassist-images-model').val(),
+				imageModel: $('#aiassist-images-model').val()
 			};
 			
 			if( $('input[name*="images_type"]:checked').length ){
@@ -589,7 +597,19 @@ jQuery( document ).ready(function($){
 				break;
 				case 'aiassist-prom-regenerate':
 					aiassist.promts['regenerate'][ parseInt( $('.aiassist-lang-promts-regenerate').val() ) ] = promt;
-				break;	
+				break;
+				
+				case 'aiassist-system-image-prompt-auto':
+					aiassist.promts['img_auto'][ app.getImageModelIndex( $('#aiassist-image-model').val() ) ] = promt;
+				break;
+				
+				case 'aiassist-system-image-prompt-rewrite':
+					aiassist.promts['img_rewrite'][ app.getImageModelIndex( $('#aiassist-rewrite-image-model').val() ) ] = promt;
+				break;
+				
+				case 'aiassist-system-image-prompt-replace':
+					aiassist.promts['img_replace'][ app.getImageModelIndex( $('#aiassist-images-model').val() ) ] = promt;
+				break;
 			}
 			
 			app.t = setTimeout( async () => {
@@ -653,19 +673,20 @@ jQuery( document ).ready(function($){
 					aiassist.promts.multi_title[ lang ]		= aiassist.info.promts.multi_title[ lang ];
 					aiassist.promts.multi_desc[ lang ]		= aiassist.info.promts.multi_desc[ lang ];
 					aiassist.promts.multi_keywords[ lang ]	= aiassist.info.promts.multi_keywords[ lang ];
+					
+					aiassist.promts.img_auto.flux			= aiassist.info.promts.img_auto.flux;
+					aiassist.promts.img_auto.gptMini		= aiassist.info.promts.img_auto.gptMini;
+					aiassist.promts.img_auto.dalle			= aiassist.info.promts.img_auto.dalle;
+					aiassist.promts.img_auto.gptImage		= aiassist.info.promts.img_auto.gptImage;
+					aiassist.promts.img_auto.banana			= aiassist.info.promts.img_auto.banana;
+					aiassist.promts.img_auto.midjourney		= aiassist.info.promts.img_auto.midjourney;
 				}
 			
-				// if( $('#aiassist-generation-prom').is(':visible') )
-					$('#aiassist-generation-prom').val( aiassist.promts.multi[ lang ] )
-				
-				// if( $('#aiassist-title-prom-multi').is(':visible') )
-					$('#aiassist-title-prom-multi').val( aiassist.promts.multi_title[ lang ] )
-				
-				// if( $('#aiassist-desc-prom-multi').is(':visible') )
-					$('#aiassist-desc-prom-multi').val( aiassist.promts.multi_desc[ lang ] )
-				
-				// if( $('#aiassist-generation-prom-keywords').is(':visible') )
-					$('#aiassist-generation-prom-keywords').val( aiassist.promts.multi_keywords[ lang ] )
+				$('#aiassist-image-model').change();
+				$('#aiassist-generation-prom').val( aiassist.promts.multi[ lang ] )
+				$('#aiassist-title-prom-multi').val( aiassist.promts.multi_title[ lang ] )
+				$('#aiassist-desc-prom-multi').val( aiassist.promts.multi_desc[ lang ] )
+				$('#aiassist-generation-prom-keywords').val( aiassist.promts.multi_keywords[ lang ] )
 			}
 			
 			
@@ -677,8 +698,16 @@ jQuery( document ).ready(function($){
 					aiassist.promts.rewrite_header[ lang ] = aiassist.info.promts.rewrite_header[ lang ];
 					aiassist.promts.rewrite_title[ lang ] = aiassist.info.promts.rewrite_title[ lang ];
 					aiassist.promts.rewrite_desc[ lang ] = aiassist.info.promts.rewrite_desc[ lang ];
+					
+					aiassist.promts.img_rewrite.flux		= aiassist.info.promts.img_rewrite.flux;
+					aiassist.promts.img_rewrite.gptMini		= aiassist.info.promts.img_rewrite.gptMini;
+					aiassist.promts.img_rewrite.dalle		= aiassist.info.promts.img_rewrite.dalle;
+					aiassist.promts.img_rewrite.gptImage	= aiassist.info.promts.img_rewrite.gptImage;
+					aiassist.promts.img_rewrite.banana		= aiassist.info.promts.img_rewrite.banana;
+					aiassist.promts.img_rewrite.midjourney	= aiassist.info.promts.img_rewrite.midjourney;
 				}
 				
+				$('#aiassist-rewrite-image-model').change();
 				$('#aiassist-rewrite-prom').val( aiassist.promts.rewrite[ lang ] );
 				$('#aiassist-header-prom-rewrite').val( aiassist.promts.rewrite_header[ lang ] );
 				$('#aiassist-title-prom-rewrite').val( aiassist.promts.rewrite_title[ lang ] );
@@ -697,15 +726,9 @@ jQuery( document ).ready(function($){
 				}
 				
 				$('#aiassist-article-prom').val( aiassist.promts.short[ lang ] )
-				
-				// if( $('#aiassist-title-prom').is(':visible') )
-					$('#aiassist-title-prom').val( aiassist.promts.long_title[ lang ] )
-				
-				// if( $('#aiassist-desc-prom').is(':visible') )
-					$('#aiassist-desc-prom').val( aiassist.promts.long_desc[ lang ] )
-				
-				// if( $('#aiassist-article-prom-keywords').is(':visible') )
-					$('#aiassist-article-prom-keywords').val( aiassist.promts.keywords[ lang ] )
+				$('#aiassist-title-prom').val( aiassist.promts.long_title[ lang ] )
+				$('#aiassist-desc-prom').val( aiassist.promts.long_desc[ lang ] )
+				$('#aiassist-article-prom-keywords').val( aiassist.promts.keywords[ lang ] )
 			}
 			
 			if( typeof aiassist.promts.long_header[ lang ] !== 'undefined' && $('#aiassist-theme-prom').is(':visible') ){
@@ -720,23 +743,12 @@ jQuery( document ).ready(function($){
 					aiassist.promts.long_keywords[ lang ]	= aiassist.info.promts.long_keywords[ lang ];
 				}
 				
-				// if( $('#aiassist-theme-prom').is(':visible') )
-					$('#aiassist-theme-prom').val( aiassist.promts.long_header[ lang ] )
-				
-				// if( $('#aiassist-structure-prom').is(':visible') )
-					$('#aiassist-structure-prom').val( aiassist.promts.long_structure[ lang ] )
-				
-				// if( $('#aiassist-content-prom').is(':visible') )
-					$('#aiassist-content-prom').val( aiassist.promts.long[ lang ] )
-				
-				// if( $('#aiassist-title-prom').is(':visible') )
-					$('#aiassist-title-prom').val( aiassist.promts.long_title[ lang ] )
-				
-				// if( $('#aiassist-desc-prom').is(':visible') )
-					$('#aiassist-desc-prom').val( aiassist.promts.long_desc[ lang ] )
-				
-				// if( $('#aiassist-article-prom-long-keywords').is(':visible') )
-					$('#aiassist-article-prom-long-keywords').val( aiassist.promts.long_keywords[ lang ] )
+				$('#aiassist-theme-prom').val( aiassist.promts.long_header[ lang ] )
+				$('#aiassist-structure-prom').val( aiassist.promts.long_structure[ lang ] )
+				$('#aiassist-content-prom').val( aiassist.promts.long[ lang ] )
+				$('#aiassist-title-prom').val( aiassist.promts.long_title[ lang ] )
+				$('#aiassist-desc-prom').val( aiassist.promts.long_desc[ lang ] )
+				$('#aiassist-article-prom-long-keywords').val( aiassist.promts.long_keywords[ lang ] )
 			}
 			
 			await app.request( { val: aiassist.promts, act: 'promts', action: 'saveStep', nonce: aiassist.nonce } );
@@ -1112,7 +1124,39 @@ jQuery( document ).ready(function($){
 		},
 		
 		setAutoImageModel: function(){
-			app.setCookie('image-model-auto', $(this).val() );
+			let model = $(this).val();
+			app.setCookie('image-model-auto', model );
+			
+			if( $('#aiassist-system-image-prompt-auto').length )
+				$('#aiassist-system-image-prompt-auto').val( aiassist.promts.img_auto && aiassist.promts.img_auto[ app.getImageModelIndex( model ) ] ? aiassist.promts.img_auto[ app.getImageModelIndex( model ) ] : '' );
+		},
+		
+		setReplaceImageModel: function(){
+			let model = $(this).val();
+			app.setCookie('image-model-replace', model );
+			
+			if( $('#aiassist-system-image-prompt-replace').length )
+				$('#aiassist-system-image-prompt-replace').val( aiassist.promts.img_replace && aiassist.promts.img_replace[ app.getImageModelIndex( model ) ] ? aiassist.promts.img_replace[ app.getImageModelIndex( model ) ] : '' );
+		},
+		
+		setRewriteImageModel: function(){
+			let model = $(this).val();
+			app.setCookie('image-model-rewrite', model );
+			
+			if( $('#aiassist-system-image-prompt-rewrite').length )
+				$('#aiassist-system-image-prompt-rewrite').val( aiassist.promts.img_rewrite && aiassist.promts.img_rewrite[ app.getImageModelIndex( model ) ] ? aiassist.promts.img_rewrite[ app.getImageModelIndex( model ) ] : '' );
+		},
+		
+		getImageModelIndex: ( model ) => {
+			switch( model ){
+				case 'flux':		return 0; break;
+				case 'gptMini':		return 1; break;
+				case 'dalle':		return 2; break;
+				case 'gptImage':	return 3; break;
+				case 'banana':		return 4; break;
+				case 'midjourney':	return 5; break;
+				default:			return null;
+			}
 		},
 		
 		autoGenOptions: () => {
@@ -1456,6 +1500,7 @@ jQuery( document ).ready(function($){
 				})
 			
 			}
+			$('#aiassist-images-generator-start').show();
 			$('#aiassist-images-generator-start').attr('disabled', false);
 		},
 		
@@ -1776,7 +1821,12 @@ jQuery( document ).ready(function($){
 			await app.request( { key: $('#aiassist-gpt-key').val(), action: 'saveKey', nonce: aiassist.nonce } );
 		},
 		
-		saveContent: async () => {
+		saveContent: async ( event ) => {
+			if( event.originalEvent && event.originalEvent.detail === 0 ){
+				event.preventDefault();
+				return;
+			}
+			
 			app.loader( true, aiassist.locale['Saving content'] );
 			
 			let post_id = null;
@@ -1834,7 +1884,12 @@ jQuery( document ).ready(function($){
 			app.loader();
 		},
 		
-		generateHeader: async () => {
+		generateHeader: async ( event ) => {
+			if( event.originalEvent && event.originalEvent.detail === 0 ){
+				event.preventDefault();
+				return;
+			}
+			
 			app.loader( true, aiassist.locale['Header generation'] );
 			
 			let theme = $('#aiassist-theme').val();
@@ -1853,7 +1908,12 @@ jQuery( document ).ready(function($){
 			app.loader();
 		},
 		
-		generateStructure: async () => {
+		generateStructure: async ( event ) => {
+			if( event.originalEvent && event.originalEvent.detail === 0 ){
+				event.preventDefault();
+				return;
+			}
+			
 			app.loader( true, aiassist.locale['Structure generation'] );
 			
 			let header = $('#aiassist-header').val();
@@ -1876,7 +1936,12 @@ jQuery( document ).ready(function($){
 			app.loader();
 		},
 		
-		standartGenerateContent: async () => {
+		standartGenerateContent: async ( event ) => {
+			if( event.originalEvent && event.originalEvent.detail === 0 ){
+				event.preventDefault();
+				return;
+			}
+			
 			let header = $('#aiassist-theme-standart').val();
 			
 			if( ! header ){
@@ -1919,7 +1984,12 @@ jQuery( document ).ready(function($){
 			app.translatePromtsToImages();
 		},
 		
-		generateContent: async () => {
+		generateContent: async ( event ) => {
+			if( event.originalEvent && event.originalEvent.detail === 0 ){
+				event.preventDefault();
+				return;
+			}
+			
 			app.loader( true, aiassist.locale['Introduction generation'] );
 			
 			let header = $('#aiassist-header').val();
@@ -1977,7 +2047,12 @@ jQuery( document ).ready(function($){
 			app.translatePromtsToImages();
 		},
 		
-		generateMeta: async () => {
+		generateMeta: async ( event ) => {
+			if( event.originalEvent && event.originalEvent.detail === 0 ){
+				event.preventDefault();
+				return;
+			}
+			
 			app.loader( true, aiassist.locale['Meta title generation'] );
 			
 			$('#step4').show();
