@@ -505,7 +505,19 @@
 			<div>
 				<div><?php echo wp_kses_post( __('Text generation model', 'wp-ai-assistant') ) ?></div>
 				<div class="aiassist-select-wrap">
-					<?php
+					<?php						
+						$label = 'Set model';
+				
+						if( @$this->info->labels->text_model_5_on ){
+							$model = 'modelGeminiPro';
+							$label = $this->info->labels->text_model_5;
+						}
+						
+						if( @$this->info->labels->text_model_6_on ){
+							$model = 'modelGeminiFlash';
+							$label = $this->info->labels->text_model_6;
+						}
+					
 						if( @$this->info->labels->text_model_4_on ){
 							$model = 'gpt_o3_mini';
 							$label = $this->info->labels->text_model_4;
@@ -527,7 +539,8 @@
 						}
 					?>
 					<div class="aiassist-select-lable"><?php echo esc_html( $label )?></div>
-					<div class="aiassist-select">	
+					<div class="aiassist-select">
+						<span class="disabled lable-block">GPT</span>
 						<?php if( @$this->info->labels->text_model_1_on ){ ?>
 							<div class="aiassist-option" data-value="gpt3"><?php echo esc_html( $this->info->labels->text_model_1 )?></div>
 						<?php } ?>
@@ -540,6 +553,15 @@
 						<?php if( @$this->info->labels->text_model_4_on ){ ?>
 							<div class="aiassist-option <?php echo ! @$this->info->subscribe->expire ? 'aiassist-lock' : ''?>" data-value="gpt_o3_mini"><?php echo esc_html( $this->info->labels->text_model_4 )?></div>
 						<?php } ?>
+						
+						<span class="disabled lable-block">Gemini</span>
+						<?php if( @$this->info->labels->text_model_5_on ){ ?>
+							<div class="aiassist-option <?php echo ! @$this->info->subscribe->expire ? 'aiassist-lock' : ''?>" data-value="modelGeminiPro"><?php echo esc_html( $this->info->labels->text_model_5 )?></div>
+						<?php } ?>
+						<?php if( @$this->info->labels->text_model_6_on ){ ?>
+							<div class="aiassist-option" data-value="modelGeminiFlash"><?php echo esc_html( $this->info->labels->text_model_6 )?></div>
+						<?php } ?>
+						
 						<input type="hidden" name="aiassist-text-model" class="aiassist-rewrite-options" id="aiassist-rewrite-text-model" value="<?php echo $model ?>" />
 					</div>
 				</div>
@@ -762,7 +784,7 @@
 			
 				<div class="aiassist-rates-view active" data-view="subscribe">
 				
-					<div class="aiassist-rates-info"><?php echo wp_kses_post( __('The subscription applies to all sites connected to your API key, and one common credit balance is used for all sites.', 'wp-ai-assistant') ) ?></div>
+					<div class="aiassist-rates-info"><?php echo wp_kses_post( __('Subscribe now and save on creating high-quality SEO-optimized content with our affordable plans. The subscription applies to all websites connected to your API key and uses one shared balance of credits.', 'wp-ai-assistant') ) ?></div>
 					
 					<div class="aiassist-rates-items">
 						
@@ -809,10 +831,10 @@
 							</div>
 							
 							<div class="aiassist-rate-desc">
-								<?php echo wp_kses_post( __('How much content can be generated<br />13200000 characters (~2640000 words) GPT-5 nano**<br />4400000 characters (~880000 words) GPT-5 mini**<br />825000 characters (~165000 words) GPT-5**<br />825000 characters (~165000 words) o3 (reasoning)**<br />1320 images FLUX Schnell<br />165 generations Midjourney v7<br />188 images Dalle 3<br />165 images GPT-image 1.5<br />440 images GPT-image 1 mini<br />188 images Nano Banana', 'wp-ai-assistant') ) ?>			
+								<?php echo wp_kses_post( __('How much content can be generated<br />3,666m characters (~733333 words) Gemini 3 flash<br />0,733m characters (~146666 words) Gemeni 3.1 pro<br />22m characters (~4,4m words) GPT-5 nano**<br />5,5m characters (~1,1m words) GPT-5 mini**<br />0,825m characters (~165000 words) GPT-5**<br />0,825m characters (~165000 words) o3 (reasoning)**<br />1320 images FLUX Schnell<br />165 generations Midjourney v7<br />188 images Dalle 3<br />165 images GPT-image 1.5<br />440 images GPT-image 1 mini<br />188 images Nano Banana', 'wp-ai-assistant') ) ?>			
 							</div>
 							<div class="aiassist-rate-checklist">
-								<div class="aiassist-rate-check"><?php echo wp_kses_post( __('Neural Networks: GPT-5, GPT-5 mini, GPT-5 nano, o3 (reasoning), Midjourney v7, Dalle 3, GPT-image 1.5, GPT-image 1 mini, FLUX, Nano Banana.', 'wp-ai-assistant') ) ?></div>
+								<div class="aiassist-rate-check"><?php echo wp_kses_post( __('Neural Networks: GPT-5, GPT-5 mini/nano, o3 (reasoning), Gemini 3.1 pro, Gemini 3 flash, Midjourney v7, Dalle 3, GPT-image 1.5, GPT-image 1 mini, FLUX, Nano Banana.', 'wp-ai-assistant') ) ?></div>
 								<div class="aiassist-rate-check"><?php echo wp_kses_post( __('Bulk article generation and editor-based article creation', 'wp-ai-assistant') ) ?></div>
 								<div class="aiassist-rate-check"><?php echo wp_kses_post( __('AI Assist, AI image creator', 'wp-ai-assistant') ) ?></div>
 								<div class="aiassist-rate-check"><?php echo wp_kses_post( __('Rewrite articles on your site and pages from third-party sites', 'wp-ai-assistant') ) ?></div>
@@ -866,10 +888,10 @@
 							</div>
 							
 							<div class="aiassist-rate-desc">
-								<?php echo wp_kses_post( __('How much content can be generated<br />41000000 characters (~8200000 words) GPT-5 nano**<br />13666666 characters (~2733333 words) GPT-5 mini**<br />2562000 characters (~512400 words) GPT-5**<br />2562000 characters (~512400 words) o3 (reasoning)**<br />4100 images FLUX Schnell<br />512 generations Midjourney v7<br />585 images Dalle 3<br />512 images GPT-image 1.5<br />1366 images GPT-image 1 mini<br />585 images Nano Banana', 'wp-ai-assistant') ) ?>						
+								<?php echo wp_kses_post( __('How much content can be generated<br />11,388m characters (~2,277m words) Gemini 3 flash<br />2,277m characters (~455555 words) Gemeni 3.1 pro<br />68,333m characters (~13,666m words) GPT-5 nano**<br />17,083m characters (~3,416m words) GPT-5 mini**<br />2,562m characters (~512400 words) GPT-5**<br />2,562m characters (~512400 words) o3 (reasoning)**<br />4100 images FLUX Schnell<br />512 generations Midjourney v7<br />585 images Dalle 3<br />512 images GPT-image 1.5<br />1366 images GPT-image 1 mini<br />585 images Nano Banana', 'wp-ai-assistant') ) ?>						
 							</div>
 							<div class="aiassist-rate-checklist">
-								<div class="aiassist-rate-check"><?php echo wp_kses_post( __('Neural Networks: GPT-5, GPT-5 mini, GPT-5 nano, o3 (reasoning), Midjourney v7, Dalle 3, GPT-image 1.5, GPT-image 1 mini, FLUX, Nano Banana.', 'wp-ai-assistant') ) ?></div>
+								<div class="aiassist-rate-check"><?php echo wp_kses_post( __('Neural Networks: GPT-5, GPT-5 mini/nano, o3 (reasoning), Gemini 3.1 pro, Gemini 3 flash, Midjourney v7, Dalle 3, GPT-image 1.5, GPT-image 1 mini, FLUX, Nano Banana.', 'wp-ai-assistant') ) ?></div>
 								<div class="aiassist-rate-check"><?php echo wp_kses_post( __('Bulk article generation and editor-based article creation', 'wp-ai-assistant') ) ?></div>
 								<div class="aiassist-rate-check"><?php echo wp_kses_post( __('AI Assist, AI image creator', 'wp-ai-assistant') ) ?></div>
 								<div class="aiassist-rate-check"><?php echo wp_kses_post( __('Rewrite articles on your site and pages from third-party sites', 'wp-ai-assistant') ) ?></div>
@@ -922,10 +944,10 @@
 							</div>
 							
 							<div class="aiassist-rate-desc">
-								<?php echo wp_kses_post( __('How much content can be generated<br />100000000 characters (~20000000 words) GPT-5 nano**<br />33333333 characters (~6666666 words) GPT-5 mini**<br />6250000 characters (~1250000 words) GPT-5**<br />6250000 characters (~1250000 words) o3 (reasoning)**<br />10000 images FLUX Schnell<br />1250 generations Midjourney v7<br />1428 images Dalle 3<br />1 250 images GPT-image 1.5<br />3333 images GPT-image 1 mini<br />1428 images Nano Banana', 'wp-ai-assistant') ) ?>
+								<?php echo wp_kses_post( __('How much content can be generated<br />27,777m characters (~5,555m words) Gemini 3 flash<br />5,555m characters (~1,111m words) Gemeni 3.1 pro<br />166,666m characters (~33,333m words) GPT-5 nano**<br />41,666m characters (~8,333m words) GPT-5 mini**<br />6,250m characters (~1,250m words) GPT-5**<br />6,250m characters (~1,250m words) o3 (reasoning)**<br />10000 images FLUX Schnell<br />1250 generations Midjourney v7<br />1428 images Dalle 3<br />1 250 images GPT-image 1.5<br />3333 images GPT-image 1 mini<br />1428 images Nano Banana', 'wp-ai-assistant') ) ?>
 							</div>
 							<div class="aiassist-rate-checklist">
-								<div class="aiassist-rate-check"><?php echo wp_kses_post( __('Neural Networks: GPT-5, GPT-5 mini, GPT-5 nano, o3 (reasoning), Midjourney v7, Dalle 3, GPT-image 1.5, GPT-image 1 mini, FLUX, Nano Banana.', 'wp-ai-assistant') ) ?></div>
+								<div class="aiassist-rate-check"><?php echo wp_kses_post( __('Neural Networks: GPT-5, GPT-5 mini/nano, o3 (reasoning), Gemini 3.1 pro, Gemini 3 flash, Midjourney v7, Dalle 3, GPT-image 1.5, GPT-image 1 mini, FLUX, Nano Banana.', 'wp-ai-assistant') ) ?></div>
 								<div class="aiassist-rate-check"><?php echo wp_kses_post( __('Bulk article generation and editor-based article creation', 'wp-ai-assistant') ) ?></div>
 								<div class="aiassist-rate-check"><?php echo wp_kses_post( __('AI Assist, AI image creator', 'wp-ai-assistant') ) ?></div>
 								<div class="aiassist-rate-check"><?php echo wp_kses_post( __('Rewrite articles on your site and pages from third-party sites', 'wp-ai-assistant') ) ?></div>
@@ -948,7 +970,7 @@
 								<div class="aiassist-rate-check"><?php echo wp_kses_post( __('AI Assist', 'wp-ai-assistant') ) ?></div>
 							</div>
 							<div class="aiassist-rate-checklist aiassist-rates-free-item">
-								<div class="aiassist-rate-check"><?php echo wp_kses_post( __('Neural networks: GPT-5 mini, GPT-5 nano, FLUX, GPT-image 1 mini', 'wp-ai-assistant') ) ?></div>
+								<div class="aiassist-rate-check"><?php echo wp_kses_post( __('Neural networks: Gemini 3 flash, GPT-5 mini, GPT-5 nano, FLUX, GPT-image 1 mini', 'wp-ai-assistant') ) ?></div>
 								<div class="aiassist-rate-check"><?php echo wp_kses_post( __('AI image creator', 'wp-ai-assistant') ) ?></div>
 							</div>
 						</div>
@@ -1108,7 +1130,7 @@
 					<div class="aiassist-rates-note-wrap">
 						<div class="aiassist-rate-note-title"><?php echo wp_kses_post( __('Do purchased credits expire?', 'wp-ai-assistant') ) ?></div>
 						<div class="aiassist-rates-note-block">
-							<?php echo wp_kses_post( __('Credits included in your subscription are valid for the calendar month and must be used before your current subscription period ends. Credits purchased in packages or for a custom amount do not expire and will remain on your balance until you use them.', 'wp-ai-assistant') ) ?>
+							<?php echo wp_kses_post( __('The credits included in the subscription are valid for a calendar month and must be used before the subscription period ends. If you have unused credits from a previous subscription, they will be reset when you purchase a new subscription. Credits purchased in packages or for a custom amount do not expire and will remain on your balance until you use them.', 'wp-ai-assistant') ) ?>
 						</div>
 					</div>
 				
@@ -1277,7 +1299,19 @@
 			<div>
 				<div><?php echo wp_kses_post( __('Text generation model', 'wp-ai-assistant') ) ?></div>
 				<div class="aiassist-select-wrap">
-					<?php
+					<?php					
+						$label = 'Set model';
+				
+						if( @$this->info->labels->text_model_5_on ){
+							$model = 'modelGeminiPro';
+							$label = $this->info->labels->text_model_5;
+						}
+						
+						if( @$this->info->labels->text_model_6_on ){
+							$model = 'modelGeminiFlash';
+							$label = $this->info->labels->text_model_6;
+						}
+					
 						if( @$this->info->labels->text_model_4_on ){
 							$model = 'gpt_o3_mini';
 							$label = $this->info->labels->text_model_4;
@@ -1299,7 +1333,9 @@
 						}
 					?>
 					<div class="aiassist-select-lable"><?php echo esc_html( $label )?></div>
-					<div class="aiassist-select">	
+					<div class="aiassist-select">
+						<span class="disabled lable-block">GPT</span>
+						
 						<?php if( @$this->info->labels->text_model_1_on ){ ?>
 							<div class="aiassist-option" data-value="gpt3"><?php echo esc_html( $this->info->labels->text_model_1 )?></div>
 						<?php } ?>
@@ -1312,6 +1348,16 @@
 						<?php if( @$this->info->labels->text_model_4_on ){ ?>
 							<div class="aiassist-option <?php echo ! @$this->info->subscribe->expire ? 'aiassist-lock' : ''?>" data-value="gpt_o3_mini"><?php echo esc_html( $this->info->labels->text_model_4 )?></div>
 						<?php } ?>
+						
+						<span class="disabled lable-block">Gemini</span>
+				
+						<?php if( @$this->info->labels->text_model_5_on ){ ?>
+							<div class="aiassist-option <?php echo ! @$this->info->subscribe->expire ? 'aiassist-lock' : ''?>" data-value="modelGeminiPro"><?php echo esc_html( $this->info->labels->text_model_5 )?></div>
+						<?php } ?>
+						<?php if( @$this->info->labels->text_model_6_on ){ ?>
+							<div class="aiassist-option" data-value="modelGeminiFlash"><?php echo esc_html( $this->info->labels->text_model_6 )?></div>
+						<?php } ?>
+						
 						<input type="hidden" name="aiassist-text-model" class="aiassist-auto-options" id="aiassist-change-text-model" value="<?php echo $model ?>" />
 					</div>
 				</div>

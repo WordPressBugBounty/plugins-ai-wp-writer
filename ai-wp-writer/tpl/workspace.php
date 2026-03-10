@@ -13,6 +13,16 @@
 			<?php
 				$label = 'Set model';
 				
+				if( @$this->info->labels->text_model_5_on ){
+					$model = 'modelGeminiPro';
+					$label = $this->info->labels->text_model_5;
+				}
+				
+				if( @$this->info->labels->text_model_6_on ){
+					$model = 'modelGeminiFlash';
+					$label = $this->info->labels->text_model_6;
+				}
+				
 				if( @$this->info->labels->text_model_4_on ){
 					$model = 'gpt_o3_mini';
 					$label = $this->info->labels->text_model_4;
@@ -34,7 +44,8 @@
 				}
 			?>
 			<div class="aiassist-select-lable"><?php echo esc_html( $label )?></div>
-			<div class="aiassist-select">	
+			<div class="aiassist-select">
+				<span class="disabled lable-block">GPT</span>
 				<?php if( @$this->info->labels->text_model_1_on ){ ?>
 					<div class="aiassist-option" data-value="gpt3"><?php echo esc_html( $this->info->labels->text_model_1 )?></div>
 				<?php } ?>
@@ -47,6 +58,15 @@
 				<?php if( @$this->info->labels->text_model_4_on ){ ?>
 					<div class="aiassist-option <?php echo ! @$this->info->subscribe->expire ? 'aiassist-lock' : ''?>" data-value="gpt_o3_mini"><?php echo esc_html( $this->info->labels->text_model_4 )?></div>
 				<?php } ?>
+				
+				<span class="disabled lable-block">Gemini</span>
+				<?php if( @$this->info->labels->text_model_5_on ){ ?>
+					<div class="aiassist-option <?php echo ! @$this->info->subscribe->expire ? 'aiassist-lock' : ''?>" data-value="modelGeminiPro"><?php echo esc_html( $this->info->labels->text_model_5 )?></div>
+				<?php } ?>
+				<?php if( @$this->info->labels->text_model_6_on ){ ?>
+					<div class="aiassist-option" data-value="modelGeminiFlash"><?php echo esc_html( $this->info->labels->text_model_6 )?></div>
+				<?php } ?>
+				
 				<input type="hidden" name="aiassist-text-model" id="aiassist-change-text-model-editor" value="<?php echo $model ?>" />
 			</div>
 		</div>

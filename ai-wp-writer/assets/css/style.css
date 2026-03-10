@@ -2262,6 +2262,13 @@ button[name="save"]{
 	display: none;
 }
 
+.aiassist-select span.lable-block{
+	font-size: 9px;
+	border-bottom: solid 1px #ccc;
+	width: 100%;
+	display: block;
+}
+
 .aiassist-select.open{
 	width: auto;
 	height: auto;

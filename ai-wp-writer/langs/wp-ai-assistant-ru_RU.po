@@ -37,8 +37,8 @@ msgid "Payment & Pricing"
 msgstr "Тарифы и оплата"
 
 #: tpl/options.php
-msgid "The subscription applies to all sites connected to your API key, and one common credit balance is used for all sites."
-msgstr "Подписка распространяется на все сайты подключенные к вашему API-ключу и используется один общий баланс лимитов."
+msgid "Subscribe now and save on creating high-quality SEO-optimized content with our affordable plans. The subscription applies to all websites connected to your API key and uses one shared balance of credits."
+msgstr "Оформите подписку сейчас и экономьте на создании качественного SEO-оптимизированного контента с выгодными тарифами. Подписка распространяется на все сайты подключенные к вашему API-ключу и используется один общий баланс лимитов."
 
 #: tpl/options.php
 msgid "Bulk generation"
@@ -755,20 +755,20 @@ msgid "1 million credits"
 msgstr "1 млн лимитов"
 
 #: tpl/options.php
-msgid "How much content can be generated<br />13200000 characters (~2640000 words) GPT-5 nano**<br />4400000 characters (~880000 words) GPT-5 mini**<br />825000 characters (~165000 words) GPT-5**<br />825000 characters (~165000 words) o3 (reasoning)**<br />1320 images FLUX Schnell<br />165 generations Midjourney v7<br />188 images Dalle 3<br />165 images GPT-image 1.5<br />440 images GPT-image 1 mini<br />188 images Nano Banana"
-msgstr "Сколько можно сгенерировать<br />13200000 символов GPT-5 nano**<br />4400000 символов GPT-5 mini**<br />825000 символов GPT-5**<br />825000 символов o3 (рассуждающая)**<br />1320 изображения FLUX Schnell<br />165 генераций Midjourney v7<br />188 изображений Dalle 3<br />165 изображений GPT-image 1.5<br />440 изображений GPT-image 1 mini<br />188 изображений Nano Banana"
+msgid "How much content can be generated<br />3,666m characters (~733333 words) Gemini 3 flash<br />0,733m characters (~146666 words) Gemeni 3.1 pro<br />22m characters (~4,4m words) GPT-5 nano**<br />5,5m characters (~1,1m words) GPT-5 mini**<br />0,825m characters (~165000 words) GPT-5**<br />0,825m characters (~165000 words) o3 (reasoning)**<br />1320 images FLUX Schnell<br />165 generations Midjourney v7<br />188 images Dalle 3<br />165 images GPT-image 1.5<br />440 images GPT-image 1 mini<br />188 images Nano Banana"
+msgstr "Сколько можно сгенерировать<br />3,666 млн символов Gemini 3 flash<br />0,733 млн символов Gemeni 3.1 pro<br />22 млн символов GPT-5 nano**<br />5,5 млн символов GPT-5 mini**<br />0,825 млн символов GPT-5**<br />0,825 млн символов o3 (рассуждающая)**<br />1320 изображения FLUX Schnell<br />165 генераций Midjourney v7<br />188 изображений Dalle 3<br />165 изображений GPT-image 1.5<br />440 изображений GPT-image 1 mini<br />188 изображений Nano Banana"
 
 #: tpl/options.php
-msgid "How much content can be generated<br />41000000 characters (~8200000 words) GPT-5 nano**<br />13666666 characters (~2733333 words) GPT-5 mini**<br />2562000 characters (~512400 words) GPT-5**<br />2562000 characters (~512400 words) o3 (reasoning)**<br />4100 images FLUX Schnell<br />512 generations Midjourney v7<br />585 images Dalle 3<br />512 images GPT-image 1.5<br />1366 images GPT-image 1 mini<br />585 images Nano Banana"
-msgstr "Сколько можно сгенерировать<br />41000000 символов GPT-5 nano**<br />13666666 символов GPT-5 mini**<br />2562000 символов GPT-5**<br />2562000 символов o3 (рассуждающая)**<br />4100 изображений FLUX Schnell<br />512 генераций Midjourney v7<br />585 изображений Dalle 3<br />512 изображений GPT-image 1.5<br />1366 изображений GPT-image 1 mini<br />585 изображений Nano Banana"
+msgid "How much content can be generated<br />11,388m characters (~2,277m words) Gemini 3 flash<br />2,277m characters (~455555 words) Gemeni 3.1 pro<br />68,333m characters (~13,666m words) GPT-5 nano**<br />17,083m characters (~3,416m words) GPT-5 mini**<br />2,562m characters (~512400 words) GPT-5**<br />2,562m characters (~512400 words) o3 (reasoning)**<br />4100 images FLUX Schnell<br />512 generations Midjourney v7<br />585 images Dalle 3<br />512 images GPT-image 1.5<br />1366 images GPT-image 1 mini<br />585 images Nano Banana"
+msgstr "Сколько можно сгенерировать<br />11,388 млн символов Gemini 3 flash<br />2,277 млн символов Gemeni 3.1 pro<br />68,333 млн символов GPT-5 nano**<br />17,083 млн символов GPT-5 mini**<br />2,562 млн символов GPT-5**<br />2,562 млн символов o3 (рассуждающая)**<br />4100 изображений FLUX Schnell<br />512 генераций Midjourney v7<br />585 изображений Dalle 3<br />512 изображений GPT-image 1.5<br />1366 изображений GPT-image 1 mini<br />585 изображений Nano Banana"
 
 #: tpl/options.php
-msgid "How much content can be generated<br />100000000 characters (~20000000 words) GPT-5 nano**<br />33333333 characters (~6666666 words) GPT-5 mini**<br />6250000 characters (~1250000 words) GPT-5**<br />6250000 characters (~1250000 words) o3 (reasoning)**<br />10000 images FLUX Schnell<br />1250 generations Midjourney v7<br />1428 images Dalle 3<br />1 250 images GPT-image 1.5<br />3333 images GPT-image 1 mini<br />1428 images Nano Banana"
-msgstr "Сколько можно сгенерировать<br />100000000 символов GPT-5 nano**<br />33333333 символов GPT-5 mini**<br />6250000 символов GPT-5**<br />6250000 символов o3 (рассуждающая)**<br />10000 изображения FLUX Schnell<br />1250 генераций Midjourney v7<br />1428 изображений Dalle 3<br />1250 изображений GPT-image 1.5<br />3333 изображений GPT-image 1 mini<br />1428 изображений Nano Banana"
+msgid "How much content can be generated<br />27,777m characters (~5,555m words) Gemini 3 flash<br />5,555m characters (~1,111m words) Gemeni 3.1 pro<br />166,666m characters (~33,333m words) GPT-5 nano**<br />41,666m characters (~8,333m words) GPT-5 mini**<br />6,250m characters (~1,250m words) GPT-5**<br />6,250m characters (~1,250m words) o3 (reasoning)**<br />10000 images FLUX Schnell<br />1250 generations Midjourney v7<br />1428 images Dalle 3<br />1 250 images GPT-image 1.5<br />3333 images GPT-image 1 mini<br />1428 images Nano Banana"
+msgstr "Сколько можно сгенерировать<br />27,777 млн символов Gemini 3 flash<br />5,555 млн символов Gemeni 3.1 pro<br />166,666 млн символов GPT-5 nano**<br />41,666 млн символов GPT-5 mini**<br />6,250 млн символов GPT-5**<br />6,250 млн символов o3 (рассуждающая)**<br />10000 изображения FLUX Schnell<br />1250 генераций Midjourney v7<br />1428 изображений Dalle 3<br />1250 изображений GPT-image 1.5<br />3333 изображений GPT-image 1 mini<br />1428 изображений Nano Banana"
 
 #: tpl/options.php
-msgid "Neural Networks: GPT-5, GPT-5 mini, GPT-5 nano, o3 (reasoning), Midjourney v7, Dalle 3, GPT-image 1.5, GPT-image 1 mini, FLUX, Nano Banana."
-msgstr "Нейросети: GPT-5, GPT-5 mini, GPT-5 nano, o3 (рассуждающая), Midjourney v7, Dalle 3, GPT-image 1.5, GPT-image 1 mini, FLUX, Nano Banana."
+msgid "Neural Networks: GPT-5, GPT-5 mini/nano, o3 (reasoning), Gemini 3.1 pro, Gemini 3 flash, Midjourney v7, Dalle 3, GPT-image 1.5, GPT-image 1 mini, FLUX, Nano Banana."
+msgstr "Нейросети: GPT-5, GPT-5 mini/nano, o3 (reasoning), Gemini 3.1 pro, Gemini 3 flash, Midjourney v7, Dalle 3, GPT-image 1.5, GPT-image 1 mini, FLUX, Nano Banana."
 
 #: tpl/options.php
 msgid "Bulk article generation and editor-based article creation"
@@ -799,8 +799,8 @@ msgid "AI Assist"
 msgstr "AI Assist"
 
 #: tpl/options.php
-msgid "Neural networks: GPT-5 mini, GPT-5 nano, FLUX, GPT-image 1 mini"
-msgstr "Нейросети: GPT-5 mini, GPT-5 nano, FLUX, GPT-image 1 mini"
+msgid "Neural networks: Gemini 3 flash, GPT-5 mini, GPT-5 nano, FLUX, GPT-image 1 mini"
+msgstr "Нейросети: Gemini 3 flash, GPT-5 mini, GPT-5 nano, FLUX, GPT-image 1 mini"
 
 #: tpl/options.php
 msgid "* If you buy, for any amount you choose, the same number of credits you get by subscribing. <br />** Payment is spent only on generating characters or images. No hidden fees! You do not pay for tokens used to send context. You do not pay for sending requests for generation. You do not pay for tokens used to mark up articles. You do not pay for spaces."
@@ -1185,8 +1185,8 @@ msgid "This option is only available with a subscription, check the \"Payment & 
 msgstr "Эта опция доступна только по подписке, перейдите в \"Тарифы и оплата\"."
 
 #: tpl/options.php
-msgid "Credits included in your subscription are valid for the calendar month and must be used before your current subscription period ends. Credits purchased in packages or for a custom amount do not expire and will remain on your balance until you use them."
-msgstr "Лимиты которые входят в подписку действую в течение календарного месяца, их нужно использовать до того момента как закончится период действия подписки. Лимиты купленные пакетами или на произвольную сумму не сгорают и будут на баланса до тех пор, пока их не используете."
+msgid "The credits included in the subscription are valid for a calendar month and must be used before the subscription period ends. If you have unused credits from a previous subscription, they will be reset when you purchase a new subscription. Credits purchased in packages or for a custom amount do not expire and will remain on your balance until you use them."
+msgstr "Лимиты которые входят в подписку действую в течение календарного месяца, их нужно использовать до того момента как закончится период действия подписки. Если вы не использовали все лимиты по ранее купленной подписке, при покупке новой подписки эти лимиты обнулятся. Лимиты купленные пакетами или на произвольную сумму не сгорают и будут на баланса до тех пор, пока их не используете."
 
 #: tpl/options.php
 msgid "Activate sending requests from the plugin server to the website in order to enable bulk generation, rewriting or ensuring image uniqueness in background mode. This allows you to generate content when there is no traffic on the website and the admin panel is closed."

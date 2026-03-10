@@ -107,7 +107,7 @@ class AIASIST{
 	public function removeNotice() {
 		global $wp_filter;
 	
-		if( ! isset( $wp_filter['admin_notices'] ) || ! ( $wp_filter['admin_notices'] instanceof WP_Hook ) || @$_GET['page'] != 'wpai-assistant' )
+		if( ! isset( $wp_filter['admin_notices'] ) || ! ( $wp_filter['admin_notices'] instanceof WP_Hook ) || ( ! isset( $_GET['page'] ) || $_GET['page'] != 'wpai-assistant' ) )
 			return;
 
 		$hook = new WP_Hook();
@@ -314,7 +314,7 @@ class AIASIST{
 		
 		if( $_POST['links'] ){
 			foreach( $_POST['links'] as $link ){
-				if( $id = url_to_postid( $link ) )
+				if( $id = $this->url_to_postid( $link ) )
 					$posts_ids[] = $id;
 			}
 		}
@@ -1140,7 +1140,7 @@ class AIASIST{
 			foreach( $_POST['links'] as $cat_id => $links ){
 				foreach( $links as $link ){
 					if( stripos( $link, $_SERVER['HTTP_HOST'] ) !== false ){
-						if( $id = url_to_postid( $link ) )
+						if( $id = $this->url_to_postid( $link ) )
 							$posts_ids[] = $id;
 					} else {
 						
@@ -1444,6 +1444,21 @@ class AIASIST{
 
 	public function front(){
 		?><script>fetch('<?php echo admin_url('admin-ajax.php') ?>?action=assistcron&nonce=<?php echo wp_create_nonce('aiassist') ?>')</script><?php
+	}
+	
+	private function url_to_postid( $url ) {
+		global $wpdb;
+
+		$url = esc_url_raw( $url );
+		$path = wp_parse_url( $url );
+		
+		if( ! isset( $path['path'] ) )
+			return 0;
+		
+		if( $post_id = url_to_postid( $url ) )
+			return $post_id;
+
+		return (int) $wpdb->get_var( $wpdb->prepare('SELECT ID FROM '. $wpdb->posts .' WHERE post_name=%s AND post_type NOT IN ("revision", "nav_menu_item") LIMIT 1', basename( trim( $path['path'], '/' ) ) ) );
 	}
 	
 	private function getImageModelIndex( $model ){

@@ -68,6 +68,7 @@ jQuery( document ).ready(function($){
 			
 			$(document).on('input', '#aiassist-gpt-key', app.saveKey);
 			$(document).on('change', '#aiassist-change-text-model', app.setTextModel);
+			$(document).on('change', '#aiassist-rewrite-text-model', app.setTextModelRewrite);
 			$(document).on('change', '#aiassist-change-text-model-editor', app.setTextModelEditor);
 			$(document).on('change', '#aiassist-change-image-model', app.setImageModel);
 			$(document).on('change', '#aiassist-image-model', app.setAutoImageModel);
@@ -115,6 +116,9 @@ jQuery( document ).ready(function($){
 			
 			if( textModelEditor = app.getCookie('text-model-editor') )
 				$('#aiassist-change-text-model-editor').closest('.aiassist-select').find('.aiassist-option[data-value="'+ textModelEditor +'"]').click();
+			
+			if( textModelRewrite = app.getCookie('text-model-rewrite') )
+				$('#aiassist-rewrite-text-model').closest('.aiassist-select').find('.aiassist-option[data-value="'+ textModelRewrite +'"]').click();
 			
 			if( imgModel = app.getCookie('image-model') ){
 				$('.aiassist-image-model .aiassist-option[data-value="'+ imgModel +'"]').click();
@@ -1115,6 +1119,10 @@ jQuery( document ).ready(function($){
 			app.setCookie('text-model', $('#aiassist-change-text-model').val());
 		},
 		
+		setTextModelRewrite: () => {
+			app.setCookie('text-model-rewrite', $('#aiassist-rewrite-text-model').val());
+		},
+		
 		setTextModelEditor: () => {
 			app.setCookie('text-model-editor', $('#aiassist-change-text-model-editor').val());
 		},
@@ -1773,6 +1781,7 @@ jQuery( document ).ready(function($){
 				$('#wpai-errors-messages').html( auth.message );
 			
 			if( auth.auth ){
+				e.find('button').addClass('disabled');
 				$('input[name="email"]').attr('disabled', true).addClass('disabled');
 				$('#wpai-errors-messages').addClass('success').text( aiassist.locale['Registration was successful, you have been sent an email with a key.'] );
 				document.cookie = 'auth=true';
