@@ -1,12 +1,12 @@
 ( ($) => {
 	
-	const button = {
+	const aiWriterButton = {
 		
 		getTask: ( task_id ) => {
 			return new Promise( async resolve => {
 				while( true ){
 					try{
-						data = await button.request( { token: aiassist.token, action: 'getTask', id: task_id }, aiassist.api );
+						data = await aiWriterButton.request( { token: aiassist.token, action: 'getTask', id: task_id }, aiassist.api );
 						
 						if( data.content ){
 							if( data.limit && $('#tokens-left').length )
@@ -23,7 +23,7 @@
 								spent = spent + parseInt( data.symbols );
 								
 								$('#aiassist-article-symbols').text( spent );
-								button.setCookie( 'spent', spent );
+								aiWriterButton.setCookie( 'spent', spent );
 							}
 						
 							resolve( data )
@@ -31,7 +31,7 @@
 						}
 					} catch {}
 					
-					await button.sleep(5);
+					await aiWriterButton.sleep(5);
 				}
 			})
 		},
@@ -89,19 +89,19 @@
 				
 				let content = ed.selection.getContent();
 				
-				button.loader( true );
+				aiWriterButton.loader( true );
 				
 				$('#aiassist-regenerate-close').click();
 				$('#aiassist-prom-regenerate').val();
 			
-				let task = await button.request( { content: content, prom: $('#aiassist-prom-regenerate').val(), lang_id: parseInt( $('.aiassist-lang-promts-regenerate:first').val() ), token: aiassist.token, action: 'reGenerateContent' }, aiassist.api );
+				let task = await aiWriterButton.request( { content: content, prom: $('#aiassist-prom-regenerate').val(), lang_id: parseInt( $('.aiassist-lang-promts-regenerate:first').val() ), token: aiassist.token, model: $('#aiassist-change-text-model-editor').val(), action: 'reGenerateContent' }, aiassist.api );
 				
-				data = await button.getTask( task.task_id );
+				data = await aiWriterButton.getTask( task.task_id );
 				
 				if( data.content )
 					ed.selection.setContent( data.content );						
 				
-				button.loader();
+				aiWriterButton.loader();
 			})
 			
 			$(document).on('click', '#aiassist-regenerate-close', () => $('#aiassist-regenerate-wrap').hide() );

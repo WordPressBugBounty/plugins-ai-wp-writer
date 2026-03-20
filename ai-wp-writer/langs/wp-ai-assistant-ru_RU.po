@@ -1061,8 +1061,8 @@ msgid "Are you sure you want to clear all fields from the generated text?"
 msgstr "Вы уверены что хотите очистить все поля от сгенерированного текста?"
 
 #: in js
-msgid "You have no credits left. Do not close the page, top up your balance and click "Generate" again. <a href="/wp-admin/admin.php?page=wpai-assistant" target="_blank">Top up balance</a>"
-msgstr "'Закончились лимиты! Не закрывайте страницу, пополните баланс и нажмите снова \"Сгенерировать\". <a href=\"/wp-admin/admin.php?page=wpai-assistant\" target=\"_blank\">Пополнить баланс</a>"
+msgid "Your credits have run out! Don’t close the page—top up your balance and the generation will continue. <a href="/wp-admin/admin.php?page=wpai-assistant" target="_blank">Top up balance</a>"
+msgstr "Закончились лимиты! Не закрывайте страницу, пополните баланс и генерация продолжится. <a href=\"/wp-admin/admin.php?page=wpai-assistant\" target=\"_blank\">Пополнить баланс</a>"
 
 #: in js
 msgid "The prompt was censored, one or more words prevent image generation. Try changing the prompt!"

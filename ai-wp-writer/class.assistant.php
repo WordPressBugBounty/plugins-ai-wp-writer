@@ -1513,7 +1513,7 @@ class AIASIST{
 			'locale'	=> [
 				'Need help?'	=> wp_kses_post( __('Need help?', 'wp-ai-assistant') ),
 				'Are you sure you want to clear all fields from generated text?'	=> wp_kses_post( __('Are you sure you want to clear all fields from the generated text?', 'wp-ai-assistant') ),
-				'Limits are over'	=> wp_kses_post( __('You have no credits left. Do not close the page, top up your balance and click "Generate" again. <a href="/wp-admin/admin.php?page=wpai-assistant" target="_blank">Top up balance</a>', 'wp-ai-assistant') ),
+				'Limits are over'	=> wp_kses_post( __('Your credits have run out! Don’t close the page—top up your balance and the generation will continue. <a href="/wp-admin/admin.php?page=wpai-assistant" target="_blank">Top up balance</a>', 'wp-ai-assistant') ),
 				'Prompt was censored'	=> wp_kses_post( __('The prompt was censored, one or more words prevent image generation. Try changing the prompt!', 'wp-ai-assistant') ),
 				'photo'	=> wp_kses_post( __('photo', 'wp-ai-assistant') ),
 				'The limits have been reached'	=> wp_kses_post( __('You have no credits left, please top up your balance to continue generating!', 'wp-ai-assistant') ),

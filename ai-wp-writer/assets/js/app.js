@@ -1,11 +1,11 @@
 jQuery( document ).ready(function($){
 
-	const app = {
+	const aiWriter = {
 		
 		init: () => {
 			
-			app.cron();
-			app.events();
+			aiWriter.cron();
+			aiWriter.events();
 			
 		},
 		
@@ -15,127 +15,129 @@ jQuery( document ).ready(function($){
 				event.stopImmediatePropagation();
 			});
 			
-			$(document).on('click', '.wpai-tab', app.tabs);
-			$(document).on('click', '.aiassist-rates-tab', app.rateTabs);
-			$(document).on('click', '.close-notice, .aiwriter-notice .notice-dismiss', app.closeNotice);
-			$(document).on('click', '.aiassist-tab:not(.aiassist-tab-inactive, .aiassist-lock)', app.wsTabs);
-			$(document).on('click', '.aiassist-tab-inactive', app.wsTabsInactive);
-			$(document).on('submit', '#aiassist-sign', app.sign);
-			$(document).on('submit', '#aiassist-stat', app.getStat);
-			$(document).on('click', 'button[name="step"]', app.statStep);
-			$(document).on('click', '.aiassist-buy', app.buy);
-			$(document).on('click', '.aiassist-recurring-activate', app.recurringActivate);
-			$(document).on('click', '.aiassist-recurring-pause', app.recurringPause);
-			$(document).on('submit', '#aiassist-custom-buy', app.buyForm);
-			$(document).on('focus', '#out_summ', app.outSummFocus);
-			$(document).on('blur', '#out_summ', app.outSummFocusOut);
-			$(document).on('click', '#aiassist-addItemRewrite', app.addItemRewrite);
-			$(document).on('click', '.aiassist-rewrite-item-close', app.rewriteItemClose);
-			$(document).on('click', '#aiassist-addItemArticle', app.addItemArticle);
-			$(document).on('click', '.aiassist-article-queue .aiassist-article-item-close', app.queueArticleClose);
-			$(document).on('click', '.aiassist-article-item .aiassist-article-item-close', app.articleItemClose);
-			$(document).on('click', '#start-articles-generations', app.startArticlesGeneration);
-			$(document).on('click', '#stop-articles-generations', app.stopArticlesGeneration);
-			$(document).on('click', '#clear-articles-generations', app.clearArticlesGeneration);
-			$(document).on('change', '.aiassist-auto-options', app.autoGenOptions);
-			$(document).on('change', '.aiassist-rewrite-options', app.rewriteOptions);
-			$(document).on('click', '#start-rewrite-generations', app.startRewriteGenerations);
-			$(document).on('click', '#clear-rewrite-generations', app.clearRewritesGeneration);
-			$(document).on('click', '#stop-rewrite-generations', app.stopRewriteGeneration);
+			$(document).on('click', '.wpai-tab', aiWriter.tabs);
+			$(document).on('click', '.aiassist-rates-tab', aiWriter.rateTabs);
+			$(document).on('click', '.close-notice, .aiwriter-notice .notice-dismiss', aiWriter.closeNotice);
+			$(document).on('click', '.aiassist-tab:not(.aiassist-tab-inactive, .aiassist-lock)', aiWriter.wsTabs);
+			$(document).on('click', '.aiassist-tab-inactive', aiWriter.wsTabsInactive);
+			$(document).on('submit', '#aiassist-sign', aiWriter.sign);
+			$(document).on('submit', '#aiassist-stat', aiWriter.getStat);
+			$(document).on('click', 'button[name="step"]', aiWriter.statStep);
+			$(document).on('click', '.aiassist-buy', aiWriter.buy);
+			$(document).on('click', '.aiassist-recurring-activate', aiWriter.recurringActivate);
+			$(document).on('click', '.aiassist-recurring-pause', aiWriter.recurringPause);
+			$(document).on('submit', '#aiassist-custom-buy', aiWriter.buyForm);
+			$(document).on('focus', '#out_summ', aiWriter.outSummFocus);
+			$(document).on('blur', '#out_summ', aiWriter.outSummFocusOut);
+			$(document).on('click', '#aiassist-addItemRewrite', aiWriter.addItemRewrite);
+			$(document).on('click', '.aiassist-rewrite-item-close', aiWriter.rewriteItemClose);
+			$(document).on('click', '#aiassist-addItemArticle', aiWriter.addItemArticle);
+			$(document).on('click', '.aiassist-article-queue .aiassist-article-item-close', aiWriter.queueArticleClose);
+			$(document).on('click', '.aiassist-article-item .aiassist-article-item-close', aiWriter.articleItemClose);
+			$(document).on('click', '#start-articles-generations', aiWriter.startArticlesGeneration);
+			$(document).on('click', '#stop-articles-generations', aiWriter.stopArticlesGeneration);
+			$(document).on('click', '#clear-articles-generations', aiWriter.clearArticlesGeneration);
+			$(document).on('change', '.aiassist-auto-options', aiWriter.autoGenOptions);
+			$(document).on('change', '.aiassist-rewrite-options', aiWriter.rewriteOptions);
+			$(document).on('click', '#start-rewrite-generations', aiWriter.startRewriteGenerations);
+			$(document).on('click', '#clear-rewrite-generations', aiWriter.clearRewritesGeneration);
+			$(document).on('click', '#stop-rewrite-generations', aiWriter.stopRewriteGeneration);
 			
 			if( window.tinymce ){
 				interval = setInterval( () => {
-					app.editor = tinymce.get('AIASSIST');
+					aiWriter.editor = tinymce.get('AIASSIST');
 					
-					if( ! app.editor )
+					if( ! aiWriter.editor || aiWriter.load )
 						return;
 					
 					clearInterval( interval );
-					$(document).on('click', '#aiassist-step-stop', app.stepStop);
-					$(document).on('click', '#aiassist-theme-generate', app.generateHeader);
-					$(document).on('click', '#aiassist-structure-generate', app.generateStructure);
-					$(document).on('click', '#aiassist-content-generate', app.generateContent);
-					$(document).on('click', '#aiassist-standart-generate', app.standartGenerateContent);
-					$(document).on('click', '#aiassist-meta-generate', app.generateMeta);
-					$(document).on('click', '#aiassist-save-content', app.saveContent);
-					$(document).on('click', '#aiassist-images-generator-all-headers', app.checkAllHeaders);
-					$(document).on('click', '.image-generate-item', app.imageGenerator);
-					$(document).on('click', '#aiassist-images-generator-start', app.imagesGenerator);
-					$(document).on('click', '.aiassist-images .aiassist-image', app.selectImage);
-					$(document).on('change', '#aiassist-change-image-model', app.translatePromtsToImages);
+					
+					aiWriter.load = true;
+					$(document).on('click', '#aiassist-step-stop', aiWriter.stepStop);
+					$(document).on('click', '#aiassist-theme-generate', aiWriter.generateHeader);
+					$(document).on('click', '#aiassist-structure-generate', aiWriter.generateStructure);
+					$(document).on('click', '#aiassist-content-generate', aiWriter.generateContent);
+					$(document).on('click', '#aiassist-standart-generate', aiWriter.standartGenerateContent);
+					$(document).on('click', '#aiassist-meta-generate', aiWriter.generateMeta);
+					$(document).on('click', '#aiassist-save-content', aiWriter.saveContent);
+					$(document).on('click', '#aiassist-images-generator-all-headers', aiWriter.checkAllHeaders);
+					$(document).on('click', '.image-generate-item', aiWriter.imageGenerator);
+					$(document).on('click', '#aiassist-images-generator-start', aiWriter.imagesGenerator);
+					$(document).on('click', '.aiassist-images .aiassist-image', aiWriter.selectImage);
+					$(document).on('change', '#aiassist-change-image-model', aiWriter.translatePromtsToImages);
 				}, 250)
 			}
 			
-			$(document).on('input', '#aiassist-gpt-key', app.saveKey);
-			$(document).on('change', '#aiassist-change-text-model', app.setTextModel);
-			$(document).on('change', '#aiassist-rewrite-text-model', app.setTextModelRewrite);
-			$(document).on('change', '#aiassist-change-text-model-editor', app.setTextModelEditor);
-			$(document).on('change', '#aiassist-change-image-model', app.setImageModel);
-			$(document).on('change', '#aiassist-image-model', app.setAutoImageModel);
-			$(document).on('change', '#aiassist-images-model', app.setReplaceImageModel);
-			$(document).on('change', '#aiassist-rewrite-image-model', app.setRewriteImageModel);
-			$(document).on('click', '#aiassist-tiny-image-save', app.tinyMceImageSave);
-			$(document).on('click', '#aiassist-generate-image-close', app.tonyMcePopUpHide );
-			$(document).on('click', '#aiassist-tiny-image-translate', app.tinyMceTranslate );
-			$(document).on('click', '#aiassist-tiny-image-generate', app.tinyMceImageGenerate );
-			$(document).on('click', '#aiassist-clear-content', app.clearContent );
-			$(document).on('click', '.aiassist-set-default-promts', app.setDefaultPromts );
-			$(document).on('click', '.aiassist-set-default-promts-regenerate', app.setDefaultPromtsRegenerate );
-			$(document).on('click', '.ai-image', app.selectImageInBlock);
-			$(document).on('click', '.aiassist-post-restore', app.postRestore);
-			$(document).on('click', '#restore-rewrite-generations', app.postsRestores);
-			$(document).on('change', '#rewrite_all', app.rewriteAllSiteChecked);
-			$(document).on('change', 'input[name*="rewrite_type"]', app.rewriteInputsChecked);
-			$(document).on('change', '.cat-rewrite-option input[type="checkbox"]', app.disabledRewriteUrlArea);
-			$(document).on('input', '.aiassist-prom', app.savePromt);
-			$(document).on('input', '.aiassist-keywords-input input, .aiassist-multi-keywords .aiassist-multi-item', app.showKeywordsArea);
-			$(document).on('paste', '.aiassist-keywords-input input, .aiassist-multi-keywords .aiassist-multi-item', app.showKeywordsArea);
-			$(document).on('change', 'select.aiassist-lang-promts', app.changeLangPromts);
-			$(document).on('change', 'select.aiassist-lang-promts-regenerate', app.changeLangPromtsToRegenerate);
-			$(document).on('click', '.pay-method:not(.active)', app.setPayMethod);
-			$(document).on('click', '.aiassist-copy', app.copy);
-			$(document).on('submit', '#aiassist-get-bonus', app.getBonus);
-			$(document).on('keydown', '.aiassist-multi-item', app.multiKeydownItems);
-			$(document).on('paste', '.aiassist-multi-item', app.pastateBuffer);
+			$(document).on('input', '#aiassist-gpt-key', aiWriter.saveKey);
+			$(document).on('change', '#aiassist-change-text-model', aiWriter.setTextModel);
+			$(document).on('change', '#aiassist-rewrite-text-model', aiWriter.setTextModelRewrite);
+			$(document).on('change', '#aiassist-change-text-model-editor', aiWriter.setTextModelEditor);
+			$(document).on('change', '#aiassist-change-image-model', aiWriter.setImageModel);
+			$(document).on('change', '#aiassist-image-model', aiWriter.setAutoImageModel);
+			$(document).on('change', '#aiassist-images-model', aiWriter.setReplaceImageModel);
+			$(document).on('change', '#aiassist-rewrite-image-model', aiWriter.setRewriteImageModel);
+			$(document).on('click', '#aiassist-tiny-image-save', aiWriter.tinyMceImageSave);
+			$(document).on('click', '#aiassist-generate-image-close', aiWriter.tonyMcePopUpHide );
+			$(document).on('click', '#aiassist-tiny-image-translate', aiWriter.tinyMceTranslate );
+			$(document).on('click', '#aiassist-tiny-image-generate', aiWriter.tinyMceImageGenerate );
+			$(document).on('click', '#aiassist-clear-content', aiWriter.clearContent );
+			$(document).on('click', '.aiassist-set-default-promts', aiWriter.setDefaultPromts );
+			$(document).on('click', '.aiassist-set-default-promts-regenerate', aiWriter.setDefaultPromtsRegenerate );
+			$(document).on('click', '.ai-image', aiWriter.selectImageInBlock);
+			$(document).on('click', '.aiassist-post-restore', aiWriter.postRestore);
+			$(document).on('click', '#restore-rewrite-generations', aiWriter.postsRestores);
+			$(document).on('change', '#rewrite_all', aiWriter.rewriteAllSiteChecked);
+			$(document).on('change', 'input[name*="rewrite_type"]', aiWriter.rewriteInputsChecked);
+			$(document).on('change', '.cat-rewrite-option input[type="checkbox"]', aiWriter.disabledRewriteUrlArea);
+			$(document).on('input', '.aiassist-prom', aiWriter.savePromt);
+			$(document).on('input', '.aiassist-keywords-input input, .aiassist-multi-keywords .aiassist-multi-item', aiWriter.showKeywordsArea);
+			$(document).on('paste', '.aiassist-keywords-input input, .aiassist-multi-keywords .aiassist-multi-item', aiWriter.showKeywordsArea);
+			$(document).on('change', 'select.aiassist-lang-promts', aiWriter.changeLangPromts);
+			$(document).on('change', 'select.aiassist-lang-promts-regenerate', aiWriter.changeLangPromtsToRegenerate);
+			$(document).on('click', '.pay-method:not(.active)', aiWriter.setPayMethod);
+			$(document).on('click', '.aiassist-copy', aiWriter.copy);
+			$(document).on('submit', '#aiassist-get-bonus', aiWriter.getBonus);
+			$(document).on('keydown', '.aiassist-multi-item', aiWriter.multiKeydownItems);
+			$(document).on('paste', '.aiassist-multi-item', aiWriter.pastateBuffer);
 			
-			$(document).on('keydown', app.keydown);
-			$(document).on('mousedown', '.aiassist-multi-items', app.mousedown);
-			$(document).on('mousemove', app.mousemove ).on('mouseup', app.mouseup);
-			$(document).on('mouseenter', '.aiassist-article-item', app.activateBlock);
+			$(document).on('keydown', aiWriter.keydown);
+			$(document).on('mousedown', '.aiassist-multi-items', aiWriter.mousedown);
+			$(document).on('mousemove', aiWriter.mousemove ).on('mouseup', aiWriter.mouseup);
+			$(document).on('mouseenter', '.aiassist-article-item', aiWriter.activateBlock);
 			
-			$(document).on('click', '.aiassist-lock', app.lockEvent);
-			$(document).on('mouseenter', '.aiassist-lock', app.showInfo);
-			$(document).on('mouseleave', '.aiassist-lock', app.hideInfo);
-			$(document).on('click', '.aiassist-rate-desc', app.openRateInfo);
-			$(document).on('click', app.hideSelect);
-			$(document).on('click', '.aiassist-select-lable', app.openSelect);
-			$(document).on('click', '.aiassist-option:not(.aiassist-lock)', app.changeSelect);
+			$(document).on('click', '.aiassist-lock', aiWriter.lockEvent);
+			$(document).on('mouseenter', '.aiassist-lock', aiWriter.showInfo);
+			$(document).on('mouseleave', '.aiassist-lock', aiWriter.hideInfo);
+			$(document).on('click', '.aiassist-rate-desc', aiWriter.openRateInfo);
+			$(document).on('click', aiWriter.hideSelect);
+			$(document).on('click', '.aiassist-select-lable', aiWriter.openSelect);
+			$(document).on('click', '.aiassist-option:not(.aiassist-lock)', aiWriter.changeSelect);
 			
-			if( textModel = app.getCookie('text-model') )
+			if( textModel = aiWriter.getCookie('text-model') )
 				$('#aiassist-change-text-model').closest('.aiassist-select').find('.aiassist-option[data-value="'+ textModel +'"]').click();
 			
-			if( textModelEditor = app.getCookie('text-model-editor') )
+			if( textModelEditor = aiWriter.getCookie('text-model-editor') )
 				$('#aiassist-change-text-model-editor').closest('.aiassist-select').find('.aiassist-option[data-value="'+ textModelEditor +'"]').click();
 			
-			if( textModelRewrite = app.getCookie('text-model-rewrite') )
+			if( textModelRewrite = aiWriter.getCookie('text-model-rewrite') )
 				$('#aiassist-rewrite-text-model').closest('.aiassist-select').find('.aiassist-option[data-value="'+ textModelRewrite +'"]').click();
 			
-			if( imgModel = app.getCookie('image-model') ){
+			if( imgModel = aiWriter.getCookie('image-model') ){
 				$('.aiassist-image-model .aiassist-option[data-value="'+ imgModel +'"]').click();
-				setTimeout( app.translatePromtsToImages, 1500);
+				setTimeout( aiWriter.translatePromtsToImages, 1500);
 			}
 			
-			if( imgModelAuto = app.getCookie('image-model-auto') )
+			if( imgModelAuto = aiWriter.getCookie('image-model-auto') )
 				$('.aiassist-image-model-auto .aiassist-option[data-value="'+ imgModelAuto +'"]').click();
 			
-			if( imgModelReplace = app.getCookie('image-model-replace') )
+			if( imgModelReplace = aiWriter.getCookie('image-model-replace') )
 				$('.aiassist-image-model-replace .aiassist-option[data-value="'+ imgModelReplace +'"]').click();
 			
-			if( imgModelRewrite = app.getCookie('image-model-rewrite') )
+			if( imgModelRewrite = aiWriter.getCookie('image-model-rewrite') )
 				$('.aiassist-image-model-rewrite .aiassist-option[data-value="'+ imgModelRewrite +'"]').click();
 			
 			if( aiassist.token ){
-				if( ( tab = app.getCookie('activeTab') ) || $('.aiassist-empty-limit').length < 2 )
+				if( ( tab = aiWriter.getCookie('activeTab') ) || $('.aiassist-empty-limit').length < 2 )
 					$('.aiassist-tab[data-tab="'+ tab +'"]').click();
 					
 				if( $('.aiassist-empty-limit').length > 1 && $('.aiassist-tab[data-tab="rates"]').length )
@@ -154,22 +156,22 @@ jQuery( document ).ready(function($){
 				$('html, body').animate( { scrollTop: $('#ai_assistant').offset().top }, 1000);
 			
 			
-			$(document).on('click', '#stop-images', app.replaceImagesStop);
-			$(document).on('click', '#start-images', app.replaceImagesStart);
-			$(document).on('click', '#reset-images', app.replaceImagesReset);
-			$(document).on('click', '#restore-images', app.replaceImagesRestore);
-			$(document).on('click', '#remove-images', app.replaceImagesRemove);
+			$(document).on('click', '#stop-images', aiWriter.replaceImagesStop);
+			$(document).on('click', '#start-images', aiWriter.replaceImagesStart);
+			$(document).on('click', '#reset-images', aiWriter.replaceImagesReset);
+			$(document).on('click', '#restore-images', aiWriter.replaceImagesRestore);
+			$(document).on('click', '#remove-images', aiWriter.replaceImagesRemove);
 			
-			$(document).on('change', '#cat-images', app.disabledImagesUrlArea);
-			$(document).on('change', '#replace-images-all', app.replaceAllImagesChecked);
-			$(document).on('change', 'input[name*="images_type"]', app.imagesTypeChecked);
+			$(document).on('change', '#cat-images', aiWriter.disabledImagesUrlArea);
+			$(document).on('change', '#replace-images-all', aiWriter.replaceAllImagesChecked);
+			$(document).on('change', 'input[name*="images_type"]', aiWriter.imagesTypeChecked);
 		},
 		
 		closeNotice: function(){
 			const notice = $(this).closest('.aiwriter-notice');
 			
 			notice.hide();
-			app.setCookie( notice.data('notice'), true );
+			aiWriter.setCookie( notice.data('notice'), true );
 		},
 		
 		replaceImagesRemove: async () => {
@@ -178,7 +180,7 @@ jQuery( document ).ready(function($){
 			
 			$('#remove-images').addClass('disabled').text( aiassist.locale['Removing...'] );
 			
-			await app.request( { action: 'replaceImagesRemove', nonce: aiassist.nonce } );
+			await aiWriter.request( { action: 'replaceImagesRemove', nonce: aiassist.nonce } );
 			
 			$('#aiassist-images-compleat-count, #aiassist-images-all-count').text(0);
 			$('#remove-images').removeClass('disabled').text( aiassist.locale['Removeds'] ).delay(3000).queue( next => {
@@ -194,7 +196,7 @@ jQuery( document ).ready(function($){
 			
 			$('#restore-images').addClass('disabled').text( aiassist.locale['Restoring...'] );
 			
-			await app.request( { action: 'replaceImagesRestore', nonce: aiassist.nonce } );
+			await aiWriter.request( { action: 'replaceImagesRestore', nonce: aiassist.nonce } );
 			
 			$('#aiassist-images-compleat-count, #aiassist-images-all-count').text(0);
 			$('#restore-images').removeClass('disabled').text( aiassist.locale['Restored'] ).delay(3000).queue( next => {
@@ -213,7 +215,7 @@ jQuery( document ).ready(function($){
 			$('#aiassist-images-compleat-count, #aiassist-images-all-count').text(0);
 			$('#aiassist-images-status').text( aiassist.locale['The regeneration process has been stopped.'] );
 			
-			await app.request( { action: 'replaceImagesReset', nonce: aiassist.nonce } );
+			await aiWriter.request( { action: 'replaceImagesReset', nonce: aiassist.nonce } );
 		},
 		
 		replaceImagesStart: async () => {
@@ -241,7 +243,7 @@ jQuery( document ).ready(function($){
 			$('#replace-images-all, input[name*="images_type"]').prop( { checked: false, disabled: false } );
 			$('#cat-images, .aiassist-images-item-block, .aiassist-images-options-items').removeClass('disabled');
 			
-			let data = await app.request( Object.assign( args, { action: 'replaceImagesStart', nonce: aiassist.nonce } ) );
+			let data = await aiWriter.request( Object.assign( args, { action: 'replaceImagesStart', nonce: aiassist.nonce } ) );
 			
 			if( data.attachments && data.attachments.length ){
 				$('#aiassist-images-progress').show();
@@ -259,7 +261,7 @@ jQuery( document ).ready(function($){
 			$('#stop-images').attr('disabled', true);
 			$('#aiassist-images-status').text( aiassist.locale['The regeneration process has been stopped.'] );
 			
-			await app.request( { action: 'replaceImagesStop', nonce: aiassist.nonce } ); 
+			await aiWriter.request( { action: 'replaceImagesStop', nonce: aiassist.nonce } ); 
 		},
 		
 		disabledImagesUrlArea: () => {
@@ -328,28 +330,28 @@ jQuery( document ).ready(function($){
 		},
 		
 		mouseup: () => {
-			app.isMouseDown = false;
+			aiWriter.isMouseDown = false;
 			$('#aiassist-selection-box').hide();
 		},
 		
 		mousedown: function( e ){
-			app.isMouseDown = true;
-			app.startX = e.pageX;
-			app.startY = e.pageY;
+			aiWriter.isMouseDown = true;
+			aiWriter.startX = e.pageX;
+			aiWriter.startY = e.pageY;
 
 			$('.aiassist-multi-item').removeClass('selected');
-			$('#aiassist-selection-box').css({ top: app.startY + 'px', left: app.startX + 'px', width: 0, height: 0, display: 'block' });
+			$('#aiassist-selection-box').css({ top: aiWriter.startY + 'px', left: aiWriter.startX + 'px', width: 0, height: 0, display: 'block' });
 		},
 		
 		mousemove: function( e ){
-			if( app.isMouseDown ){
+			if( aiWriter.isMouseDown ){
 				let X = e.pageX;
 				let Y = e.pageY;
 
-				let selectionLeft = Math.min(X, app.startX);
-				let selectionTop = Math.min(Y, app.startY);
-				let selectionRight = Math.max(X, app.startX);
-				let selectionBottom = Math.max(Y, app.startY);
+				let selectionLeft = Math.min(X, aiWriter.startX);
+				let selectionTop = Math.min(Y, aiWriter.startY);
+				let selectionRight = Math.max(X, aiWriter.startX);
+				let selectionBottom = Math.max(Y, aiWriter.startY);
 
 				$('#aiassist-selection-box').css({
 					top: selectionTop - $(document).scrollTop() + 'px',
@@ -358,7 +360,7 @@ jQuery( document ).ready(function($){
 					height: selectionBottom - selectionTop + 'px',
 				});
 
-				app.activeBlock.find('.aiassist-multi-item').each(function(){
+				aiWriter.activeBlock.find('.aiassist-multi-item').each(function(){
 					let e = $(this);
 					let top = e.offset().top;
 					let left = e.offset().left;
@@ -366,13 +368,13 @@ jQuery( document ).ready(function($){
 					let right = left + e.outerWidth();
 
 					if( selectionRight > left && selectionLeft < right && selectionBottom > top && selectionTop < bottom )
-						app.activeBlock.find('.aiassist-multi-themes .aiassist-multi-item:eq(' + (e.index() - 1) + '), .aiassist-multi-keywords .aiassist-multi-item:eq(' + (e.index() - 1) + ')').addClass('selected');
+						aiWriter.activeBlock.find('.aiassist-multi-themes .aiassist-multi-item:eq(' + (e.index() - 1) + '), .aiassist-multi-keywords .aiassist-multi-item:eq(' + (e.index() - 1) + ')').addClass('selected');
 				});
 			}
 		},
 
 		activateBlock: function(){
-			app.activeBlock = $(this);
+			aiWriter.activeBlock = $(this);
 		},
 		
 		keydown: function( e ){
@@ -446,9 +448,9 @@ jQuery( document ).ready(function($){
 			let e = $(this);
 			e.find('button').before('<div>'+ aiassist.locale['Payout request sent'] +'</div>').addClass('disabled');
 			
-			let args = app.getFormData( e );
+			let args = aiWriter.getFormData( e );
 			e[0].reset();
-			await app.request( Object.assign( args, { action: 'getBonus', nonce: aiassist.nonce } ) );
+			await aiWriter.request( Object.assign( args, { action: 'getBonus', nonce: aiassist.nonce } ) );
 		},
 		
 		copy: function(){
@@ -459,7 +461,7 @@ jQuery( document ).ready(function($){
 				next();
 			})
 			
-			app.buffer( e.text() );
+			aiWriter.buffer( e.text() );
 		},
 		
 		setPayMethod: function(){
@@ -523,7 +525,7 @@ jQuery( document ).ready(function($){
 		},
 		
 		savePromt: async function( event ){
-			clearTimeout( app.t );
+			clearTimeout( aiWriter.t );
 			
 			let e = $(this);
 			let promt = e.val();
@@ -604,32 +606,32 @@ jQuery( document ).ready(function($){
 				break;
 				
 				case 'aiassist-system-image-prompt-auto':
-					aiassist.promts['img_auto'][ app.getImageModelIndex( $('#aiassist-image-model').val() ) ] = promt;
+					aiassist.promts['img_auto'][ aiWriter.getImageModelIndex( $('#aiassist-image-model').val() ) ] = promt;
 				break;
 				
 				case 'aiassist-system-image-prompt-rewrite':
-					aiassist.promts['img_rewrite'][ app.getImageModelIndex( $('#aiassist-rewrite-image-model').val() ) ] = promt;
+					aiassist.promts['img_rewrite'][ aiWriter.getImageModelIndex( $('#aiassist-rewrite-image-model').val() ) ] = promt;
 				break;
 				
 				case 'aiassist-system-image-prompt-replace':
-					aiassist.promts['img_replace'][ app.getImageModelIndex( $('#aiassist-images-model').val() ) ] = promt;
+					aiassist.promts['img_replace'][ aiWriter.getImageModelIndex( $('#aiassist-images-model').val() ) ] = promt;
 				break;
 			}
 			
-			app.t = setTimeout( async () => {
-				await app.request( { val: aiassist.promts, act: 'promts', action: 'saveStep', nonce: aiassist.nonce } );
+			aiWriter.t = setTimeout( async () => {
+				await aiWriter.request( { val: aiassist.promts, act: 'promts', action: 'saveStep', nonce: aiassist.nonce } );
 			}, 1500);
 		},
 		
 		changeLangPromts: async function(){
-			app.setLangPromts( $(this).val() )
+			aiWriter.setLangPromts( $(this).val() )
 		},
 		
 		setDefaultPromts: () => {
 			if( ! confirm( aiassist.locale['Are you sure?'] ) )
 				return false;
 			
-			app.setLangPromts( $('.aiassist-lang-promts:visible:first').val(), true )
+			aiWriter.setLangPromts( $('.aiassist-lang-promts:visible:first').val(), true )
 		},
 		
 		setDefaultPromtsRegenerate: async () => {
@@ -644,7 +646,7 @@ jQuery( document ).ready(function($){
 			if( typeof aiassist.promts.regenerate[ lang ] !== 'undefined' ){	
 				aiassist.promts.regenerate	= aiassist.info.promts.regenerate;
 				$('#aiassist-prom-regenerate').val( aiassist.promts.regenerate[ lang ] )
-				await app.request( { val: aiassist.promts, act: 'promts', action: 'saveStep', nonce: aiassist.nonce } );
+				await aiWriter.request( { val: aiassist.promts, act: 'promts', action: 'saveStep', nonce: aiassist.nonce } );
 			}
 		},
 		
@@ -657,7 +659,7 @@ jQuery( document ).ready(function($){
 				if( $('#aiassist-prom-regenerate').is(':visible') )
 					$('#aiassist-prom-regenerate').val( aiassist.promts.regenerate[ lang ] )
 				
-				await app.request( { val: aiassist.promts, act: 'promts', action: 'saveStep', nonce: aiassist.nonce } );
+				await aiWriter.request( { val: aiassist.promts, act: 'promts', action: 'saveStep', nonce: aiassist.nonce } );
 			}
 		},
 		
@@ -755,7 +757,7 @@ jQuery( document ).ready(function($){
 				$('#aiassist-article-prom-long-keywords').val( aiassist.promts.long_keywords[ lang ] )
 			}
 			
-			await app.request( { val: aiassist.promts, act: 'promts', action: 'saveStep', nonce: aiassist.nonce } );
+			await aiWriter.request( { val: aiassist.promts, act: 'promts', action: 'saveStep', nonce: aiassist.nonce } );
 		},
 		
 		disabledRewriteUrlArea: function(){
@@ -772,7 +774,7 @@ jQuery( document ).ready(function($){
 			
 			if( posts.length ){
 				for( let i = 0; i < posts.length; i++ )
-					await app.restore( $( posts[ i ] ) );
+					await aiWriter.restore( $( posts[ i ] ) );
 			}
 		},
 		
@@ -782,7 +784,7 @@ jQuery( document ).ready(function($){
 			if( ! confirm( aiassist.locale['Are you sure?'] ) )
 				return false;
 			
-			app.restore( $(this) );
+			aiWriter.restore( $(this) );
 		},
 		
 		restore: ( e ) => {
@@ -791,20 +793,20 @@ jQuery( document ).ready(function($){
 				e.remove();
 				
 				status.text( aiassist.locale['Restoring...'] );
-				await app.request( { action: 'postRestore', post_id: e.attr('post_id'), revision_id: e.attr('revision_id'), nonce: aiassist.nonce } );
+				await aiWriter.request( { action: 'postRestore', post_id: e.attr('post_id'), revision_id: e.attr('revision_id'), nonce: aiassist.nonce } );
 				status.text( aiassist.locale['Restored'] );
 				resolve( true );
 			})
 		},
 		
 		rewriteInputsChecked: function(){
-			app.hideRewriteItems( $('input[name*="rewrite_type"]').is(':checked') );
+			aiWriter.hideRewriteItems( $('input[name*="rewrite_type"]').is(':checked') );
 		},
 		
 		rewriteAllSiteChecked: () => {
 			let check = $('#rewrite_all').is(':checked');
 			$('input[name*="rewrite_type"]').prop( { 'checked': check, 'disabled': check } );
-			app.hideRewriteItems( check );
+			aiWriter.hideRewriteItems( check );
 		},
 		
 		tonyMcePopUpHide: () => {
@@ -815,16 +817,16 @@ jQuery( document ).ready(function($){
 			if( ! confirm( aiassist.locale['Are you sure you want to clear all fields from the generated text?'] ) )
 				return false;
 		
-			app.editor.setContent('');
-			app.setCookie('spent', 0);
-			app.setCookie('imgSpent', 0);
+			aiWriter.editor.setContent('');
+			aiWriter.setCookie('spent', 0);
+			aiWriter.setCookie('imgSpent', 0);
 			
 			$('.aiassist-headers').html('');
 			$('#step1, #step2, #step3, #step4, #step6').hide();
 			$('#aiassist-article-symbols, #images-article-symbols').text('0');
 			$('#aiassist-theme, #aiassist-header, #aiassist-structure, #aiassist-title, #aiassist-desc').val('');
 			
-			await app.request( { action: 'clearContent', nonce: aiassist.nonce } );
+			await aiWriter.request( { action: 'clearContent', nonce: aiassist.nonce } );
 		},
 		
 		tinyMceImageGenerate: async function(){
@@ -843,13 +845,13 @@ jQuery( document ).ready(function($){
 			$('.aiassist-image-tiny-item').addClass('aiassist-images aiassist-proces disabled');
 			
 			if( promt.match(/[А-Яа-я]/g) && ( model == 'midjourney' || model == 'flux' ) ){
-				let task = await app.request( { action: 'translate', token: aiassist.token, content: promt }, aiassist.api );
+				let task = await aiWriter.request( { action: 'translate', token: aiassist.token, content: promt }, aiassist.api );
 				
 				if( parseInt( task.limit ) < 1 )
 					block.find('.aiassist-image-tiny-item').removeClass('aiassist-proces disabled').html('<span class="aiassist-warning-limits">'+ aiassist.locale['Limits are over'] +'</span></span>');
 					
 				if( task.task_id ){
-					let translate = await app.request( { action: 'getTask', token: aiassist.token, id: task.task_id }, aiassist.api );
+					let translate = await aiWriter.request( { action: 'getTask', token: aiassist.token, id: task.task_id }, aiassist.api );
 					
 					if( translate.content ){
 						promt = translate.content;
@@ -859,14 +861,14 @@ jQuery( document ).ready(function($){
 					$('#aiassist-tiny-image-promt').val('Error translate promt');
 			}
 			
-			let task = await app.request( { action: 'image_generator', token: aiassist.token, model: model, header: promt, format: 'jpg' }, aiassist.api );
+			let task = await aiWriter.request( { action: 'image_generator', token: aiassist.token, model: model, header: promt, format: 'jpg' }, aiassist.api );
 			
 			if( parseInt( task.limit ) < 1 )
 				block.find('.aiassist-images').removeClass('aiassist-proces disabled').html('<span class="aiassist-warning-limits">'+ aiassist.locale['Limits are over'] +'</span></span>');
 				
 			if( task.task_id ){
 				while( true ){
-					let data = await app.request( { action: 'getTask', id: task.task_id, token: aiassist.token }, aiassist.api );
+					let data = await aiWriter.request( { action: 'getTask', id: task.task_id, token: aiassist.token }, aiassist.api );
 					
 					if( data.process ){
 						if( data.process.progress > proccess ){
@@ -891,7 +893,7 @@ jQuery( document ).ready(function($){
 						block.find('.ai-image:first').click();
 						break;
 					}
-					await app.sleep(5);
+					await aiWriter.sleep(5);
 				}
 			}
 		},
@@ -901,13 +903,13 @@ jQuery( document ).ready(function($){
 			let block = e.closest('#aiassist-generate-image');
 			let title = block.find('#aiassist-tiny-image-promt').val();
 			
-			let task = await app.request( { action: 'translate', token: aiassist.token, content: title }, aiassist.api );
+			let task = await aiWriter.request( { action: 'translate', token: aiassist.token, content: title }, aiassist.api );
 			
 			if( parseInt( task.limit ) < 1 )
 				block.find('.aiassist-image-tiny-item').removeClass('aiassist-proces disabled').html('<span class="aiassist-warning-limits">'+ aiassist.locale['Limits are over'] +'</span></span>');		
 			
 			if( task.task_id ){
-				let translate = await app.request( { action: 'getTask', token: aiassist.token, id: task.task_id }, aiassist.api );
+				let translate = await aiWriter.request( { action: 'getTask', token: aiassist.token, id: task.task_id }, aiassist.api );
 				
 				if( translate.content ){
 					block.find('#aiassist-tiny-image-promt').val( translate.content );
@@ -945,7 +947,7 @@ jQuery( document ).ready(function($){
 					post_id = wp.data.select('core/editor').getCurrentPostId();
 				
 				for( let k in images ){
-					let load = await app.request( { action: 'loadImage', post_id: post_id, 'image[src]': images[ k ], 'image[title]': title, nonce: aiassist.nonce } );
+					let load = await aiWriter.request( { action: 'loadImage', post_id: post_id, 'image[src]': images[ k ], 'image[title]': title, nonce: aiassist.nonce } );
 					str += '<img class="alignnone size-full wp-image-'+ load.id +'" src="'+ load.url +'" title="'+ title +'" alt="'+( title + aiassist.locale['photo'] )+'" />';
 				}
 
@@ -971,16 +973,16 @@ jQuery( document ).ready(function($){
 		},
 		
 		cron: async () => {
-			app.checkPing = await app.ping( app.checkPing == undefined ? 1500 : 3000 );
+			aiWriter.checkPing = await aiWriter.ping( aiWriter.checkPing == undefined ? 1500 : 3000 );
 			
-			let args = await app.request( { action: 'assistcron', nonce: aiassist.nonce } );
-			let limit = await app.request( { action: 'getLimit', token: aiassist.token }, aiassist.api );
+			let args = await aiWriter.request( { action: 'assistcron', nonce: aiassist.nonce } );
+			let limit = await aiWriter.request( { action: 'getLimit', token: aiassist.token }, aiassist.api );
 			
 			if( ! isNaN( parseInt( limit.sLimit ) ) && $('#wpai-symbols-subscribe').length )
-				$('#wpai-symbols-subscribe').text( app.number_format( limit.sLimit ) );
+				$('#wpai-symbols-subscribe').text( aiWriter.number_format( limit.sLimit ) );
 			
 			if( ! isNaN( parseInt( limit.limit ) ) && $('#wpai-symbols').length ){
-				$('#wpai-symbols').text( app.number_format( limit.limit ) );
+				$('#wpai-symbols').text( aiWriter.number_format( limit.limit ) );
 				
 				if( limit.limit < 1 && limit.sLimit < 1 )
 					$('#aiassist-generation-status, #aiassist-rewrite-status').html('<span class="aiassist-warning-limits">'+ aiassist.locale['The limits have been reached'] +'</span>');
@@ -998,7 +1000,7 @@ jQuery( document ).ready(function($){
 				}
 				
 				if( ! isNaN( parseInt( args.articles.limit ) ) ){
-					$('#wpai-symbols').text( app.number_format( args.articles.limit ) );
+					$('#wpai-symbols').text( aiWriter.number_format( args.articles.limit ) );
 					
 					if( args.articles.limit < 1 )
 						$('#aiassist-generation-status').html('<span class="aiassist-warning-limits">'+ aiassist.locale['The limits have been reached'] +'</span>');
@@ -1037,7 +1039,7 @@ jQuery( document ).ready(function($){
 			if( $('#aiassist-settings').length && args.rewrites && args.rewrites.posts ){
 
 				if( ! isNaN( parseInt( args.rewrites.limit ) ) ){
-					$('#wpai-symbols').text( app.number_format( args.rewrites.limit ) );
+					$('#wpai-symbols').text( aiWriter.number_format( args.rewrites.limit ) );
 					
 					if( args.rewrites.limit < 1 )
 						$('#aiassist-generation-status').html('<span class="aiassist-warning-limits">'+ aiassist.locale['The limits have been reached, to continue generation (rewriting) please top up your balance!'] +'</span>');
@@ -1105,7 +1107,7 @@ jQuery( document ).ready(function($){
 				}
 			}
 			
-			setTimeout( app.cron, 60000 );
+			setTimeout( aiWriter.cron, 60000 );
 		},
 		
 		number_format: ( number ) => {
@@ -1116,43 +1118,43 @@ jQuery( document ).ready(function($){
 		},
 		
 		setTextModel: () => {
-			app.setCookie('text-model', $('#aiassist-change-text-model').val());
+			aiWriter.setCookie('text-model', $('#aiassist-change-text-model').val());
 		},
 		
 		setTextModelRewrite: () => {
-			app.setCookie('text-model-rewrite', $('#aiassist-rewrite-text-model').val());
+			aiWriter.setCookie('text-model-rewrite', $('#aiassist-rewrite-text-model').val());
 		},
 		
 		setTextModelEditor: () => {
-			app.setCookie('text-model-editor', $('#aiassist-change-text-model-editor').val());
+			aiWriter.setCookie('text-model-editor', $('#aiassist-change-text-model-editor').val());
 		},
 		
 		setImageModel: function(){
-			app.setCookie('image-model', $(this).val() );
+			aiWriter.setCookie('image-model', $(this).val() );
 		},
 		
 		setAutoImageModel: function(){
 			let model = $(this).val();
-			app.setCookie('image-model-auto', model );
+			aiWriter.setCookie('image-model-auto', model );
 			
 			if( $('#aiassist-system-image-prompt-auto').length )
-				$('#aiassist-system-image-prompt-auto').val( aiassist.promts.img_auto && aiassist.promts.img_auto[ app.getImageModelIndex( model ) ] ? aiassist.promts.img_auto[ app.getImageModelIndex( model ) ] : '' );
+				$('#aiassist-system-image-prompt-auto').val( aiassist.promts.img_auto && aiassist.promts.img_auto[ aiWriter.getImageModelIndex( model ) ] ? aiassist.promts.img_auto[ aiWriter.getImageModelIndex( model ) ] : '' );
 		},
 		
 		setReplaceImageModel: function(){
 			let model = $(this).val();
-			app.setCookie('image-model-replace', model );
+			aiWriter.setCookie('image-model-replace', model );
 			
 			if( $('#aiassist-system-image-prompt-replace').length )
-				$('#aiassist-system-image-prompt-replace').val( aiassist.promts.img_replace && aiassist.promts.img_replace[ app.getImageModelIndex( model ) ] ? aiassist.promts.img_replace[ app.getImageModelIndex( model ) ] : '' );
+				$('#aiassist-system-image-prompt-replace').val( aiassist.promts.img_replace && aiassist.promts.img_replace[ aiWriter.getImageModelIndex( model ) ] ? aiassist.promts.img_replace[ aiWriter.getImageModelIndex( model ) ] : '' );
 		},
 		
 		setRewriteImageModel: function(){
 			let model = $(this).val();
-			app.setCookie('image-model-rewrite', model );
+			aiWriter.setCookie('image-model-rewrite', model );
 			
 			if( $('#aiassist-system-image-prompt-rewrite').length )
-				$('#aiassist-system-image-prompt-rewrite').val( aiassist.promts.img_rewrite && aiassist.promts.img_rewrite[ app.getImageModelIndex( model ) ] ? aiassist.promts.img_rewrite[ app.getImageModelIndex( model ) ] : '' );
+				$('#aiassist-system-image-prompt-rewrite').val( aiassist.promts.img_rewrite && aiassist.promts.img_rewrite[ aiWriter.getImageModelIndex( model ) ] ? aiassist.promts.img_rewrite[ aiWriter.getImageModelIndex( model ) ] : '' );
 		},
 		
 		getImageModelIndex: ( model ) => {
@@ -1168,7 +1170,7 @@ jQuery( document ).ready(function($){
 		},
 		
 		autoGenOptions: () => {
-			clearTimeout( app.t );
+			clearTimeout( aiWriter.t );
 			
 			let args = {
 				nonce: aiassist.nonce,
@@ -1184,8 +1186,8 @@ jQuery( document ).ready(function($){
 				publishEveryDay: $('#publish-article-every-day').val(),
 			};	
 			
-			app.t = setTimeout( async () => {
-				await app.request( args ); 
+			aiWriter.t = setTimeout( async () => {
+				await aiWriter.request( args ); 
 			}, 500);
 		},
 		
@@ -1198,7 +1200,7 @@ jQuery( document ).ready(function($){
 			$('#start-articles-generations').attr('disabled', false);
 			$('#aiassist-count-publish').text('0');
 			$('#aiassist-generation-status').text('');
-			await app.request( { action: 'clearArticlesGen', nonce: aiassist.nonce } );
+			await aiWriter.request( { action: 'clearArticlesGen', nonce: aiassist.nonce } );
 		},
 		
 		stopArticlesGeneration: async () => {
@@ -1208,7 +1210,7 @@ jQuery( document ).ready(function($){
 			$('#aiassist-generation-status').text( aiassist.locale['The article generation process has been suspended.'] );
 			$('.aiassist-article-queue.aiassist-queue:first .aiassist-queue-status').text( aiassist.locale['Suspended'] );
 			
-			await app.request( { action: 'stopArticlesGen', nonce: aiassist.nonce } ); 
+			await aiWriter.request( { action: 'stopArticlesGen', nonce: aiassist.nonce } ); 
 		},
 		
 		startArticlesGeneration: async () => {
@@ -1225,7 +1227,7 @@ jQuery( document ).ready(function($){
 			}).first();
 			
 			if( ! check.length ){
-				await app.request( { action: 'startArticlesGen', nonce: aiassist.nonce } ); 
+				await aiWriter.request( { action: 'startArticlesGen', nonce: aiassist.nonce } ); 
 				return;
 			}
 			
@@ -1273,15 +1275,15 @@ jQuery( document ).ready(function($){
 				
 				for( let k in articles ){
 					if( k > 0 )
-						await app.sleep( 3 );
+						await aiWriter.sleep( 3 );
 					
-					await app.request( { articles: articles[ k ], artPromt: artPromt, titlePromt: titlePromt, textModel: textModel, imageModel: imageModel, descPromt: descPromt, action: 'initArticlesGen', nonce: aiassist.nonce } ); 
+					await aiWriter.request( { articles: articles[ k ], artPromt: artPromt, titlePromt: titlePromt, textModel: textModel, imageModel: imageModel, descPromt: descPromt, action: 'initArticlesGen', nonce: aiassist.nonce } ); 
 				}
 				
 				$('#start-articles-generations').text( aiassist.locale['Start articles generation'] );
 				
 				$('.aiassist-article-item:not(:first)').remove();
-				app.addItemArticle();
+				aiWriter.addItemArticle();
 				$('.aiassist-article-item:first, .aiassist-article-item .aiassist-article-item-close').remove();
 				
 				$('#aiassist-generation-progress').html( aiassist.locale['Generated by'] +' <span id="aiassist-count-publish">0</span> '+ aiassist.locale['articles from'] +' '+ c );
@@ -1308,11 +1310,11 @@ jQuery( document ).ready(function($){
 			
 			let id = e.attr('data-key');
 			e.closest('.aiassist-article-queue').remove();
-			app.request( { nonce: aiassist.nonce, id: id, action: 'removeQueueArticle' } ); 	
+			aiWriter.request( { nonce: aiassist.nonce, id: id, action: 'removeQueueArticle' } ); 	
 		},
 		
 		rewriteOptions: () => {
-			clearTimeout( app.t );
+			clearTimeout( aiWriter.t );
 			
 			let args = {
 				nonce: aiassist.nonce,
@@ -1330,8 +1332,8 @@ jQuery( document ).ready(function($){
 				imageModel: $('#aiassist-rewrite-image-model').val(),
 			};	
 			
-			app.t = setTimeout( async () => {
-				await app.request( args ); 
+			aiWriter.t = setTimeout( async () => {
+				await aiWriter.request( args ); 
 			}, 250);
 		},
 		
@@ -1343,7 +1345,7 @@ jQuery( document ).ready(function($){
 			let items = $('.aiassist-rewrite-item-block');
 						
 			if( ! items.find('.aiassist-rewrite-item').val().trim().length && ! $('.aiassist-rewrite-item-block.disabled, .aiassist-rewrite-item.disabled').length ){
-				await app.request( { action: 'startRewrite', nonce: aiassist.nonce } ); 
+				await aiWriter.request( { action: 'startRewrite', nonce: aiassist.nonce } ); 
 				return;
 			}
 			
@@ -1394,7 +1396,7 @@ jQuery( document ).ready(function($){
 					args.links[ id ] = item.split("\n");
 				})
 				
-				let data = await app.request( args ); 
+				let data = await aiWriter.request( args ); 
 				
 				let c = 0;
 				let p = 0;
@@ -1426,7 +1428,7 @@ jQuery( document ).ready(function($){
 				}
 				
 				$('.aiassist-rewrite-item-block:not(:first)').remove();
-				app.addItemRewrite();
+				aiWriter.addItemRewrite();
 				$('.aiassist-rewrite-item-block:first, .aiassist-rewrite-item-close').remove();
 				$('#aiassist-rewrite-progress').html( aiassist.locale['Generated by'] +' <span id="aiassist-rewrite-count-publish">'+ p +'</span> '+ aiassist.locale['articles from'] +' '+ c );
 			}
@@ -1437,7 +1439,7 @@ jQuery( document ).ready(function($){
 			$('#stop-rewrite-generations').attr('disabled', true);
 			$('#aiassist-rewrite-status').text( aiassist.locale['The article generation process has been suspended.'] );
 			
-			await app.request( { action: 'stopRewrite', nonce: aiassist.nonce } ); 
+			await aiWriter.request( { action: 'stopRewrite', nonce: aiassist.nonce } ); 
 		},
 		
 		clearRewritesGeneration: async () => {
@@ -1449,7 +1451,7 @@ jQuery( document ).ready(function($){
 			$('#start-rewrite-generations').attr('disabled', false);
 			$('#aiassist-rewrite-count-publish').text('0');
 			$('#aiassist-rewrite-status').text('');
-			await app.request( { action: 'clearRewrite', nonce: aiassist.nonce } );
+			await aiWriter.request( { action: 'clearRewrite', nonce: aiassist.nonce } );
 		},
 		
 		addItemRewrite: () => {	
@@ -1466,7 +1468,7 @@ jQuery( document ).ready(function($){
 				$('.aiassist-rewrite-item-block, .aiassist-item-repeater').removeClass('disabled');
 				
 			$('.aiassist-rewrite-item-block:not(:first)').remove();
-			app.addItemRewrite();
+			aiWriter.addItemRewrite();
 			$('.aiassist-rewrite-item-block:first, .aiassist-rewrite-item-close').remove();
 		},
 		
@@ -1494,7 +1496,7 @@ jQuery( document ).ready(function($){
 		imageGenerator: async function(){
 			let e = $(this);
 			e.closest('.aiassist-header-item').find('label input[type="checkbox"]').prop('checked', true);
-			app.generateImage( e );
+			aiWriter.generateImage( e );
 		},
 		
 		imagesGenerator: async () => {
@@ -1504,7 +1506,7 @@ jQuery( document ).ready(function($){
 				$('#aiassist-images-generator-start').attr('disabled', true);
 				
 				$('.aiassist-header-item input:checked').each(function(){
-					app.generateImage( $(this) );
+					aiWriter.generateImage( $(this) );
 				})
 			
 			}
@@ -1533,12 +1535,12 @@ jQuery( document ).ready(function($){
 						
 						e.find('.aiassist-translate-promt-image input').val( header );
 					})
-					app.loader();
+					aiWriter.loader();
 					return;
 				}
 				
 				if( $('.aiassist-lang-promts:visible:first option:selected').val() != 1 )
-					app.loader( true, aiassist.locale['Translation of prompts for images'] );
+					aiWriter.loader( true, aiassist.locale['Translation of prompts for images'] );
 				
 				const items = $('.aiassist-headers .aiassist-header-item');
 
@@ -1561,7 +1563,7 @@ jQuery( document ).ready(function($){
 						return;
 					}
 				
-					let translate = await app.addTask( { action: 'translate', content: text } );
+					let translate = await aiWriter.addTask( { action: 'translate', content: text } );
 					
 					$( e ).find('.aiassist-translate-promt-image input').val( translate.content ).attr('data-en', translate.content);
 				
@@ -1569,10 +1571,10 @@ jQuery( document ).ready(function($){
 				}));
 
 				if( promts[0] )
-					await app.request( { promts: promts, action: 'saveTranslateImagesPromts', nonce: aiassist.nonce } );
+					await aiWriter.request( { promts: promts, action: 'saveTranslateImagesPromts', nonce: aiassist.nonce } );
 				
 			}
-			app.loader();
+			aiWriter.loader();
 		},
 		
 		generateImage: async ( e ) => {
@@ -1590,14 +1592,14 @@ jQuery( document ).ready(function($){
 				if( ! block.find('#aiassist-main').length )
 					header = header +' '+ block.find('label input[type="checkbox"]').val();
 				
-				let translate = await app.addTask( { action: 'translate', content: header } );
+				let translate = await aiWriter.addTask( { action: 'translate', content: header } );
 				promt = translate.content;
 				
 				block.find('.aiassist-translate-promt-image input').val( promt );
-				app.request( { val: promt, act: header, action: 'saveStep', nonce: aiassist.nonce } );
+				aiWriter.request( { val: promt, act: header, action: 'saveStep', nonce: aiassist.nonce } );
 			}
 			
-			let task = await app.request( { token: aiassist.token, model: model, action: 'image_generator', header: promt, format: 'jpg' }, aiassist.api );
+			let task = await aiWriter.request( { token: aiassist.token, model: model, action: 'image_generator', header: promt, format: 'jpg' }, aiassist.api );
 			
 			if( task.limit < 1 )
 				block.find('.aiassist-proces').removeClass('aiassist-proces').html('<span class="aiassist-warning-limits">'+ aiassist.locale['Limits are over'] +'</span></span>');
@@ -1607,10 +1609,10 @@ jQuery( document ).ready(function($){
 				let proccess = 0;
 				
 				while( true ){
-					let data = await app.request( { token: aiassist.token, action: 'getTask', id: task.task_id }, aiassist.api );
+					let data = await aiWriter.request( { token: aiassist.token, action: 'getTask', id: task.task_id }, aiassist.api );
 					
 					if( data.limit && $('#tokens-left').length )
-						$('#tokens-left').text( app.number_format( data.limit ) );
+						$('#tokens-left').text( aiWriter.number_format( data.limit ) );
 					
 					if( data.limit < 1 ){
 						block.find('.aiassist-proces').removeClass('aiassist-proces').html('<span class="aiassist-warning-limits">'+ aiassist.locale['Limits are over'] +'</span></span>');
@@ -1626,7 +1628,7 @@ jQuery( document ).ready(function($){
 						imgSpent += data.imgs_limit;
 						
 						$('#images-article-symbols').text( imgSpent );
-						app.setCookie( 'imgSpent', imgSpent );
+						aiWriter.setCookie( 'imgSpent', imgSpent );
 					}
 					
 					if( data.process ){
@@ -1658,7 +1660,7 @@ jQuery( document ).ready(function($){
 						imgBlock.removeClass('aiassist-proces');
 						break;
 					}
-					await app.sleep( 10 );
+					await aiWriter.sleep( 10 );
 				}
 				
 			}
@@ -1698,7 +1700,7 @@ jQuery( document ).ready(function($){
 		},
 		
 		recurringPause: async function (){
-			await app.request( { token: aiassist.token, action: 'recurringPause' }, aiassist.api );
+			await aiWriter.request( { token: aiassist.token, action: 'recurringPause' }, aiassist.api );
 			$('#aiassist-recurring-status').addClass('inactive').text( aiassist.locale['inactive'] );
 			$('.aiassist-recurring-pause').toggleClass('aiassist-recurring-pause aiassist-recurring-activate').text( aiassist.locale['Activate'] );
 		},
@@ -1707,7 +1709,7 @@ jQuery( document ).ready(function($){
 			$(this).closest('div, form').addClass('disabled');
 			
 			let summ = $('#out_summ').val().trim();
-			let buy = await app.request( { 'out_summ': summ, action: 'aiassist_buy', recurring: $(this).closest('.aiassist-buy-button').find('.aiassist-recurring-agree input[name="recurring"]:checked').length,  promocode: $('.aiassist-promocode input[name="promocode"]').val(), type: $(this).data('type'), billing: $('.pay-method.active').data('billing'), nonce: aiassist.nonce } );
+			let buy = await aiWriter.request( { 'out_summ': summ, action: 'aiassist_buy', recurring: $(this).closest('.aiassist-buy-button').find('.aiassist-recurring-agree input[name="recurring"]:checked').length,  promocode: $('.aiassist-promocode input[name="promocode"]').val(), type: $(this).data('type'), billing: $('.pay-method.active').data('billing'), nonce: aiassist.nonce } );
 			
 			if( buy.error )
 				alert( buy.error );
@@ -1727,8 +1729,8 @@ jQuery( document ).ready(function($){
 			event.preventDefault();
 		
 			let e = $(this);
-			let args = app.getFormData( e );
-			let stats = await app.request( Object.assign( args, { action: 'aiassist_getStat', nonce: aiassist.nonce } ) );
+			let args = aiWriter.getFormData( e );
+			let stats = await aiWriter.request( Object.assign( args, { action: 'aiassist_getStat', nonce: aiassist.nonce } ) );
 			
 			if( $('#tokens-stats').length )
 				$('#area-chat').html('');
@@ -1739,7 +1741,7 @@ jQuery( document ).ready(function($){
 				return;
 			}
 			
-			e.after('<div id="tokens-stats"><h3>'+ aiassist.locale['Credits'] +': '+ app.number_format( stats.total ) +'</h3></div>');
+			e.after('<div id="tokens-stats"><h3>'+ aiassist.locale['Credits'] +': '+ aiWriter.number_format( stats.total ) +'</h3></div>');
 			
 			google.charts.load('current', {'packages':['corechart']});			
 			google.charts.setOnLoadCallback( () => {
@@ -1752,7 +1754,7 @@ jQuery( document ).ready(function($){
 						continue;
 					
 					args.push( [ k, parseInt( stats[ k ].total ) ] );
-					$('#tokens-stats').append('<div class="stat-item"><div>'+ k +'</div><div>'+ app.number_format( stats[ k ].generations ) +'</div><div>'+ app.number_format( stats[ k ].replace_images ) +'</div></div>');
+					$('#tokens-stats').append('<div class="stat-item"><div>'+ k +'</div><div>'+ aiWriter.number_format( stats[ k ].generations ) +'</div><div>'+ aiWriter.number_format( stats[ k ].replace_images ) +'</div></div>');
 				}
 				
 				data = google.visualization.arrayToDataTable( args );
@@ -1773,9 +1775,9 @@ jQuery( document ).ready(function($){
 			event.preventDefault();
 			
 			let e = $(this);
-			let args = app.getFormData( e );
+			let args = aiWriter.getFormData( e );
 			
-			let auth = await app.request( Object.assign( args, { act: 'signUp', action: 'aiassist_sign', nonce: aiassist.nonce } ) );
+			let auth = await aiWriter.request( Object.assign( args, { act: 'signUp', action: 'aiassist_sign', nonce: aiassist.nonce } ) );
 			
 			if( auth.message )
 				$('#wpai-errors-messages').html( auth.message );
@@ -1799,7 +1801,7 @@ jQuery( document ).ready(function($){
 			$('.aiassist-tab').removeClass('active');
 			$('.aiassist-tab-data').removeClass('active');
 			$('.aiassist-tab-data[data-tab="'+ e.data('tab') +'"]').addClass('active');
-			app.setCookie('activeTab', e.data('tab'));
+			aiWriter.setCookie('activeTab', e.data('tab'));
 			
 			e.addClass('active');
 		},
@@ -1823,11 +1825,11 @@ jQuery( document ).ready(function($){
 		},
 
 		stepStop: async () => {
-			app.loader();
+			aiWriter.loader();
 		},
 		
 		saveKey: async () => {
-			await app.request( { key: $('#aiassist-gpt-key').val(), action: 'saveKey', nonce: aiassist.nonce } );
+			await aiWriter.request( { key: $('#aiassist-gpt-key').val(), action: 'saveKey', nonce: aiassist.nonce } );
 		},
 		
 		saveContent: async ( event ) => {
@@ -1836,7 +1838,7 @@ jQuery( document ).ready(function($){
 				return;
 			}
 			
-			app.loader( true, aiassist.locale['Saving content'] );
+			aiWriter.loader( true, aiassist.locale['Saving content'] );
 			
 			let post_id = null;
 			
@@ -1846,9 +1848,9 @@ jQuery( document ).ready(function($){
 			if( ! post_id )
 				post_id = wp.data.select('core/editor').getCurrentPostId();
 
-			app.editor = tinymce.get('AIASSIST');
+			aiWriter.editor = tinymce.get('AIASSIST');
 			let header = $('#aiassist-header').val();
-			let content = app.editor.getContent();
+			let content = aiWriter.editor.getContent();
 			let title = $('#aiassist-title').val();
 			let desc = $('#aiassist-desc').val();
 			
@@ -1871,26 +1873,26 @@ jQuery( document ).ready(function($){
 				})
 				
 				for( let k in imgs ){
-					app.loader( true, aiassist.locale['Loading image'] +' '+ imgs[ k ].title );
+					aiWriter.loader( true, aiassist.locale['Loading image'] +' '+ imgs[ k ].title );
 					
-					let load = await app.request( { post_id: post_id, image: imgs[ k ], action: 'loadImage', nonce: aiassist.nonce } );
+					let load = await aiWriter.request( { post_id: post_id, image: imgs[ k ], action: 'loadImage', nonce: aiassist.nonce } );
 					
 					if( load.image )
 						content = content.replace(new RegExp(imgs[ k ].title +'[^<]*(<\/h[1-6]>)', 'gi'), imgs[ k ].title +'$1'+ load.image);	
 				}
 			}
 			
-			app.loader( true, aiassist.locale['Completion...']);
+			aiWriter.loader( true, aiassist.locale['Completion...']);
 			
-			let data = await app.request( { post_id: post_id, header: header, content: content, title: title, desc: desc, thumbnail: thumbnail, action: 'saveContent', nonce: aiassist.nonce } );
+			let data = await aiWriter.request( { post_id: post_id, header: header, content: content, title: title, desc: desc, thumbnail: thumbnail, action: 'saveContent', nonce: aiassist.nonce } );
 			
 			if( data.id ){
-				app.setCookie('spent', 0 );
-				app.setCookie('imgSpent', 0 );
+				aiWriter.setCookie('spent', 0 );
+				aiWriter.setCookie('imgSpent', 0 );
 				window.location.href = '/wp-admin/post.php?post='+ parseInt( data.id ) +'&action=edit';
 			}
 				
-			app.loader();
+			aiWriter.loader();
 		},
 		
 		generateHeader: async ( event ) => {
@@ -1899,22 +1901,22 @@ jQuery( document ).ready(function($){
 				return;
 			}
 			
-			app.loader( true, aiassist.locale['Header generation'] );
+			aiWriter.loader( true, aiassist.locale['Header generation'] );
 			
 			let theme = $('#aiassist-theme').val();
 			let prom = $('#aiassist-theme-prom').val();
 			
-			let data = await app.addTask( { action: 'generateHeader', theme: theme, prom: prom, lang_id: parseInt( $('.aiassist-lang-promts:visible:first').val() ) } );
+			let data = await aiWriter.addTask( { action: 'generateHeader', theme: theme, prom: prom, lang_id: parseInt( $('.aiassist-lang-promts:visible:first').val() ) } );
 
 			$('#step1, #step5').show();
 			
 			if( data.content ){
 				$('#aiassist-header').val( data.content );
-				app.request( { val: data.content, act: 'header', action: 'saveStep', nonce: aiassist.nonce } );
+				aiWriter.request( { val: data.content, act: 'header', action: 'saveStep', nonce: aiassist.nonce } );
 			} else
-				app.errorLog('End limits!');
+				aiWriter.errorLog('End limits!');
 		
-			app.loader();
+			aiWriter.loader();
 		},
 		
 		generateStructure: async ( event ) => {
@@ -1923,7 +1925,7 @@ jQuery( document ).ready(function($){
 				return;
 			}
 			
-			app.loader( true, aiassist.locale['Structure generation'] );
+			aiWriter.loader( true, aiassist.locale['Structure generation'] );
 			
 			let header = $('#aiassist-header').val();
 			let prom = $('#aiassist-structure-prom').val();
@@ -1932,17 +1934,17 @@ jQuery( document ).ready(function($){
 			if( keywords.length )
 				prom += "\n"+ $('#aiassist-article-prom-long-keywords').val().replace('{keywords}', keywords);
 			
-			let data = await app.addTask( { action: 'generateStructure', header: header, prom: prom, lang_id: parseInt( $('.aiassist-lang-promts:visible:first').val() ) } );
+			let data = await aiWriter.addTask( { action: 'generateStructure', header: header, prom: prom, lang_id: parseInt( $('.aiassist-lang-promts:visible:first').val() ) } );
 		
 			$('#step2').show();
 			
 			if( data.content ){
 				$('#aiassist-structure').val( data.content ).removeClass('disabled');
-				app.request( { val: data.content, act: 'structure', action: 'saveStep', nonce: aiassist.nonce } );
+				aiWriter.request( { val: data.content, act: 'structure', action: 'saveStep', nonce: aiassist.nonce } );
 			} else
-				app.errorLog('End limits!');
+				aiWriter.errorLog('End limits!');
 		
-			app.loader();
+			aiWriter.loader();
 		},
 		
 		standartGenerateContent: async ( event ) => {
@@ -1959,13 +1961,13 @@ jQuery( document ).ready(function($){
 			}
 			$('#aiassist-theme-standart').removeClass('aiassist-error');
 		
-			app.loader( true, aiassist.locale['Text generation'] );
+			aiWriter.loader( true, aiassist.locale['Text generation'] );
 			
 			let promt = $('#aiassist-article-prom').val();
 			let keywords = $('#aiassist-standart-keywords').val();
 			let keywordsPromt = $('#aiassist-article-prom-keywords').val();
 			
-			let data = await app.addTask( { action: 'generateStandartContent', header: header, keywords: keywords, keywordsPromt: keywordsPromt, prom: promt, lang_id: parseInt( $('.aiassist-lang-promts:visible:first').val() ) } );
+			let data = await aiWriter.addTask( { action: 'generateStandartContent', header: header, keywords: keywords, keywordsPromt: keywordsPromt, prom: promt, lang_id: parseInt( $('.aiassist-lang-promts:visible:first').val() ) } );
 			
 			if( data.content ){
 				$('#step3').show();
@@ -1981,16 +1983,16 @@ jQuery( document ).ready(function($){
 				}
 				$('#step6').show();
 				
-				app.editor.setContent( data.content );
-				app.request( { val: data.content, act: 'content', action: 'saveStep', nonce: aiassist.nonce } );
+				aiWriter.editor.setContent( data.content );
+				aiWriter.request( { val: data.content, act: 'content', action: 'saveStep', nonce: aiassist.nonce } );
 			} else {
-				app.loader();
-				app.errorLog('End limits!');
+				aiWriter.loader();
+				aiWriter.errorLog('End limits!');
 			}
 			
 			$('#step5').show();
 			$('#aiassist-content').removeClass('disabled');
-			app.translatePromtsToImages();
+			aiWriter.translatePromtsToImages();
 		},
 		
 		generateContent: async ( event ) => {
@@ -1999,7 +2001,7 @@ jQuery( document ).ready(function($){
 				return;
 			}
 			
-			app.loader( true, aiassist.locale['Introduction generation'] );
+			aiWriter.loader( true, aiassist.locale['Introduction generation'] );
 			
 			let header = $('#aiassist-header').val();
 			let structure = $('#aiassist-structure').val();
@@ -2007,7 +2009,7 @@ jQuery( document ).ready(function($){
 			if( $('.aiassist-headers .aiassist-header-item').length )
 				$('.aiassist-headers .aiassist-header-item').remove();
 			
-			app.request( { val: structure, act: 'structure', action: 'saveStep', nonce: aiassist.nonce } );
+			aiWriter.request( { val: structure, act: 'structure', action: 'saveStep', nonce: aiassist.nonce } );
 			
 			structure = structure.split("\n");
 			structure = structure.filter( e => e );
@@ -2019,10 +2021,10 @@ jQuery( document ).ready(function($){
 				let prom = $('#aiassist-content-prom').val();
 				$('.aiassist-headers').append('<div class="aiassist-header-item aiassist-main-header"><div class="left">'+ aiassist.locale['Featured image'] +'</div><label><input type="checkbox" id="aiassist-main" value="'+( header )+'" /><span>'+( header )+'</span></label><div class="aiassist-translate-promt-image">'+ aiassist.locale['Promt:'] +' <input value="" /> <div class="image-generate-item">'+ aiassist.locale['Generate'] +'</div></div></div>');
 				
-				let data = await app.addTask( { action: 'generatePreContent', header: header, lang_id: parseInt( $('.aiassist-lang-promts:visible:first').val() ) } );
+				let data = await aiWriter.addTask( { action: 'generatePreContent', header: header, lang_id: parseInt( $('.aiassist-lang-promts:visible:first').val() ) } );
 				
 				if( data.content )
-					app.editor.setContent( data.content );
+					aiWriter.editor.setContent( data.content );
 				
 				for( let k in structure ){
 					subHeader = structure[ k ].replace(/<[\/]?[^>]*>/g, '');
@@ -2030,14 +2032,14 @@ jQuery( document ).ready(function($){
 					if( $('.aiassist-headers').length )
 						$('.aiassist-headers').append('<div class="aiassist-header-item"><label><input type="checkbox" value="'+( subHeader )+'" /><span>'+( subHeader )+'</span></label><div class="aiassist-translate-promt-image">'+ aiassist.locale['Promt:'] +' <input /> <div class="image-generate-item">'+ aiassist.locale['Generate'] +'</div></div></div>');
 					
-					$('#step6').show();
+					$('#step6, #aiassist-loader').show();
 					$('#aiassist-loader-info').text( aiassist.locale['Item generation:'] +' '+ subHeader);
 					
 					if( ! $('#aiassist-progress-generator').length )
 						$('#aiassist-loader').after('<div id="aiassist-progress-generator"></div>');
 					$('#aiassist-progress-generator').text( Math.round( ( parseInt( k ) / structure.length ) * 100 ) +'%');
 					
-					let data = await app.addTask( { action: 'generateContentItem', lang_id: parseInt( $('.aiassist-lang-promts:visible:first').val() ), header: header, item: subHeader, prom: prom, structure: structure, context: ( k > 0 ? app.editor.getContent() : null ) } );
+					let data = await aiWriter.addTask( { action: 'generateContentItem', lang_id: parseInt( $('.aiassist-lang-promts:visible:first').val() ), header: header, item: subHeader, prom: prom, structure: structure, context: ( k > 0 ? aiWriter.editor.getContent() : null ) } );
 					
 					if( data.content ){
 						let headItem = '<h2>'+ subHeader +'</h2>';
@@ -2045,15 +2047,15 @@ jQuery( document ).ready(function($){
 						if(  structure[ k ].match(/^<h/g) )
 							headItem = structure[ k ];
 						
-						app.editor.setContent( app.editor.getContent() + headItem + data.content );
+						aiWriter.editor.setContent( aiWriter.editor.getContent() + headItem + data.content );
 					} else
-						app.errorLog('End limits!');
+						aiWriter.errorLog('End limits!');
 				}
 				
-				app.request( { val: app.editor.getContent(), act: 'content', action: 'saveStep', nonce: aiassist.nonce } );
+				aiWriter.request( { val: aiWriter.editor.getContent(), act: 'content', action: 'saveStep', nonce: aiassist.nonce } );
 				$('#aiassist-content').removeClass('disabled');
 			}
-			app.translatePromtsToImages();
+			aiWriter.translatePromtsToImages();
 		},
 		
 		generateMeta: async ( event ) => {
@@ -2062,7 +2064,7 @@ jQuery( document ).ready(function($){
 				return;
 			}
 			
-			app.loader( true, aiassist.locale['Meta title generation'] );
+			aiWriter.loader( true, aiassist.locale['Meta title generation'] );
 			
 			$('#step4').show();
 			
@@ -2074,23 +2076,23 @@ jQuery( document ).ready(function($){
 			
 			let lang_id = parseInt( $('.aiassist-lang-promts:visible:first').val() );
 			
-			let data = await app.addTask( { action: 'generateTitle', prom: $('#aiassist-title-prom').val(), header: header, lang_id: lang_id } );
+			let data = await aiWriter.addTask( { action: 'generateTitle', prom: $('#aiassist-title-prom').val(), header: header, lang_id: lang_id } );
 			
 			if( data.content ){
 				$('#aiassist-title').val( data.content );
-				app.request( { val: data.content, act: 'title', action: 'saveStep', nonce: aiassist.nonce } );
+				aiWriter.request( { val: data.content, act: 'title', action: 'saveStep', nonce: aiassist.nonce } );
 			}
 			
 			$('#aiassist-loader-info').text( aiassist.locale['Meta description generation'] );
 			
-			data = await app.addTask( { action: 'generateDesc', prom: $('#aiassist-desc-prom').val(), header: header, lang_id: lang_id } );
+			data = await aiWriter.addTask( { action: 'generateDesc', prom: $('#aiassist-desc-prom').val(), header: header, lang_id: lang_id } );
 			
 			if( data.content ){
 				$('#aiassist-desc').val( data.content );
-				app.request( { val: data.content, act: 'desc', action: 'saveStep', nonce: aiassist.nonce } );
+				aiWriter.request( { val: data.content, act: 'desc', action: 'saveStep', nonce: aiassist.nonce } );
 			}
 			
-			app.loader();
+			aiWriter.loader();
 		},
 		
 		errorLog: ( error ) => {
@@ -2116,10 +2118,10 @@ jQuery( document ).ready(function($){
 		},
 		
 		addTask: ( args ) => {
-			app.limitMsg = false;
+			aiWriter.limitMsg = false;
 			
 			if( ! aiassist.token ){
-				app.loader();
+				aiWriter.loader();
 				$('#aiasist').after('<div id="aiassist-loader-wrap"><div id="aiassist-loader-info"><span class="aiassist-warning-limits">'+ aiassist.locale['You have not added the API key'] +'</span></div><div id="aiassist-step-stop">'+ aiassist.locale['Cancel'] +'</div></div>');
 				return;
 			}
@@ -2127,43 +2129,49 @@ jQuery( document ).ready(function($){
 			return new Promise( async resolve => {
 				try{
 					while( true ){
-						let task = await app.request( Object.assign( { token: aiassist.token, model: $('#aiassist-change-text-model-editor').val() }, args ), aiassist.api );
+						let task = await aiWriter.request( Object.assign( { token: aiassist.token, model: $('#aiassist-change-text-model-editor').val() }, args ), aiassist.api );
 						
-						if( task.limit && $('#tokens-left').length ){
-							$('#tokens-left').text( app.number_format( task.limit ) );
+						if( task.limit !== undefined && $('#tokens-left').length ){
+							$('#tokens-left').text( aiWriter.number_format( task.limit ) );
 							
-							if( task.limit < 1 && ! app.limitMsg ){
-								app.limitMsg = true;
-								app.loader( true, '<span class="aiassist-warning-limits">'+ aiassist.locale['Limits are over'] +'</span>' );
+							if( task.limit < 1 && ! aiWriter.limitMsg ){
+								aiWriter.limitMsg = true;
+								aiWriter.loader( true, '<span class="aiassist-warning-limits">'+ aiassist.locale['Limits are over'] +'</span>' );
+								$('#aiassist-loader').hide();
+								await aiWriter.sleep( 30 );
+								continue;
 							}
 							
 						}
 						
 						if( task.task_id ){
-							let data = await app.getTask( task.task_id );
+							let data = await aiWriter.getTask( task.task_id );
 							resolve( data );
 							break;
 						} else
-							await app.sleep( 5 );
+							await aiWriter.sleep( 5 );
 					}
 				} catch {}
 			})
 		},
 		
 		getTask: ( task_id ) => {
-			app.limitMsg = false;
+			aiWriter.limitMsg = false;
 			
 			return new Promise( async resolve => {
 				while( true ){
 					try{
-						data = await app.request( { token: aiassist.token, action: 'getTask', id: task_id }, aiassist.api );
+						data = await aiWriter.request( { token: aiassist.token, action: 'getTask', id: task_id }, aiassist.api );
 						
-						if( data.limit && $('#tokens-left').length ){
-							$('#tokens-left').text( app.number_format( data.limit ) );
+						if( data.limit !== undefined && $('#tokens-left').length ){
+							$('#tokens-left').text( aiWriter.number_format( data.limit ) );
 							
-							if( data.limit < 1 && ! app.limitMsg ){
-								app.limitMsg = true;
-								app.loader( true, '<span class="aiassist-warning-limits">'+ aiassist.locale['Limits are over'] +'</span></span>' );
+							if( data.limit < 1 && ! aiWriter.limitMsg ){
+								aiWriter.limitMsg = true;
+								aiWriter.loader( true, '<span class="aiassist-warning-limits">'+ aiassist.locale['Limits are over'] +'</span></span>' );
+								$('#aiassist-loader').hide();
+								await aiWriter.sleep( 30 );
+								continue;
 							}
 						}
 						
@@ -2179,7 +2187,7 @@ jQuery( document ).ready(function($){
 								spent = spent + parseInt( data.symbols );
 								
 								$('#aiassist-article-symbols').text( spent );
-								app.setCookie( 'spent', spent );
+								aiWriter.setCookie( 'spent', spent );
 							}
 						
 							resolve( data )
@@ -2187,7 +2195,7 @@ jQuery( document ).ready(function($){
 						}
 					} catch {}
 					
-					await app.sleep(5);
+					await aiWriter.sleep(5);
 				}
 			})
 		},
@@ -2234,7 +2242,7 @@ jQuery( document ).ready(function($){
 		
 		ping: ( timeout = 1500 ) => {
 			return new Promise( async resolve => {
-				let ping = await app.request( { action: 'ping' }, aiassist.api, timeout );
+				let ping = await aiWriter.request( { action: 'ping' }, aiassist.api, timeout );
 				
 				if( ping === true )
 					aiassist.api = ( aiassist.api == aiassist.apiurl ) ? aiassist.apiurl2 : aiassist.apiurl;
@@ -2245,11 +2253,11 @@ jQuery( document ).ready(function($){
 		
 		request: ( args = {}, url = false, timeout = 120000 ) => {
 			return new Promise( async resolve => {
-				let xhr = await app.xhr( args, url, timeout );
+				let xhr = await aiWriter.xhr( args, url, timeout );
 				
 				if( xhr === true ){
 					aiassist.api = ( aiassist.api == aiassist.apiurl ) ? aiassist.apiurl2 : aiassist.apiurl;
-					xhr = await app.xhr( args, url, timeout );
+					xhr = await aiWriter.xhr( args, url, timeout );
 				}
 				
 				resolve( xhr );
@@ -2262,6 +2270,6 @@ jQuery( document ).ready(function($){
 
 	}
 
-	app.init();
+	aiWriter.init();
 	
 });
