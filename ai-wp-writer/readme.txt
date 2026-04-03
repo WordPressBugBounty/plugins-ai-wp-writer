@@ -1,23 +1,25 @@
 === AI WP Writer – SEO content generator, chatGPT, Gemini ===
 Contributors: aipost
-Tags: AI, writer, articles, images, chatGPT
+Tags: AI, writer, post, images, chatGPT
 Requires at least: 6.0
 Tested up to: 6.9
 Requires PHP: 5.6
-Stable tag: 4.4.5.2
+Stable tag: 4.4.7.4
 License: GPLv3
 License URI: https://www.gnu.org/licenses/gpl-3.0.html
 
-Create high-quality SEO articles and AI images. Auto-fill website. Generate, rewrite and translate with AI. Powered by Gemini, GPT-5, NanoBanana, FLUX
+Create AI SEO posts, WooCommerce products, images and media content. Rewrite and translate with AI. Powered by Gemini, chatGPT, GPT-5, Nano Banana
 
 == Description ==
-AI WP Writer is a powerful AI content generator for WordPress. For text generation, it supports Gemini 3.1 Pro, Gemini 3 Flash, ChatGPT, GPT-5, GPT-5 mini, GPT-5 nano, and o3 (reasoning), as well as built-in image generation with FLUX, DALL·E 3, GPT-Image 1.5, GPT-Image 1 mini, and Nano Banana. With the plugin’s tools, you can use different generation modes, choose topics, automate tasks, and create unique articles.
+AI WP Writer is a powerful AI content generator for WordPress. It works seamlessly in both the Classic Editor and the Gutenberg editor, giving you flexibility in how you create content. For text generation, it supports Gemini 3.1 Pro, Gemini 3 Flash, ChatGPT, GPT-5, GPT-5 mini, GPT-5 nano, and o3 (reasoning), along with built-in image generation using FLUX, DALL·E 3, GPT-Image 1.5, GPT-Image 1 mini, and Nano Banana.
+
+The plugin allows you to launch automatic website content generation with high-quality, SEO-optimized articles. It can also automatically rewrite and translate texts, helping you scale content production with ease. With its tools, you can use different generation modes, automate tasks, and create unique content in just a few clicks.
 
 AI WP Writer generates publications with meta title and meta description, which improves SEO, positions in Google. The plugin creates high-quality SEO optimized articles using key words, helps to make up headings, allows to get more traffic and upgrade site content.
 
-## Creating content in WordPress editor
+## Creating content in WordPress editor.
 
-You can use the plugin inside WordPress editor. Two generation variations are available:
+You can use the plugin inside WordPress classic editor or gutenberg. Two generation variations are available:
 
 * With one request — a quick way to generate an AI text up to 18,000 characters. This variant is suitable for topics with a small number of competitors.
 * Plan based — extended generation that covers all the key words, including high frequency ones, and helps to take better positions in search.
@@ -27,6 +29,13 @@ Both modes enable the creation of SEO content, add images and edit the content. 
 ## Automatic filling of WordPress site
 
 You can choose topics and fine-tune automatic site filling. The plugin creates articles according to schedule for a day, week or year in advance. Publications are saved in a finished form and posted automatically saving money and effort for you. This has particular importance for big WordPress projects that require regular information updates.
+
+## WooCommerce Product Description Generation
+
+Create powerful product pages that sell with just one click. AI WP Writer adds a smart widget straight into your WooCommerce product editor. Simply open any item, enter a few keywords or product details, and the AI instantly writes a full, professional description — complete with headings, bullet points, tables, and even ready-to-use images.
+
+The generated text is SEO-optimized, reads naturally, and matches your brand voice. Everything saves directly into the editor, so you can publish right away. No more hours spent writing — just fast, high-quality descriptions that help your products rank higher and convert more visitors into buyers.
+Perfect for any online store, from small shops to large catalogs. Turn product creation into a quick, effortless process and watch your sales grow.
 
 ## AI Assist and AI Image Creator tools
 

@@ -44,30 +44,69 @@
 	
 	
 	<div class="aiassist-tab-data active" data-tab="settings">
-		<form method="POST" class="wpai-form">
-			<div class="license">
+		<div class="license">
+			<div class="title"><?php echo wp_kses_post( __('Thank you for choosing AI WP Writer. API key settings:', 'wp-ai-assistant') ) ?></div>
+			<?php if( ! isset( $this->options->token ) ){ ?>
+				<label class="title"><p style="font-size: 16px; line-height:1.5;"><?php echo wp_kses_post( __('<b>Getting started with the plugin is easy and free!</b> </br> 1. Fill out the registration form below. </br> 2. The API key will be sent to your email address. If you do not receive the email please check your spam folder. </br> 3. Save the API key in the appropriate field. After registration you will receive 10000 free credits. One key can be used on multiple sites, all sites will have a common balance and one common subscription. </br></br> Notice! If the site is hosted on localhost, the plugin may not work correctly, and free credits will not be accrued. Use the plugin for sites hosted on a server or web hosting. </br> For a quicker understanding of the plugin functionality, check out the documentation on our <a href="https://aiwpw.com/docs/" target="_blank">official website</a>. </br> If you still have any questions, write to us via <a href="https://t.me/wpwriter" target="_blank">Telegram</a>.', 'wp-ai-assistant') ) ?></p></label>
+			<?php } ?>
+			
+			<?php if( ! @$this->options->token ){ ?>
+				<form method="POST" class="wpai-form" id="aiassist-sign" data-action="signUp">
+					<div class="aiassist-sign-title">
+						<?php echo wp_kses_post( __('Create a new API key or restore an existing key', 'wp-ai-assistant') ) ?>
+					</div>
+					
+					<div id="wpai-errors-messages"></div>
+					
+					<div class="row password2">
+						<div><?php echo wp_kses_post( __('Enter your email and accept the plugin’s terms of use', 'wp-ai-assistant') ) ?></div>
+						<input type="email" name="email" required />
+						
+						<label> 
+							<input type="checkbox" name="license" required /> <?php echo wp_kses_post( __('By registering, you agree to', 'wp-ai-assistant') ) ?> <a href="https://aiwpwriter.com/privacy-policy/" target="_blank"><?php echo wp_kses_post( __('privacy policy', 'wp-ai-assistant') ) ?></a>, <a href="https://aiwpwriter.com/publichnaja-oferta-o-zakljuchenii-dogovora-ob-okazanii-uslug/" target="_blank"><?php echo wp_kses_post( __('offer', 'wp-ai-assistant') ) ?></a> <?php echo wp_kses_post( __('and', 'wp-ai-assistant') ) ?> <a href="https://aiwpwriter.com/user-agreement/" target="_blank"><?php echo wp_kses_post( __('user agreement', 'wp-ai-assistant') ) ?></a>.
+						</label>
+					</div>
+					
+					<div class="row">
+						<button><?php echo wp_kses_post( __('Get API key', 'wp-ai-assistant') ) ?></button>
+					</div>
+					
+				</form>
+			<?php } ?>
+			
+			<form method="POST" class="wpai-form">
 				<div class="input-block">
-					<div class="title"><?php echo wp_kses_post( __('Thank you for choosing AI WP Writer. API key settings:', 'wp-ai-assistant') ) ?></div>
 					<?php if( ! isset( $this->options->token ) ){ ?>
-						<label class="title"><p style="font-size: 16px; line-height:1.5;"><?php echo wp_kses_post( __('<b>Getting started with the plugin is easy and free!</b> </br> 1. Fill out the registration form below. </br> 2. The API key will be sent to your email address. If you do not receive the email please check your spam folder. </br> 3. Save the API key in the appropriate field. After registration you will receive 10000 free credits. One key can be used on multiple sites, all sites will have a common balance and one common subscription. </br></br> Notice! If the site is hosted on localhost, the plugin may not work correctly, and free credits will not be accrued. Use the plugin for sites hosted on a server or web hosting. </br> For a quicker understanding of the plugin functionality, check out the documentation on our <a href="https://aiwpw.com/docs/" target="_blank">official website</a>. </br> If you still have any questions, write to us via <a href="https://t.me/wpwriter" target="_blank">Telegram</a>. <br /><br /> <b>Enter the API key:</b>', 'wp-ai-assistant') ) ?></p></label>
+						<label class="title">
+							<?php echo wp_kses_post( __('<b>Enter the API key:</b>', 'wp-ai-assistant') ) ?>
+						</label>
 					<?php } ?>
 					
 					<input name="token" value="<?php echo $this->maskKey( @$this->options->token ) ?>" /><br /><br /><br />
 				</div>
-
-				<div class="row">
+				
+				<div class="row <?php echo ! @$this->options->token ? 'ai-writer-hidden' : '' ?>">
+					<label>
+						<input type="checkbox" name="system_prompt" <?php echo $system_prompt ? 'checked' : '' ?> />
+						<?php echo wp_kses_post( __('Use a hidden system prompt during generation to improve text quality and make it sound less like AI-generated content (not recommended to disable).', 'wp-ai-assistant') ) ?>
+					</label>
+				</div>
+			
+				<div class="row <?php echo ! @$this->options->token ? 'ai-writer-hidden' : '' ?>">
 					<label>
 						<input type="checkbox" name="cron" <?php echo @$this->options->cron || @$this->info->cron_enabled || ! isset( $this->options->token ) ? 'checked' : ''?> />
 						<?php echo wp_kses_post( __('Activate sending requests from the plugin server to the website in order to enable bulk generation, rewriting or ensuring image uniqueness in background mode. This allows you to generate content when there is no traffic on the website and the admin panel is closed.', 'wp-ai-assistant') ) ?>
 					</label>
 				</div>
 			
+			
 				<div class="row">
 					<button name="save"><?php echo wp_kses_post( __('Save', 'wp-ai-assistant') ) ?></button>
 				</div>
-			</div>
-			<input type="hidden" name="nonce" value="<?php echo wp_create_nonce('aiassist'); ?>" />
-		</form>
+				<input type="hidden" name="nonce" value="<?php echo wp_create_nonce('aiassist'); ?>" />
+			</form>
+			
+		</div>
 
 		<?php if( @$this->options->token ){ ?>
 			<div class="title"><?php echo wp_kses_post( __('Statistics', 'wp-ai-assistant') ) ?></div>
@@ -97,30 +136,6 @@
 			</form>
 
 			<div id="area-chat"></div>
-		<?php } ?>
-		
-		<?php if( ! @$this->options->token ){ ?>
-			<form method="POST" class="wpai-form" id="aiassist-sign" data-action="signUp">
-				<div class="aiassist-sign-title">
-					<?php echo wp_kses_post( __('Create a new API key or restore an existing key', 'wp-ai-assistant') ) ?>
-				</div>
-				
-				<div id="wpai-errors-messages"></div>
-				
-				<div class="row password2">
-					<div><?php echo wp_kses_post( __('Enter your email and accept the plugin’s terms of use', 'wp-ai-assistant') ) ?></div>
-					<input type="email" name="email" required />
-					
-					<label> 
-						<input type="checkbox" name="license" required /> <?php echo wp_kses_post( __('By registering, you agree to', 'wp-ai-assistant') ) ?> <a href="https://aiwpwriter.com/privacy-policy/" target="_blank"><?php echo wp_kses_post( __('privacy policy', 'wp-ai-assistant') ) ?></a>, <a href="https://aiwpwriter.com/publichnaja-oferta-o-zakljuchenii-dogovora-ob-okazanii-uslug/" target="_blank"><?php echo wp_kses_post( __('offer', 'wp-ai-assistant') ) ?></a> <?php echo wp_kses_post( __('and', 'wp-ai-assistant') ) ?> <a href="https://aiwpwriter.com/user-agreement/" target="_blank"><?php echo wp_kses_post( __('user agreement', 'wp-ai-assistant') ) ?></a>.
-					</label>
-				</div>
-				
-				<div class="row">
-					<button><?php echo wp_kses_post( __('Get API key', 'wp-ai-assistant') ) ?></button>
-				</div>
-				
-			</form>
 		<?php } ?>
 		
 		<div class="aiassist-how-to-use-info">
@@ -784,7 +799,7 @@
 			
 				<div class="aiassist-rates-view active" data-view="subscribe">
 				
-					<div class="aiassist-rates-info"><?php echo wp_kses_post( __('Subscribe now and save on creating high-quality SEO-optimized content with our affordable plans. The subscription applies to all websites connected to your API key and uses one shared balance of credits.', 'wp-ai-assistant') ) ?></div>
+					<div class="aiassist-rates-info"><?php echo wp_kses_post( __('Subscribe now and save on creating high-quality, SEO-optimized content with affordable plans. Your subscription works for an UNLIMITED number of websites. All sites connected via your API key share one credits balance. You can easily calculate generation costs using our <a href="https://aiwpw.com/prices/" target="_blank">pricing calculator</a>.', 'wp-ai-assistant') ) ?></div>
 					
 					<div class="aiassist-rates-items">
 						

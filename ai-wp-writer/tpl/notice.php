@@ -43,4 +43,18 @@
 			</div>
 		</div>
 	<?php } ?>
+	
+	<?php if( ! isset( $_COOKIE['disabled_notice_3'] ) && ( (int) @$this->info->limit + (int) @$this->info->sLimit ) < 5000 ){ ?>
+		<div class="notice notice-info is-dismissible aiwriter-notice p100" data-notice="disabled_notice_3" id="ai_writer_limin_notice">
+			<div class="aiwriter-notice-content">
+				<div class="aiwriter-notice-text"><?php echo wp_kses_post( __('You’ve run out of credits in AI WP Writer plugin! <b>Subscribe or purchase a credits package</b> to keep generating high-quality content.', 'wp-ai-assistant') ) ?></div>
+				
+				<div class="aiwriter-notice-buttons">
+					<a href="/wp-admin/admin.php?page=wpai-assistant#rates"><button><?php echo wp_kses_post( __('Top up balance', 'wp-ai-assistant') ) ?></button></a>
+				</div>
+			</div>
+		</div>
+	<?php } ?>
+	
+	
 </div>

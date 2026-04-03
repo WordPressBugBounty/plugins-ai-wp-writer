@@ -143,10 +143,8 @@ jQuery( document ).ready(function($){
 				if( $('.aiassist-empty-limit').length > 1 && $('.aiassist-tab[data-tab="rates"]').length )
 					$('.aiassist-tab[data-tab="rates"]').click();
 				
-				if( window.location.hash == '#rates' ){
-					$('.aiassist-tab[data-tab="rates"]').click();
-					$('html, body').animate( { scrollTop: $('.aiassist-tab[data-tab="rates"]').offset().top }, 1000);
-				}
+				if( window.location.hash == '#rates' )
+					aiWriter.scrollToTopUpBalance();
 				
 				if( ! aiassist.token )
 					$('.aiassist-tab[data-tab="settings"]').click();
@@ -161,10 +159,17 @@ jQuery( document ).ready(function($){
 			$(document).on('click', '#reset-images', aiWriter.replaceImagesReset);
 			$(document).on('click', '#restore-images', aiWriter.replaceImagesRestore);
 			$(document).on('click', '#remove-images', aiWriter.replaceImagesRemove);
+			$(document).on('click', 'a[href*="page=wpai-assistant#rates"]', aiWriter.scrollToTopUpBalance);
 			
 			$(document).on('change', '#cat-images', aiWriter.disabledImagesUrlArea);
 			$(document).on('change', '#replace-images-all', aiWriter.replaceAllImagesChecked);
 			$(document).on('change', 'input[name*="images_type"]', aiWriter.imagesTypeChecked);
+		},
+		
+		scrollToTopUpBalance: () => {
+			$('.aiassist-tab[data-tab="rates"]').click();
+			$('html, body').animate( { scrollTop: $('.aiassist-tab[data-tab="rates"]').offset().top }, 1000);
+			history.replaceState(null, '', window.location.pathname + window.location.search);
 		},
 		
 		closeNotice: function(){
@@ -977,6 +982,15 @@ jQuery( document ).ready(function($){
 			
 			let args = await aiWriter.request( { action: 'assistcron', nonce: aiassist.nonce } );
 			let limit = await aiWriter.request( { action: 'getLimit', token: aiassist.token }, aiassist.api );
+			let total = parseInt( limit.sLimit || 0 ) + parseInt( limit.limit || 0 );
+
+			if( ! isNaN( total ) && total >= 5000 ){
+				
+				if( $('#ai_writer_limin_notice .notice-dismiss').length )
+					$('#ai_writer_limin_notice').hide();
+				
+				document.cookie = "disabled_notice_3=; expires=Thu, 01 Jan 1970 00:00:00 UTC; path=/;";
+			}
 			
 			if( ! isNaN( parseInt( limit.sLimit ) ) && $('#wpai-symbols-subscribe').length )
 				$('#wpai-symbols-subscribe').text( aiWriter.number_format( limit.sLimit ) );
@@ -1967,7 +1981,7 @@ jQuery( document ).ready(function($){
 			let keywords = $('#aiassist-standart-keywords').val();
 			let keywordsPromt = $('#aiassist-article-prom-keywords').val();
 			
-			let data = await aiWriter.addTask( { action: 'generateStandartContent', header: header, keywords: keywords, keywordsPromt: keywordsPromt, prom: promt, lang_id: parseInt( $('.aiassist-lang-promts:visible:first').val() ) } );
+			let data = await aiWriter.addTask( { action: 'generateStandartContent', header: header, keywords: keywords, keywordsPromt: keywordsPromt, prom: promt, sPrompt: aiassist.sPrompt, lang_id: parseInt( $('.aiassist-lang-promts:visible:first').val() ) } );
 			
 			if( data.content ){
 				$('#step3').show();

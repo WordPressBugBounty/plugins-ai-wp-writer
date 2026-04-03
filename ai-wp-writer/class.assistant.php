@@ -95,12 +95,14 @@ class AIASIST{
 	public function notice(){
 		$screen = get_current_screen();
 
-		switch( @$screen->id ){
-			case 'plugins':
-			case 'dashboard':
-			case 'toplevel_page_wpai-assistant':
-				include dirname(__FILE__) . '/tpl/notice.php';
-			break;
+		if( @$this->options->token ){			
+			switch( @$screen->id ){
+				case 'plugins':
+				case 'dashboard':
+				case 'toplevel_page_wpai-assistant':
+					include dirname(__FILE__) . '/tpl/notice.php';
+				break;
+			}
 		}
 	}
 	
@@ -180,7 +182,12 @@ class AIASIST{
 				unset( $this->options->token );
 			
 			update_option('_ai_assistant', $this->options );
+			update_option('_ai_system_prompt', isset( $_POST['system_prompt'] ) ? 1 : 0 );
 		}
+		$system_prompt = get_option('_ai_system_prompt');
+		
+		if( $system_prompt === false )
+			$system_prompt = true;
 		
 		if( ! $images = get_option('aiImagesData') )
 			$images = [ 'start' => false, 'attachments' => [] ];
@@ -608,6 +615,11 @@ class AIASIST{
 			if( isset( $this->steps['promts']['multi_lang'] ) )
 				$lang_id = (int) $this->steps['promts']['multi_lang'];
 			
+			$system_prompt = get_option('_ai_system_prompt');
+		
+			if( $system_prompt === false )
+				$system_prompt = true;
+			
 			foreach( $data['articles'] as $k => $article ){
 			
 				if( $article['post_id'] )
@@ -640,7 +652,8 @@ class AIASIST{
 								'theme'			=> $article['theme'], 
 								'keywords'		=> $article['keywords'], 
 								'action'		=> 'addAutoTask', 
-								'token'			=> $this->options->token, 
+								'token'			=> $this->options->token,
+								'sPrompt'		=> $system_prompt ? 1 : 0,
 							];
 							
 					$task = json_decode( $this->wpCurl( $args ) );
@@ -1495,6 +1508,10 @@ class AIASIST{
 	public function scripts(){
 		$this->setInfo();
 		
+		$system_prompt = get_option('_ai_system_prompt');
+		if( $system_prompt === false )
+			$system_prompt = true;
+		
 		wp_enqueue_style('aiassist', plugin_dir_url( __FILE__ ) .'assets/css/style.css?t='. time(), false, '1.0', 'all');
 		
 		wp_enqueue_script('google-charts', plugin_dir_url( __FILE__ ) .'assets/libs/charts.js', [ 'jquery' ], false, false );
@@ -1509,6 +1526,7 @@ class AIASIST{
 			'apiurl2'	=> $this->api2,
 			'token'		=> $this->options->token,
 			'info'		=> $this->info,
+			'sPrompt'	=> $system_prompt ? 1 : 0,
 			'promts'	=> @$this->steps['promts'],
 			'locale'	=> [
 				'Need help?'	=> wp_kses_post( __('Need help?', 'wp-ai-assistant') ),

@@ -1,6 +1,6 @@
 <?php
 /*
-	Version: 4.4.5.2
+	Version: 4.4.7.4
 	Plugin Name: AI WP Writer
 	Description: Fast generation of articles with images in Wordpress editor, automatic content writer on schedule, mass rewriting of articles. Powered by Gemini, GPT-5, GPT-5 mini/nano, o3 (reasoning), GPT-image Dalle 3, FLUX, Nano Banana.
 	Author: AIpost

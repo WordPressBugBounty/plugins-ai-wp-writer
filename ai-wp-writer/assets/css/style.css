@@ -25,6 +25,10 @@
 	display: block;
 }
 
+.ai-writer-hidden{
+	display: none;
+}
+
 #aiasist{
 	position: relative;
 }
@@ -439,7 +443,11 @@ input.aiassist-error{
 }
 
 .wpai-form{
-	margin-top: 60px;
+	margin-top: 20px;
+}
+
+#aiassist-settings .license{
+	padding-top: 50px;
 }
 
 .license input[name="token"]{
@@ -590,7 +598,6 @@ button[name="save"]{
 	background: #fff;
 	width: 408px;
 	padding: 33px;
-	margin-top: 70px;
 	border-radius: 0px 0px 10px 10px;
 }
 
@@ -2349,6 +2356,9 @@ button[name="save"]{
 	
 	.aiwriter-notice.halvin{
 		height: 140px;
+	}
+	.aiwriter-notice.p100{
+		height: 100px;
 	}
 	
 	.aiwriter-notice.logo{
