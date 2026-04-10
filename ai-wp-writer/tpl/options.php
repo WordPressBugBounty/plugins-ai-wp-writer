@@ -88,7 +88,7 @@
 				<div class="row <?php echo ! @$this->options->token ? 'ai-writer-hidden' : '' ?>">
 					<label>
 						<input type="checkbox" name="system_prompt" <?php echo $system_prompt ? 'checked' : '' ?> />
-						<?php echo wp_kses_post( __('Use a hidden system prompt during generation to improve text quality and make it sound less like AI-generated content (not recommended to disable).', 'wp-ai-assistant') ) ?>
+						<?php echo wp_kses_post( __('Use a hidden system prompt during generation to improve text quality and make it sound less like AI-generated content (not recommended to disable)', 'wp-ai-assistant') ) ?>
 					</label>
 				</div>
 			

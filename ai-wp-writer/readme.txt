@@ -4,14 +4,14 @@ Tags: AI, writer, post, images, chatGPT
 Requires at least: 6.0
 Tested up to: 6.9
 Requires PHP: 5.6
-Stable tag: 4.4.7.4
+Stable tag: 4.4.8
 License: GPLv3
 License URI: https://www.gnu.org/licenses/gpl-3.0.html
 
-Create AI SEO posts, WooCommerce products, images and media content. Rewrite and translate with AI. Powered by Gemini, chatGPT, GPT-5, Nano Banana
+Create high-quality SEO posts, articles, AI images, WooCommerce products. Autofill website. Rewrite and translate with AI. Powered by Gemini, chatGPT
 
 == Description ==
-AI WP Writer is a powerful AI content generator for WordPress. It works seamlessly in both the Classic Editor and the Gutenberg editor, giving you flexibility in how you create content. For text generation, it supports Gemini 3.1 Pro, Gemini 3 Flash, ChatGPT, GPT-5, GPT-5 mini, GPT-5 nano, and o3 (reasoning), along with built-in image generation using FLUX, DALL·E 3, GPT-Image 1.5, GPT-Image 1 mini, and Nano Banana.
+AI WP Writer is a powerful AI content generator for WordPress. It works seamlessly in both the Classic Editor and the Gutenberg editor, giving you flexibility in how you create content. For text generation, it supports Gemini 3.1 Pro, Gemini 3 Flash, ChatGPT, GPT-5, GPT-5 mini, GPT-5 nano, and o3 (reasoning), along with built-in image generation using FLUX, GPT-Image 1.5, GPT-Image 1 mini, and Nano Banana.
 
 The plugin allows you to launch automatic website content generation with high-quality, SEO-optimized articles. It can also automatically rewrite and translate texts, helping you scale content production with ease. With its tools, you can use different generation modes, automate tasks, and create unique content in just a few clicks.
 

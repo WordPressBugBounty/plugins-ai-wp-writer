@@ -261,6 +261,7 @@ class AIASIST{
 							
 							$post->post_content = str_replace( $attach['replace_url'], $attach['url'], $post->post_content );
 							$post->post_content = str_replace( 'wp-image-'. (int) $attach['replace_id'], 'wp-image-'. (int) $attach['attach_id'], $post->post_content );
+							$this->replaceImageToElementor( $attach['post_id'], $attach['replace_id'], $attach['attach_id'], $attach['url'] );
 							
 							wp_delete_attachment( (int) $attach['replace_id'], true );
 						}
@@ -454,6 +455,7 @@ class AIASIST{
 							$post->post_content = str_replace( 'wp-image-'. (int) $attach['attach_id'], 'wp-image-'. (int) $replace_id, $post->post_content );
 							
 							wp_update_post( [ 'ID' => (int) $attach['post_id'], 'post_content' => $post->post_content ] );
+							$this->replaceImageToElementor( $attach['post_id'], $attach['attach_id'], $replace_id, $src[0] );
 						}	
 					}
 				} else
@@ -476,6 +478,26 @@ class AIASIST{
 		return $data;
 	}
 	
+	private function replaceImageToElementor( $post_id, $attach_id, $replace_id, $url ){
+		if( $elementor = json_decode( get_post_meta( (int) $post_id, '_elementor_data', true ) ) ){
+			foreach( $elementor as $index => $element ){
+				if( $element->elements ){
+					foreach( $element->elements as $key => $elem ){
+						if( $elem->elements ){
+							foreach( $elem->elements as $k => $e ){
+								if( $e->settings->image->id && $e->settings->image->id == $attach_id ){
+									$elementor[ $index ]->elements[ $key ]->elements[ $k ]->settings->image->url = $url;
+									$elementor[ $index ]->elements[ $key ]->elements[ $k ]->settings->image->id = (int) $replace_id;
+								}
+							}
+						}	
+					}
+				}
+			}
+			update_post_meta( (int) $post_id, '_elementor_data', json_encode( $elementor ) );
+		}
+	}
+
 	public function removeQueueArticle(){
 		if( ! $this->checkNonce() || ! current_user_can('manage_options') || ! isset( $_POST['id'] ) )
 			return;
