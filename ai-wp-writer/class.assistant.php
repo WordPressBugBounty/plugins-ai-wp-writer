@@ -479,23 +479,28 @@ class AIASIST{
 	}
 	
 	private function replaceImageToElementor( $post_id, $attach_id, $replace_id, $url ){
-		if( $elementor = json_decode( get_post_meta( (int) $post_id, '_elementor_data', true ) ) ){
-			foreach( $elementor as $index => $element ){
-				if( $element->elements ){
-					foreach( $element->elements as $key => $elem ){
-						if( $elem->elements ){
-							foreach( $elem->elements as $k => $e ){
-								if( $e->settings->image->id && $e->settings->image->id == $attach_id ){
-									$elementor[ $index ]->elements[ $key ]->elements[ $k ]->settings->image->url = $url;
-									$elementor[ $index ]->elements[ $key ]->elements[ $k ]->settings->image->id = (int) $replace_id;
-								}
-							}
-						}	
+		$elementor = json_decode( get_post_meta($post_id, '_elementor_data', true ), true );
+
+		if( ! is_array( $elementor ) )
+			return;
+
+		foreach( $elementor as $index => $section ){
+			if( empty( $section['elements'] ) )
+				continue;
+
+			foreach( $section['elements'] as $key => $column ){
+				if( empty( $column['elements'] ) )
+					continue;
+
+				foreach( $column['elements'] as $k => $widget ){
+					if( ! empty( $widget['settings']['image']['id'] ) && (int) $widget['settings']['image']['id'] === (int) $attach_id ){
+						$elementor[ $index ]['elements'][ $key ]['elements'][ $k ]['settings']['image']['id'] = (int) $replace_id;
+						$elementor[ $index ]['elements'][ $key ]['elements'][ $k ]['settings']['image']['url'] = $url;
 					}
 				}
 			}
-			update_post_meta( (int) $post_id, '_elementor_data', json_encode( $elementor ) );
 		}
+		update_post_meta( $post_id, '_elementor_data', wp_slash( wp_json_encode( $elementor, JSON_UNESCAPED_UNICODE | JSON_UNESCAPED_SLASHES ) ) );
 	}
 
 	public function removeQueueArticle(){

@@ -44,13 +44,13 @@ jQuery( document ).ready(function($){
 			$(document).on('click', '#stop-rewrite-generations', aiWriter.stopRewriteGeneration);
 			
 			if( window.tinymce ){
-				interval = setInterval( () => {
+				aiWriter.interval = setInterval( () => {
 					aiWriter.editor = tinymce.get('AIASSIST');
 					
 					if( ! aiWriter.editor || aiWriter.load )
 						return;
 					
-					clearInterval( interval );
+					clearInterval( aiWriter.interval );
 					
 					aiWriter.load = true;
 					$(document).on('click', '#aiassist-step-stop', aiWriter.stepStop);
