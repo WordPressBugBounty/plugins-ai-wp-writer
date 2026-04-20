@@ -687,7 +687,7 @@
 				
 			<?php } ?>
 		</div>
-		<div class="aiassist-option-item <?php echo ! isset( $rewrites['start'] ) ? 'hidden' : ''?>" id="aiassist-rewrite-progress"><?php echo wp_kses_post( __('Rewriting completed', 'wp-ai-assistant') ) ?> <span id="aiassist-rewrite-count-publish"><?php echo (int) @$rewrites['publish'] ?></span> <?php echo wp_kses_post( __('articles from', 'wp-ai-assistant') ) ?> <?php echo isset( $rewrites['posts'] ) ? (int) count( @$rewrites['posts'] ) : 0 ?></div>
+		<div class="aiassist-option-item <?php echo ! isset( $rewrites['start'] ) ? 'hidden' : ''?>" id="aiassist-rewrite-progress"><?php echo wp_kses_post( __('Rewriting completed', 'wp-ai-assistant') ) ?> <span id="aiassist-rewrite-count-publish"><?php echo (int) @$rewrites['publish'] ?></span> <?php echo wp_kses_post( __('articles from', 'wp-ai-assistant') ) ?> <span id="aiassist-rewrite-count-compleate"><?php echo isset( $rewrites['posts'] ) ? (int) count( @$rewrites['posts'] ) : 0 ?></span></div>
 		
 		<div class="aiassist-rewrites-queue">
 			<?php if( ! empty( $rewrites['posts'] ) ){ $queue = false; ?>

@@ -1463,7 +1463,7 @@ jQuery( document ).ready(function($){
 			$('.aiassist-rewrite-queue').remove();
 			$('#stop-rewrite-generations').attr('disabled', true);
 			$('#start-rewrite-generations').attr('disabled', false);
-			$('#aiassist-rewrite-count-publish').text('0');
+			$('#aiassist-rewrite-count-publish, #aiassist-rewrite-count-compleate').text('0');
 			$('#aiassist-rewrite-status').text('');
 			await aiWriter.request( { action: 'clearRewrite', nonce: aiassist.nonce } );
 		},

@@ -1150,10 +1150,10 @@ class AIASIST{
 					AND 
 						( p.`post_status`="publish" OR p.`post_status`="private" OR p.`post_status`="pending" OR p.`post_status`="draft" OR p.`post_status`="future" )';
 
-			if( $posts = $wpdb->get_results( $sql ) )
-				$args['posts'] = array_map(function( $post ){ 
-					return [ 'id' => (int) $post->ID, 'title' => $post->post_title ]; 
-				}, $posts);
+			if( $posts = $wpdb->get_results( $sql ) ){
+				foreach( $posts as $post )
+					$args['posts'][] = [ 'id' => (int) $post->ID, 'title' => $post->post_title ];
+			}
 		}
 
 		if( $_POST['types'] ){
@@ -1168,10 +1168,10 @@ class AIASIST{
 					AND 
 						( `post_status`="publish" OR `post_status`="private" OR `post_status`="pending" OR `post_status`="draft" OR `post_status`="future" )';
 
-			if( $posts = $wpdb->get_results( $wpdb->prepare( $sql, ...$types ) ) )
-				$args['posts'] = array_map(function( $post ){ 
-					return [ 'id' => (int) $post->ID, 'title' => $post->post_title ]; 
-				}, $posts);
+			if( $posts = $wpdb->get_results( $wpdb->prepare( $sql, ...$types ) ) ){
+				foreach( $posts as $post )
+					$args['posts'][] = [ 'id' => (int) $post->ID, 'title' => $post->post_title ];
+			}
 		}
 		
 		if( $_POST['links'] ){
@@ -1193,10 +1193,10 @@ class AIASIST{
 			if( $posts_ids ){
 				$posts_ids = array_map( 'absint', $posts_ids );
 				
-				if( $posts = $wpdb->get_results( $wpdb->prepare('SELECT `ID`, `post_title` FROM '. $wpdb->posts .' WHERE `ID` IN ('. implode( ',', array_fill( 0, count( $posts_ids ), '%d' ) ) .')', ...$posts_ids ) ) )
-					$args['posts'] = array_map(function( $post ){ 
-						return [ 'id' => (int) $post->ID, 'title' => $post->post_title ]; 
-					}, $posts);
+				if( $posts = $wpdb->get_results( $wpdb->prepare('SELECT `ID`, `post_title` FROM '. $wpdb->posts .' WHERE `ID` IN ('. implode( ',', array_fill( 0, count( $posts_ids ), '%d' ) ) .')', ...$posts_ids ) ) ){
+					foreach( $posts as $post )
+						$args['posts'][] = [ 'id' => (int) $post->ID, 'title' => $post->post_title ];
+				}
 			}
 		}
 			
