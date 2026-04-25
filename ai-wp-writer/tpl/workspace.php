@@ -87,12 +87,12 @@
 			<p><?php echo wp_kses_post( __('Enter the subject of the article, it will be automatically inserted into the prompt. This field must be filled in for meta tags and images to be generated.', 'wp-ai-assistant') ) ?></p>
 			
 			<div class="aiassist-theme-standart">
-				<input id="aiassist-theme-standart" class="aiassist-prom" placeholder="<?php echo wp_kses_post( __('Enter a topic...', 'wp-ai-assistant') ) ?>" value="<?php echo esc_attr( isset( $this->steps['aiassist-theme-standart'] ) ? $this->steps['aiassist-theme-standart'] : '' )?>" />
+				<input id="aiassist-theme-standart" placeholder="<?php echo wp_kses_post( __('Enter a topic...', 'wp-ai-assistant') ) ?>" value="<?php echo esc_attr( isset( $this->steps['aiassist-theme-standart'] ) ? $this->steps['aiassist-theme-standart'] : '' )?>" />
 			</div>
 			
 			<p><?php echo wp_kses_post( __('Enter key phrases for the article, separated by commas. The variable {keywords} will be automatically replaced by the key phrases.', 'wp-ai-assistant') ) ?></p>
 			<div class="aiassist-keywords-input">
-				<input id="aiassist-standart-keywords" class="aiassist-prom" placeholder="<?php echo wp_kses_post( __('Enter keywords...', 'wp-ai-assistant') ) ?>" value="<?php echo esc_attr( isset( $this->steps['aiassist-standart-keywords'] ) ? $this->steps['aiassist-standart-keywords'] : '' )?>" />
+				<input id="aiassist-standart-keywords" placeholder="<?php echo wp_kses_post( __('Enter keywords...', 'wp-ai-assistant') ) ?>" value="<?php echo esc_attr( isset( $this->steps['aiassist-standart-keywords'] ) ? $this->steps['aiassist-standart-keywords'] : '' )?>" />
 			</div>
 			
 			

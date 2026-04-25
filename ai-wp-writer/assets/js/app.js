@@ -829,7 +829,7 @@ jQuery( document ).ready(function($){
 			$('.aiassist-headers').html('');
 			$('#step1, #step2, #step3, #step4, #step6').hide();
 			$('#aiassist-article-symbols, #images-article-symbols').text('0');
-			$('#aiassist-theme, #aiassist-header, #aiassist-structure, #aiassist-title, #aiassist-desc').val('');
+			$('#aiassist-theme, #aiassist-header, #aiassist-structure, #aiassist-title, #aiassist-desc, #aiassist-theme-standart, #aiassist-standart-keywords').val('');
 			
 			await aiWriter.request( { action: 'clearContent', nonce: aiassist.nonce } );
 		},
@@ -1981,6 +1981,11 @@ jQuery( document ).ready(function($){
 			let keywords = $('#aiassist-standart-keywords').val();
 			let keywordsPromt = $('#aiassist-article-prom-keywords').val();
 			
+			await aiWriter.request( { val: header, act: 'aiassist-theme-standart', action: 'saveStep', nonce: aiassist.nonce } );
+			
+			if( keywords )
+				aiWriter.request( { val: keywords, act: 'aiassist-standart-keywords', action: 'saveStep', nonce: aiassist.nonce } );
+			
 			let data = await aiWriter.addTask( { action: 'generateStandartContent', header: header, keywords: keywords, keywordsPromt: keywordsPromt, prom: promt, sPrompt: aiassist.sPrompt, lang_id: parseInt( $('.aiassist-lang-promts:visible:first').val() ) } );
 			
 			if( data.content ){
@@ -2078,7 +2083,7 @@ jQuery( document ).ready(function($){
 				return;
 			}
 			
-			aiWriter.loader( true, aiassist.locale['Meta title generation'] );
+			aiWriter.loader( true, aiassist.locale['Generate meta title'] );
 			
 			$('#step4').show();
 			
