@@ -556,7 +556,7 @@ class AIASIST{
 	}
 	
 	private function activation( $token, $cron = false ){
-		$this->wpcurl( [ 'host' => $this->getHost(), 'action' => 'activation', 'cron' => $cron, 'token' => sanitize_text_field( $token ) ] );
+		$this->wpcurl( [ 'host' => $this->getHost(), 'action' => 'activation', 'locale' => get_locale(), 'cron' => $cron, 'token' => sanitize_text_field( $token ) ] );
 	}
 	
 	public function getBonus(){
@@ -567,7 +567,7 @@ class AIASIST{
 	}
 	
 	private function getInfo(){
-		$args = [ 'action' => 'getInfo', 'currency' => __('$', 'wp-ai-assistant'), 'token' => sanitize_text_field( @$this->options->token ) ];
+		$args = [ 'action' => 'getInfo', 'currency' => __('$', 'wp-ai-assistant'), 'token' => sanitize_text_field( @$_POST['token'] ?? @$this->options->token ) ];
 		
 		if( isset( $_POST['promocode'] ) )
 			$args['promocode'] = sanitize_text_field( $_POST['promocode'] );

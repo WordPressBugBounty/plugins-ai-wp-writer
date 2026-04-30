@@ -1801,6 +1801,7 @@ jQuery( document ).ready(function($){
 				$('input[name="email"]').attr('disabled', true).addClass('disabled');
 				$('#wpai-errors-messages').addClass('success').text( aiassist.locale['Registration was successful, you have been sent an email with a key.'] );
 				document.cookie = 'auth=true';
+				setTimeout( () => { e.hide(); }, 5000)
 			}
 			return false;
 		},
