@@ -633,11 +633,10 @@ class AIASIST{
 			if( $data['counter'][ $key ] > $data['publishInDay'] )
 				return $data;
 			
+			$this->setInfo();
 			$lang_id = $this->getDefaultLangId();
 			$break = false;
 			$data['publish'] = 0;
-			
-			$this->setInfo();
 			
 			if( isset( $this->steps['promts']['multi_lang'] ) )
 				$lang_id = (int) $this->steps['promts']['multi_lang'];
@@ -878,11 +877,8 @@ class AIASIST{
 			if( ! empty( $args['articles'] ) )
 				$data['articles'] = $args['articles'];
 				
-			if( ! empty( $args['imageModel'] ) )
-				$data['imageModel'] = $args['imageModel'];
-				
-			if( ! empty( $args['textModel'] ) )
-				$data['textModel'] = $args['textModel'];
+			$data['textModel'] = sanitize_text_field( $_POST['textModel'] );
+			$data['imageModel'] = sanitize_text_field( $_POST['imageModel'] );
 			
 			foreach( $articles as $cat_id => $items ){
 				foreach( $items as $item ){
@@ -931,8 +927,8 @@ class AIASIST{
 			if( $data['posts'] ){
 				$data['counter'] = 0;
 				
-				$lang_id = $this->getDefaultLangId();
 				$this->setInfo();
+				$lang_id = $this->getDefaultLangId();
 				
 				if( isset( $this->steps['promts']['rewrite_lang'] ) )
 					$lang_id = (int) $this->steps['promts']['rewrite_lang'];
