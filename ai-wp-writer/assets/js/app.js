@@ -112,6 +112,8 @@ jQuery( document ).ready(function($){
 			$(document).on('click', aiWriter.hideSelect);
 			$(document).on('click', '.aiassist-select-lable', aiWriter.openSelect);
 			$(document).on('click', '.aiassist-option:not(.aiassist-lock)', aiWriter.changeSelect);
+			$(document).on('click', '.ai-writer-bell', aiWriter.showBanner);
+			$(document).on('click', '#ai-writer-banner-close', aiWriter.hideBanner);
 			
 			if( textModel = aiWriter.getCookie('text-model') )
 				$('#aiassist-change-text-model').closest('.aiassist-select').find('.aiassist-option[data-value="'+ textModel +'"]').click();
@@ -148,6 +150,27 @@ jQuery( document ).ready(function($){
 				
 				if( ! aiassist.token )
 					$('.aiassist-tab[data-tab="settings"]').click();
+				
+				if( $('#ai-writer-banner-timer').length && aiassist?.info?.time_left ){	
+					aiWriter.iBell = setInterval( () => {
+						aiassist.info.time_left--;
+						
+						if( aiassist.info.time_left <= 0 ){
+							clearInterval( aiWriter.iBell );
+							$('#ai-writer-banner-timer').remove();
+							return;
+						}
+						
+						$('#ai-writer-banner-timer').html( 
+								String( Math.floor( aiassist.info.time_left / 3600 ) ).padStart( 2, '0' ) 
+							+'<span class="ai-writer-blue">:</span>'+ 
+								String( Math.floor( ( aiassist.info.time_left % 3600) / 60 ) ).padStart(2, '0') 
+							+'<span class="ai-writer-blue">:</span>'+ 
+								String( aiassist.info.time_left % 60 ).padStart(2, '0') 
+						);						
+					}, 1000)
+				}
+				
 			}
 			
 			if( window.location.hash == '#ai_assistant' && $('#ai_assistant').length )
@@ -159,11 +182,22 @@ jQuery( document ).ready(function($){
 			$(document).on('click', '#reset-images', aiWriter.replaceImagesReset);
 			$(document).on('click', '#restore-images', aiWriter.replaceImagesRestore);
 			$(document).on('click', '#remove-images', aiWriter.replaceImagesRemove);
-			$(document).on('click', 'a[href*="page=wpai-assistant#rates"]', aiWriter.scrollToTopUpBalance);
+			$(document).on('click', '#ai-writer-banner-button, a[href*="page=wpai-assistant#rates"]', aiWriter.scrollToTopUpBalance);
 			
 			$(document).on('change', '#cat-images', aiWriter.disabledImagesUrlArea);
 			$(document).on('change', '#replace-images-all', aiWriter.replaceAllImagesChecked);
 			$(document).on('change', 'input[name*="images_type"]', aiWriter.imagesTypeChecked);
+		},
+		
+		showBanner: () => {
+			$('.ai-writer-bell').hide();
+			$('.ai-writer-banner-time').removeClass('ai-writer-hide');
+		},
+		
+		hideBanner: () => {
+			$('.wpai-header').append('<div class="ai-writer-bell"></div>');
+			$('.ai-writer-banner-time').addClass('ai-writer-hide');
+			aiWriter.setCookie('_aiwriter_bell', true );
 		},
 		
 		scrollToTopUpBalance: () => {

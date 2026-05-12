@@ -21,6 +21,7 @@ class AIASIST{
 		}
 	
 		add_filter('https_ssl_verify',					'__return_false');
+		add_action('init', 								[$this, 'init'] );
 		add_action('plugins_loaded',					[$this, 'langs']);
 		add_action('admin_menu',						[$this, 'menu']);
 		add_action('wp_footer', 						[$this, 'front'] );
@@ -160,7 +161,7 @@ class AIASIST{
 		return esc_attr( substr( $key, 0, $first ) .' '. str_repeat('•', max(4, strlen( $key ) - $first - $last ) ) .' '. substr( $key, -$last ) );
 	}
 	
-	public function options(){
+	public function init(){
 		if( isset( $_POST['save'] ) && $this->checkNonce() && current_user_can('manage_options') ){
 			$this->options = new stdClass();
 			$this->options->cron = isset( $_POST['cron'] );
@@ -184,6 +185,9 @@ class AIASIST{
 			update_option('_ai_assistant', $this->options );
 			update_option('_ai_system_prompt', isset( $_POST['system_prompt'] ) ? 1 : 0 );
 		}
+	}
+	
+	public function options(){
 		$system_prompt = get_option('_ai_system_prompt');
 		
 		if( $system_prompt === false )
@@ -412,7 +416,7 @@ class AIASIST{
 					if( $attach['attach_id'] ){
 						$path = get_attached_file( $attach['attach_id'] );
 						
-						if( $path[0] == '/' )
+						if( $path[0] == '/' && stripos( $path, ABSPATH ) === false )
 							$path = ABSPATH . $path;
 						
 						if( file_exists( $path ) ){
@@ -1118,17 +1122,17 @@ class AIASIST{
 		$args = get_option('aiRewritesData');
 		
 		$args['start'] 			= true;
-		$data['thumb']			= (bool) $_POST['thumb'];
-		$data['split']			= (int) $_POST['split'];
-		$data['author']			= (int) $_POST['author'];
-		$data['draft'] 			= (bool) $_POST['draft'];
-		$data['pictures'] 		= sanitize_text_field( $_POST['pictures'] );
-		$data['excude_h1']		= (bool) $_POST['excude_h1'];
-		$data['excude_title']	= (bool) $_POST['excude_title'];
-		$data['excude_desc']	= (bool) $_POST['excude_desc'];
-		$data['max_pictures']	= (int) $_POST['max_pictures'];
-		$data['imageModel']		= sanitize_text_field( $_POST['imageModel'] );
-		$data['textModel']		= sanitize_text_field( $_POST['textModel'] );
+		$args['thumb']			= (bool) $_POST['thumb'];
+		$args['split']			= (int) $_POST['split'];
+		$args['author']			= (int) $_POST['author'];
+		$args['draft'] 			= (bool) $_POST['draft'];
+		$args['pictures'] 		= sanitize_text_field( $_POST['pictures'] );
+		$args['excude_h1']		= (bool) $_POST['excude_h1'];
+		$args['excude_title']	= (bool) $_POST['excude_title'];
+		$args['excude_desc']	= (bool) $_POST['excude_desc'];
+		$args['max_pictures']	= (int) $_POST['max_pictures'];
+		$args['imageModel']		= sanitize_text_field( $_POST['imageModel'] );
+		$args['textModel']		= sanitize_text_field( $_POST['textModel'] );
 		
 		if( $_POST['cats'] ){
 			$sql = 'SELECT 
@@ -1547,8 +1551,8 @@ class AIASIST{
 			'api'		=> $this->api,
 			'apiurl'	=> $this->api,
 			'apiurl2'	=> $this->api2,
-			'token'		=> $this->options->token,
-			'info'		=> $this->info,
+			'token'		=> @$this->options->token,
+			'info'		=> @$this->info,
 			'sPrompt'	=> $system_prompt ? 1 : 0,
 			'promts'	=> @$this->steps['promts'],
 			'locale'	=> [

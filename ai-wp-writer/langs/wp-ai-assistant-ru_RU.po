@@ -69,6 +69,18 @@ msgid "<a href=\"https://aiwpw.com/docs/ai-image-creator/\" target=\"_blank\">Ho
 msgstr "<a href=\"https://aiwpwriter.com/docs/ai-image-creator-generatsiya-izobrazheniy-v-proizvolnom-meste/\" target=\"_blank\">Как использовать</a>"
 
 #: tpl/options.php
+msgid "<a href="https://aiwpw.com/privacy-policy/" target="_blank">privacy policy</a>"
+msgstr "<a href="https://aiwpwriter.com/privacy-policy/" target="_blank">политикой конфиденциальности </a>"
+
+#: tpl/options.php
+msgid "<a href="https://aiwpw.com/refund-policy-license-cancellation/" target="_blank">refund policy</a>"
+msgstr "<a href="https://aiwpwriter.com/publichnaja-oferta-o-zakljuchenii-dogovora-ob-okazanii-uslug/" target="_blank">офертой</a>"
+
+#: tpl/options.php
+msgid "<a href="https://aiwpw.com/user-agreement/" target="_blank">terms of use</a>"
+msgstr "<a href="https://aiwpwriter.com/user-agreement/" target="_blank">пользовательским соглашением</a>"
+
+#: tpl/options.php
 msgid "Rewriting and translation"
 msgstr "Рерайт и перевод"
 
@@ -771,8 +783,8 @@ msgid "How much content can be generated<br />27,777m characters (~5,555m words)
 msgstr "Сколько можно сгенерировать<br />27,777 млн символов Gemini 3 flash<br />5,555 млн символов Gemeni 3.1 pro<br />166,666 млн символов GPT-5 nano<br />41,666 млн символов GPT-5 mini<br />6,250 млн символов GPT-5<br />6,250 млн символов o3 (рассуждающая)<br />10000 изображения FLUX Schnell<br />1250 генераций Midjourney v7<br />1250 изображений GPT image 2<br />1250 изображений GPT-image 1.5<br />3333 изображений GPT-image 1 mini<br />1428 изображений Nano Banana"
 
 #: tpl/options.php
-msgid "Neural Networks: GPT-5, GPT-5 mini/nano, o3 (reasoning), Gemini 3.1 pro, Gemini 3 flash, Midjourney v7, Dalle 3, GPT-image 1.5, GPT-image 1 mini, FLUX, Nano Banana."
-msgstr "Нейросети: GPT-5, GPT-5 mini/nano, o3 (reasoning), Gemini 3.1 pro, Gemini 3 flash, Midjourney v7, Dalle 3, GPT-image 1.5, GPT-image 1 mini, FLUX, Nano Banana."
+msgid "Neural Networks: GPT-5, GPT-5 mini/nano, o3 (reasoning), Gemini 3.1 pro, Gemini 3 flash, Midjourney v7, GPT-image 2, GPT-image 1.5, GPT-image 1 mini, FLUX, Nano Banana."
+msgstr "Нейросети: GPT-5, GPT-5 mini/nano, o3 (reasoning), Gemini 3.1 pro, Gemini 3 flash, Midjourney v7, GPT-image 2, GPT-image 1.5, GPT-image 1 mini, FLUX, Nano Banana."
 
 #: tpl/options.php
 msgid "Bulk article generation and editor-based article creation"
@@ -1033,6 +1045,18 @@ msgstr "Дополнительная часть промпта для генер
 #: tpl/options.php
 msgid "Use a hidden system prompt during generation to improve text quality and make it sound less like AI-generated content (not recommended to disable)"
 msgstr "Использовать при генерации скрытый системный промпт который улучшает качество текстов и делает их не похожими на сгенерированные нейросетью (не рекомендуем отключать)"
+
+#: tpl/options.php
+msgid "Get <span class="ai-writer-blue">15%</span> extra credits free with <br />your first payment on any plan!"
+msgstr "Получи бонус <span class="ai-writer-blue">15%</span> дополнительных лимитов <br />после первой оплаты любого из тарифов!"
+
+#: tpl/options.php
+msgid "You have <span class="ai-writer-blue">12 hours</span>  left to claim this offer!"
+msgstr "У тебя есть <span class="ai-writer-blue">12 часов</span> чтобы принять решение!"
+
+#: tpl/options.php
+msgid "Get Your Bonus Now"
+msgstr "Получить сейчас"
 
 #: tpl/worckspace.php
 msgid "Enter a topic..."
