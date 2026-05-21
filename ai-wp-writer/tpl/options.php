@@ -1336,6 +1336,10 @@
 				<input type="checkbox" class="aiassist-auto-options" id="aiassist-auto-draft" <?php echo esc_attr( @$autoGen['draft'] ? 'checked' : '' ) ?> /> <?php echo wp_kses_post( __('Send the generated articles to draft', 'wp-ai-assistant') ) ?>
 			</label>
 			
+			<label class="aiassist-option-item">
+				<input type="checkbox" class="aiassist-auto-options" id="aiassist-auto-rand" <?php echo esc_attr( @$autoGen['rand'] ? 'checked' : '' ) ?> /> <?php echo wp_kses_post( __('Generate articles in random order. Article topics, including topics from different categories, will be shuffled randomly when added to the queue.', 'wp-ai-assistant') ) ?>
+			</label>
+			
 			<div>
 				<div><?php echo wp_kses_post( __('Text generation model', 'wp-ai-assistant') ) ?></div>
 				<div class="aiassist-select-wrap">

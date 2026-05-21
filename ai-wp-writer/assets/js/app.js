@@ -1227,6 +1227,7 @@ jQuery( document ).ready(function($){
 				pictures: $('#aiassist-auto-multi-images').val(),
 				max_pictures: $('#aiassist-max-pictures').val(),
 				draft: $('#aiassist-auto-draft').prop('checked') ? 1 : 0,
+				rand: $('#aiassist-auto-rand').prop('checked') ? 1 : 0,
 				thumb: $('#aiassist-auto-thumb').prop('checked') ? 1 : 0,
 				textModel: $('#aiassist-change-text-model').val(),
 				imageModel: $('#aiassist-image-model').val(),
@@ -1305,18 +1306,13 @@ jQuery( document ).ready(function($){
 								articles[ index ][ id ] = [];
 						
 							articles[ index ][ id ].push( { theme: theme, keywords: e.find('.aiassist-multi-keywords .aiassist-multi-item:eq('+( item.index() - 1 )+')').val() } );
-							$('.aiassist-articles-queue').append('<div class="aiassist-article-queue aiassist-queue"><div class="aiassist-article-item-close" data-key="'+( c - 1 )+'"></div><span class="aiassist-queue-keyword">'+ theme +'</span> <span class="aiassist-queue-status">'+( c==1 ? aiassist.locale['Generation in progress'] : aiassist.locale['In line'] )+'</span></div>');
 						}
 						
 					})
 					
 				})
 				
-				let artPromt = $('#aiassist-generation-prom').val(),
-					kwdPromt = $('#aiassist-generation-prom-keywords').val(),
-					titlePromt = $('#aiassist-title-prom').val(),
-					descPromt = $('#aiassist-desc-prom').val();
-					imageModel = $('#aiassist-image-model').val();
+				let imageModel = $('#aiassist-image-model').val();
 					textModel = $('#aiassist-change-text-model').val();
 				
 				$('#start-articles-generations').html('<div id="aiassist-loader"></div>');
@@ -1325,7 +1321,13 @@ jQuery( document ).ready(function($){
 					if( k > 0 )
 						await aiWriter.sleep( 3 );
 					
-					await aiWriter.request( { articles: articles[ k ], artPromt: artPromt, titlePromt: titlePromt, textModel: textModel, imageModel: imageModel, descPromt: descPromt, action: 'initArticlesGen', nonce: aiassist.nonce } ); 
+					const queue = await aiWriter.request( { articles: articles[ k ], textModel: textModel, imageModel: imageModel, action: 'initArticlesGen', nonce: aiassist.nonce } ); 
+					
+					if( queue && queue.articles ){
+						for( let i in queue.articles )
+							$('.aiassist-articles-queue').append('<div class="aiassist-article-queue aiassist-queue"><div class="aiassist-article-item-close" data-key="'+( i + 1 )+'"></div><span class="aiassist-queue-keyword">'+ queue.articles[ i ].theme +'</span> <span class="aiassist-queue-status">'+( i==0 ? aiassist.locale['Generation in progress'] : aiassist.locale['In line'] )+'</span></div>');
+					}
+					
 				}
 				
 				$('#start-articles-generations').text( aiassist.locale['Start articles generation'] );

@@ -615,17 +615,20 @@ class AIASIST{
 			$key = date('Ymd');
 			
 			if( (int) $data['publishEveryDay'] ){
-			
+				
 				if( ! isset( $data['everyDayCounter'] ) )
-					$data['everyDayCounter'][ $key ] = 0;
+					$data['everyDayCounter'] = [ $key => true ];
 				
-				$data['everyDayCounter'][ $key ]++;
+				$data['everyDayCounter'][ $key ] = true;
+				$everyDayCounter = count( $data['everyDayCounter'] );
 				
-				if( count( $data['everyDayCounter'] ) < $data['publishEveryDay'] ){
+				if( $everyDayCounter <= $data['publishEveryDay'] && $everyDayCounter > 1 ){
 					update_option('aiArticlesAutoGenData', $data);
 					return $data;
 				}
 				
+				if( $everyDayCounter > $data['publishEveryDay'] )
+					$data['everyDayCounter'] = [ $key => true ];
 			}
 			
 			if( ! isset( $data['counter'][ $key ] ) )
@@ -692,7 +695,6 @@ class AIASIST{
 						
 						if( $revision_id = wp_insert_post( [ 'post_type' => 'wpai', 'post_title' => $this->validText( $article['keywords'] ), 'post_author' => (int) $data['author'] ] ) ){
 							$data['counter'][ $key ]++;
-							$data['everyDayCounter'] = [ $key => 0 ];
 							$data['articles'][ $k ]['task_id'] = $task->task_id;
 							$data['articles'][ $k ]['revision_id'] = $revision_id;							
 						}
@@ -779,6 +781,7 @@ class AIASIST{
 		$data = get_option('aiArticlesAutoGenData');
 		$data['author'] = (int) $_POST['author'];
 		$data['draft'] = (bool) $_POST['draft'];
+		$data['rand'] = (bool) $_POST['rand'];
 		$data['thumb'] = (bool) $_POST['thumb'];
 		$data['publishInDay'] = (int) $_POST['publishInDay'];
 		$data['publishEveryDay'] = (int) $_POST['publishEveryDay'];
@@ -832,6 +835,9 @@ class AIASIST{
 		if( isset( $args['draft'] ) )
 			$data['draft'] = (bool) $args['draft'];
 			
+		if( isset( $args['rand'] ) )
+			$data['rand'] = (bool) $args['rand'];
+			
 		if( isset( $args['thumb'] ) )
 			$data['thumb'] = (bool) $args['thumb'];
 			
@@ -863,11 +869,17 @@ class AIASIST{
 			if( isset( $args['publishInDay'] ) )
 				$data['publishInDay'] = (int) $args['publishInDay'];
 				
+			if( isset( $args['publishEveryDay'] ) )
+				$data['publishEveryDay'] = (int) $args['publishEveryDay'];
+				
 			if( isset( $args['author'] ) )
 				$data['author'] = (int) $args['author'];
 				
 			if( isset( $args['draft'] ) )
 				$data['draft'] = (int) $args['draft'];
+			
+			if( isset( $args['rand'] ) )
+				$data['rand'] = (int) $args['rand'];
 				
 			if( isset( $args['thumb'] ) )
 				$data['thumb'] = (int) $args['thumb'];
@@ -890,6 +902,9 @@ class AIASIST{
 						$data['articles'][] = [ 'theme' => $item['theme'], 'keywords' => $item['keywords'], 'cat_id' => $cat_id ];
 				}
 			}
+			
+			if( $data['rand'] )
+				shuffle( $data['articles'] );
 			
 			$data['count'] = count( $data['articles'] );
 			update_option('aiArticlesAutoGenData', $data);
