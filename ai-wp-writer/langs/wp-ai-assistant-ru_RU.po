@@ -382,8 +382,8 @@ msgid "Add another list of keys for another category"
 msgstr "Добавить еще один список ключей для еще одной категории"
 
 #: tpl/options.php:536
-msgid "Prompt for generating articles. The {key} variable will be replaced by main topic from the list."
-msgstr "Промпт для генерации статей. Вместо переменой {key} подставляется главная тема статьи из списка.<br /> Опираясь на наш большой опыт генерации статей и сервисы для оценки качества текстов, мы разработали и используем дополнительный системный промпт. Этот промпт скрыт на сервере и автоматически используется при каждой генерации - он делает тексты живыми и не похожими на сгенерированные нейросетью, что улучшает индексирование и привлекает больше трафика."
+msgid "Article generation prompt. The main article topic from the list will be inserted in place of the {key} variable. <br /> Based on our extensive experience in article generation and the use of text quality evaluation tools, we have developed and implemented an additional system prompt. This prompt is stored on the server and automatically applied with every generation. It makes the text sound more natural and human-written rather than AI-generated, which improves indexing and helps attract more traffic. You can disable the use of our system prompt at any time in the Settings tab."
+msgstr "Промпт для генерации статей. Вместо переменой {key} подставляется главная тема статьи из списка.<br /> Опираясь на наш большой опыт генерации статей и сервисы для оценки качества текстов, мы разработали и используем дополнительный системный промпт. Этот промпт скрыт на сервере и автоматически используется при каждой генерации - он делает тексты живыми и не похожими на сгенерированные нейросетью, что улучшает индексирование и привлекает больше трафика. Вы всегда можете отключить использование нашего системного промпта в вкладке Настройки."
 
 #: tpl/options.php:540 tpl/workspace.php:17 tpl/workspace.php:191
 msgid "Restore default prompts"
@@ -442,20 +442,20 @@ msgid "Single request generation"
 msgstr "Генерация одним запросом"
 
 #: tpl/workspace.php:17
-msgid "Generating an article according to outline (large article)"
-msgstr "Генерация статьи по плану (большая статья)"
+msgid "Long-form article from outline"
+msgstr "Генерация большой статьи по плану"
 
 #: tpl/workspace.php:25
-msgid "Enter the subject of the article, it will be automatically inserted into the prompt. This field must be filled in for meta tags and images to be generated."
-msgstr "Введите тему статьи, она автоматически подставится в промпт. Для того чтобы сгенерировались метатеги и картинки, это поле должно быть обязательно заполнено."
+msgid "Enter the article topic. It will be automatically inserted into the prompt in place of the {key} variable. This field is required."
+msgstr "Введите тему статьи, она автоматически подставится в промпт на место переменой {key}. Это поле должно быть обязательно заполнено."
 
 #: tpl/workspace.php:29
-msgid "You can change the prompt as you wish, it determines how the article will turn out. The {key} variable will be replaced by the article topic."
-msgstr "Вы можете изменить промпт по своему усмотрению, от него зависит какой получится статья. Вместо переменой {key} подставится тема статьи.<br /> Опираясь на наш большой опыт генерации статей и сервисы для оценки качества текстов, мы разработали и используем дополнительный системный промпт. Этот промпт скрыт на сервере и автоматически используется при каждой генерации - он делает тексты живыми и не похожими на сгенерированные нейросетью, что улучшает индексирование и привлекает больше трафика."
+msgid "You can modify the prompt as you see fit — it determines the quality and final form of the generated article. <br /> Based on our extensive experience in article generation and the use of text quality evaluation tools, we have developed and implemented an additional system prompt. This prompt is stored on the server and automatically applied during every generation. It makes the text sound natural and human-written rather than AI-generated, which improves indexing and helps attract more traffic. You can disable our system prompt at any time in the Settings tab."
+msgstr "Вы можете изменить промпт по своему усмотрению, от него зависит какой получится статья. <br /> Опираясь на наш большой опыт генерации статей и сервисы для оценки качества текстов, мы разработали и используем дополнительный системный промпт. Этот промпт скрыт на сервере и автоматически используется при каждой генерации - он делает тексты живыми и не похожими на сгенерированные нейросетью, что улучшает индексирование и привлекает больше трафика. Вы всегда можете отключить использование нашего системного промпта в вкладке Настройки."
 
 #: tpl/workspace.php:53 tpl/workspace.php:109
-msgid "Generate article text"
-msgstr "Сгенерировать текст статьи"
+msgid "Generate text"
+msgstr "Сгенерировать текст"
 
 #: tpl/workspace.php:63
 msgid "When generating, consider only the article outline and h1 headline in context"
@@ -502,8 +502,8 @@ msgid "Prompt for generating meta description:"
 msgstr "Промпт для генерации meta description:"
 
 #: tpl/workspace.php:133
-msgid "Generating images for an article. Select a model:"
-msgstr "Генерация изображений для статьи. Выберите модель:"
+msgid "Generating images. Select a model:"
+msgstr "Генерация изображений. Выберите модель:"
 
 #: tpl/workspace.php:142
 msgid "For which headers to generate images:"
@@ -1296,3 +1296,27 @@ msgstr "Лимиты в плагине AI WP Writer заканчиваются! 
 #: tpl/notice.php
 msgid "Top up balance"
 msgstr "Пополнить баланс"
+
+#: tpl/workspace.php
+msgid "WooCommerce product description"
+msgstr "Описание товара WooCommerce"
+
+#: tpl/workspace.php:88
+msgid "Enter the product name. It will be automatically inserted into the prompt in place of the {key} variable. This field is required."
+msgstr "Введите наименование товара, оно автоматически подставится в промпт на место переменой {key}. Это поле должно быть обязательно заполнено."
+
+#: tpl/workspace.php:94
+msgid "Enter the product features separated by commas. These features will be automatically inserted into the prompt in place of the {keywords} variable."
+msgstr "Введите характеристики товара через запятую. Эти характеристики автоматически подставятся в промпт на место переменной {keywords}."
+
+#: tpl/workspace.php:100
+msgid "You can customize the prompt as needed — it determines how the product description will be generated."
+msgstr "Вы можете изменить промпт по своему усмотрению, от него зависит каким получится описание товара."
+
+#: tpl/worckspace.php
+msgid "Enter the product name..."
+msgstr "Введите наименовение товара..."
+
+#: tpl/worckspace.php
+msgid "Enter the product features..."
+msgstr "Введите характеристики товара..."

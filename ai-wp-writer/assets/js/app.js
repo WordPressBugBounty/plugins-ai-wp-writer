@@ -58,6 +58,7 @@ jQuery( document ).ready(function($){
 					$(document).on('click', '#aiassist-structure-generate', aiWriter.generateStructure);
 					$(document).on('click', '#aiassist-content-generate', aiWriter.generateContent);
 					$(document).on('click', '#aiassist-standart-generate', aiWriter.standartGenerateContent);
+					$(document).on('click', '#aiassist-woocommerce-generate', aiWriter.woocommerceGenerateContent);
 					$(document).on('click', '#aiassist-meta-generate', aiWriter.generateMeta);
 					$(document).on('click', '#aiassist-save-content', aiWriter.saveContent);
 					$(document).on('click', '#aiassist-images-generator-all-headers', aiWriter.checkAllHeaders);
@@ -625,6 +626,9 @@ jQuery( document ).ready(function($){
 				case 'aiassist-article-prom':
 					aiassist.promts['short'][ lang_id ] = promt;
 				break;
+				case 'aiassist-woocommerce-prom':
+					aiassist.promts['woocommerce'][ lang_id ] = promt;
+				break;
 				case 'aiassist-theme-prom':
 					aiassist.promts['long_header'][ lang_id ] = promt;
 				break;
@@ -774,6 +778,18 @@ jQuery( document ).ready(function($){
 				$('#aiassist-title-prom').val( aiassist.promts.long_title[ lang ] )
 				$('#aiassist-desc-prom').val( aiassist.promts.long_desc[ lang ] )
 				$('#aiassist-article-prom-keywords').val( aiassist.promts.keywords[ lang ] )
+			}
+
+			if( typeof aiassist.promts.woocommerce[ lang ] !== 'undefined' && $('#aiassist-woocommerce-prom').is(':visible') ){
+				aiassist.promts['woocommerce_lang'] = lang;
+				
+				if( def ){
+					aiassist.promts.woocommerce[ lang ]		= aiassist.info.promts.woocommerce[ lang ];
+					aiassist.promts.woocommerce_keywords[ lang ]	= aiassist.info.promts.woocommerce_keywords[ lang ];
+				}
+				
+				$('#aiassist-woocommerce-prom').val( aiassist.promts.woocommerce[ lang ] )
+				$('#aiassist-woocommerce-prom-keywords').val( aiassist.promts.woocommerce_keywords[ lang ] )
 			}
 			
 			if( typeof aiassist.promts.long_header[ lang ] !== 'undefined' && $('#aiassist-theme-prom').is(':visible') ){
@@ -1998,6 +2014,61 @@ jQuery( document ).ready(function($){
 			aiWriter.loader();
 		},
 		
+		woocommerceGenerateContent: async ( event ) => {
+			if( event.originalEvent && event.originalEvent.detail === 0 ){
+				event.preventDefault();
+				return;
+			}
+			
+			let header = $('#aiassist-theme-woocommerce').val();
+			
+			if( ! header ){
+				$('#aiassist-theme-woocommerce').addClass('aiassist-error');
+				return false;
+			}
+			
+			$('#aiassist-theme-woocommerce').removeClass('aiassist-error');
+		
+			aiWriter.loader( true, aiassist.locale['Text generation'] );
+			
+			let promt = $('#aiassist-woocommerce-prom').val();
+			let keywords = $('#aiassist-woocommerce-keywords').val();
+			let keywordsPromt = $('#aiassist-woocommerce-prom-keywords').val();
+			
+			await aiWriter.request( { val: header, act: 'aiassist-theme-woocommerce', action: 'saveStep', nonce: aiassist.nonce } );
+			
+			if( keywords )
+				aiWriter.request( { val: keywords, act: 'aiassist-woocommerce-keywords', action: 'saveStep', nonce: aiassist.nonce } );
+			
+			let data = await aiWriter.addTask( { action: 'generateWoocommerceContent', header: header, keywords: keywords, keywordsPromt: keywordsPromt, prom: promt, sPrompt: aiassist.sPrompt, lang_id: parseInt( $('.aiassist-lang-promts:visible:first').val() ) } );
+			
+			if( data.content ){
+				$('#step3').show();
+				$('.aiassist-headers .aiassist-header-item').remove();
+				
+				$('.aiassist-headers').append('<div class="aiassist-header-item aiassist-main-header"><div class="left">'+ aiassist.locale['Featured image'] +'</div><label><input type="checkbox" id="aiassist-main" value="'+( header )+'" /><span>'+( header )+'</span></label><div class="aiassist-translate-promt-image">'+ aiassist.locale['Promt:'] +' <input /> <div class="image-generate-item">'+ aiassist.locale['Generate'] +'</div></div></div>');	
+				
+				if( headers = data.content.match(/<h[2-6][^>]*>([^<]+)<\/h[2-6]>/gi) ){
+					for(let i in headers ){
+						headers[ i ] = headers[ i ].replace(/<\/?h[2-6][^>]*>/gi, '');
+						$('.aiassist-headers').append('<div class="aiassist-header-item"><label><input type="checkbox" value="'+( headers[ i ] )+'" /><span>'+( headers[ i ] )+'</span></label><div class="aiassist-translate-promt-image">'+ aiassist.locale['Promt:'] +' <input /> <div class="image-generate-item">'+ aiassist.locale['Generate'] +'</div></div></div>');
+					}
+				}
+				$('#step6').show();
+				
+				aiWriter.editor.setContent( data.content );
+				aiWriter.request( { val: data.content, act: 'content', action: 'saveStep', nonce: aiassist.nonce } );
+			} else {
+				aiWriter.loader();
+				aiWriter.errorLog('End limits!');
+			}
+			
+			$('#step5').show();
+			$('#aiassist-content').removeClass('disabled');
+			aiWriter.translatePromtsToImages();
+			
+		},
+		
 		standartGenerateContent: async ( event ) => {
 			if( event.originalEvent && event.originalEvent.detail === 0 ){
 				event.preventDefault();
@@ -2127,6 +2198,8 @@ jQuery( document ).ready(function($){
 			let header;
 			if( $('.aiassist-tab[data-tab="standart"]').hasClass('active') )
 				header = $('#aiassist-theme-standart').val();
+			else if( $('.aiassist-tab[data-tab="woocommerce"]').hasClass('active') )
+				header = $('#aiassist-theme-woocommerce').val();
 			else
 				header = $('#aiassist-header').val();
 			

@@ -1242,7 +1242,7 @@
 		</div>
 		
 		
-		<div class="aiassist-option-item"><?php echo wp_kses_post( __('Prompt for generating articles. The {key} variable will be replaced by main topic from the list.', 'wp-ai-assistant') ) ?></div>
+		<div class="aiassist-option-item"><?php echo wp_kses_post( __('Article generation prompt. The main article topic from the list will be inserted in place of the {key} variable. <br /> Based on our extensive experience in article generation and the use of text quality evaluation tools, we have developed and implemented an additional system prompt. This prompt is stored on the server and automatically applied with every generation. It makes the text sound more natural and human-written rather than AI-generated, which improves indexing and helps attract more traffic. You can disable the use of our system prompt at any time in the Settings tab.', 'wp-ai-assistant') ) ?></div>
 		
 		<br /><br /><br />
 		<div class="relative">

@@ -64,6 +64,8 @@ input.aiassist-error{
 #aiassist-theme,
 #aiassist-long-keywords,
 #aiassist-theme-standart,
+#aiassist-theme-woocommerce,
+#aiassist-woocommerce-keywords,
 #aiassist-standart-keywords{
 	width: 60%;
 	min-width: 371px;
@@ -782,17 +784,21 @@ button[name="save"]{
 }
 
 #aiassist-article-prom,
-#aiassist-article-prom-keywords{
+#aiassist-woocommerce-prom,
+#aiassist-article-prom-keywords,
+#aiassist-woocommerce-prom-keywords{
 	width: 60%;
 	resize: none;
 	border: solid 1px #ccc;
 }
 
-#aiassist-article-prom{
+#aiassist-article-prom,
+#aiassist-woocommerce-prom{
 	height: 250px;
 }
 
-#aiassist-article-prom-keywords{
+#aiassist-article-prom-keywords,
+#aiassist-woocommerce-prom-keywords{
 	height: 75px;
 	display: none;
 }

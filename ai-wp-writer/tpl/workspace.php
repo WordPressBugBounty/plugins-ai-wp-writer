@@ -76,15 +76,68 @@
 	
 	<div class="aiassist-tabs">
 		<div class="aiassist-tab active" data-tab="standart"><?php echo wp_kses_post( __('Single request generation', 'wp-ai-assistant') ) ?></div>
-		<div class="aiassist-tab" data-tab="long"><?php echo wp_kses_post( __('Generating an article according to outline (large article)', 'wp-ai-assistant') ) ?></div>
+		<div class="aiassist-tab" data-tab="long"><?php echo wp_kses_post( __('Long-form article from outline', 'wp-ai-assistant') ) ?></div>
+		<div class="aiassist-tab" data-tab="woocommerce"><?php echo wp_kses_post( __('WooCommerce product description', 'wp-ai-assistant') ) ?></div>
 	</div>
 	
 	<button type="button" class="aiassist-set-default-promts"><?php echo wp_kses_post( __('Restore default prompts', 'wp-ai-assistant') ) ?></button>
 	
+	
+	<div class="aiassist-tab-data" data-tab="woocommerce">
+		<div class="aiassist-item center">
+			<p><?php echo wp_kses_post( __('Enter the product name. It will be automatically inserted into the prompt in place of the {key} variable. This field is required.', 'wp-ai-assistant') ) ?></p>
+			
+			<div class="aiassist-theme-woocommerce">
+				<input id="aiassist-theme-woocommerce" placeholder="<?php echo wp_kses_post( __('Enter the product name...', 'wp-ai-assistant') ) ?>" value="<?php echo esc_attr( isset( $this->steps['aiassist-theme-woocommerce'] ) ? $this->steps['aiassist-theme-woocommerce'] : '' )?>" />
+			</div>
+			
+			<p><?php echo wp_kses_post( __('Enter the product features separated by commas. These features will be automatically inserted into the prompt in place of the {keywords} variable.', 'wp-ai-assistant') ) ?></p>
+			<div class="aiassist-keywords-input">
+				<input id="aiassist-woocommerce-keywords" placeholder="<?php echo wp_kses_post( __('Enter the product features...', 'wp-ai-assistant') ) ?>" value="<?php echo esc_attr( isset( $this->steps['aiassist-woocommerce-keywords'] ) ? $this->steps['aiassist-woocommerce-keywords'] : '' )?>" />
+			</div>
+			
+			
+			<p><?php echo wp_kses_post( __('You can customize the prompt as needed — it determines how the product description will be generated.', 'wp-ai-assistant') ) ?></p>
+			
+			<?php if( @$this->info->promts->lang ){ $lang_id = $this->getDefaultLangId(); ?>
+				<div class="aiassist-lang-block">
+					<div class="aiassist-lang-promts-item">
+						<div><?php echo wp_kses_post( __('Prompts language: ', 'wp-ai-assistant') ) ?></div>
+						<select class="aiassist-lang-promts">
+							<?php foreach( $this->info->promts->lang as $k => $lang ){ ?>
+								<?php
+									if( isset( $this->steps['promts']['woocommerce_lang'] ) && (int) $this->steps['promts']['woocommerce_lang'] === $k )
+										$lang_id = (int) $k;
+								?>
+							
+								<option value="<?php echo (int) $k ?>" <?php echo @$lang_id === $k ? 'selected' : '' ?> ><?php echo esc_html( $lang ) ?></option>
+							<?php } ?>
+						</select>
+					</div>
+				</div>
+			<?php } ?>
+			
+			<?php $promt = esc_textarea( @$this->steps['promts']['woocommerce'][ $lang_id ] ? trim( $this->steps['promts']['woocommerce'][ $lang_id ] ) : @$this->info->promts->woocommerce[ $lang_id ] ); ?>
+			<textarea id="aiassist-woocommerce-prom" class="aiassist-prom" data-check="{key}"><?php echo $promt ?></textarea>
+			<?php if( strpos( $promt, '{key}') === false ){ ?>
+				<div class="aiassist-check-key"><?php echo wp_kses_post( __('There is no variable {key} (or {header}) in your prompt. Add it in the place where the key word should be. If you generate an article without the variable, the text won’t be relevant to your topic.', 'wp-ai-assistant') ) ?></div>
+			<?php } ?>
+			
+			<?php $promt = esc_textarea( @$this->steps['promts']['woocommerce_keywords'][ $lang_id ] ? trim( $this->steps['promts']['woocommerce_keywords'][ $lang_id ] ) : @$this->info->promts->woocommerce_keywords[ $lang_id ] ); ?>
+			<textarea id="aiassist-woocommerce-prom-keywords" class="aiassist-prom aiassist-keywords-area"><?php echo $promt ?></textarea>
+			
+		</div>
+		
+		<div class="next-step">
+			<button type="button" id="aiassist-woocommerce-generate"><?php echo wp_kses_post( __('Generate text', 'wp-ai-assistant') ) ?></button>
+		</div>
+		
+	</div>
+	
 	<div class="aiassist-tab-data active" data-tab="standart">
 		
 		<div class="aiassist-item center">
-			<p><?php echo wp_kses_post( __('Enter the subject of the article, it will be automatically inserted into the prompt. This field must be filled in for meta tags and images to be generated.', 'wp-ai-assistant') ) ?></p>
+			<p><?php echo wp_kses_post( __('Enter the article topic. It will be automatically inserted into the prompt in place of the {key} variable. This field is required.', 'wp-ai-assistant') ) ?></p>
 			
 			<div class="aiassist-theme-standart">
 				<input id="aiassist-theme-standart" placeholder="<?php echo wp_kses_post( __('Enter a topic...', 'wp-ai-assistant') ) ?>" value="<?php echo esc_attr( isset( $this->steps['aiassist-theme-standart'] ) ? $this->steps['aiassist-theme-standart'] : '' )?>" />
@@ -96,7 +149,7 @@
 			</div>
 			
 			
-			<p><?php echo wp_kses_post( __('You can change the prompt as you wish, it determines how the article will turn out. The {key} variable will be replaced by the article topic.', 'wp-ai-assistant') ) ?></p>
+			<p><?php echo wp_kses_post( __('You can modify the prompt as you see fit — it determines the quality and final form of the generated article. <br /> Based on our extensive experience in article generation and the use of text quality evaluation tools, we have developed and implemented an additional system prompt. This prompt is stored on the server and automatically applied during every generation. It makes the text sound natural and human-written rather than AI-generated, which improves indexing and helps attract more traffic. You can disable our system prompt at any time in the Settings tab.', 'wp-ai-assistant') ) ?></p>
 			
 			<?php if( @$this->info->promts->lang ){ $lang_id = $this->getDefaultLangId(); ?>
 				<div class="aiassist-lang-block">
@@ -128,7 +181,7 @@
 		</div>
 		
 		<div class="next-step">
-			<button type="button" id="aiassist-standart-generate"><?php echo wp_kses_post( __('Generate article text', 'wp-ai-assistant') ) ?></button>
+			<button type="button" id="aiassist-standart-generate"><?php echo wp_kses_post( __('Generate text', 'wp-ai-assistant') ) ?></button>
 		</div>
 		
 	</div>
@@ -207,7 +260,7 @@
 					<div class="aiassist-check-key"><?php echo wp_kses_post( __('There is no variable {key} (or {header}) in your prompt. Add it in the place where the key word should be. If you generate an article without the variable, the text won’t be relevant to your topic.', 'wp-ai-assistant') ) ?></div>
 				<?php } ?>
 				
-				<button type="button" id="aiassist-content-generate"><?php echo wp_kses_post( __('Generate article text', 'wp-ai-assistant') ) ?></button>
+				<button type="button" id="aiassist-content-generate"><?php echo wp_kses_post( __('Generate text', 'wp-ai-assistant') ) ?></button>
 			</div>
 		</div>
 
@@ -246,7 +299,7 @@
 	
 	<div class="aiassist-item step aiassist-images-generator <?php echo esc_attr( isset( $this->steps['content'] ) ? 'active' : '' )?>" id="step6">
 	
-		<div class="aiassist-step-title center"><?php echo wp_kses_post( __('Generating images for an article. Select a model:', 'wp-ai-assistant') ) ?></div>
+		<div class="aiassist-step-title center"><?php echo wp_kses_post( __('Generating images. Select a model:', 'wp-ai-assistant') ) ?></div>
 		
 		<div class="aiassist-select-wrap">
 			<?php
