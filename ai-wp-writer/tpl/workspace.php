@@ -13,6 +13,24 @@
 			<?php
 				$label = 'Set model';
 				
+				if( @$this->info->labels->text_model_10_on ){
+					$model = 'xAiGrok';
+					$label = $this->info->labels->text_model_10;
+				}
+				if( @$this->info->labels->text_model_9_on ){
+					$model = 'claudeHaiku';
+					$label = $this->info->labels->text_model_9;
+				}
+				if( @$this->info->labels->text_model_8_on ){
+					$model = 'claudeSonnet';
+					$label = $this->info->labels->text_model_8;
+				}
+				if( @$this->info->labels->text_model_7_on ){
+					$model = 'claudeOpus';
+					$label = $this->info->labels->text_model_7;
+				}
+				
+				
 				if( @$this->info->labels->text_model_5_on ){
 					$model = 'modelGeminiPro';
 					$label = $this->info->labels->text_model_5;
@@ -65,6 +83,22 @@
 				<?php } ?>
 				<?php if( @$this->info->labels->text_model_6_on ){ ?>
 					<div class="aiassist-option" data-value="modelGeminiFlash"><?php echo esc_html( $this->info->labels->text_model_6 )?></div>
+				<?php } ?>
+				
+				<span class="disabled lable-block">Claude</span>
+				<?php if( @$this->info->labels->text_model_7_on ){ ?>
+					<div class="aiassist-option <?php echo ! in_array( $this->info->subscribe->type, [ 'pro', 'premium' ] ) ? 'aiassist-lock' : ''?>" data-value="claudeOpus"><?php echo esc_html( $this->info->labels->text_model_7 )?></div>
+				<?php } ?>
+				<?php if( @$this->info->labels->text_model_8_on ){ ?>
+					<div class="aiassist-option <?php echo ! @$this->info->subscribe->expire ? 'aiassist-lock' : ''?>" data-value="claudeSonnet"><?php echo esc_html( $this->info->labels->text_model_8 )?></div>
+				<?php } ?>
+				<?php if( @$this->info->labels->text_model_9_on ){ ?>
+					<div class="aiassist-option" data-value="claudeHaiku"><?php echo esc_html( $this->info->labels->text_model_9 )?></div>
+				<?php } ?>
+				
+				<span class="disabled lable-block">Grok</span>
+				<?php if( @$this->info->labels->text_model_10_on ){ ?>
+					<div class="aiassist-option <?php echo ! @$this->info->subscribe->expire ? 'aiassist-lock' : ''?>" data-value="xAiGrok"><?php echo esc_html( $this->info->labels->text_model_10 )?></div>
 				<?php } ?>
 				
 				<input type="hidden" name="aiassist-text-model" id="aiassist-change-text-model-editor" value="<?php echo $model ?>" />
@@ -396,8 +430,8 @@
 	
 	
 	<div class="next-step" id="step5">
-		<div><?php echo wp_kses_post( __('Spent on the article:', 'wp-ai-assistant') ) ?> <span id="aiassist-article-symbols"><?php echo esc_html( isset( $_COOKIE['spent'] ) ? (int) $_COOKIE['spent'] : 0 )?></span> <?php echo wp_kses_post( __('credits', 'wp-ai-assistant') ) ?></div>
-		<div><?php echo wp_kses_post( __('Spent on image generation:', 'wp-ai-assistant') ) ?> <span id="images-article-symbols"><?php echo esc_html( isset( $_COOKIE['imgSpent'] ) ? (int) $_COOKIE['imgSpent'] : 0 )?></span> <?php echo wp_kses_post( __('credits', 'wp-ai-assistant') ) ?></div>
+		<div><?php echo wp_kses_post( __('Spent on the article:', 'wp-ai-assistant') ) ?> <span id="aiassist-article-symbols"><?php echo number_format( ( isset( $_COOKIE['spent'] ) ? (int) $_COOKIE['spent'] : 0 ), 0, ' ', ' ' )?></span> <?php echo wp_kses_post( __('credits', 'wp-ai-assistant') ) ?></div>
+		<div><?php echo wp_kses_post( __('Spent on image generation:', 'wp-ai-assistant') ) ?> <span id="images-article-symbols"><?php echo number_format( ( isset( $_COOKIE['imgSpent'] ) ? (int) $_COOKIE['imgSpent'] : 0 ), 0, ' ', ' ' )?></span> <?php echo wp_kses_post( __('credits', 'wp-ai-assistant') ) ?></div>
 		
 		<button type="button" id="aiassist-clear-content"><?php echo wp_kses_post( __('Clear', 'wp-ai-assistant') ) ?></button>
 		<button name="aiassist_save" type="button" id="aiassist-save-content"><?php echo wp_kses_post( __('Save', 'wp-ai-assistant') ) ?></button>

@@ -1083,7 +1083,7 @@ jQuery( document ).ready(function($){
 								
 								e.find('.aiassist-queue-status').text( aiassist.locale['Generated'] );
 								
-								e.find('.aiassist-queue-keyword').wrap('<a href="/wp-admin/post.php?post='+ args.articles.articles[ k ].post_id +'&action=edit" target="_blank" ></a>');
+								e.find('.aiassist-queue-keyword').wrap('<a href="'+ aiassist.adminurl +'post.php?post='+ args.articles.articles[ k ].post_id +'&action=edit" target="_blank" ></a>');
 								e.find('.aiassist-queue-keyword').removeClass('aiassist-queue-keyword');
 								e.removeClass('aiassist-queue').find('.aiassist-article-item-close').remove();
 								
@@ -1140,7 +1140,7 @@ jQuery( document ).ready(function($){
 								if( args.rewrites.posts[ k ].revision_id && ! args.rewrites.posts[ k ].restore )
 									e.find('.aiassist-queue-status').after('<span class="aiassist-post-restore aiassist-orange" post_id="'+ args.rewrites.posts[ k ].post_id +'" revision_id="'+ args.rewrites.posts[ k ].revision_id +'">'+ aiassist.locale['Restore original text'] +'</span>');
 								
-								e.find('.aiassist-queue-rewrite').wrap('<a href="/wp-admin/post.php?post='+ args.rewrites.posts[ k ].post_id +'&action=edit" target="_blank" ></a>');
+								e.find('.aiassist-queue-rewrite').wrap('<a href="'+ aiassist.adminurl +'post.php?post='+ args.rewrites.posts[ k ].post_id +'&action=edit" target="_blank" ></a>');
 								e.find('.aiassist-queue-rewrite').removeClass('aiassist-queue-rewrite');
 								
 								let next = $('.aiassist-rewrite-queue:eq('+( parseInt( e.index() ) + 1 )+') .aiassist-queue-status');
@@ -1693,7 +1693,7 @@ jQuery( document ).ready(function($){
 						
 						imgSpent += data.imgs_limit;
 						
-						$('#images-article-symbols').text( imgSpent );
+						$('#images-article-symbols').text( aiWriter.number_format( imgSpent ) );
 						aiWriter.setCookie( 'imgSpent', imgSpent );
 					}
 					
@@ -1956,7 +1956,7 @@ jQuery( document ).ready(function($){
 			if( data.id ){
 				aiWriter.setCookie('spent', 0 );
 				aiWriter.setCookie('imgSpent', 0 );
-				window.location.href = '/wp-admin/post.php?post='+ parseInt( data.id ) +'&action=edit';
+				window.location.href = aiassist.adminurl +'post.php?post='+ parseInt( data.id ) +'&action=edit';
 			}
 				
 			aiWriter.loader();
@@ -2315,7 +2315,7 @@ jQuery( document ).ready(function($){
 								
 								spent = spent + parseInt( data.symbols );
 								
-								$('#aiassist-article-symbols').text( spent );
+								$('#aiassist-article-symbols').text( aiWriter.number_format( spent ) );
 								aiWriter.setCookie( 'spent', spent );
 							}
 						

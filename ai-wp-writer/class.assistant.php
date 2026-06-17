@@ -1562,6 +1562,7 @@ class AIASIST{
 		
 		wp_localize_script('aiassist', 'aiassist', [ 
 			'nonce'		=> wp_create_nonce('aiassist'), 
+			'adminurl'	=> admin_url(), 
 			'ajaxurl'	=> admin_url('admin-ajax.php'), 
 			'api'		=> $this->api,
 			'apiurl'	=> $this->api,

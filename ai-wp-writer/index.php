@@ -1,8 +1,8 @@
 <?php
 /*
-	Version: 4.5.8.3
+	Version: 4.5.9.3
 	Plugin Name: AI WP Writer
-	Description: Create high-quality SEO posts, articles, AI images, WooCommerce products. Autofill website with bulk generation. Rewrite and translate with AI. Powered by Gemini, chatGPT, GPT-5, GPT-5 mini/nano, o3 (reasoning), GPT-image, FLUX, Nano Banana.
+	Description: Create high-quality SEO posts, articles, AI images, WooCommerce products. Autofill website with bulk generation. Rewrite and translate with AI. Powered by chatGPT, Gemini, Claude, Grok, GPT-5, GPT-5 mini/nano, o3 (reasoning), GPT-image, FLUX, Nano Banana.
 	Author: AIpost
 	Author URI: https://t.me/wpwriter
 	License: GPLv3
