@@ -775,16 +775,16 @@ msgid "1 million credits"
 msgstr "1 млн лимитов"
 
 #: tpl/options.php
-msgid "Available AI Models<br /><b>Text:</b><br />Gemini 3 flash<br />Gemeni 3.1 pro<br />GPT-5<br />GPT-5 mini<br />GPT-5 nano<br />o3 (reasoning)<br />Grok 4.3<br />Claude Sonnet-4.6<br />Claude Haiku-4.5<br /><b>Images:</b><br />FLUX Schnell<br />GPT-image 2<br />GPT-image 1.5<br />GPT-image 1 mini<br />Nano Banana"
-msgstr "Доступные AI-модели<br /><b>Текст:</b><br />Gemini 3 flash<br />Gemeni 3.1 pro<br />GPT-5<br />GPT-5 mini<br />GPT-5 nano<br />o3 (reasoning)<br />Grok 4.3<br />Claude Sonnet-4.6<br />Claude Haiku-4.5<br /><b>Изображения:</b><br />FLUX Schnell<br />GPT-image 2<br />GPT-image 1.5<br />GPT-image 1 mini<br />Nano Banana"
+msgid "Available AI Models<br /><b>Text:</b><br />Gemini 3 flash<br />Gemeni 3.1 pro<br />GPT-5<br />GPT-5 mini<br />GPT-5 nano<br />o3 (reasoning)<br />Grok 4.3<br />Claude Sonnet-4.6<br />Claude Haiku-4.5<br />DeepSeek v4 pro<br />DeepSeek v4 flash<br /><b>Images:</b><br />FLUX Schnell<br />GPT-image 2<br />GPT-image 1.5<br />GPT-image 1 mini<br />Nano Banana<br />Grok Imagine Image"
+msgstr "Доступные AI-модели<br /><b>Текст:</b><br />Gemini 3 flash<br />Gemeni 3.1 pro<br />GPT-5<br />GPT-5 mini<br />GPT-5 nano<br />o3 (reasoning)<br />Grok 4.3<br />Claude Sonnet-4.6<br />Claude Haiku-4.5<br />DeepSeek v4 pro<br />DeepSeek v4 flash<br /><b>Изображения:</b><br />FLUX Schnell<br />GPT-image 2<br />GPT-image 1.5<br />GPT-image 1 mini<br />Nano Banana<br />Grok Imagine Image"
 
 #: tpl/options.php
-msgid "Available AI Models<br /><b>Text:</b><br />Gemini 3 flash<br />Gemeni 3.1 pro<br />GPT-5<br />GPT-5 mini<br />GPT-5 nano<br />o3 (reasoning)<br />Grok 4.3<br />Claude Opus-4.8<br />Claude Sonnet-4.6<br />Claude Haiku-4.5<br /><b>Images:</b><br />FLUX Schnell<br />GPT-image 2<br />GPT-image 1.5<br />GPT-image 1 mini<br />Nano Banana"
-msgstr "Доступные AI-модели<br /><b>Текст:</b><br />Gemini 3 flash<br />Gemeni 3.1 pro<br />GPT-5<br />GPT-5 mini<br />GPT-5 nano<br />o3 (reasoning)<br />Grok 4.3<br />Claude Opus-4.8<br />Claude Sonnet-4.6<br />Claude Haiku-4.5<br /><b>Изображения:</b><br />FLUX Schnell<br />GPT-image 2<br />GPT-image 1.5<br />GPT-image 1 mini<br />Nano Banana"
+msgid "Available AI Models<br /><b>Text:</b><br />Gemini 3 flash<br />Gemeni 3.1 pro<br />GPT-5<br />GPT-5 mini<br />GPT-5 nano<br />o3 (reasoning)<br />Grok 4.3<br />Claude Opus-4.8<br />Claude Sonnet-4.6<br />Claude Haiku-4.5<br />DeepSeek v4 pro<br />DeepSeek v4 flash<br /><b>Images:</b><br />FLUX Schnell<br />GPT-image 2<br />GPT-image 1.5<br />GPT-image 1 mini<br />Nano Banana<br />Grok Imagine Image"
+msgstr "Доступные AI-модели<br /><b>Текст:</b><br />Gemini 3 flash<br />Gemeni 3.1 pro<br />GPT-5<br />GPT-5 mini<br />GPT-5 nano<br />o3 (reasoning)<br />Grok 4.3<br />Claude Opus-4.8<br />Claude Sonnet-4.6<br />Claude Haiku-4.5<br />DeepSeek v4 pro<br />DeepSeek v4 flash<br /><b>Изображения:</b><br />FLUX Schnell<br />GPT-image 2<br />GPT-image 1.5<br />GPT-image 1 mini<br />Nano Banana<br />Grok Imagine Image"
 
 #: tpl/options.php
-msgid "Available AI Models<br /><b>Text:</b><br />Gemini 3 flash<br />Gemeni 3.1 pro<br />GPT-5<br />GPT-5 mini<br />GPT-5 nano<br />o3 (reasoning)<br />Grok 4.3<br />Claude Opus-4.8<br />Claude Sonnet-4.6<br />Claude Haiku-4.5<br /><b>Images:</b><br />FLUX Schnell<br />GPT-image 2<br />GPT-image 1.5<br />GPT-image 1 mini<br />Nano Banana"
-msgstr "Доступные AI-модели<br /><b>Текст:</b><br />Gemini 3 flash<br />Gemeni 3.1 pro<br />GPT-5<br />GPT-5 mini<br />GPT-5 nano<br />o3 (reasoning)<br />Grok 4.3<br />Claude Opus-4.8<br />Claude Sonnet-4.6<br />Claude Haiku-4.5<br /><b>Изображения:</b><br />FLUX Schnell<br />GPT-image 2<br />GPT-image 1.5<br />GPT-image 1 mini<br />Nano Banana"
+msgid "Available AI Models<br /><b>Text:</b><br />Gemini 3 flash<br />Gemeni 3.1 pro<br />GPT-5<br />GPT-5 mini<br />GPT-5 nano<br />o3 (reasoning)<br />Grok 4.3<br />Claude Opus-4.8<br />Claude Sonnet-4.6<br />Claude Haiku-4.5<br />DeepSeek v4 pro<br />DeepSeek v4 flash<br /><b>Images:</b><br />FLUX Schnell<br />GPT-image 2<br />GPT-image 1.5<br />GPT-image 1 mini<br />Nano Banana<br />Grok Imagine Image"
+msgstr "Доступные AI-модели<br /><b>Текст:</b><br />Gemini 3 flash<br />Gemeni 3.1 pro<br />GPT-5<br />GPT-5 mini<br />GPT-5 nano<br />o3 (reasoning)<br />Grok 4.3<br />Claude Opus-4.8<br />Claude Sonnet-4.6<br />Claude Haiku-4.5<br />DeepSeek v4 pro<br />DeepSeek v4 flash<br /><b>Изображения:</b><br />FLUX Schnell<br />GPT-image 2<br />GPT-image 1.5<br />GPT-image 1 mini<br />Nano Banana<br />Grok Imagine Image"
 
 #: tpl/options.php
 msgid "AI-Powered WooCommerce Product Description Generation"
@@ -819,8 +819,8 @@ msgid "AI Assist"
 msgstr "AI Assist"
 
 #: tpl/options.php
-msgid "Available AI Models: Gemini 3 flash, GPT-5 mini/nano, Claude Haiku-4.5, FLUX, GPT-image 1 mini"
-msgstr "Доступные AI-модели: Gemini 3 flash, GPT-5 mini/nano, Claude Haiku-4.5, FLUX, GPT-image 1 mini"
+msgid "Available AI Models: Gemini 3 flash, GPT-5 mini/nano, Claude Haiku-4.5, FLUX, GPT-image 1 mini, DeepSeek v4 flash"
+msgstr "Доступные AI-модели: Gemini 3 flash, GPT-5 mini/nano, Claude Haiku-4.5, FLUX, GPT-image 1 mini, DeepSeek v4 flash"
 
 #: tpl/options.php
 msgid "* If you buy, for any amount you choose, the same number of credits you get by subscribing. <br />** Payment is spent only on generating characters or images. No hidden fees! You do not pay for tokens used to send context. You do not pay for sending requests for generation. You do not pay for tokens used to mark up articles. You do not pay for spaces."

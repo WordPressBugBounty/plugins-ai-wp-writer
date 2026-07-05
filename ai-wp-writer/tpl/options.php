@@ -216,6 +216,10 @@
 			<div><?php echo wp_kses_post( __('Image generation model', 'wp-ai-assistant') ) ?></div>
 			<div class="aiassist-select-wrap">
 				<?php
+					if( @$this->info->labels->img_model_7_on ){
+						$model = 'grok';
+						$label = $this->info->labels->img_model_7;
+					}
 					if( @$this->info->labels->img_model_6_on ){
 						$model = 'banana';
 						$label = $this->info->labels->img_model_6;
@@ -257,6 +261,9 @@
 					<?php } ?>
 					<?php if( @$this->info->labels->img_model_6_on ){ ?>
 						<div class="aiassist-option <?php echo ! @$this->info->subscribe->expire ? 'aiassist-lock' : ''?>" data-value="banana"><?php echo esc_html( $this->info->labels->img_model_6 )?></div>
+					<?php } ?>
+					<?php if( @$this->info->labels->img_model_7_on ){ ?>
+						<div class="aiassist-option <?php echo ! @$this->info->subscribe->expire ? 'aiassist-lock' : ''?>" data-value="grok"><?php echo esc_html( $this->info->labels->img_model_7 )?></div>
 					<?php } ?>
 					<?php if( @$this->info->labels->img_model_3_on ){ ?>
 						<div class="aiassist-option <?php echo ! @$this->info->subscribe->expire ? 'aiassist-lock' : ''?>" data-value="gptImage"><?php echo esc_html( $this->info->labels->img_model_3 )?></div>
@@ -547,7 +554,16 @@
 				<div class="aiassist-select-wrap">
 					<?php						
 						$label = 'Set model';
-				
+						
+						if( @$this->info->labels->text_model_12_on ){
+							$model = 'deepseekFlash';
+							$label = $this->info->labels->text_model_12;
+						}
+						if( @$this->info->labels->text_model_11_on ){
+							$model = 'deepseekPro';
+							$label = $this->info->labels->text_model_11;
+						}
+						
 						if( @$this->info->labels->text_model_10_on ){
 							$model = 'xAiGrok';
 							$label = $this->info->labels->text_model_10;
@@ -636,6 +652,14 @@
 							<div class="aiassist-option <?php echo ! @$this->info->subscribe->expire ? 'aiassist-lock' : ''?>" data-value="xAiGrok"><?php echo esc_html( $this->info->labels->text_model_10 )?></div>
 						<?php } ?>
 						
+						<span class="disabled lable-block">DeepSeek</span>
+						<?php if( @$this->info->labels->text_model_11_on ){ ?>
+							<div class="aiassist-option <?php echo ! @$this->info->subscribe->expire ? 'aiassist-lock' : ''?>" data-value="deepseekPro"><?php echo esc_html( $this->info->labels->text_model_11 )?></div>
+						<?php } ?>
+						<?php if( @$this->info->labels->text_model_12_on ){ ?>
+							<div class="aiassist-option" data-value="deepseekFlash"><?php echo esc_html( $this->info->labels->text_model_12 )?></div>
+						<?php } ?>
+						
 						<input type="hidden" name="aiassist-text-model" class="aiassist-rewrite-options" id="aiassist-rewrite-text-model" value="<?php echo $model ?>" />
 					</div>
 				</div>
@@ -647,6 +671,10 @@
 				<div><?php echo wp_kses_post( __('Image generation model', 'wp-ai-assistant') ) ?></div>
 				<div class="aiassist-select-wrap">
 					<?php
+						if( @$this->info->labels->img_model_7_on ){
+							$model = 'grok';
+							$label = $this->info->labels->img_model_7;
+						}
 						if( @$this->info->labels->img_model_6_on ){
 							$model = 'banana';
 							$label = $this->info->labels->img_model_6;
@@ -688,6 +716,9 @@
 						<?php } ?>
 						<?php if( @$this->info->labels->img_model_6_on ){ ?>
 							<div class="aiassist-option <?php echo ! @$this->info->subscribe->expire ? 'aiassist-lock' : ''?>" data-value="banana"><?php echo esc_html( $this->info->labels->img_model_6 )?></div>
+						<?php } ?>
+						<?php if( @$this->info->labels->img_model_7_on ){ ?>
+							<div class="aiassist-option <?php echo ! @$this->info->subscribe->expire ? 'aiassist-lock' : ''?>" data-value="grok"><?php echo esc_html( $this->info->labels->img_model_7 )?></div>
 						<?php } ?>
 						<?php if( @$this->info->labels->img_model_3_on ){ ?>
 							<div class="aiassist-option <?php echo ! @$this->info->subscribe->expire ? 'aiassist-lock' : ''?>" data-value="gptImage"><?php echo esc_html( $this->info->labels->img_model_3 )?></div>
@@ -905,7 +936,7 @@
 							</div>
 							
 							<div class="aiassist-rate-desc">
-								<?php echo wp_kses_post( __('Available AI Models<br /><b>Text:</b><br />Gemini 3 flash<br />Gemeni 3.1 pro<br />GPT-5<br />GPT-5 mini<br />GPT-5 nano<br />o3 (reasoning)<br />Grok 4.3<br />Claude Sonnet-4.6<br />Claude Haiku-4.5<br /><b>Images:</b><br />FLUX Schnell<br />GPT-image 2<br />GPT-image 1.5<br />GPT-image 1 mini<br />Nano Banana', 'wp-ai-assistant') ) ?>			
+								<?php echo wp_kses_post( __('Available AI Models<br /><b>Text:</b><br />Gemini 3 flash<br />Gemeni 3.1 pro<br />GPT-5<br />GPT-5 mini<br />GPT-5 nano<br />o3 (reasoning)<br />Grok 4.3<br />Claude Sonnet-4.6<br />Claude Haiku-4.5<br />DeepSeek v4 pro<br />DeepSeek v4 flash<br /><b>Images:</b><br />FLUX Schnell<br />GPT-image 2<br />GPT-image 1.5<br />GPT-image 1 mini<br />Nano Banana<br />Grok Imagine Image', 'wp-ai-assistant') ) ?>			
 							</div>
 							<div class="aiassist-rate-checklist">
 								<div class="aiassist-rate-check"><?php echo wp_kses_post( __('AI-Powered WooCommerce Product Description Generation', 'wp-ai-assistant') ) ?></div>
@@ -962,7 +993,7 @@
 							</div>
 							
 							<div class="aiassist-rate-desc">
-								<?php echo wp_kses_post( __('Available AI Models<br /><b>Text:</b><br />Gemini 3 flash<br />Gemeni 3.1 pro<br />GPT-5<br />GPT-5 mini<br />GPT-5 nano<br />o3 (reasoning)<br />Grok 4.3<br />Claude Opus-4.8<br />Claude Sonnet-4.6<br />Claude Haiku-4.5<br /><b>Images:</b><br />FLUX Schnell<br />GPT-image 2<br />GPT-image 1.5<br />GPT-image 1 mini<br />Nano Banana', 'wp-ai-assistant') ) ?>						
+								<?php echo wp_kses_post( __('Available AI Models<br /><b>Text:</b><br />Gemini 3 flash<br />Gemeni 3.1 pro<br />GPT-5<br />GPT-5 mini<br />GPT-5 nano<br />o3 (reasoning)<br />Grok 4.3<br />Claude Opus-4.8<br />Claude Sonnet-4.6<br />Claude Haiku-4.5<br />DeepSeek v4 pro<br />DeepSeek v4 flash<br /><b>Images:</b><br />FLUX Schnell<br />GPT-image 2<br />GPT-image 1.5<br />GPT-image 1 mini<br />Nano Banana<br />Grok Imagine Image', 'wp-ai-assistant') ) ?>
 							</div>
 							<div class="aiassist-rate-checklist">
 								<div class="aiassist-rate-check"><?php echo wp_kses_post( __('AI-Powered WooCommerce Product Description Generation', 'wp-ai-assistant') ) ?></div>
@@ -1018,7 +1049,7 @@
 							</div>
 							
 							<div class="aiassist-rate-desc">
-								<?php echo wp_kses_post( __('Available AI Models<br /><b>Text:</b><br />Gemini 3 flash<br />Gemeni 3.1 pro<br />GPT-5<br />GPT-5 mini<br />GPT-5 nano<br />o3 (reasoning)<br />Grok 4.3<br />Claude Opus-4.8<br />Claude Sonnet-4.6<br />Claude Haiku-4.5<br /><b>Images:</b><br />FLUX Schnell<br />GPT-image 2<br />GPT-image 1.5<br />GPT-image 1 mini<br />Nano Banana', 'wp-ai-assistant') ) ?>
+								<?php echo wp_kses_post( __('Available AI Models<br /><b>Text:</b><br />Gemini 3 flash<br />Gemeni 3.1 pro<br />GPT-5<br />GPT-5 mini<br />GPT-5 nano<br />o3 (reasoning)<br />Grok 4.3<br />Claude Opus-4.8<br />Claude Sonnet-4.6<br />Claude Haiku-4.5<br />DeepSeek v4 pro<br />DeepSeek v4 flash<br /><b>Images:</b><br />FLUX Schnell<br />GPT-image 2<br />GPT-image 1.5<br />GPT-image 1 mini<br />Nano Banana<br />Grok Imagine Image', 'wp-ai-assistant') ) ?>
 							</div>
 							<div class="aiassist-rate-checklist">
 								<div class="aiassist-rate-check"><?php echo wp_kses_post( __('AI-Powered WooCommerce Product Description Generation', 'wp-ai-assistant') ) ?></div>
@@ -1044,7 +1075,7 @@
 								<div class="aiassist-rate-check"><?php echo wp_kses_post( __('AI Assist', 'wp-ai-assistant') ) ?></div>
 							</div>
 							<div class="aiassist-rate-checklist aiassist-rates-free-item">
-								<div class="aiassist-rate-check"><?php echo wp_kses_post( __('Available AI Models: Gemini 3 flash, GPT-5 mini/nano, Claude Haiku-4.5, FLUX, GPT-image 1 mini', 'wp-ai-assistant') ) ?></div>
+								<div class="aiassist-rate-check"><?php echo wp_kses_post( __('Available AI Models: Gemini 3 flash, GPT-5 mini/nano, Claude Haiku-4.5, FLUX, GPT-image 1 mini, DeepSeek v4 flash', 'wp-ai-assistant') ) ?></div>
 								<div class="aiassist-rate-check"><?php echo wp_kses_post( __('AI image creator', 'wp-ai-assistant') ) ?></div>
 							</div>
 						</div>
@@ -1379,6 +1410,15 @@
 				<div class="aiassist-select-wrap">
 					<?php					
 						$label = 'Set model';
+						
+						if( @$this->info->labels->text_model_12_on ){
+							$model = 'deepseekFlash';
+							$label = $this->info->labels->text_model_12;
+						}
+						if( @$this->info->labels->text_model_11_on ){
+							$model = 'deepseekPro';
+							$label = $this->info->labels->text_model_11;
+						}
 				
 						if( @$this->info->labels->text_model_10_on ){
 							$model = 'xAiGrok';
@@ -1470,6 +1510,14 @@
 							<div class="aiassist-option <?php echo ! @$this->info->subscribe->expire ? 'aiassist-lock' : ''?>" data-value="xAiGrok"><?php echo esc_html( $this->info->labels->text_model_10 )?></div>
 						<?php } ?>
 						
+						<span class="disabled lable-block">DeepSeek</span>
+						<?php if( @$this->info->labels->text_model_11_on ){ ?>
+							<div class="aiassist-option <?php echo ! @$this->info->subscribe->expire ? 'aiassist-lock' : ''?>" data-value="deepseekPro"><?php echo esc_html( $this->info->labels->text_model_11 )?></div>
+						<?php } ?>
+						<?php if( @$this->info->labels->text_model_12_on ){ ?>
+							<div class="aiassist-option" data-value="deepseekFlash"><?php echo esc_html( $this->info->labels->text_model_12 )?></div>
+						<?php } ?>
+						
 						<input type="hidden" name="aiassist-text-model" class="aiassist-auto-options" id="aiassist-change-text-model" value="<?php echo $model ?>" />
 					</div>
 				</div>
@@ -1484,6 +1532,10 @@
 				<div><?php echo wp_kses_post( __('Image generation model', 'wp-ai-assistant') ) ?></div>
 				<div class="aiassist-select-wrap">
 					<?php
+						if( @$this->info->labels->img_model_7_on ){
+							$model = 'grok';
+							$label = $this->info->labels->img_model_7;
+						}
 						if( @$this->info->labels->img_model_6_on ){
 							$model = 'banana';
 							$label = $this->info->labels->img_model_6;
@@ -1525,6 +1577,9 @@
 						<?php } ?>
 						<?php if( @$this->info->labels->img_model_6_on ){ ?>
 							<div class="aiassist-option <?php echo ! @$this->info->subscribe->expire ? 'aiassist-lock' : ''?>" data-value="banana"><?php echo esc_html( $this->info->labels->img_model_6 )?></div>
+						<?php } ?>
+						<?php if( @$this->info->labels->img_model_7_on ){ ?>
+							<div class="aiassist-option <?php echo ! @$this->info->subscribe->expire ? 'aiassist-lock' : ''?>" data-value="grok"><?php echo esc_html( $this->info->labels->img_model_7 )?></div>
 						<?php } ?>
 						<?php if( @$this->info->labels->img_model_3_on ){ ?>
 							<div class="aiassist-option <?php echo ! @$this->info->subscribe->expire ? 'aiassist-lock' : ''?>" data-value="gptImage"><?php echo esc_html( $this->info->labels->img_model_3 )?></div>

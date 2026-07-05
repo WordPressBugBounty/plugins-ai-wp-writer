@@ -13,6 +13,15 @@
 			<?php
 				$label = 'Set model';
 				
+				if( @$this->info->labels->text_model_12_on ){
+					$model = 'deepseekFlash';
+					$label = $this->info->labels->text_model_12;
+				}
+				if( @$this->info->labels->text_model_11_on ){
+					$model = 'deepseekPro';
+					$label = $this->info->labels->text_model_11;
+				}
+				
 				if( @$this->info->labels->text_model_10_on ){
 					$model = 'xAiGrok';
 					$label = $this->info->labels->text_model_10;
@@ -99,6 +108,14 @@
 				<span class="disabled lable-block">Grok</span>
 				<?php if( @$this->info->labels->text_model_10_on ){ ?>
 					<div class="aiassist-option <?php echo ! @$this->info->subscribe->expire ? 'aiassist-lock' : ''?>" data-value="xAiGrok"><?php echo esc_html( $this->info->labels->text_model_10 )?></div>
+				<?php } ?>
+				
+				<span class="disabled lable-block">DeepSeek</span>
+				<?php if( @$this->info->labels->text_model_11_on ){ ?>
+					<div class="aiassist-option <?php echo ! @$this->info->subscribe->expire ? 'aiassist-lock' : ''?>" data-value="deepseekPro"><?php echo esc_html( $this->info->labels->text_model_11 )?></div>
+				<?php } ?>
+				<?php if( @$this->info->labels->text_model_12_on ){ ?>
+					<div class="aiassist-option" data-value="deepseekFlash"><?php echo esc_html( $this->info->labels->text_model_12 )?></div>
 				<?php } ?>
 				
 				<input type="hidden" name="aiassist-text-model" id="aiassist-change-text-model-editor" value="<?php echo $model ?>" />
@@ -337,6 +354,10 @@
 		
 		<div class="aiassist-select-wrap">
 			<?php
+				if( @$this->info->labels->img_model_7_on ){
+					$model = 'grok';
+					$label = $this->info->labels->img_model_7;
+				}
 				if( @$this->info->labels->img_model_6_on ){
 					$model = 'banana';
 					$label = $this->info->labels->img_model_6;
@@ -383,6 +404,9 @@
 				<?php } ?>
 				<?php if( @$this->info->labels->img_model_6_on ){ ?>
 					<div class="aiassist-option <?php echo ! @$this->info->subscribe->expire ? 'aiassist-lock' : ''?>" data-value="banana"><?php echo esc_html( $this->info->labels->img_model_6 )?></div>
+				<?php } ?>
+				<?php if( @$this->info->labels->img_model_7_on ){ ?>
+					<div class="aiassist-option <?php echo ! @$this->info->subscribe->expire ? 'aiassist-lock' : ''?>" data-value="grok"><?php echo esc_html( $this->info->labels->img_model_7 )?></div>
 				<?php } ?>
 				<input type="hidden" name="aiassist-image-model" id="aiassist-change-image-model" value="<?php echo esc_attr( $model ) ?>" />
 			</div>
@@ -473,6 +497,10 @@
 			<div class="aiassist-image-tiny-wrap">
 				<div class="aiassist-select-wrap">
 					<?php
+						if( @$this->info->labels->img_model_7_on ){
+							$model = 'grok';
+							$label = $this->info->labels->img_model_7;
+						}
 						if( @$this->info->labels->img_model_6_on ){
 							$model = 'banana';
 							$label = $this->info->labels->img_model_6;
@@ -517,6 +545,9 @@
 						<?php } ?>
 						<?php if( @$this->info->labels->img_model_6_on ){ ?>
 							<div class="aiassist-option <?php echo ! @$this->info->subscribe->expire ? 'aiassist-lock' : ''?>" data-value="banana"><?php echo esc_html( $this->info->labels->img_model_6 )?></div>
+						<?php } ?>
+						<?php if( @$this->info->labels->img_model_7_on ){ ?>
+							<div class="aiassist-option <?php echo ! @$this->info->subscribe->expire ? 'aiassist-lock' : ''?>" data-value="grok"><?php echo esc_html( $this->info->labels->img_model_7 )?></div>
 						<?php } ?>
 						<input type="hidden" name="aiassist-image-model" id="aiassist-tiny-image-model" value="<?php echo esc_attr( $model ) ?>" />
 					</div>

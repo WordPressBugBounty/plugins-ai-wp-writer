@@ -846,10 +846,12 @@ button[name="save"]{
 	
 	.aiassist-images.nsfw,
 	.aiassist-images.flux,
+	.aiassist-images.grok,
 	.aiassist-images.banana{
 		background: none;
 	}
 	
+	.aiassist-images.grok,
 	.aiassist-images.dalle,
 	.aiassist-images.banana,
 	.aiassist-images.gptMini,
@@ -860,6 +862,7 @@ button[name="save"]{
 
 	.aiassist-images.nsfw img,
 	.aiassist-images.flux img,
+	.aiassist-images.grok img,
 	.aiassist-images.dalle img,
 	.aiassist-images.banana img,
 	.aiassist-images.gptMini img,

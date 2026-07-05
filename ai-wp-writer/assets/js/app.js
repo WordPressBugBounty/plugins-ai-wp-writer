@@ -1585,7 +1585,7 @@ jQuery( document ).ready(function($){
 				let h1 = '';
 				let model = $('#aiassist-change-image-model').val();
 				
-				if( [ 'dalle', 'gptImage', 'gptMini', 'banana' ].indexOf( model ) != -1 ){
+				if( [ 'dalle', 'gptImage', 'gptMini', 'banana', 'grok' ].indexOf( model ) != -1 ){
 					if( $('.aiassist-main-header label input').length ){
 						h1 = $('.aiassist-main-header label input').val();
 						$('.aiassist-main-header .aiassist-translate-promt-image input').val( h1 );

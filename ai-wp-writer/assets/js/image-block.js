@@ -114,6 +114,8 @@ wp.blocks.registerBlockType('ai-image-creator/ai-image-creator', {
 			if( enabled ){
 				switch( model ){
 					case 'label':
+						if( aiassist.info.labels.img_model_7_on )
+							lable = aiassist.info.labels.img_model_7;
 						if( aiassist.info.labels.img_model_6_on )
 							lable = aiassist.info.labels.img_model_6;
 						if( aiassist.info.labels.img_model_5_on )
@@ -131,6 +133,8 @@ wp.blocks.registerBlockType('ai-image-creator/ai-image-creator', {
 					break;
 					
 					case 'input':
+						if( aiassist.info.labels.img_model_7_on )
+							model = 'grok';
 						if( aiassist.info.labels.img_model_6_on )
 							model = 'banana';
 						if( aiassist.info.labels.img_model_5_on )
@@ -169,6 +173,7 @@ wp.blocks.registerBlockType('ai-image-creator/ai-image-creator', {
 						addModel('gptImage', aiassist.info.labels.img_model_3_on, aiassist.info.labels.img_model_3, 'aiassist-option '+( ! aiassist.info.subscribe.expire ? 'aiassist-lock' : '' ) ),
 						addModel('gptMini', aiassist.info.labels.img_model_5_on, aiassist.info.labels.img_model_5, 'aiassist-option' ),
 						addModel('banana', aiassist.info.labels.img_model_6_on, aiassist.info.labels.img_model_6, 'aiassist-option '+( ! aiassist.info.subscribe.expire ? 'aiassist-lock' : '' ) ),
+						addModel('grok', aiassist.info.labels.img_model_7_on, aiassist.info.labels.img_model_7, 'aiassist-option '+( ! aiassist.info.subscribe.expire ? 'aiassist-lock' : '' ) ),
 						addModel('input'),
 					),
 				),
