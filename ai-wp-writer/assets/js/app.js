@@ -885,7 +885,6 @@ jQuery( document ).ready(function($){
 		},
 		
 		tinyMceImageGenerate: async function(){
-			let proccess = 0;
 			let block = $('#aiassist-generate-image');
 			let promt = $('#aiassist-tiny-image-promt').val();
 			let model = $('#aiassist-tiny-image-model').val();
@@ -925,25 +924,17 @@ jQuery( document ).ready(function($){
 				while( true ){
 					let data = await aiWriter.request( { action: 'getTask', id: task.task_id, token: aiassist.token }, aiassist.api );
 					
-					if( data.process ){
-						if( data.process.progress > proccess ){
-						
-							if( ! block.find('.aiassist-progressImageUrl').length )
-								block.find('.aiassist-images').html('<img src="'+ data.process.progressImageUrl +'" class="aiassist-progressImageUrl">');
-							
-							block.find('.aiassist-progressImageUrl').attr('src', data.process.progressImageUrl);
-						}
-						proccess = data.process.progress;
-					}
-					
 					if( data.nsfw )
 						return block.find('.aiassist-images').removeClass('aiassist-proces disabled').html('<span class="aiassist-warning-limits">'+ aiassist.locale['Prompt was censored'] +'</span>');
 					
 					if( data.images ){
 						block.find('.aiassist-images').html('');
 					
-						for( let k in data.images )
-							block.find('.aiassist-images').removeClass('aiassist-proces disabled').append('<img src="'+ aiassist.api +'?action=getImage&image='+ data.images[ k ] +'" class="ai-image">');
+						for( let k in data.images ){
+							const img = $('<img class="ai-image">');
+							img.attr('src', aiassist.api +'?action=getImage&image='+ data.images[ k ]);
+							block.find('.aiassist-images').removeClass('aiassist-proces disabled').append( img );
+						}
 						
 						block.find('.ai-image:first').click();
 						break;
@@ -1003,7 +994,8 @@ jQuery( document ).ready(function($){
 				
 				for( let k in images ){
 					let load = await aiWriter.request( { action: 'loadImage', post_id: post_id, 'image[src]': images[ k ], 'image[title]': title, nonce: aiassist.nonce } );
-					str += '<img class="alignnone size-full wp-image-'+ load.id +'" src="'+ load.url +'" title="'+ title +'" alt="'+( title + aiassist.locale['photo'] )+'" />';
+					const img = $('<img>', { class: 'alignnone size-full wp-image-'+ load.id, src: load.url, title, alt: title + aiassist.locale.photo });
+					str += img.prop('outerHTML');
 				}
 
 				tinyMCE.activeEditor.insertContent( str );
@@ -1672,8 +1664,6 @@ jQuery( document ).ready(function($){
 
 			
 			if( task.task_id ){
-				let proccess = 0;
-				
 				while( true ){
 					let data = await aiWriter.request( { token: aiassist.token, action: 'getTask', id: task.task_id }, aiassist.api );
 					
@@ -1697,16 +1687,6 @@ jQuery( document ).ready(function($){
 						aiWriter.setCookie( 'imgSpent', imgSpent );
 					}
 					
-					if( data.process ){
-						if( data.process.progress > proccess ){
-							if( ! imgBlock.find('.aiassist-progressImageUrl').length )
-								imgBlock.append('<img src="'+ data.process.progressImageUrl +'" class="aiassist-progressImageUrl" />');
-							
-							imgBlock.find('.aiassist-progressImageUrl').attr('src', data.process.progressImageUrl);
-						}
-						proccess = data.process.progress;
-					}
-					
 					if( data.nsfw )
 						return block.find('.aiassist-images').removeClass('aiassist-proces disabled').html('<span class="aiassist-warning-limits">'+ aiassist.locale['Prompt was censored'] +'</span>');
 					
@@ -1719,7 +1699,10 @@ jQuery( document ).ready(function($){
 							if( active )		
 								block.find('input[type="checkbox"]').attr('data-src', aiassist.api +'?action=getImage&image='+ data.images[ k ]);
 						
-							imgBlock.append('<img src="'+ aiassist.api +'?action=getImage&image='+ data.images[ k ] +'" class="aiassist-image '+( active ? 'active' : '' )+'" />');
+							const img = $('<img class="aiassist-image '+( active && 'active' )+'">');
+							img.attr('src', aiassist.api +'?action=getImage&image='+ data.images[ k ]);
+							imgBlock.append( img );
+							
 							active = false;
 						}
 							

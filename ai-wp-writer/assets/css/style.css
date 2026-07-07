@@ -1654,7 +1654,7 @@ button[name="save"]{
 	#aiassist-tiny-image-translate,
 	#aiassist-generate-image .aiassist-select-lable{
 		width: 100px;
-		height: 33px;
+		height: 40px;
 		border-radius: 0;
 		background: none;
 		font-size: 15px;
@@ -1673,16 +1673,20 @@ button[name="save"]{
 	#aiassist-generate-image .aiassist-select-lable{
 		width: 144px;
 		padding: 0px;
+		font-size: 13px;
 		position: relative;
-		height: 31px;
+		height: 38px;
+		line-height: 2.5em;
 	}
 
 	#aiassist-tiny-image-translate{
 		position: relative;
+		margin-left: -1px;
 	}
 
 	#aiassist-tiny-image-generate{
 		position: relative;
+		margin-left: -2px;
 	}
 
 	#aiassist-tiny-image-promt{
@@ -1692,6 +1696,8 @@ button[name="save"]{
 		background: none;
 		position: relative;
 		text-align: center;
+		outline: none;
+		margin-left: -1px;
 		border: solid 1px #ccc;
 	}
 
@@ -2352,7 +2358,7 @@ button[name="save"]{
 }
 
 .aiassist-image-how-to-use{
-	font-size: 14pt;
+	font-size: 13pt;
 }
 
 /* notices start */

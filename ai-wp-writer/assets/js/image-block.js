@@ -41,7 +41,6 @@ wp.blocks.registerBlockType('ai-image-creator/ai-image-creator', {
 		}
 		
 		async function image_generator( event ){
-			let proccess = 0;
 			let block = $( event.currentTarget ).closest('.aiassist-image-block');
 			
 			if( ! props.attributes.promt.trim().length ){
@@ -77,25 +76,17 @@ wp.blocks.registerBlockType('ai-image-creator/ai-image-creator', {
 				while( true ){
 					let data = await request( { action: 'getTask', id: task.task_id, token: aiassist.token }, aiassist.api );
 					
-					if( data.process ){
-						if( data.process.progress > proccess ){
-						
-							if( ! block.find('.aiassist-progressImageUrl').length )
-								block.find('.aiassist-images').html('<img src="'+ data.process.progressImageUrl +'" class="aiassist-progressImageUrl">');
-							
-							block.find('.aiassist-progressImageUrl').attr('src', data.process.progressImageUrl);
-						}
-						proccess = data.process.progress;
-					}
-					
 					if( data.nsfw )
 						return block.find('.aiassist-images').removeClass('aiassist-proces disabled').html('<span class="aiassist-warning-limits">'+ aiassist.locale['Prompt was censored'] +'</span>');
 					
 					if( data.images ){
 						block.find('.aiassist-images').html('');
 					
-						for( let k in data.images )
-							block.find('.aiassist-images').removeClass('aiassist-proces disabled').append('<img src="'+ aiassist.api +'?action=getImage&image='+ data.images[ k ] +'" class="ai-image">');
+						for( let k in data.images ){
+							const img = $('<img class="ai-image">');
+							img.attr('src', aiassist.api +'?action=getImage&image='+ data.images[ k ] );
+							block.find('.aiassist-images').removeClass('aiassist-proces disabled').append( img );
+						}
 						
 						block.find('.ai-image:first').click();
 						break;
