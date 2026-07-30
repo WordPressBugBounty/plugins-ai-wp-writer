@@ -960,23 +960,24 @@ button[name="save"]{
 		}
 		
 		.aiassist-rates-items{
-			width: 980px;
+			width: 100%;
 			margin: auto;
 			margin-top: 20px;
+			display: flex;
 		}
 		
 		.aiassist-rates-item{
-			width: 235px;
+			min-width: 235px;
 			background: #f9f9f9;
 			min-height: 545px;
-			padding: 25px;
+			padding: 25px 3px 25px 25px;
 			margin: 20px auto;
 			border: solid 1px #ccc;
 			border-radius: 16px;
 			position: relative;
 			transition: .8s;
 			display: inline-grid;
-			margin: 20px 16px 20px 20px;
+			margin: 20px 0px 20px 10px;
 		}
 		
 		.aiassist-rates-item:hover{
@@ -2244,7 +2245,8 @@ button[name="save"]{
 	background: url(../images/lock.png) no-repeat;
 	display: inline-block;
 	background-size: 8px;
-	margin: 0px 0px 0px 8px;
+	margin: 5px 0px 0px 3px;
+	position: absolute;
 }
 
 /* fixed info block e */

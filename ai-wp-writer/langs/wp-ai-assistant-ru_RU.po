@@ -823,6 +823,10 @@ msgid "Available AI Models: Gemini 3 flash, GPT-5 mini/nano, Claude Haiku-4.5, F
 msgstr "Доступные AI-модели: Gemini 3 flash, GPT-5 mini/nano, Claude Haiku-4.5, FLUX, GPT-image 1 mini, DeepSeek v4 flash"
 
 #: tpl/options.php
+msgid "Available AI Models<br /><b>Text:</b><br />Gemini 3 flash<br />GPT-5 mini/nano<br />Claude Haiku-4.5<br />DeepSeek v4 flash<br /><b>Images:</b><br />FLUX Schnell<br />GPT-image 1 mini"
+msgstr "Доступные AI-модели<br /><b>Текст:</b><br />Gemini 3 flash<br />GPT-5 mini/nano<br />Claude Haiku-4.5<br />DeepSeek v4 flash<br /><b>Изображения:</b><br />FLUX Schnell<br />GPT-image 1 mini"
+
+#: tpl/options.php
 msgid "* If you buy, for any amount you choose, the same number of credits you get by subscribing. <br />** Payment is spent only on generating characters or images. No hidden fees! You do not pay for tokens used to send context. You do not pay for sending requests for generation. You do not pay for tokens used to mark up articles. You do not pay for spaces."
 msgstr "* Если покупать на произвольную сумму такое же количество лимитов которое вы получите оформив подписку. <br />** Оплата расходуется только за генерацию символов или изображений. Никаких скрытых списаний! Вы не оплачиваете расход токенов на отправку контекста, не оплачиваете отправку запросов на генерацию, оплата не списывается за токены которые используются для разметки статьи, оплата за пробелы не снимается."
 

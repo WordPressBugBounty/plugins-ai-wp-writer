@@ -251,22 +251,22 @@
 						<div class="aiassist-option" data-value="flux"><?php echo esc_html( $this->info->labels->img_model_4 )?></div>
 					<?php } ?>
 					<?php if( @$this->info->labels->img_model_1_on ){ ?>
-						<div class="aiassist-option <?php echo ! @$this->info->subscribe->expire ? 'aiassist-lock' : ''?>" data-value="midjourney"><?php echo esc_html( $this->info->labels->img_model_1 )?></div>
+						<div class="aiassist-option <?php echo ! in_array( $this->info->subscribe->type, [ 'basic', 'pro', 'premium' ] ) ? 'aiassist-lock' : ''?>" data-value="midjourney"><?php echo esc_html( $this->info->labels->img_model_1 )?></div>
 					<?php } ?>
 					<?php if( @$this->info->labels->img_model_2_on ){ ?>
-						<div class="aiassist-option <?php echo ! @$this->info->subscribe->expire ? 'aiassist-lock' : ''?>" data-value="dalle"><?php echo esc_html( $this->info->labels->img_model_2 )?></div>
+						<div class="aiassist-option <?php echo ! in_array( $this->info->subscribe->type, [ 'basic', 'pro', 'premium' ] ) ? 'aiassist-lock' : ''?>" data-value="dalle"><?php echo esc_html( $this->info->labels->img_model_2 )?></div>
 					<?php } ?>
 					<?php if( @$this->info->labels->img_model_5_on ){ ?>
 						<div class="aiassist-option" data-value="gptMini"><?php echo esc_html( $this->info->labels->img_model_5 )?></div>
 					<?php } ?>
 					<?php if( @$this->info->labels->img_model_6_on ){ ?>
-						<div class="aiassist-option <?php echo ! @$this->info->subscribe->expire ? 'aiassist-lock' : ''?>" data-value="banana"><?php echo esc_html( $this->info->labels->img_model_6 )?></div>
+						<div class="aiassist-option <?php echo ! in_array( $this->info->subscribe->type, [ 'basic', 'pro', 'premium' ] ) ? 'aiassist-lock' : ''?>" data-value="banana"><?php echo esc_html( $this->info->labels->img_model_6 )?></div>
 					<?php } ?>
 					<?php if( @$this->info->labels->img_model_7_on ){ ?>
-						<div class="aiassist-option <?php echo ! @$this->info->subscribe->expire ? 'aiassist-lock' : ''?>" data-value="grok"><?php echo esc_html( $this->info->labels->img_model_7 )?></div>
+						<div class="aiassist-option <?php echo ! in_array( $this->info->subscribe->type, [ 'basic', 'pro', 'premium' ] ) ? 'aiassist-lock' : ''?>" data-value="grok"><?php echo esc_html( $this->info->labels->img_model_7 )?></div>
 					<?php } ?>
 					<?php if( @$this->info->labels->img_model_3_on ){ ?>
-						<div class="aiassist-option <?php echo ! @$this->info->subscribe->expire ? 'aiassist-lock' : ''?>" data-value="gptImage"><?php echo esc_html( $this->info->labels->img_model_3 )?></div>
+						<div class="aiassist-option <?php echo ! in_array( $this->info->subscribe->type, [ 'basic', 'pro', 'premium' ] ) ? 'aiassist-lock' : ''?>" data-value="gptImage"><?php echo esc_html( $this->info->labels->img_model_3 )?></div>
 					<?php } ?>
 					<input type="hidden" name="aiassist-image-model" class="aiassist-images-options" id="aiassist-images-model" value="<?php echo esc_attr( $model ) ?>" />
 				</div>
@@ -619,18 +619,18 @@
 							<div class="aiassist-option" data-value="gpt3"><?php echo esc_html( $this->info->labels->text_model_1 )?></div>
 						<?php } ?>
 						<?php if( @$this->info->labels->text_model_2_on ){ ?>
-							<div class="aiassist-option <?php echo ! @$this->info->subscribe->expire ? 'aiassist-lock' : ''?>" data-value="gpt4"><?php echo esc_html( $this->info->labels->text_model_2 )?></div>
+							<div class="aiassist-option <?php echo ! in_array( $this->info->subscribe->type, [ 'basic', 'pro', 'premium' ] ) ? 'aiassist-lock' : ''?>" data-value="gpt4"><?php echo esc_html( $this->info->labels->text_model_2 )?></div>
 						<?php } ?>
 						<?php if( @$this->info->labels->text_model_3_on ){ ?>
 							<div class="aiassist-option" data-value="gpt4_nano"><?php echo esc_html( $this->info->labels->text_model_3 )?></div>
 						<?php } ?>
 						<?php if( @$this->info->labels->text_model_4_on ){ ?>
-							<div class="aiassist-option <?php echo ! @$this->info->subscribe->expire ? 'aiassist-lock' : ''?>" data-value="gpt_o3_mini"><?php echo esc_html( $this->info->labels->text_model_4 )?></div>
+							<div class="aiassist-option <?php echo ! in_array( $this->info->subscribe->type, [ 'basic', 'pro', 'premium' ] ) ? 'aiassist-lock' : ''?>" data-value="gpt_o3_mini"><?php echo esc_html( $this->info->labels->text_model_4 )?></div>
 						<?php } ?>
 						
 						<span class="disabled lable-block">Gemini</span>
 						<?php if( @$this->info->labels->text_model_5_on ){ ?>
-							<div class="aiassist-option <?php echo ! @$this->info->subscribe->expire ? 'aiassist-lock' : ''?>" data-value="modelGeminiPro"><?php echo esc_html( $this->info->labels->text_model_5 )?></div>
+							<div class="aiassist-option <?php echo ! in_array( $this->info->subscribe->type, [ 'basic', 'pro', 'premium' ] ) ? 'aiassist-lock' : ''?>" data-value="modelGeminiPro"><?php echo esc_html( $this->info->labels->text_model_5 )?></div>
 						<?php } ?>
 						<?php if( @$this->info->labels->text_model_6_on ){ ?>
 							<div class="aiassist-option" data-value="modelGeminiFlash"><?php echo esc_html( $this->info->labels->text_model_6 )?></div>
@@ -641,7 +641,7 @@
 							<div class="aiassist-option <?php echo ! in_array( $this->info->subscribe->type, [ 'pro', 'premium' ] ) ? 'aiassist-lock' : ''?>" data-value="claudeOpus"><?php echo esc_html( $this->info->labels->text_model_7 )?></div>
 						<?php } ?>
 						<?php if( @$this->info->labels->text_model_8_on ){ ?>
-							<div class="aiassist-option <?php echo ! @$this->info->subscribe->expire ? 'aiassist-lock' : ''?>" data-value="claudeSonnet"><?php echo esc_html( $this->info->labels->text_model_8 )?></div>
+							<div class="aiassist-option <?php echo ! in_array( $this->info->subscribe->type, [ 'basic', 'pro', 'premium' ] ) ? 'aiassist-lock' : ''?>" data-value="claudeSonnet"><?php echo esc_html( $this->info->labels->text_model_8 )?></div>
 						<?php } ?>
 						<?php if( @$this->info->labels->text_model_9_on ){ ?>
 							<div class="aiassist-option" data-value="claudeHaiku"><?php echo esc_html( $this->info->labels->text_model_9 )?></div>
@@ -649,12 +649,12 @@
 						
 						<span class="disabled lable-block">Grok</span>
 						<?php if( @$this->info->labels->text_model_10_on ){ ?>
-							<div class="aiassist-option <?php echo ! @$this->info->subscribe->expire ? 'aiassist-lock' : ''?>" data-value="xAiGrok"><?php echo esc_html( $this->info->labels->text_model_10 )?></div>
+							<div class="aiassist-option <?php echo ! in_array( $this->info->subscribe->type, [ 'basic', 'pro', 'premium' ] ) ? 'aiassist-lock' : ''?>" data-value="xAiGrok"><?php echo esc_html( $this->info->labels->text_model_10 )?></div>
 						<?php } ?>
 						
 						<span class="disabled lable-block">DeepSeek</span>
 						<?php if( @$this->info->labels->text_model_11_on ){ ?>
-							<div class="aiassist-option <?php echo ! @$this->info->subscribe->expire ? 'aiassist-lock' : ''?>" data-value="deepseekPro"><?php echo esc_html( $this->info->labels->text_model_11 )?></div>
+							<div class="aiassist-option <?php echo ! in_array( $this->info->subscribe->type, [ 'basic', 'pro', 'premium' ] ) ? 'aiassist-lock' : ''?>" data-value="deepseekPro"><?php echo esc_html( $this->info->labels->text_model_11 )?></div>
 						<?php } ?>
 						<?php if( @$this->info->labels->text_model_12_on ){ ?>
 							<div class="aiassist-option" data-value="deepseekFlash"><?php echo esc_html( $this->info->labels->text_model_12 )?></div>
@@ -706,22 +706,22 @@
 							<div class="aiassist-option" data-value="flux"><?php echo esc_html( $this->info->labels->img_model_4 )?></div>
 						<?php } ?>
 						<?php if( @$this->info->labels->img_model_1_on ){ ?>
-							<div class="aiassist-option <?php echo ! @$this->info->subscribe->expire ? 'aiassist-lock' : ''?>" data-value="midjourney"><?php echo esc_html( $this->info->labels->img_model_1 )?></div>
+							<div class="aiassist-option <?php echo ! in_array( $this->info->subscribe->type, [ 'basic', 'pro', 'premium' ] ) ? 'aiassist-lock' : ''?>" data-value="midjourney"><?php echo esc_html( $this->info->labels->img_model_1 )?></div>
 						<?php } ?>
 						<?php if( @$this->info->labels->img_model_2_on ){ ?>
-							<div class="aiassist-option <?php echo ! @$this->info->subscribe->expire ? 'aiassist-lock' : ''?>" data-value="dalle"><?php echo esc_html( $this->info->labels->img_model_2 )?></div>
+							<div class="aiassist-option <?php echo ! in_array( $this->info->subscribe->type, [ 'basic', 'pro', 'premium' ] ) ? 'aiassist-lock' : ''?>" data-value="dalle"><?php echo esc_html( $this->info->labels->img_model_2 )?></div>
 						<?php } ?>
 						<?php if( @$this->info->labels->img_model_5_on ){ ?>
 							<div class="aiassist-option" data-value="gptMini"><?php echo esc_html( $this->info->labels->img_model_5 )?></div>
 						<?php } ?>
 						<?php if( @$this->info->labels->img_model_6_on ){ ?>
-							<div class="aiassist-option <?php echo ! @$this->info->subscribe->expire ? 'aiassist-lock' : ''?>" data-value="banana"><?php echo esc_html( $this->info->labels->img_model_6 )?></div>
+							<div class="aiassist-option <?php echo ! in_array( $this->info->subscribe->type, [ 'basic', 'pro', 'premium' ] ) ? 'aiassist-lock' : ''?>" data-value="banana"><?php echo esc_html( $this->info->labels->img_model_6 )?></div>
 						<?php } ?>
 						<?php if( @$this->info->labels->img_model_7_on ){ ?>
-							<div class="aiassist-option <?php echo ! @$this->info->subscribe->expire ? 'aiassist-lock' : ''?>" data-value="grok"><?php echo esc_html( $this->info->labels->img_model_7 )?></div>
+							<div class="aiassist-option <?php echo ! in_array( $this->info->subscribe->type, [ 'basic', 'pro', 'premium' ] ) ? 'aiassist-lock' : ''?>" data-value="grok"><?php echo esc_html( $this->info->labels->img_model_7 )?></div>
 						<?php } ?>
 						<?php if( @$this->info->labels->img_model_3_on ){ ?>
-							<div class="aiassist-option <?php echo ! @$this->info->subscribe->expire ? 'aiassist-lock' : ''?>" data-value="gptImage"><?php echo esc_html( $this->info->labels->img_model_3 )?></div>
+							<div class="aiassist-option <?php echo ! in_array( $this->info->subscribe->type, [ 'basic', 'pro', 'premium' ] ) ? 'aiassist-lock' : ''?>" data-value="gptImage"><?php echo esc_html( $this->info->labels->img_model_3 )?></div>
 						<?php } ?>
 						<input type="hidden" name="aiassist-image-model" class="aiassist-rewrite-options" id="aiassist-rewrite-image-model" value="<?php echo esc_attr( $model ) ?>" />
 					</div>
@@ -832,11 +832,7 @@
 		
 		<div class="pay-methods">
 			<?php if( get_locale() != 'ru_RU' ){ ?>
-				<div class="pay-method active" data-billing="creem" data-custom-disabled="true" >
-					<div class="creem"></div>
-					<div class="pay-method-label"><?php echo wp_kses_post( __('Visa, Mastercard, PayPal', 'wp-ai-assistant') ) ?></div>
-				</div>
-				
+			
 				<div class="pay-method" data-billing="cryptocloud">
 					<div class="cryptocloud"></div>
 					<div class="pay-method-label"><?php echo wp_kses_post( __('USDT, Bitcoin, Ethereum', 'wp-ai-assistant') ) ?></div>
@@ -892,6 +888,83 @@
 					<div class="aiassist-rates-info"><?php echo wp_kses_post( __('Subscribe now and save on creating high-quality, SEO-optimized content with affordable plans. Your subscription works for an UNLIMITED number of websites. All sites connected via your API key share one credits balance. You can easily calculate generation costs using our <a href="https://aiwpw.com/prices/" target="_blank">pricing calculator</a>.', 'wp-ai-assistant') ) ?></div>
 					
 					<div class="aiassist-rates-items">
+						
+						
+						
+						
+						
+						
+						
+						
+						
+						
+						<div class="aiassist-rates-item">
+							<?php if( @$this->info->rates->subscribe_min_best ){ ?>
+								<div class="aiassist-popular"><?php echo wp_kses_post( __('Popular', 'wp-ai-assistant') ) ?></div>
+							<?php } ?>
+							
+							<div class="aiassist-rate-title"><?php echo wp_kses_post( __('Start ', 'wp-ai-assistant') ) ?></div>
+							<div class="aiassist-rate-price">
+								<span data-usdt="<?php echo (float) @$this->info->rates->subscribe_min_rate_usdt ?>$">
+									<?php echo (float) @$this->info->rates->subscribe_min_rate ?><?php echo wp_kses_post( __('$', 'wp-ai-assistant') ) ?>
+								</span> / <?php echo wp_kses_post( __('month', 'wp-ai-assistant') ) ?>
+							</div>
+							
+							<div class="aiassist-rate-info bg">
+								<div><?php echo wp_kses_post( __('Instead of', 'wp-ai-assistant') ) ?> <i data-usdt="<?php echo $rateMainUsdt = round( @$this->info->rates->subscribe_min_symbols / 1000 * @$this->info->price_usdt )?>$"><?php echo $rateMain = round( @$this->info->rates->subscribe_min_symbols / 1000 * @$this->info->price ) ?><?php echo wp_kses_post( __('$', 'wp-ai-assistant') ) ?></i></div>
+								<div><?php echo wp_kses_post( __('Savings of', 'wp-ai-assistant') ) ?> <span data-usdt="<?php echo round( $rateMainUsdt - @$this->info->rates->subscribe_min_rate_usdt )?>$"><?php echo $rateMain - @$this->info->rates->subscribe_min_rate ?><?php echo wp_kses_post( __('$', 'wp-ai-assistant') ) ?></span>*</div>	
+							</div>
+							
+							<div class="aiassist-rate-title">
+								<span><?php echo number_format( @$this->info->rates->subscribe_min_symbols, 0, ' ', ' ' ) ?></span> <?php echo wp_kses_post( __('credits', 'wp-ai-assistant') ) ?>
+							</div>
+							
+							<div class="aiassist-rate-info">
+								<div><span data-usdt="<?php echo @round( @$this->info->rates->subscribe_min_rate_usdt / @$this->info->rates->subscribe_min_symbols * 1000000 ) ?>$"><?php echo @round( @$this->info->rates->subscribe_min_rate / @$this->info->rates->subscribe_min_symbols * 1000000 ) ?><?php echo wp_kses_post( __('$', 'wp-ai-assistant') ) ?></span> - <?php echo wp_kses_post( __('1 million credits', 'wp-ai-assistant') ) ?></div>
+							</div>
+							
+							<div class="aiassist-buy-button">
+							
+								<?php if( ! @$this->info->recurring ){ ?>
+									<div class="aiassist-recurring-agree <?php echo esc_attr( get_locale() ) ?>">
+										<label>
+											<input type="checkbox" name="recurring" /><?php echo wp_kses_post( __('Auto-renew', 'wp-ai-assistant') ) ?>
+										</label>
+									</div>
+								<?php } ?>
+								
+								<?php if( @$this->info->subscribe->type == 'min' ){ ?>
+									<button type="button" class="aiassist-buy aiassist-subscribe-type" data-type="subscribe_min"><?php echo wp_kses_post( __('Renew subscription', 'wp-ai-assistant') ) ?></button>
+								<?php } else { ?>
+									<button type="button" class="aiassist-buy" data-type="subscribe_min"><?php echo wp_kses_post( __('Subscribe', 'wp-ai-assistant') ) ?></button>
+								<?php } ?>
+							</div>
+							
+							<div class="aiassist-rate-desc">
+								<?php echo wp_kses_post( __('Available AI Models<br /><b>Text:</b><br />Gemini 3 flash<br />GPT-5 mini/nano<br />Claude Haiku-4.5<br />DeepSeek v4 flash<br /><b>Images:</b><br />FLUX Schnell<br />GPT-image 1 mini', 'wp-ai-assistant') ) ?>			
+							</div>
+							<div class="aiassist-rate-checklist">
+								<div class="aiassist-rate-check"><?php echo wp_kses_post( __('AI-Powered WooCommerce Product Description Generation', 'wp-ai-assistant') ) ?></div>
+								<div class="aiassist-rate-check"><?php echo wp_kses_post( __('Automated Content Generation for Websites & Article Creation in the Editor', 'wp-ai-assistant') ) ?></div>
+								<div class="aiassist-rate-check"><?php echo wp_kses_post( __('AI Assist, AI image creator', 'wp-ai-assistant') ) ?></div>
+								<div class="aiassist-rate-check"><?php echo wp_kses_post( __('Rewrite articles on your site and pages from third-party sites', 'wp-ai-assistant') ) ?></div>
+								<div class="aiassist-rate-check"><?php echo wp_kses_post( __('Making images unique', 'wp-ai-assistant') ) ?></div>
+							</div>
+							
+						</div>
+						
+						
+						
+						
+						
+						
+						
+						
+						
+						
+						
+						
+						
 						
 						<div class="aiassist-rates-item">
 							<?php if( @$this->info->rates->subscribe_basic_best ){ ?>
@@ -1476,19 +1549,19 @@
 							<div class="aiassist-option" data-value="gpt3"><?php echo esc_html( $this->info->labels->text_model_1 )?></div>
 						<?php } ?>
 						<?php if( @$this->info->labels->text_model_2_on ){ ?>
-							<div class="aiassist-option <?php echo ! @$this->info->subscribe->expire ? 'aiassist-lock' : ''?>" data-value="gpt4"><?php echo esc_html( $this->info->labels->text_model_2 )?></div>
+							<div class="aiassist-option <?php echo ! in_array( $this->info->subscribe->type, [ 'basic', 'pro', 'premium' ] ) ? 'aiassist-lock' : ''?>" data-value="gpt4"><?php echo esc_html( $this->info->labels->text_model_2 )?></div>
 						<?php } ?>
 						<?php if( @$this->info->labels->text_model_3_on ){ ?>
 							<div class="aiassist-option" data-value="gpt4_nano"><?php echo esc_html( $this->info->labels->text_model_3 )?></div>
 						<?php } ?>
 						<?php if( @$this->info->labels->text_model_4_on ){ ?>
-							<div class="aiassist-option <?php echo ! @$this->info->subscribe->expire ? 'aiassist-lock' : ''?>" data-value="gpt_o3_mini"><?php echo esc_html( $this->info->labels->text_model_4 )?></div>
+							<div class="aiassist-option <?php echo ! in_array( $this->info->subscribe->type, [ 'basic', 'pro', 'premium' ] ) ? 'aiassist-lock' : ''?>" data-value="gpt_o3_mini"><?php echo esc_html( $this->info->labels->text_model_4 )?></div>
 						<?php } ?>
 						
 						<span class="disabled lable-block">Gemini</span>
 				
 						<?php if( @$this->info->labels->text_model_5_on ){ ?>
-							<div class="aiassist-option <?php echo ! @$this->info->subscribe->expire ? 'aiassist-lock' : ''?>" data-value="modelGeminiPro"><?php echo esc_html( $this->info->labels->text_model_5 )?></div>
+							<div class="aiassist-option <?php echo ! in_array( $this->info->subscribe->type, [ 'basic', 'pro', 'premium' ] ) ? 'aiassist-lock' : ''?>" data-value="modelGeminiPro"><?php echo esc_html( $this->info->labels->text_model_5 )?></div>
 						<?php } ?>
 						<?php if( @$this->info->labels->text_model_6_on ){ ?>
 							<div class="aiassist-option" data-value="modelGeminiFlash"><?php echo esc_html( $this->info->labels->text_model_6 )?></div>
@@ -1499,7 +1572,7 @@
 							<div class="aiassist-option <?php echo ! in_array( $this->info->subscribe->type, [ 'pro', 'premium' ] ) ? 'aiassist-lock' : ''?>" data-value="claudeOpus"><?php echo esc_html( $this->info->labels->text_model_7 )?></div>
 						<?php } ?>
 						<?php if( @$this->info->labels->text_model_8_on ){ ?>
-							<div class="aiassist-option <?php echo ! @$this->info->subscribe->expire ? 'aiassist-lock' : ''?>" data-value="claudeSonnet"><?php echo esc_html( $this->info->labels->text_model_8 )?></div>
+							<div class="aiassist-option <?php echo ! in_array( $this->info->subscribe->type, [ 'basic', 'pro', 'premium' ] ) ? 'aiassist-lock' : ''?>" data-value="claudeSonnet"><?php echo esc_html( $this->info->labels->text_model_8 )?></div>
 						<?php } ?>
 						<?php if( @$this->info->labels->text_model_9_on ){ ?>
 							<div class="aiassist-option" data-value="claudeHaiku"><?php echo esc_html( $this->info->labels->text_model_9 )?></div>
@@ -1507,12 +1580,12 @@
 						
 						<span class="disabled lable-block">Grok</span>
 						<?php if( @$this->info->labels->text_model_10_on ){ ?>
-							<div class="aiassist-option <?php echo ! @$this->info->subscribe->expire ? 'aiassist-lock' : ''?>" data-value="xAiGrok"><?php echo esc_html( $this->info->labels->text_model_10 )?></div>
+							<div class="aiassist-option <?php echo ! in_array( $this->info->subscribe->type, [ 'basic', 'pro', 'premium' ] ) ? 'aiassist-lock' : ''?>" data-value="xAiGrok"><?php echo esc_html( $this->info->labels->text_model_10 )?></div>
 						<?php } ?>
 						
 						<span class="disabled lable-block">DeepSeek</span>
 						<?php if( @$this->info->labels->text_model_11_on ){ ?>
-							<div class="aiassist-option <?php echo ! @$this->info->subscribe->expire ? 'aiassist-lock' : ''?>" data-value="deepseekPro"><?php echo esc_html( $this->info->labels->text_model_11 )?></div>
+							<div class="aiassist-option <?php echo ! in_array( $this->info->subscribe->type, [ 'basic', 'pro', 'premium' ] ) ? 'aiassist-lock' : ''?>" data-value="deepseekPro"><?php echo esc_html( $this->info->labels->text_model_11 )?></div>
 						<?php } ?>
 						<?php if( @$this->info->labels->text_model_12_on ){ ?>
 							<div class="aiassist-option" data-value="deepseekFlash"><?php echo esc_html( $this->info->labels->text_model_12 )?></div>
@@ -1567,22 +1640,22 @@
 							<div class="aiassist-option" data-value="flux"><?php echo esc_html( $this->info->labels->img_model_4 )?></div>
 						<?php } ?>
 						<?php if( @$this->info->labels->img_model_1_on ){ ?>
-							<div class="aiassist-option <?php echo ! @$this->info->subscribe->expire ? 'aiassist-lock' : ''?>" data-value="midjourney"><?php echo esc_html( $this->info->labels->img_model_1 )?></div>
+							<div class="aiassist-option <?php echo ! in_array( $this->info->subscribe->type, [ 'basic', 'pro', 'premium' ] ) ? 'aiassist-lock' : ''?>" data-value="midjourney"><?php echo esc_html( $this->info->labels->img_model_1 )?></div>
 						<?php } ?>
 						<?php if( @$this->info->labels->img_model_2_on ){ ?>
-							<div class="aiassist-option <?php echo ! @$this->info->subscribe->expire ? 'aiassist-lock' : ''?>" data-value="dalle"><?php echo esc_html( $this->info->labels->img_model_2 )?></div>
+							<div class="aiassist-option <?php echo ! in_array( $this->info->subscribe->type, [ 'basic', 'pro', 'premium' ] ) ? 'aiassist-lock' : ''?>" data-value="dalle"><?php echo esc_html( $this->info->labels->img_model_2 )?></div>
 						<?php } ?>
 						<?php if( @$this->info->labels->img_model_5_on ){ ?>
 							<div class="aiassist-option" data-value="gptMini"><?php echo esc_html( $this->info->labels->img_model_5 )?></div>
 						<?php } ?>
 						<?php if( @$this->info->labels->img_model_6_on ){ ?>
-							<div class="aiassist-option <?php echo ! @$this->info->subscribe->expire ? 'aiassist-lock' : ''?>" data-value="banana"><?php echo esc_html( $this->info->labels->img_model_6 )?></div>
+							<div class="aiassist-option <?php echo ! in_array( $this->info->subscribe->type, [ 'basic', 'pro', 'premium' ] ) ? 'aiassist-lock' : ''?>" data-value="banana"><?php echo esc_html( $this->info->labels->img_model_6 )?></div>
 						<?php } ?>
 						<?php if( @$this->info->labels->img_model_7_on ){ ?>
-							<div class="aiassist-option <?php echo ! @$this->info->subscribe->expire ? 'aiassist-lock' : ''?>" data-value="grok"><?php echo esc_html( $this->info->labels->img_model_7 )?></div>
+							<div class="aiassist-option <?php echo ! in_array( $this->info->subscribe->type, [ 'basic', 'pro', 'premium' ] ) ? 'aiassist-lock' : ''?>" data-value="grok"><?php echo esc_html( $this->info->labels->img_model_7 )?></div>
 						<?php } ?>
 						<?php if( @$this->info->labels->img_model_3_on ){ ?>
-							<div class="aiassist-option <?php echo ! @$this->info->subscribe->expire ? 'aiassist-lock' : ''?>" data-value="gptImage"><?php echo esc_html( $this->info->labels->img_model_3 )?></div>
+							<div class="aiassist-option <?php echo ! in_array( $this->info->subscribe->type, [ 'basic', 'pro', 'premium' ] ) ? 'aiassist-lock' : ''?>" data-value="gptImage"><?php echo esc_html( $this->info->labels->img_model_3 )?></div>
 						<?php } ?>
 						<input type="hidden" name="aiassist-image-model" class="aiassist-auto-options"  id="aiassist-image-model" value="<?php echo esc_attr( $model ) ?>" />
 					</div>
