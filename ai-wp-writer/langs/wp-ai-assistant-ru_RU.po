@@ -1328,3 +1328,11 @@ msgstr "Введите наименовение товара..."
 #: tpl/worckspace.php
 msgid "Enter the product features..."
 msgstr "Введите характеристики товара..."
+
+#: tpl/options.php
+msgid "The minimum generation interval, specified in minutes. With this setting, articles will be generated more evenly throughout the day."
+msgstr "Минимальный интервал генерации, указывается в минутах. С этой настройкой статьи будут создаваться более равномерно в течение дня."
+
+#: tpl/options.php
+msgid "The start time for generating articles from the queue depends on the selected time zone."
+msgstr "В зависимости от выбранного часового пояса, меняется время начала генерации статей из очереди."

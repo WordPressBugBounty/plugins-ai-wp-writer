@@ -1438,7 +1438,24 @@
 			<br />
 		</div>
 		
-		<div class="aiassist-option-item">
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		<div class="aiassist-option-item mark-line">
 			<?php echo wp_kses_post( __('The number of articles to be generated in the specified time period. If the field is left blank, articles according to all preset keys will be generated as soon as possible.<br /> Specify the number of articles:', 'wp-ai-assistant') ) ?>
 			<div>
 				<input type="number" class="aiassist-auto-options" id="publish-article-in-day" value="<?php echo @$autoGen['publishInDay'] ? (int) $autoGen['publishInDay'] : '' ?>" min=0 />
@@ -1448,7 +1465,77 @@
 			<div>
 				<input type="number" class="aiassist-auto-options" id="publish-article-every-day" value="<?php echo @$autoGen['publishEveryDay'] ? (int) $autoGen['publishEveryDay'] : 1 ?>" min=0 />
 			</div>
+			
+			<?php echo wp_kses_post( __('The minimum generation interval, specified in minutes. With this setting, articles will be generated more evenly throughout the day.', 'wp-ai-assistant') ) ?>
+			<div>
+				<input type="number" class="aiassist-auto-options" id="min-publish-interval" value="<?php echo @$autoGen['minPublishInterval'] ? (int) $autoGen['minPublishInterval'] : 1 ?>" min=1 />
+			</div>
+			
+			<?php echo wp_kses_post( __('The start time for generating articles from the queue depends on the selected time zone.', 'wp-ai-assistant') ) ?>
+			<div>
+				<select class="aiassist-auto-options" data-set="<?php echo isset( $autoGen['timezone'] ) ? esc_attr( $autoGen['timezone'] ) : '' ?>" id="aiwpwriter-timezone">
+					<option value="">Set timezone</option>
+					<option value="Pacific/Midway">Pacific/Midway</option>
+					<option value="Pacific/Pago_Pago">Pacific/Pago_Pago</option>
+					<option value="Pacific/Honolulu">Pacific/Honolulu</option>
+					<option value="America/Anchorage">America/Anchorage</option>
+					<option value="America/Los_Angeles">America/Los_Angeles</option>
+					<option value="America/Denver">America/Denver</option>
+					<option value="America/Chicago">America/Chicago</option>
+					<option value="America/New_York">America/New_York</option>
+					<option value="America/Caracas">America/Caracas</option>
+					<option value="America/Santiago">America/Santiago</option>
+					<option value="America/Sao_Paulo">America/Sao_Paulo</option>
+					<option value="America/Argentina/Buenos_Aires">America/Argentina/Buenos_Aires</option>
+					<option value="Atlantic/South_Georgia">Atlantic/South_Georgia</option>
+					<option value="Atlantic/Azores">Atlantic/Azores</option>
+					<option value="Europe/London">Europe/London</option>
+					<option value="Europe/Dublin">Europe/Dublin</option>
+					<option value="Europe/Lisbon">Europe/Lisbon</option>
+					<option value="Europe/Paris">Europe/Paris</option>
+					<option value="Europe/Berlin">Europe/Berlin</option>
+					<option value="Europe/Rome">Europe/Rome</option>
+					<option value="Europe/Madrid">Europe/Madrid</option>
+					<option value="Europe/Warsaw">Europe/Warsaw</option>
+					<option value="Europe/Prague">Europe/Prague</option>
+					<option value="Europe/Budapest">Europe/Budapest</option>
+					<option value="Europe/Athens">Europe/Athens</option>
+					<option value="Europe/Helsinki">Europe/Helsinki</option>
+					<option value="Europe/Bucharest">Europe/Bucharest</option>
+					<option value="Europe/Sofia">Europe/Sofia</option>
+					<option value="Europe/Kyiv">Europe/Kyiv</option>
+					<option value="Europe/Chisinau">Europe/Chisinau</option>
+					<option value="Europe/Istanbul">Europe/Istanbul</option>
+					<option value="Europe/Moscow">Europe/Moscow</option>
+					<option value="Europe/Tbilisi">Europe/Tbilisi</option>
+					<option value="Asia/Dubai">Asia/Dubai</option>
+					<option value="Asia/Baku">Asia/Baku</option>
+					<option value="Asia/Yerevan">Asia/Yerevan</option>
+					<option value="Asia/Tashkent">Asia/Tashkent</option>
+					<option value="Asia/Almaty">Asia/Almaty</option>
+					<option value="Asia/Karachi">Asia/Karachi</option>
+					<option value="Asia/Kolkata">Asia/Kolkata</option>
+					<option value="Asia/Dhaka">Asia/Dhaka</option>
+					<option value="Asia/Bangkok">Asia/Bangkok</option>
+					<option value="Asia/Shanghai">Asia/Shanghai</option>
+					<option value="Asia/Hong_Kong">Asia/Hong_Kong</option>
+					<option value="Asia/Taipei">Asia/Taipei</option>
+					<option value="Asia/Tokyo">Asia/Tokyo</option>
+					<option value="Asia/Seoul">Asia/Seoul</option>
+					<option value="Australia/Perth">Australia/Perth</option>
+					<option value="Australia/Adelaide">Australia/Adelaide</option>
+					<option value="Australia/Sydney">Australia/Sydney</option>
+					<option value="Pacific/Guam">Pacific/Guam</option>
+					<option value="Pacific/Port_Moresby">Pacific/Port_Moresby</option>
+					<option value="Pacific/Noumea">Pacific/Noumea</option>
+					<option value="Pacific/Auckland">Pacific/Auckland</option>
+					<option value="Pacific/Fiji">Pacific/Fiji</option>
+				</select>
+			</div>
+			
 		</div>
+		
+		
 		
 		<div class="aiassist-option-item">
 			<?php echo wp_kses_post( __('The images to be generated for the article. If you leave the field blank, the articles will be generated without images.', 'wp-ai-assistant') ) ?>

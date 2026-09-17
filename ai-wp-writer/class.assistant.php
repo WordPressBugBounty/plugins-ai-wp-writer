@@ -612,6 +612,9 @@ class AIASIST{
 			if( ! @$data['start'] || ! @$data['articles'] )
 				return $data;
 			
+			if( $data['timezone'] )
+				date_default_timezone_set( $data['timezone'] );
+			
 			$key = date('Ymd');
 			
 			if( (int) $data['publishEveryDay'] ){
@@ -638,6 +641,11 @@ class AIASIST{
 				$data['publishInDay'] = +100500;
 				
 			if( $data['counter'][ $key ] > $data['publishInDay'] )
+				return $data;
+			
+			$interval = $data['lastPublish'] + $data['minPublishInterval'] * 60;
+			
+			if( $interval > time() )
 				return $data;
 			
 			$this->setInfo();
@@ -733,6 +741,7 @@ class AIASIST{
 					
 						if( $post_id = wp_update_post( $args ) ){
 							$data['publish']++;
+							$data['lastPublish'] = time();
 							$data['articles'][ $k ]['post_id'] = $post_id;
 							
 							$this->updatePostMeta( $post_id, $task->title, $task->description );
@@ -785,6 +794,8 @@ class AIASIST{
 		$data['thumb'] = (bool) $_POST['thumb'];
 		$data['publishInDay'] = (int) $_POST['publishInDay'];
 		$data['publishEveryDay'] = (int) $_POST['publishEveryDay'];
+		$data['minPublishInterval'] = (int) $_POST['minPublishInterval'];
+		$data['timezone'] = sanitize_text_field( $_POST['timezone'] );
 		$data['pictures'] = sanitize_text_field( $_POST['pictures'] );
 		$data['max_pictures'] = (int) $_POST['max_pictures'];
 		$data['imageModel'] = sanitize_text_field( $_POST['imageModel'] );
@@ -829,6 +840,9 @@ class AIASIST{
 		if( isset( $args['publishEveryDay'] ) )
 			$data['publishEveryDay'] = (int) $args['publishEveryDay'];
 			
+		if( isset( $args['minPublishInterval'] ) )
+			$data['minPublishInterval'] = (int) $args['minPublishInterval'];
+			
 		if( isset( $args['author'] ) )
 			$data['author'] = (int) $args['author'];
 			
@@ -853,6 +867,9 @@ class AIASIST{
 		if( isset( $args['textModel'] ) )
 			$data['textModel'] = sanitize_text_field( $args['textModel'] );
 		
+		if( isset( $args['timezone'] ) )
+			$data['timezone'] = sanitize_text_field( $args['timezone'] );
+		
 		update_option('aiArticlesAutoGenData', $data);
 		
 		wp_die( json_encode( $data ) );
@@ -871,6 +888,12 @@ class AIASIST{
 				
 			if( isset( $args['publishEveryDay'] ) )
 				$data['publishEveryDay'] = (int) $args['publishEveryDay'];
+				
+			if( isset( $args['minPublishInterval'] ) )
+				$data['minPublishInterval'] = (int) $args['minPublishInterval'];
+				
+			if( isset( $args['timezone'] ) )
+				$data['timezone'] = $args['timezone'];
 				
 			if( isset( $args['author'] ) )
 				$data['author'] = (int) $args['author'];

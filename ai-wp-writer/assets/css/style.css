@@ -750,7 +750,7 @@ button[name="save"]{
 }
 
 .aiassist-tab{
-	padding: 10px;
+	padding: 10px 20px 10px 10px;
 	background: #eee;
 	cursor: pointer;
 	display: inline-block;
@@ -2618,3 +2618,9 @@ button[name="save"]{
 	}
 
 /* banner end */
+
+.mark-line{
+	padding: 20px 0px 20px 0px;
+	border-top: solid 1px #ccc;
+	border-bottom: solid 1px #ccc;
+}

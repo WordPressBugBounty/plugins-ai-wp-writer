@@ -172,6 +172,20 @@ jQuery( document ).ready(function($){
 					}, 1000)
 				}
 				
+				if( $('#aiwpwriter-timezone').length ){
+					const timeZoneSelect = $('#aiwpwriter-timezone');
+
+					if( ! timeZoneSelect.val() ){
+						let timezone = Intl.DateTimeFormat().resolvedOptions().timeZone;
+	
+						if( timeZoneSelect.data('set') )
+							timezone = timeZoneSelect.data('set');
+
+						if( timeZoneSelect.find('option[value="' + timezone + '"]').length )
+							timeZoneSelect.val( timezone );
+					}
+				}
+				
 			}
 			
 			if( window.location.hash == '#ai_assistant' && $('#ai_assistant').length )
@@ -1241,6 +1255,8 @@ jQuery( document ).ready(function($){
 				imageModel: $('#aiassist-image-model').val(),
 				publishInDay: $('#publish-article-in-day').val(),
 				publishEveryDay: $('#publish-article-every-day').val(),
+				minPublishInterval: $('#min-publish-interval').val(),
+				timezone: $('#aiwpwriter-timezone').val(),
 			};	
 			
 			aiWriter.t = setTimeout( async () => {
