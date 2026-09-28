@@ -3,7 +3,7 @@ Contributors: aipost
 Tags: AI, writer, post, images, chatGPT
 Requires at least: 6.0
 Tested up to: 7.0
-Requires PHP: 5.6
+Requires PHP: 7.0
 Stable tag: 4.6.3.2
 License: GPLv3
 License URI: https://www.gnu.org/licenses/gpl-3.0.html
