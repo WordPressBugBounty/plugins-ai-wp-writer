@@ -471,7 +471,7 @@ msgstr "Сгенерировать заголовок статьи"
 
 #: tpl/workspace.php:100
 msgid "Prompt for an article outline. The {key} variable will be replaced by the topic of the article."
-msgstr "Промт для плана статьи. Вместо переменой {key} подставится тема статьи. "
+msgstr "Промпт для плана статьи. Вместо переменой {key} подставится тема статьи."
 
 #: tpl/workspace.php:101
 msgid "Create article structure"

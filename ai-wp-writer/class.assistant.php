@@ -536,6 +536,9 @@ class AIASIST{
 			return;
 			
 		if( ! empty( $_POST ) ){
+			$version = get_file_data(__DIR__ .'/index.php', [ 'version' => 'Version' ] ); 
+			
+			@$_POST['v'] = $version['version'];
 			@$_POST['locale'] = get_locale();
 			@$_POST['action'] = sanitize_text_field( @$_POST['act'] );
 			wp_die( $this->wpCurl( $_POST ) );
