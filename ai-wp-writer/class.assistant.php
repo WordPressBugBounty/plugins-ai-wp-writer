@@ -26,6 +26,7 @@ class AIASIST{
 		add_action('admin_menu',						[$this, 'menu']);
 		add_action('wp_footer', 						[$this, 'front'] );
 		add_action('admin_enqueue_scripts', 			[$this, 'scripts'] );
+		add_action('enqueue_block_assets',				[$this, 'block_scripts'] );
 		add_filter('mce_external_plugins',				[$this, 'add_button']);
 		add_filter('mce_buttons', 						[$this, 'button_init'], 999);
 		add_action('edit_form_after_title',				[$this, 'metabox'] );
@@ -1573,6 +1574,18 @@ class AIASIST{
 		}
 	}
 	
+	public function block_scripts(){
+		wp_enqueue_style('aiassist-block', plugin_dir_url( __FILE__ ) .'assets/css/block-style.css', [], time());
+		wp_enqueue_script('aiassist-block', plugin_dir_url( __FILE__ ) .'assets/js/block-app.js?t='. time(), [ 'jquery', 'wp-data' ], false, false );
+		
+		wp_localize_script('aiassist-block', 'aiassist', [ 
+			'locale'	=> [
+				'These neural networks are only available by subscription only'	=> wp_kses_post( __('This option is only available with a subscription, check the "Payment & Pricing" section', 'wp-ai-assistant') ),
+			]
+		]);
+		
+	}
+	
 	public function scripts(){
 		$this->setInfo();
 		
@@ -1580,7 +1593,7 @@ class AIASIST{
 		if( $system_prompt === false )
 			$system_prompt = true;
 		
-		wp_enqueue_style('aiassist', plugin_dir_url( __FILE__ ) .'assets/css/style.css?t='. time(), false, '1.0', 'all');
+		wp_enqueue_style('aiassist', plugin_dir_url( __FILE__ ) .'assets/css/style.css', [], time());
 		
 		wp_enqueue_script('google-charts', plugin_dir_url( __FILE__ ) .'assets/libs/charts.js', [ 'jquery' ], false, false );
 		wp_enqueue_script('aiassist', plugin_dir_url( __FILE__ ) .'assets/js/app.js?t='. time(), [ 'jquery', 'wp-data' ], false, false );
